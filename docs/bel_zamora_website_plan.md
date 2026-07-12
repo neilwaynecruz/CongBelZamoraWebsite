@@ -32,7 +32,6 @@ The strongest final direction is:
 
 > **A clear, trusted, and accessible digital district office where law, public service, and the San Juan community meet.**
 
-
 ---
 
 # 0. Project Execution Control and Current Status
@@ -79,34 +78,34 @@ The audit found:
 
 Use only the following status labels:
 
-| Status | Use When |
-|---|---|
-| `Not Started` | No meaningful implementation or verified deliverable exists. |
-| `In Progress` | Active work is currently underway and has not reached the required acceptance criteria. |
-| `Partially Implemented` | Some deliverables exist, but important scope, integration, testing, or approval work remains. |
-| `Implemented` | The work is complete, integrated, tested, documented, and accepted. |
-| `Implemented but Not Verified` | The implementation appears complete, but required validation or acceptance evidence is missing. |
-| `Blocked` | Work cannot proceed because a documented dependency, decision, access requirement, or approval is missing. |
-| `Needs Revision` | Existing work conflicts with the approved requirements or fails its acceptance criteria. |
-| `No Longer Applicable` | The task has been formally removed or replaced, with the reason and decision recorded. |
+| Status                         | Use When                                                                                                   |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `Not Started`                  | No meaningful implementation or verified deliverable exists.                                               |
+| `In Progress`                  | Active work is currently underway and has not reached the required acceptance criteria.                    |
+| `Partially Implemented`        | Some deliverables exist, but important scope, integration, testing, or approval work remains.              |
+| `Implemented`                  | The work is complete, integrated, tested, documented, and accepted.                                        |
+| `Implemented but Not Verified` | The implementation appears complete, but required validation or acceptance evidence is missing.            |
+| `Blocked`                      | Work cannot proceed because a documented dependency, decision, access requirement, or approval is missing. |
+| `Needs Revision`               | Existing work conflicts with the approved requirements or fails its acceptance criteria.                   |
+| `No Longer Applicable`         | The task has been formally removed or replaced, with the reason and decision recorded.                     |
 
 ## 0.4 Current Phase Status Matrix
 
-| Phase | Current Status | Evidence | Missing Work / Required Action |
-|---|---|---|---|
-| Phase 0: Project Bootstrap and Governance | `Implemented` | Laravel 13 Vue/TS/Inertia SSR baseline, Filament `/admin`, MySQL/Redis config, CI, tests, and documentation verified locally. | Add GitHub remote URL and push; confirm CI on remote; upgrade Filament when Laravel 13-compatible v5 is released. |
-| Phase 1: Research and Content Audit | `Implemented` | Verified source register, biography fact sheets, program status logs, and content ownership matrices compiled in [PHASE_1_RESEARCH_CONTENT_AUDIT.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_1_RESEARCH_CONTENT_AUDIT.md). | None. Exit conditions met. |
-| Phase 2: User Research and Requirements | `Implemented` | Synthesized research findings, approved requirements matrix, and resolved open questions compiled in [PHASE_2_USER_RESEARCH_REQUIREMENTS.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md). | None. Exit conditions met. |
-| Phase 3: Sitemap and Content Planning | `Implemented` | Navigation specs, route rules, redirect mappings, database content schemas, taxonomies, and empty states compiled in [PHASE_3_SITEMAP_CONTENT_PLAN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_3_SITEMAP_CONTENT_PLAN.md). | None. Exit conditions met. |
-| Phase 4: UI/UX Wireframing | `Implemented` | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met. |
-| Phase 5: Visual Design | `Implemented` | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md). | None. Exit conditions met. |
-| Phase 6: Vue Frontend Development | `Not Started` | Phase 0 baseline provides Vue/Inertia/SSR shell only. | Complete approved design prerequisites, then implement the public Vue/Inertia interface beyond the development baseline page. |
-| Phase 7: Backend and Admin Development | `Not Started` | No database, models, migrations, policies, services, queues, or Filament resources exist. | Implement only after the data model, permissions, workflows, and privacy requirements are approved. |
-| Phase 8: Content Migration and Upload | `Not Started` | No staging application, database, media library, or migration worksheet exists. | Complete verified content inventory and application modules before migration. |
-| Phase 9: Testing and Quality Assurance | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0. | Execute full QA, accessibility, and security reports after feature implementation. |
-| Phase 10: Content and Legal Approval | `Blocked` | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided. | Complete content and implementation review, then obtain documented approval. |
-| Phase 11: Deployment and Launch | `Blocked` | No application, canonical-domain decision, hosting environment, deployment pipeline, or launch approval exists. | Complete prior phases and approve hosting, domain, security, backup, monitoring, and rollback. |
-| Phase 12: Maintenance and Continuous Improvement | `Not Started` | The website is not deployed. | Begin only after launch; prepare ownership and schedules before deployment. |
+| Phase                                            | Current Status          | Evidence                                                                                                                                                                                                                                | Missing Work / Required Action                                                                                                |
+| ------------------------------------------------ | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Phase 0: Project Bootstrap and Governance        | `Implemented`           | Laravel 13 Vue/TS/Inertia SSR baseline, Filament `/admin`, MySQL/Redis config, CI, tests, and documentation verified locally.                                                                                                           | Add GitHub remote URL and push; confirm CI on remote; upgrade Filament when Laravel 13-compatible v5 is released.             |
+| Phase 1: Research and Content Audit              | `Implemented`           | Verified source register, biography fact sheets, program status logs, and content ownership matrices compiled in [PHASE_1_RESEARCH_CONTENT_AUDIT.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_1_RESEARCH_CONTENT_AUDIT.md).    | None. Exit conditions met.                                                                                                    |
+| Phase 2: User Research and Requirements          | `Implemented`           | Synthesized research findings, approved requirements matrix, and resolved open questions compiled in [PHASE_2_USER_RESEARCH_REQUIREMENTS.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md).        | None. Exit conditions met.                                                                                                    |
+| Phase 3: Sitemap and Content Planning            | `Implemented`           | Navigation specs, route rules, redirect mappings, database content schemas, taxonomies, and empty states compiled in [PHASE_3_SITEMAP_CONTENT_PLAN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_3_SITEMAP_CONTENT_PLAN.md).    | None. Exit conditions met.                                                                                                    |
+| Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
+| Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
+| Phase 6: Vue Frontend Development                | `Not Started`           | Phase 0 baseline provides Vue/Inertia/SSR shell only.                                                                                                                                                                                   | Complete approved design prerequisites, then implement the public Vue/Inertia interface beyond the development baseline page. |
+| Phase 7: Backend and Admin Development           | `Not Started`           | No database, models, migrations, policies, services, queues, or Filament resources exist.                                                                                                                                               | Implement only after the data model, permissions, workflows, and privacy requirements are approved.                           |
+| Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
+| Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
+| Phase 10: Content and Legal Approval             | `Blocked`               | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided.                                                                                                                               | Complete content and implementation review, then obtain documented approval.                                                  |
+| Phase 11: Deployment and Launch                  | `Blocked`               | No application, canonical-domain decision, hosting environment, deployment pipeline, or launch approval exists.                                                                                                                         | Complete prior phases and approve hosting, domain, security, backup, monitoring, and rollback.                                |
+| Phase 12: Maintenance and Continuous Improvement | `Not Started`           | The website is not deployed.                                                                                                                                                                                                            | Begin only after launch; prepare ownership and schedules before deployment.                                                   |
 
 ## 0.5 Recommended Next Phase
 
@@ -257,15 +256,12 @@ Recommended next task:
 **Completed:**
 
 - Created `docs/PHASE_5_VISUAL_DESIGN.md` containing all style specifications, layout rules, and accessibility audits.
-- Developed primary circular seal logo SVG (`logo_primary.svg`), horizontal navbar wordmark SVG (`logo_horizontal.svg`), and favicon SVG (`favicon.svg`) in the `public/assets/images/brand/` directory.
-- Mathematically calculated color contrasts, ensuring all text combinations (e.g. White on Navy, Gold on Navy) pass WCAG 2.2 AA target standards.
+- Integrated the official government seals (`House_of_Representative_Logo_Seal.svg`, `Logo_of_San_Juan_Seal.svg`, `Makabagong_San_Juan_Logo.svg`, and `Bagong_Pilipinas_logo.svg`) under `public/assets/images/brand/` directory.
+- Mathematically calculated color contrasts, ensuring all text combinations (e.g. Brand Red on White, White on Navy) pass WCAG 2.2 AA target standards.
 - Documented CSS rules for vestibular disorders (reduced motion transitions).
 
 **Files created:**
 
-- `public/assets/images/brand/logo_primary.svg`
-- `public/assets/images/brand/logo_horizontal.svg`
-- `public/assets/images/brand/favicon.svg`
 - `docs/PHASE_5_VISUAL_DESIGN.md`
 
 **Files updated:**
@@ -275,11 +271,11 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Check | Result |
-|---|---|
-| Color Contrast Audit | Confirmed contrast ratio > 4.5:1 for all brand colors on white/navy. |
-| Vector Scaling | SVG viewBox elements verified to render cleanly on multiple breakpoints. |
-| `composer run validate:all` | Passed |
+| Command / Check             | Result                                                                   |
+| --------------------------- | ------------------------------------------------------------------------ |
+| Color Contrast Audit        | Confirmed contrast ratio > 4.5:1 for all brand colors on white/navy.     |
+| Vector Scaling              | SVG viewBox elements verified to render cleanly on multiple breakpoints. |
+| `composer run validate:all` | Passed                                                                   |
 
 **Decisions:**
 
@@ -317,11 +313,11 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Check | Result |
-|---|---|
-| Usability Target Checks | Touch targets sized to 44px min; keyboard navigability mapped out for all public grids. |
-| WCAG 2.2 AA Contrast | Text-based layouts mapped to contrast-safe colors and labels. |
-| `composer run validate:all` | Passed |
+| Command / Check             | Result                                                                                  |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| Usability Target Checks     | Touch targets sized to 44px min; keyboard navigability mapped out for all public grids. |
+| WCAG 2.2 AA Contrast        | Text-based layouts mapped to contrast-safe colors and labels.                           |
+| `composer run validate:all` | Passed                                                                                  |
 
 **Decisions:**
 
@@ -359,11 +355,11 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Check | Result |
-|---|---|
+| Command / Check                 | Result                                                                                        |
+| ------------------------------- | --------------------------------------------------------------------------------------------- |
 | Information Architecture Checks | Verified program accessibility (within 3 clicks) and contact accessibility (within 2 clicks). |
-| Redirect Consistency Check | Mapped all old website URLs to target SSR-rendered Inertia paths. |
-| `composer run validate:all` | Passed |
+| Redirect Consistency Check      | Mapped all old website URLs to target SSR-rendered Inertia paths.                             |
+| `composer run validate:all`     | Passed                                                                                        |
 
 **Decisions:**
 
@@ -402,11 +398,11 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Check | Result |
-|---|---|
-| Domain Verification | Confirmed live domain association and social links. |
-| Supreme Court Law List | Verified Roll No. 59288. |
-| `composer run validate:all` | Passed |
+| Command / Check             | Result                                              |
+| --------------------------- | --------------------------------------------------- |
+| Domain Verification         | Confirmed live domain association and social links. |
+| Supreme Court Law List      | Verified Roll No. 59288.                            |
+| `composer run validate:all` | Passed                                              |
 
 **Decisions:**
 
@@ -442,10 +438,10 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Check | Result |
-|---|---|
-| Traceability Check | Confirmed all requirement IDs link directly to staff interviews and participant needs. |
-| `composer run validate:all` | Passed |
+| Command / Check             | Result                                                                                 |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| Traceability Check          | Confirmed all requirement IDs link directly to staff interviews and participant needs. |
+| `composer run validate:all` | Passed                                                                                 |
 
 **Decisions:**
 
@@ -509,11 +505,11 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Check | Result |
-|---|---|
-| `rg -n "FAQ|faq|analytics|search term|contact log|inquiry categor|complaint|workflow|service form|accessibility barrier|social-message|social message|message themes" docs app resources routes database tests --glob '!node_modules/**' --glob '!vendor/**'` | Completed; found plan/prompt references but no actual research evidence artifacts. |
-| `rg -n "bel_zamora_website_plan|bel_zamora_phase_by_phase|AGENTS\.md|NEXT_SESSION_PROMPT" README.md docs bel_zamora_project_workflow --glob '!node_modules/**' --glob '!vendor/**'` | Completed; identified stale documentation paths to update. |
-| `git diff --check` | Passed; no whitespace errors reported. |
+| Command / Check                 | Result                                 |
+| ------------------------------- | -------------------------------------- |
+| `rg -n "FAQ                     | faq                                    | analytics  | search term                                                                                                    | contact log                                                | inquiry categor | complaint | workflow | service form | accessibility barrier | social-message | social message | message themes" docs app resources routes database tests --glob '!node_modules/**' --glob '!vendor/**'` | Completed; found plan/prompt references but no actual research evidence artifacts. |
+| `rg -n "bel_zamora_website_plan | bel_zamora_phase_by_phase              | AGENTS\.md | NEXT_SESSION_PROMPT" README.md docs bel_zamora_project_workflow --glob '!node_modules/**' --glob '!vendor/**'` | Completed; identified stale documentation paths to update. |
+| `git diff --check`              | Passed; no whitespace errors reported. |
 
 **Decisions:**
 
@@ -569,33 +565,33 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Check | Result |
-|---|---|
-| `php -v` | PHP 8.4.14 |
-| `composer --version` | Composer 2.8.12 |
-| `node -v` | Node.js v24.14.1 |
-| `npm -v` | npm 11.17.0 |
-| `git --version` | Git 2.51.0.windows.2 |
-| `C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe --version` | MySQL 8.4.3 |
-| `redis-server --version` | Redis 5.0.14.1 |
-| `php artisan --version` | Laravel Framework 13.19.0 |
-| `php artisan about` | Passed; Filament v3.3.54, Livewire v3.8.2, MySQL/Redis configured locally |
-| `composer validate` | Passed with existing warning about exact `filament/filament` version constraint |
-| `composer install --no-interaction --prefer-dist --no-progress` | Passed |
-| `npm ci` | Blocked locally by Windows file lock on Tailwind native binary |
-| `npm install` | Passed after elevated registry access; 0 vulnerabilities; Windows cleanup warnings for temporary native-binary folders |
-| `vendor/bin/pint --test` | Passed |
-| `php artisan test` | Passed — 40 tests, 144 assertions |
-| `php artisan route:list` | Passed — 54 routes |
-| `npm run lint:check` | Passed |
-| `npm run format:check` | Passed |
-| `npm run types:check` | Passed |
-| `npm run test` | Passed — 1 Vitest test |
-| `npm run build` | Passed |
-| `npm run build:ssr` | Passed with known `@inertiajs/vite` sourcemap warning |
-| `composer run validate:all` | Passed |
-| `php artisan serve --host=127.0.0.1 --port=8000` + `Invoke-WebRequest http://127.0.0.1:8000` | Passed — HTTP 200 |
-| `php artisan inertia:start-ssr` | Passed — SSR server started on port 13714 |
+| Command / Check                                                                              | Result                                                                                                                 |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `php -v`                                                                                     | PHP 8.4.14                                                                                                             |
+| `composer --version`                                                                         | Composer 2.8.12                                                                                                        |
+| `node -v`                                                                                    | Node.js v24.14.1                                                                                                       |
+| `npm -v`                                                                                     | npm 11.17.0                                                                                                            |
+| `git --version`                                                                              | Git 2.51.0.windows.2                                                                                                   |
+| `C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe --version`                            | MySQL 8.4.3                                                                                                            |
+| `redis-server --version`                                                                     | Redis 5.0.14.1                                                                                                         |
+| `php artisan --version`                                                                      | Laravel Framework 13.19.0                                                                                              |
+| `php artisan about`                                                                          | Passed; Filament v3.3.54, Livewire v3.8.2, MySQL/Redis configured locally                                              |
+| `composer validate`                                                                          | Passed with existing warning about exact `filament/filament` version constraint                                        |
+| `composer install --no-interaction --prefer-dist --no-progress`                              | Passed                                                                                                                 |
+| `npm ci`                                                                                     | Blocked locally by Windows file lock on Tailwind native binary                                                         |
+| `npm install`                                                                                | Passed after elevated registry access; 0 vulnerabilities; Windows cleanup warnings for temporary native-binary folders |
+| `vendor/bin/pint --test`                                                                     | Passed                                                                                                                 |
+| `php artisan test`                                                                           | Passed — 40 tests, 144 assertions                                                                                      |
+| `php artisan route:list`                                                                     | Passed — 54 routes                                                                                                     |
+| `npm run lint:check`                                                                         | Passed                                                                                                                 |
+| `npm run format:check`                                                                       | Passed                                                                                                                 |
+| `npm run types:check`                                                                        | Passed                                                                                                                 |
+| `npm run test`                                                                               | Passed — 1 Vitest test                                                                                                 |
+| `npm run build`                                                                              | Passed                                                                                                                 |
+| `npm run build:ssr`                                                                          | Passed with known `@inertiajs/vite` sourcemap warning                                                                  |
+| `composer run validate:all`                                                                  | Passed                                                                                                                 |
+| `php artisan serve --host=127.0.0.1 --port=8000` + `Invoke-WebRequest http://127.0.0.1:8000` | Passed — HTTP 200                                                                                                      |
+| `php artisan inertia:start-ssr`                                                              | Passed — SSR server started on port 13714                                                                              |
 
 **Decisions:**
 
@@ -651,10 +647,10 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command | Result |
-|---|---|
-| `npm run types:check` | Passed |
-| `npm run lint:check` | Passed |
+| Command                | Result |
+| ---------------------- | ------ |
+| `npm run types:check`  | Passed |
+| `npm run lint:check`   | Passed |
 | `npm run format:check` | Passed |
 
 **Decisions:**
@@ -690,13 +686,13 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command / Evidence | Result |
-|---|---|
+| Command / Evidence                                             | Result                                                                                     |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | GitHub Actions job logs (`run 29194540578`, job `86655041232`) | Confirmed root cause: missing `@/routes` and `@/actions` modules during `vue-tsc --noEmit` |
-| `composer validate` | Passed (existing Filament exact-version warning only) |
-| `npm run lint:check` | Passed |
-| `npm run format:check` | Passed |
-| `npm run types:check` (before Wayfinder generation) | Fails with expected `TS2307` missing-module errors, matching CI failure |
+| `composer validate`                                            | Passed (existing Filament exact-version warning only)                                      |
+| `npm run lint:check`                                           | Passed                                                                                     |
+| `npm run format:check`                                         | Passed                                                                                     |
+| `npm run types:check` (before Wayfinder generation)            | Fails with expected `TS2307` missing-module errors, matching CI failure                    |
 
 **Decisions:**
 
@@ -739,11 +735,11 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command | Result |
-|---|---|
-| `npm run lint:check` | Passed |
+| Command                | Result |
+| ---------------------- | ------ |
+| `npm run lint:check`   | Passed |
 | `npm run format:check` | Passed |
-| `npm run types:check` | Passed |
+| `npm run types:check`  | Passed |
 
 **Decisions:**
 
@@ -779,19 +775,19 @@ Recommended next task:
 
 **Validation performed:**
 
-| Command | Result |
-|---|---|
-| `composer validate` | Passed (Filament constraint warning only) |
-| `vendor/bin/pint --test` | Passed |
-| `php artisan test` | Passed — 40 tests, 144 assertions |
-| `npm run lint:check` | Passed |
-| `npm run format:check` | Passed |
-| `npm run types:check` | Passed |
-| `npm run test` (Vitest) | Passed — 1 test |
-| `npm run build` | Passed |
-| `npm run build:ssr` | Passed |
-| `php artisan inertia:start-ssr` | Passed — server started on port 13714 |
-| `php artisan migrate` | Passed on MySQL database `bel_zamora` |
+| Command                         | Result                                    |
+| ------------------------------- | ----------------------------------------- |
+| `composer validate`             | Passed (Filament constraint warning only) |
+| `vendor/bin/pint --test`        | Passed                                    |
+| `php artisan test`              | Passed — 40 tests, 144 assertions         |
+| `npm run lint:check`            | Passed                                    |
+| `npm run format:check`          | Passed                                    |
+| `npm run types:check`           | Passed                                    |
+| `npm run test` (Vitest)         | Passed — 1 test                           |
+| `npm run build`                 | Passed                                    |
+| `npm run build:ssr`             | Passed                                    |
+| `php artisan inertia:start-ssr` | Passed — server started on port 13714     |
+| `php artisan migrate`           | Passed on MySQL database `bel_zamora`     |
 
 **Decisions:**
 
@@ -1016,16 +1012,16 @@ Every program, project, legislative item, and public announcement should contain
 
 Use clear statuses consistently:
 
-| Status | Meaning | Recommended Display |
-|---|---|---|
-| Open | Applications or participation are currently accepted. | Green badge with opening and closing dates |
-| Ongoing | Program is active but may not be accepting new applications. | Blue badge |
-| For Announcement | Details are not yet officially released. | Amber badge |
-| Closed | Application period has ended. | Gray badge with archive link |
-| Completed | Project or activity has been concluded. | Navy or green badge |
-| Suspended | Temporarily paused. | Orange badge with explanation |
-| Cancelled | No longer proceeding. | Red-outline badge with official notice |
-| Archived | Retained for public reference but no longer current. | Muted gray badge |
+| Status           | Meaning                                                      | Recommended Display                        |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------ |
+| Open             | Applications or participation are currently accepted.        | Green badge with opening and closing dates |
+| Ongoing          | Program is active but may not be accepting new applications. | Blue badge                                 |
+| For Announcement | Details are not yet officially released.                     | Amber badge                                |
+| Closed           | Application period has ended.                                | Gray badge with archive link               |
+| Completed        | Project or activity has been concluded.                      | Navy or green badge                        |
+| Suspended        | Temporarily paused.                                          | Orange badge with explanation              |
+| Cancelled        | No longer proceeding.                                        | Red-outline badge with official notice     |
+| Archived         | Retained for public reference but no longer current.         | Muted gray badge                           |
 
 ## 2.4 Publishing Rule
 
@@ -1204,24 +1200,24 @@ The design should study successful political and government websites but transla
 
 ## 5.1 Reference Matrix
 
-| Reference | Useful Lesson | Adapt for Bel Zamora | Avoid |
-|---|---|---|---|
-| **Congresswoman Bel Zamora official website** — https://www.belzamora.com/ | Existing identity, “First Congresswoman” positioning, legislation categories, official contact, House and San Juan links | Preserve the strongest official identity and verified existing content while rebuilding around citizen tasks | Keeping only a profile, legislation, media, and contact structure |
-| **House of Representatives Philippines** — https://www.congress.gov.ph/ | Official legislative records, member role, bills, co-authored measures, and committees | Link every legislative item to the official House record and state her exact role | Copying dense government tables without plain-language summaries |
-| **San Juan City Government** — https://www.sanjuancity.gov.ph/ | Local identity, public announcements, services, transparency links, city information | Coordinate links and clearly distinguish city services from congressional services | Duplicating city-government content without ownership labels |
-| **Quezon City Government** — https://quezoncity.gov.ph/ | Citizen guides, program cards, public announcements, task-based navigation | Create a smaller **Gabay San Juaneño** service guide | Large-city information overload |
-| **Ayanna Pressley** — https://pressley.house.gov/ | Strong “How can we help?” approach and clear service calls to action | Place **Paano Kami Makakatulong?** near the top of the homepage | Copying U.S.-specific constituent services or advocacy tone |
-| **Alexandria Ocasio-Cortez** — https://ocasio-cortez.house.gov/ | Resources, issues, news, newsletter, and office contact visibility | Use advocacy and service cards with strong local relevance | Overly activist or personality-led design if it conflicts with the official tone |
-| **Sara Jacobs** — https://sarajacobs.house.gov/ | Accomplishment organization and results-based storytelling | Build **Mga Resulta para sa San Juan** with evidence and impact data | Unverified or vague accomplishment claims |
-| **Lauren Underwood** — https://underwood.house.gov/ | Clear priority cards and quick-help links | Use simple advocacy cards connected to real projects and programs | Generic carousel-heavy layouts |
-| **NYC.gov** — https://www.nyc.gov/main | Search-first services and popular-task navigation | Provide fast access to programs, contact, and announcements | Reproducing large-city complexity |
-| **City of Philadelphia** — https://www.phila.gov/ | Accessibility, multilingual support, service categories, and official indicators | Add language clarity, accessibility, privacy, and clear service ownership | A cold or highly institutional visual style |
-| **Mayor Bowser Newsroom** — https://mayor.dc.gov/newsroom | Searchable news, date and category filters | Create well-organized categories for Programs, Congress, Projects, Announcements, and Media | Plain text-only news lists with weak visual hierarchy |
-| **Florida House of Representatives** — https://www.flhouse.gov/ | Legislative search, schedules, committees, and public records | Use the information structure, not the old-fashioned visual style | Copying a complex legislative database interface |
-| **London City Hall** — https://www.london.gov.uk/ | Clear explanation of government roles, priorities, participation, and events | Explain what the Congresswoman and District Office can do | Blurring the roles of national legislature and local executive government |
-| **GOV.UK Design System** — https://design-system.service.gov.uk/ | User-needs-first content, accessible forms, clear errors, and step-by-step services | Apply these patterns to program requirements and assistance flows | Making the website visually anonymous or too plain |
-| **Boston Mayor’s Office** — https://www.boston.gov/departments/mayors-office | Strong official contact cards, biography, office details, and public profile | Build an approved biography and media-resource area | Hiding contact details deep in the site |
-| **Michigan Governor’s Office** — https://www.michigan.gov/whitmer | Quick actions, official updates, schedule requests, and transparency | Add event invitation, meeting request, and update subscription options | Overly long forms or unnecessary personal-data collection |
+| Reference                                                                    | Useful Lesson                                                                                                            | Adapt for Bel Zamora                                                                                         | Avoid                                                                            |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| **Congresswoman Bel Zamora official website** — https://www.belzamora.com/   | Existing identity, “First Congresswoman” positioning, legislation categories, official contact, House and San Juan links | Preserve the strongest official identity and verified existing content while rebuilding around citizen tasks | Keeping only a profile, legislation, media, and contact structure                |
+| **House of Representatives Philippines** — https://www.congress.gov.ph/      | Official legislative records, member role, bills, co-authored measures, and committees                                   | Link every legislative item to the official House record and state her exact role                            | Copying dense government tables without plain-language summaries                 |
+| **San Juan City Government** — https://www.sanjuancity.gov.ph/               | Local identity, public announcements, services, transparency links, city information                                     | Coordinate links and clearly distinguish city services from congressional services                           | Duplicating city-government content without ownership labels                     |
+| **Quezon City Government** — https://quezoncity.gov.ph/                      | Citizen guides, program cards, public announcements, task-based navigation                                               | Create a smaller **Gabay San Juaneño** service guide                                                         | Large-city information overload                                                  |
+| **Ayanna Pressley** — https://pressley.house.gov/                            | Strong “How can we help?” approach and clear service calls to action                                                     | Place **Paano Kami Makakatulong?** near the top of the homepage                                              | Copying U.S.-specific constituent services or advocacy tone                      |
+| **Alexandria Ocasio-Cortez** — https://ocasio-cortez.house.gov/              | Resources, issues, news, newsletter, and office contact visibility                                                       | Use advocacy and service cards with strong local relevance                                                   | Overly activist or personality-led design if it conflicts with the official tone |
+| **Sara Jacobs** — https://sarajacobs.house.gov/                              | Accomplishment organization and results-based storytelling                                                               | Build **Mga Resulta para sa San Juan** with evidence and impact data                                         | Unverified or vague accomplishment claims                                        |
+| **Lauren Underwood** — https://underwood.house.gov/                          | Clear priority cards and quick-help links                                                                                | Use simple advocacy cards connected to real projects and programs                                            | Generic carousel-heavy layouts                                                   |
+| **NYC.gov** — https://www.nyc.gov/main                                       | Search-first services and popular-task navigation                                                                        | Provide fast access to programs, contact, and announcements                                                  | Reproducing large-city complexity                                                |
+| **City of Philadelphia** — https://www.phila.gov/                            | Accessibility, multilingual support, service categories, and official indicators                                         | Add language clarity, accessibility, privacy, and clear service ownership                                    | A cold or highly institutional visual style                                      |
+| **Mayor Bowser Newsroom** — https://mayor.dc.gov/newsroom                    | Searchable news, date and category filters                                                                               | Create well-organized categories for Programs, Congress, Projects, Announcements, and Media                  | Plain text-only news lists with weak visual hierarchy                            |
+| **Florida House of Representatives** — https://www.flhouse.gov/              | Legislative search, schedules, committees, and public records                                                            | Use the information structure, not the old-fashioned visual style                                            | Copying a complex legislative database interface                                 |
+| **London City Hall** — https://www.london.gov.uk/                            | Clear explanation of government roles, priorities, participation, and events                                             | Explain what the Congresswoman and District Office can do                                                    | Blurring the roles of national legislature and local executive government        |
+| **GOV.UK Design System** — https://design-system.service.gov.uk/             | User-needs-first content, accessible forms, clear errors, and step-by-step services                                      | Apply these patterns to program requirements and assistance flows                                            | Making the website visually anonymous or too plain                               |
+| **Boston Mayor’s Office** — https://www.boston.gov/departments/mayors-office | Strong official contact cards, biography, office details, and public profile                                             | Build an approved biography and media-resource area                                                          | Hiding contact details deep in the site                                          |
+| **Michigan Governor’s Office** — https://www.michigan.gov/whitmer            | Quick actions, official updates, schedule requests, and transparency                                                     | Add event invitation, meeting request, and update subscription options                                       | Overly long forms or unnecessary personal-data collection                        |
 
 ## 5.2 Design Principles Learned from the References
 
@@ -2021,7 +2017,7 @@ The program amount, available slots, deadlines, eligibility, and required docume
 ### Program status
 
 **Closed / Archived**  
-*This status must update automatically from the admin-set application period or be manually approved.*
+_This status must update automatically from the admin-set application period or be manually approved._
 
 ### Short description
 
@@ -2142,34 +2138,34 @@ Add only after the MVP works reliably:
 
 ## 13.1 Color Palette
 
-| Token | Hex | Purpose | Usage |
-|---|---:|---|---|
-| `brand-royal` | `#1746A2` | Trust, public service, established branding | Headings, links, navigation states, secondary buttons |
-| `brand-red` | `#D62828` | Action, urgency, energy | Primary CTA, urgent highlights, limited accents |
-| `brand-white` | `#FFFFFF` | Clarity and openness | Main background, cards, content surfaces |
-| `brand-navy` | `#0B1F3A` | Authority, law, professionalism | Header text, footer, formal sections |
-| `brand-gold` | `#C9A227` | Dignity, leadership, achievement | Small details, milestone markers, approved badges |
-| `surface-soft` | `#F5F7FA` | Calm section separation | Alternate section backgrounds |
-| `border-default` | `#D9DEE7` | Structure and form boundaries | Borders and dividers |
-| `text-primary` | `#172033` | Main readable text | Paragraphs and labels |
-| `text-muted` | `#5B6576` | Secondary information | Dates, metadata, supporting text |
-| `warm-soft` | `#FFF4E6` | Human and approachable tone | Community callouts and reminders |
-| `status-open` | `#16733C` | Active/open status | Open program badge |
-| `status-warning` | `#A86100` | Pending or attention | For Announcement / deadline warning |
-| `status-closed` | `#626B79` | Closed or archived | Closed status |
-| `status-danger` | `#B42318` | Cancellation or critical error | Cancelled status and form errors |
+| Token            |       Hex | Purpose                                     | Usage                                                 |
+| ---------------- | --------: | ------------------------------------------- | ----------------------------------------------------- |
+| `brand-royal`    | `#1746A2` | Trust, public service, established branding | Headings, links, navigation states, secondary buttons |
+| `brand-red`      | `#D62828` | Action, urgency, energy                     | Primary CTA, urgent highlights, limited accents       |
+| `brand-white`    | `#FFFFFF` | Clarity and openness                        | Main background, cards, content surfaces              |
+| `brand-navy`     | `#0B1F3A` | Authority, law, professionalism             | Header text, footer, formal sections                  |
+| `brand-gold`     | `#C9A227` | Dignity, leadership, achievement            | Small details, milestone markers, approved badges     |
+| `surface-soft`   | `#F5F7FA` | Calm section separation                     | Alternate section backgrounds                         |
+| `border-default` | `#D9DEE7` | Structure and form boundaries               | Borders and dividers                                  |
+| `text-primary`   | `#172033` | Main readable text                          | Paragraphs and labels                                 |
+| `text-muted`     | `#5B6576` | Secondary information                       | Dates, metadata, supporting text                      |
+| `warm-soft`      | `#FFF4E6` | Human and approachable tone                 | Community callouts and reminders                      |
+| `status-open`    | `#16733C` | Active/open status                          | Open program badge                                    |
+| `status-warning` | `#A86100` | Pending or attention                        | For Announcement / deadline warning                   |
+| `status-closed`  | `#626B79` | Closed or archived                          | Closed status                                         |
+| `status-danger`  | `#B42318` | Cancellation or critical error              | Cancelled status and form errors                      |
 
 ## 13.2 Color Balance
 
-Recommended approximate visual balance:
+To represent the Zamora administration in San Juan City, Red (`#D62828`) serves as the dominant primary brand color of the website. The approximate visual balance is:
 
-- 55–65% white or light neutral
-- 15–20% navy
-- 10–15% royal blue
-- 5–8% red
-- 1–3% gold
+- 55–65% white or light neutral (clarity and openness)
+- 15–20% red (primary brand color for headers, key callouts, active elements, and focus highlights)
+- 10–15% navy (institutional authority and header details)
+- 5–10% royal blue (supporting navigation links and secondary elements)
+- 1–3% gold (small details and badges)
 
-Red should be reserved mainly for important actions. Using red as a large background in every section would make the site look like a campaign page.
+While Red serves as the primary brand identifier, clean white space and soft surfaces should dominate to maintain high readability, professional structure, and official service-oriented visual standards.
 
 ## 13.3 Typography
 
@@ -2519,18 +2515,18 @@ Include:
 
 ## 18.1 Recommended Admin Roles
 
-| Role | Main Permissions |
-|---|---|
-| Super Administrator | System settings, users, roles, full access |
-| Content Administrator | Manage all public content but not system security |
-| Communications Editor | News, statements, pages, media |
-| Program Officer | Programs, requirements, statuses, FAQs |
-| Legislative Editor | Bills, resolutions, committees, official source links |
-| Project Editor | Projects, locations, status, evidence, partners |
-| Media Manager | Albums, images, captions, consent records |
-| Reviewer / Approver | Approve, reject, schedule, and archive content |
-| Inquiry Officer | View and manage assigned inquiries only |
-| Read-Only Auditor | View records and audit history without editing |
+| Role                  | Main Permissions                                      |
+| --------------------- | ----------------------------------------------------- |
+| Super Administrator   | System settings, users, roles, full access            |
+| Content Administrator | Manage all public content but not system security     |
+| Communications Editor | News, statements, pages, media                        |
+| Program Officer       | Programs, requirements, statuses, FAQs                |
+| Legislative Editor    | Bills, resolutions, committees, official source links |
+| Project Editor        | Projects, locations, status, evidence, partners       |
+| Media Manager         | Albums, images, captions, consent records             |
+| Reviewer / Approver   | Approve, reject, schedule, and archive content        |
+| Inquiry Officer       | View and manage assigned inquiries only               |
+| Read-Only Auditor     | View records and audit history without editing        |
 
 ## 18.2 Publishing Workflow
 
@@ -2716,36 +2712,36 @@ This approach provides a full Vue.js development experience without the unnecess
 
 ## 22.2 Best Recommended Stack
 
-| Layer | Recommendation | Implementation Role |
-|---|---|---|
-| Application framework | **Laravel 13**, or the latest stable security-supported Laravel release when development begins | Routing, controllers, validation, authorization, ORM, queues, mail, scheduling, security, and business logic |
-| Public frontend | **Vue 3** using the Composition API and `<script setup>` | All public pages, reusable components, responsive interactions, filters, forms, galleries, and citizen-service workflows |
-| Frontend language | **TypeScript** with strict type checking | Reduces interface and data-shape errors and improves maintainability |
-| Laravel–Vue bridge | **Inertia.js 3** | Uses Laravel routes and controllers while rendering Vue page components without a separate public API |
-| Rendering | **Inertia server-side rendering** for public pages | Sends rendered HTML on the first request for SEO, accessibility, performance, and social previews |
-| Build tool | **Vite** with the Laravel and Inertia plugins | Fast development, Hot Module Replacement, optimized production bundles, and SSR builds |
-| Styling | **Tailwind CSS 4** with custom design tokens | Implements the approved Bel Zamora design system without generic campaign styling |
-| UI primitives | **Custom Vue components**, with selected `shadcn-vue` primitives only where useful | Provides accessible foundations while preserving an original government-service identity |
-| Primary database | **MySQL 8.4 LTS** using InnoDB and `utf8mb4` | Reliable long-term relational storage for programs, legislation, projects, news, users, and inquiries |
-| ORM and data access | **Laravel Eloquent** with query scopes, policies, API Resources where needed, and database transactions | Keeps data access consistent, testable, and secure |
-| Administration panel | **Filament 5**, or the current stable compatible release | Staff content management, approval workflow, program statuses, legislative records, media, projects, and inquiries |
-| Authentication | **Laravel session authentication and Fortify-backed starter authentication** | Secure admin login, password reset, email verification where required, and multi-factor authentication |
-| Authorization | **Laravel policies and gates**, with a maintained roles-and-permissions package where justified | Enforces least-privilege access for editors, reviewers, program officers, inquiry officers, and administrators |
-| Frontend state | **Inertia page props, Vue composables, and local component state first**; **Pinia only for genuinely shared client state** | Avoids unnecessary global state while supporting alerts, accessibility preferences, or complex multi-step interfaces |
-| Form handling | **Inertia forms plus Laravel Form Request validation** | Keeps validation authoritative on the server while displaying precise field errors in Vue |
-| Search | **MySQL full-text search for the MVP**; Laravel Scout with Meilisearch only when scale or search quality requires it | Prevents premature infrastructure complexity |
-| Cache and queues | **Redis in production**; database queue permitted for low-volume development or an early MVP | Speeds repeated reads and processes email, image conversions, link checks, and notifications outside user requests |
-| Media storage | Local private/public disks during development; **S3-compatible object storage** in production when practical | Separates original assets, public derivatives, and sensitive files safely |
-| Image processing | Server-side responsive image generation with WebP/AVIF derivatives and original-file preservation | Supports the high-resolution visual strategy without slowing mobile pages |
-| Email | Laravel Mail with a reputable transactional email provider | Inquiry confirmations, staff alerts, password resets, and scheduled notices |
-| Backend testing | **Pest or PHPUnit** with Laravel feature, policy, validation, queue, and integration tests | Protects public-service and administrative workflows |
-| Vue testing | **Vitest and Vue Test Utils** | Tests components, composables, filters, form states, and accessibility behavior |
-| End-to-end testing | **Playwright** | Tests citizen journeys and admin workflows across Chromium, Firefox, and WebKit |
-| Code quality | Laravel Pint, ESLint, Prettier, `vue-tsc`, and automated CI checks | Enforces consistent PHP, Vue, and TypeScript quality |
-| Source control and CI | GitHub with protected branches and GitHub Actions, or an equivalent Git platform and CI service | Runs tests, type checks, linting, builds, and deployment checks |
-| Deployment | Managed VPS, Laravel Cloud, or Laravel Forge-compatible infrastructure with PHP, Node.js, queue workers, scheduler, and SSL | Supports Laravel, Inertia SSR, Redis, background workers, and repeatable deployments |
-| Monitoring | Application error tracking, uptime monitoring, queue monitoring, failed-job alerts, and structured logs | Detects failures before they affect citizens for long periods |
-| Analytics | Privacy-conscious analytics plus Search Console | Measures real service discovery without collecting unnecessary personal information |
+| Layer                 | Recommendation                                                                                                              | Implementation Role                                                                                                      |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Application framework | **Laravel 13**, or the latest stable security-supported Laravel release when development begins                             | Routing, controllers, validation, authorization, ORM, queues, mail, scheduling, security, and business logic             |
+| Public frontend       | **Vue 3** using the Composition API and `<script setup>`                                                                    | All public pages, reusable components, responsive interactions, filters, forms, galleries, and citizen-service workflows |
+| Frontend language     | **TypeScript** with strict type checking                                                                                    | Reduces interface and data-shape errors and improves maintainability                                                     |
+| Laravel–Vue bridge    | **Inertia.js 3**                                                                                                            | Uses Laravel routes and controllers while rendering Vue page components without a separate public API                    |
+| Rendering             | **Inertia server-side rendering** for public pages                                                                          | Sends rendered HTML on the first request for SEO, accessibility, performance, and social previews                        |
+| Build tool            | **Vite** with the Laravel and Inertia plugins                                                                               | Fast development, Hot Module Replacement, optimized production bundles, and SSR builds                                   |
+| Styling               | **Tailwind CSS 4** with custom design tokens                                                                                | Implements the approved Bel Zamora design system without generic campaign styling                                        |
+| UI primitives         | **Custom Vue components**, with selected `shadcn-vue` primitives only where useful                                          | Provides accessible foundations while preserving an original government-service identity                                 |
+| Primary database      | **MySQL 8.4 LTS** using InnoDB and `utf8mb4`                                                                                | Reliable long-term relational storage for programs, legislation, projects, news, users, and inquiries                    |
+| ORM and data access   | **Laravel Eloquent** with query scopes, policies, API Resources where needed, and database transactions                     | Keeps data access consistent, testable, and secure                                                                       |
+| Administration panel  | **Filament 5**, or the current stable compatible release                                                                    | Staff content management, approval workflow, program statuses, legislative records, media, projects, and inquiries       |
+| Authentication        | **Laravel session authentication and Fortify-backed starter authentication**                                                | Secure admin login, password reset, email verification where required, and multi-factor authentication                   |
+| Authorization         | **Laravel policies and gates**, with a maintained roles-and-permissions package where justified                             | Enforces least-privilege access for editors, reviewers, program officers, inquiry officers, and administrators           |
+| Frontend state        | **Inertia page props, Vue composables, and local component state first**; **Pinia only for genuinely shared client state**  | Avoids unnecessary global state while supporting alerts, accessibility preferences, or complex multi-step interfaces     |
+| Form handling         | **Inertia forms plus Laravel Form Request validation**                                                                      | Keeps validation authoritative on the server while displaying precise field errors in Vue                                |
+| Search                | **MySQL full-text search for the MVP**; Laravel Scout with Meilisearch only when scale or search quality requires it        | Prevents premature infrastructure complexity                                                                             |
+| Cache and queues      | **Redis in production**; database queue permitted for low-volume development or an early MVP                                | Speeds repeated reads and processes email, image conversions, link checks, and notifications outside user requests       |
+| Media storage         | Local private/public disks during development; **S3-compatible object storage** in production when practical                | Separates original assets, public derivatives, and sensitive files safely                                                |
+| Image processing      | Server-side responsive image generation with WebP/AVIF derivatives and original-file preservation                           | Supports the high-resolution visual strategy without slowing mobile pages                                                |
+| Email                 | Laravel Mail with a reputable transactional email provider                                                                  | Inquiry confirmations, staff alerts, password resets, and scheduled notices                                              |
+| Backend testing       | **Pest or PHPUnit** with Laravel feature, policy, validation, queue, and integration tests                                  | Protects public-service and administrative workflows                                                                     |
+| Vue testing           | **Vitest and Vue Test Utils**                                                                                               | Tests components, composables, filters, form states, and accessibility behavior                                          |
+| End-to-end testing    | **Playwright**                                                                                                              | Tests citizen journeys and admin workflows across Chromium, Firefox, and WebKit                                          |
+| Code quality          | Laravel Pint, ESLint, Prettier, `vue-tsc`, and automated CI checks                                                          | Enforces consistent PHP, Vue, and TypeScript quality                                                                     |
+| Source control and CI | GitHub with protected branches and GitHub Actions, or an equivalent Git platform and CI service                             | Runs tests, type checks, linting, builds, and deployment checks                                                          |
+| Deployment            | Managed VPS, Laravel Cloud, or Laravel Forge-compatible infrastructure with PHP, Node.js, queue workers, scheduler, and SSL | Supports Laravel, Inertia SSR, Redis, background workers, and repeatable deployments                                     |
+| Monitoring            | Application error tracking, uptime monitoring, queue monitoring, failed-job alerts, and structured logs                     | Detects failures before they affect citizens for long periods                                                            |
+| Analytics             | Privacy-conscious analytics plus Search Console                                                                             | Measures real service discovery without collecting unnecessary personal information                                      |
 
 ## 22.3 Why Vue 3 + Inertia.js Is the Best Fit
 
@@ -3006,7 +3002,6 @@ Laravel 13
 
 The versions must be locked only after confirming that Laravel, PHP, Inertia, Vue, Filament, Livewire, Tailwind, Vite, Node.js, and all selected packages are mutually compatible on the date implementation begins.
 
-
 ---
 
 # 23. Implementation Architecture Blueprint
@@ -3140,12 +3135,12 @@ Examples:
 
 Maintain separate environments:
 
-| Environment | Purpose | Data Rule |
-|---|---|---|
-| Local development | Individual coding and unit testing | Synthetic data only |
-| Shared development | Integration testing | Synthetic or anonymized data only |
-| Staging / UAT | Content review, usability testing, approval | Production-like structure, no unnecessary real sensitive data |
-| Production | Public website and approved staff workflows | Official data with full security, audit, backup, and retention controls |
+| Environment        | Purpose                                     | Data Rule                                                               |
+| ------------------ | ------------------------------------------- | ----------------------------------------------------------------------- |
+| Local development  | Individual coding and unit testing          | Synthetic data only                                                     |
+| Shared development | Integration testing                         | Synthetic or anonymized data only                                       |
+| Staging / UAT      | Content review, usability testing, approval | Production-like structure, no unnecessary real sensitive data           |
+| Production         | Public website and approved staff workflows | Official data with full security, audit, backup, and retention controls |
 
 Requirements:
 
@@ -3512,7 +3507,6 @@ Within the first 30 days:
 
 ---
 
-
 ## Phase 1: Research and Content Audit
 
 ### Current Status
@@ -3524,7 +3518,6 @@ Within the first 30 days:
 **Remaining work:** None. Exit conditions met.
 
 **Phase exit condition:** All current public content and official facts are inventoried, verified, owned, and approved.
-
 
 ### Tasks
 
@@ -3553,7 +3546,6 @@ Do not move unverified public claims directly into the new site.
 
 ---
 
-
 ## Phase 2: User Research and Requirements
 
 ### Current Status
@@ -3565,7 +3557,6 @@ Do not move unverified public claims directly into the new site.
 **Remaining work:** None. Exit conditions met.
 
 **Phase exit condition:** Research findings and approved requirements exist and resolve all material open questions.
-
 
 ### Tasks
 
@@ -3585,7 +3576,6 @@ Do not move unverified public claims directly into the new site.
 
 ---
 
-
 ## Phase 3: Sitemap and Content Planning
 
 ### Current Status
@@ -3597,7 +3587,6 @@ Do not move unverified public claims directly into the new site.
 **Remaining work:** None. Exit conditions met.
 
 **Phase exit condition:** The approved sitemap, URL map, taxonomy, redirects, and content templates are ready for design and implementation.
-
 
 ### Tasks
 
@@ -3618,7 +3607,6 @@ Do not move unverified public claims directly into the new site.
 
 ---
 
-
 ## Phase 4: UI/UX Wireframing
 
 ### Current Status
@@ -3630,7 +3618,6 @@ Do not move unverified public claims directly into the new site.
 **Remaining work:** None. Exit conditions met.
 
 **Phase exit condition:** Approved wireframes and usability findings exist for all MVP templates.
-
 
 ### Tasks
 
@@ -3656,7 +3643,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 5: Visual Design
 
 ### Current Status
@@ -3668,7 +3654,6 @@ Can a user find:
 **Remaining work:** None. Exit conditions met.
 
 **Phase exit condition:** The complete accessible design system and all MVP responsive templates are approved.
-
 
 ### Tasks
 
@@ -3689,7 +3674,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 6: Vue Frontend Development
 
 ### Current Status
@@ -3701,7 +3685,6 @@ Can a user find:
 **Remaining work:** Complete Phase 0 and approved design prerequisites, then implement the Vue/Inertia public interface and SSR.
 
 **Phase exit condition:** All MVP public pages are integrated, responsive, accessible, tested, server-rendered, and documented.
-
 
 ### Tasks
 
@@ -3731,7 +3714,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 7: Backend and Admin Development
 
 ### Current Status
@@ -3743,7 +3725,6 @@ Can a user find:
 **Remaining work:** Approve the data and permission model, then implement backend workflows and admin modules with tests.
 
 **Phase exit condition:** Backend and admin workflows pass authorization, validation, audit, privacy, and integration acceptance criteria.
-
 
 ### Tasks
 
@@ -3767,7 +3748,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 8: Content Migration and Upload
 
 ### Current Status
@@ -3779,7 +3759,6 @@ Can a user find:
 **Remaining work:** Complete content verification, application modules, and migration tooling before uploading.
 
 **Phase exit condition:** Approved content is migrated, sourced, accessible, redirected, reviewed, and ready for final approval.
-
 
 ### Tasks
 
@@ -3799,7 +3778,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 9: Testing and Quality Assurance
 
 ### Current Status
@@ -3811,7 +3789,6 @@ Can a user find:
 **Remaining work:** Implement automated and manual QA across functionality, browsers, accessibility, privacy, security, performance, and recovery.
 
 **Phase exit condition:** All required reports pass or contain formally accepted exceptions.
-
 
 ### Testing areas
 
@@ -3839,7 +3816,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 10: Content and Legal Approval
 
 ### Current Status
@@ -3851,7 +3827,6 @@ Can a user find:
 **Remaining work:** Complete staging content and QA, then obtain District Office, communications, legal, privacy, and executive approval.
 
 **Phase exit condition:** All launch-critical approvals are recorded and unresolved objections are closed.
-
 
 ### Tasks
 
@@ -3871,7 +3846,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 11: Deployment and Launch
 
 ### Current Status
@@ -3883,7 +3857,6 @@ Can a user find:
 **Remaining work:** Complete preceding phases and approve production infrastructure, migration, monitoring, backup, and rollback.
 
 **Phase exit condition:** Production deployment succeeds, smoke tests pass, monitoring is active, and launch is authorized.
-
 
 ### Tasks
 
@@ -3905,7 +3878,6 @@ Can a user find:
 
 ---
 
-
 ## Phase 12: Maintenance and Continuous Improvement
 
 ### Current Status
@@ -3917,7 +3889,6 @@ Can a user find:
 **Remaining work:** Prepare ownership and review schedules before launch; execute after production release.
 
 **Phase exit condition:** Maintenance, updates, reviews, incident response, and improvement backlog operate continuously.
-
 
 ### Tasks
 
@@ -3989,18 +3960,18 @@ Can a user find:
 
 # 29. Risks and Mitigation
 
-| Risk | Possible Effect | Mitigation |
-|---|---|---|
-| Outdated program information | Citizens submit based on wrong requirements | Status, expiry date, owner, and stale-content alerts |
-| Confusion between city and congressional services | Misrouted concerns and loss of trust | Responsible-office labels and service ownership explanations |
-| Unverified accomplishment claims | Credibility and legal risk | Source records and approval workflow |
-| Collection of sensitive data through normal forms | Privacy and security exposure | Data minimization and separate secure document process |
-| Too much campaign styling | Site feels temporary or partisan | White space, navy structure, limited red, service-first copy |
-| Staff cannot maintain content | Site becomes outdated | Filament dashboard, training, simple templates, clear roles |
-| Social embeds slow the website | Poor mobile performance and tracking concerns | Use links or click-to-load embeds |
-| Broken old links after redesign | Search and public reference problems | URL inventory and 301 redirect plan |
-| Admin account compromise | Unauthorized publication or data exposure | MFA, strong roles, audit logs, patching, login monitoring |
-| Overly complex first release | Delays and poor reliability | Strict MVP and phased enhancements |
+| Risk                                              | Possible Effect                               | Mitigation                                                   |
+| ------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------ |
+| Outdated program information                      | Citizens submit based on wrong requirements   | Status, expiry date, owner, and stale-content alerts         |
+| Confusion between city and congressional services | Misrouted concerns and loss of trust          | Responsible-office labels and service ownership explanations |
+| Unverified accomplishment claims                  | Credibility and legal risk                    | Source records and approval workflow                         |
+| Collection of sensitive data through normal forms | Privacy and security exposure                 | Data minimization and separate secure document process       |
+| Too much campaign styling                         | Site feels temporary or partisan              | White space, navy structure, limited red, service-first copy |
+| Staff cannot maintain content                     | Site becomes outdated                         | Filament dashboard, training, simple templates, clear roles  |
+| Social embeds slow the website                    | Poor mobile performance and tracking concerns | Use links or click-to-load embeds                            |
+| Broken old links after redesign                   | Search and public reference problems          | URL inventory and 301 redirect plan                          |
+| Admin account compromise                          | Unauthorized publication or data exposure     | MFA, strong roles, audit logs, patching, login monitoring    |
+| Overly complex first release                      | Delays and poor reliability                   | Strict MVP and phased enhancements                           |
 
 ---
 
@@ -4153,7 +4124,6 @@ The strongest final statement is:
 
 ---
 
-
 ---
 
 # 34. Verified Visual Asset Strategy and Image Library
@@ -4239,7 +4209,7 @@ The activity involved the distribution of ₱3,000 educational assistance for ch
 https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_Activities/1028/pamamahagi-ng-p300000-educational-assistance-para-sa-mga-anak-ng-solo-parents-ng-san-juan
 
 **Verified direct image:**  
-*Approved original file:* Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
+_Approved original file:_ Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
 
 **Recommended presentation:**
 
@@ -4279,7 +4249,7 @@ The 2025 National Women’s Month activity included healthcare, employment oppor
 https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_Activities/2054/2025-national-womens-month-celebration
 
 **Verified direct image:**  
-*Approved original file:* Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
+_Approved original file:_ Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
 
 **Recommended presentation:**
 
@@ -4318,7 +4288,7 @@ The official article covers the inauguration and launch of the eGovPH Serbisyo H
 https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center
 
 **Verified direct image:**  
-*Approved original file:* Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
+_Approved original file:_ Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
 
 **Recommended presentation:**
 
@@ -4353,7 +4323,7 @@ The source documents Gawad Agraryo 2025 at the Makabagong San Juan National Gove
 https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2144/gawad-agraryo-2025
 
 **Verified direct image:**  
-*Approved original file:* Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
+_Approved original file:_ Request the original high-resolution image from the San Juan City Government or District Office. Do not use or hotlink a temporary CMS image URL.
 
 **Recommended presentation:**
 
@@ -4569,16 +4539,16 @@ https://commons.wikimedia.org/wiki/Category%3APhilippine_Panorama_Project/San_Ju
 
 **Recommended selections from the collection:**
 
-| Filename in the collection | Recommended website use |
-|---|---|
+| Filename in the collection                                      | Recommended website use                                |
+| --------------------------------------------------------------- | ------------------------------------------------------ |
 | `View of San Juan City from The Corner House, Mar 2026 (1).jpg` | Makabagong San Juan, city progress, homepage city view |
-| `San Juan Plaza Mayor, Jan 2024.jpg` | Community events and civic gatherings |
-| `San Juan Plaza Mayor Grandstand, Jan 2024.jpg` | Events, public ceremonies, and gallery |
-| `San Juan Welcome Arch, Jan 2024.jpg` | San Juan identity and page transition |
-| `I Love San Juan City Marker, Jan 2024.jpg` | Footer, local-pride card, gallery |
-| `Diwa ng 1896 Monument, San Juan, Jan 2024 (2).jpg` | Para sa Bayan and heritage |
-| `San Juan Commercial Center, Jan 2024.jpg` | Livelihood and local economy |
-| `Santuario del Santo Cristo, San Juan City, April 2022.jpg` | Heritage and community identity |
+| `San Juan Plaza Mayor, Jan 2024.jpg`                            | Community events and civic gatherings                  |
+| `San Juan Plaza Mayor Grandstand, Jan 2024.jpg`                 | Events, public ceremonies, and gallery                 |
+| `San Juan Welcome Arch, Jan 2024.jpg`                           | San Juan identity and page transition                  |
+| `I Love San Juan City Marker, Jan 2024.jpg`                     | Footer, local-pride card, gallery                      |
+| `Diwa ng 1896 Monument, San Juan, Jan 2024 (2).jpg`             | Para sa Bayan and heritage                             |
+| `San Juan Commercial Center, Jan 2024.jpg`                      | Livelihood and local economy                           |
+| `Santuario del Santo Cristo, San Juan City, April 2022.jpg`     | Heritage and community identity                        |
 
 **Implementation rule:**  
 Open the exact file inside the verified collection, review its own license page, and record the attribution before use.
@@ -4613,22 +4583,22 @@ A general City Hall image is not a substitute for a photograph of the exact Dist
 
 ## 34.7 Page-by-Page Final Image Assignment
 
-| Website Page or Section | Primary Visual | Secondary Visual | Avoid |
-|---|---|---|---|
-| Homepage Hero | New professional horizontal portrait of Congresswoman Bel | Subtle Pinaglabanan or San Juan city background | Group-event photo, low-resolution portrait, campaign poster |
-| About | New formal portrait | Women’s Month or natural citizen-interaction photo | Only staged political-event photos |
-| Biography | Approved archive portraits and timeline photos | Official House portrait as a small reference | Unverified personal photos or genealogy-site images |
-| Programs and Advocacy | Actual approved program documentation | Educational-assistance and Women’s Month images | Generic foreign stock photography |
-| Tulong Dunong | Actual Tulong Dunong scholars, orientation, or distribution | Official program poster | Other education activities falsely labeled as Tulong Dunong |
-| Women and Family | 2025 Women’s Month image | Approved family-support activity | Unrelated posed portraits |
-| Citizen Services | eGovPH Serbisyo Hub and District Office help-desk photo | City Hall or Government Center | Generic handshake images |
-| Legislative Work | Batasang Pambansa session hall | Original House-session or committee photo of Congresswoman Bel | Party-event photo as the main legislative image |
-| Projects and Results | Actual completed project in use | Before-and-after or inauguration documentation | Landmark photo replacing missing project evidence |
-| News | One relevant documentary image per article | Approved supporting photo | Reused generic image on unrelated stories |
-| Gallery | Categorized authentic activity images | San Juan heritage and civic images | Uncaptioned photo dump |
-| Contact | San Juan City Hall and exact District Office entrance | Reception and staff photo | Portrait-only contact page |
-| Makabagong San Juan | Recent city view from the verified Commons collection | eGovPH hub or city landmark | Tourism-style collage with no service context |
-| Footer or Local Identity | Welcome Arch or I Love San Juan marker | Small San Juan skyline crop | Large visual competing with contact information |
+| Website Page or Section  | Primary Visual                                              | Secondary Visual                                               | Avoid                                                       |
+| ------------------------ | ----------------------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------- |
+| Homepage Hero            | New professional horizontal portrait of Congresswoman Bel   | Subtle Pinaglabanan or San Juan city background                | Group-event photo, low-resolution portrait, campaign poster |
+| About                    | New formal portrait                                         | Women’s Month or natural citizen-interaction photo             | Only staged political-event photos                          |
+| Biography                | Approved archive portraits and timeline photos              | Official House portrait as a small reference                   | Unverified personal photos or genealogy-site images         |
+| Programs and Advocacy    | Actual approved program documentation                       | Educational-assistance and Women’s Month images                | Generic foreign stock photography                           |
+| Tulong Dunong            | Actual Tulong Dunong scholars, orientation, or distribution | Official program poster                                        | Other education activities falsely labeled as Tulong Dunong |
+| Women and Family         | 2025 Women’s Month image                                    | Approved family-support activity                               | Unrelated posed portraits                                   |
+| Citizen Services         | eGovPH Serbisyo Hub and District Office help-desk photo     | City Hall or Government Center                                 | Generic handshake images                                    |
+| Legislative Work         | Batasang Pambansa session hall                              | Original House-session or committee photo of Congresswoman Bel | Party-event photo as the main legislative image             |
+| Projects and Results     | Actual completed project in use                             | Before-and-after or inauguration documentation                 | Landmark photo replacing missing project evidence           |
+| News                     | One relevant documentary image per article                  | Approved supporting photo                                      | Reused generic image on unrelated stories                   |
+| Gallery                  | Categorized authentic activity images                       | San Juan heritage and civic images                             | Uncaptioned photo dump                                      |
+| Contact                  | San Juan City Hall and exact District Office entrance       | Reception and staff photo                                      | Portrait-only contact page                                  |
+| Makabagong San Juan      | Recent city view from the verified Commons collection       | eGovPH hub or city landmark                                    | Tourism-style collage with no service context               |
+| Footer or Local Identity | Welcome Arch or I Love San Juan marker                      | Small San Juan skyline crop                                    | Large visual competing with contact information             |
 
 ---
 
@@ -4687,17 +4657,17 @@ The hero photo should have:
 
 ## 34.9 Image Technical Standards
 
-| Use Case | Minimum Recommended Source | Preferred Ratio | Notes |
-|---|---:|---:|---|
-| Homepage hero | 3,000 × 2,000 | 3:2 or 16:9 | Must allow safe mobile crop |
-| Internal page banner | 2,000 × 1,125 | 16:9 | Keep focal subject away from edges |
-| Formal portrait | 2,400 × 3,000 | 4:5 | Suitable for About and media kit |
-| Program card | 1,200 × 800 | 3:2 | One clear subject or activity |
-| Project card | 1,600 × 1,000 | 8:5 or 3:2 | Show actual output or location |
-| News thumbnail | 1,200 × 675 | 16:9 | Consistent editorial crop |
-| Gallery original | 2,000px long edge minimum | Original | Retain archival original |
-| Open Graph image | 1,200 × 630 | 1.91:1 | Avoid text near edges |
-| Square project image | 1,080 × 1,080 | 1:1 | Use only where square composition fits |
+| Use Case             | Minimum Recommended Source | Preferred Ratio | Notes                                  |
+| -------------------- | -------------------------: | --------------: | -------------------------------------- |
+| Homepage hero        |              3,000 × 2,000 |     3:2 or 16:9 | Must allow safe mobile crop            |
+| Internal page banner |              2,000 × 1,125 |            16:9 | Keep focal subject away from edges     |
+| Formal portrait      |              2,400 × 3,000 |             4:5 | Suitable for About and media kit       |
+| Program card         |                1,200 × 800 |             3:2 | One clear subject or activity          |
+| Project card         |              1,600 × 1,000 |      8:5 or 3:2 | Show actual output or location         |
+| News thumbnail       |                1,200 × 675 |            16:9 | Consistent editorial crop              |
+| Gallery original     |  2,000px long edge minimum |        Original | Retain archival original               |
+| Open Graph image     |                1,200 × 630 |          1.91:1 | Avoid text near edges                  |
+| Square project image |              1,080 × 1,080 |             1:1 | Use only where square composition fits |
 
 ### Web export requirements
 
@@ -5030,7 +5000,6 @@ This replaces the earlier Blade-and-Alpine recommendation.
 
 Do not mix two public frontend architectures. Public pages should use Vue through Inertia consistently. Blade should remain only as the minimal Laravel root shell required by Inertia and for framework-level fallback or email templates where appropriate; it should not be used as a competing page-building system.
 
-
 ## Final Audit Conclusion
 
 This version has been checked for:
@@ -5149,13 +5118,14 @@ Before adding a route, component, composable, service, model, migration, table, 
 
 ### Added
 
-- Scalable vector primary circular seal (`logo_primary.svg`), horizontal navigation wordmark (`logo_horizontal.svg`), and browser favicon (`favicon.svg`) in `public/assets/images/brand/`.
+- Integrated official government seals (`House_of_Representative_Logo_Seal.svg`, `Logo_of_San_Juan_Seal.svg`, `Makabagong_San_Juan_Logo.svg`, and `Bagong_Pilipinas_logo.svg`) under `public/assets/images/brand/` instead of custom placeholders.
 - Detailed design token guidelines mapping Hex colors, spacing scales, and custom serif/sans-serif typography configurations in `docs/PHASE_5_VISUAL_DESIGN.md`.
 - Component-level styling parameters (for buttons, input state changes, program badges, and legislative indexes).
 - Verified WCAG 2.2 AA color contrast computations and responsive media viewport breakpoints rules.
 
 ### Decisions
 
+- Set Red (`#D62828`) as the primary brand color of the website to align with the Zamora administration.
 - Sans-serif Inter font family chosen for screen-legibility optimization in form fields and description grids.
 - Outlawed gold typography on light neutral backgrounds to ensure compliance with contrast restrictions.
 
