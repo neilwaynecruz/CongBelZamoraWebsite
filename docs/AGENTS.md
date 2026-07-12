@@ -1,6 +1,6 @@
 # AGENTS.md
 
-See [`bel_zamora_project_workflow/AGENTS.md`](bel_zamora_project_workflow/AGENTS.md) for mandatory AI assistant rules.
+See [`../bel_zamora_project_workflow/AGENTS.md`](../bel_zamora_project_workflow/AGENTS.md) for mandatory AI assistant rules.
 
 ## Validation commands (Phase 0 baseline)
 

@@ -1,10 +1,10 @@
 You are continuing the Atty. Congresswoman Bel Zamora public-service website project.
 
-The canonical source of truth is `bel_zamora_website_plan.md`. Read it completely before changing any file.
+The canonical source of truth is `docs/bel_zamora_website_plan.md`. Read it completely before changing any file.
 
 Current audited state:
 
-- Active phase: Phase 1 — Research and Content Audit
+- Active work: Phase 1 source verification and Phase 2 user research approval
 - Phase 0 status: Implemented
 - Repository: `c:\laragon\www\CongBellProject`
 - Stack: Laravel 13.19.0, Vue 3.5.39, TypeScript, Inertia 3, Tailwind 4, Filament 3.3.54, MySQL 8.4, Redis
@@ -13,17 +13,17 @@ Current audited state:
 - Staff admin: `/admin` (Filament; no content modules yet)
 - CI: `.github/workflows/ci.yml`
 
-Exact next task (Phase 1):
+Exact next task:
 
-1. Obtain District Office authorization for content audit work.
+1. Obtain District Office authorization for content audit and Phase 2 research work.
 2. Produce the verified source register from approved official sources.
-3. Audit the current live site page by page (`belzamora.com`, House records, San Juan City Government).
-4. Confirm official biography facts, office contacts, and program statuses with assigned owners.
-5. Collect approved original assets and consent records.
-6. Do not implement public content modules until verification and ownership are recorded.
-7. Update `bel_zamora_website_plan.md` with Phase 1 progress and evidence.
+3. Collect approved anonymized evidence for Phase 2: inquiry categories, FAQs, search terms, analytics, program questions, complaint patterns, workflows, forms, and accessibility barriers.
+4. Conduct staff and citizen research using `docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md`.
+5. Confirm official biography facts, office contacts, program statuses, user needs, service-routing requirements, privacy requirements, and MVP scope with assigned owners.
+6. Do not implement public content modules, screens, or admin features until verification, requirements, and ownership are approved.
+7. Update `docs/bel_zamora_website_plan.md` and `docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md` with progress and evidence.
 
-Do not begin program, legislative, project, inquiry, or admin feature implementation during Phase 1.
+Do not begin program, legislative, project, inquiry, screen-design, or admin feature implementation until Phase 1 verification and Phase 2 requirements approval are complete.
 
 Required response sections:
 

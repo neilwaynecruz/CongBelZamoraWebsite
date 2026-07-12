@@ -4,8 +4,8 @@ Official public-service website for Atty. Congresswoman Bel Zamora — **The Dig
 
 ## Canonical documentation
 
-- Project plan: [`bel_zamora_website_plan.md`](bel_zamora_website_plan.md)
-- AI workflow rules: [`bel_zamora_project_workflow/AGENTS.md`](bel_zamora_project_workflow/AGENTS.md)
+- Project plan: [`docs/bel_zamora_website_plan.md`](docs/bel_zamora_website_plan.md)
+- AI workflow rules: [`docs/AGENTS.md`](docs/AGENTS.md) and [`bel_zamora_project_workflow/AGENTS.md`](bel_zamora_project_workflow/AGENTS.md)
 
 ## Stack
 

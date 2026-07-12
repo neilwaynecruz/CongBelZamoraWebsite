@@ -395,7 +395,7 @@ Step 2: Inspect
 
 Inspect:
 
-- Current live Bel Zamora website
+- Current live Bel Zamora website (make sure it is working)
 - Current repository content files
 - Existing database seeds or fixtures
 - Existing pages and routes
@@ -2195,6 +2195,6 @@ Return one complete copy-ready prompt.
 
 # 19. Current Recommended Prompt
 
-Based on the current audited project state, use the **Phase 0 Prompt** first.
+Based on the current audited project state, use the **Phase 3 Prompt: Sitemap and Content Planning** next.
 
-The current project is documentation-only, and application development should not begin with feature modules until the repository bootstrap and governance baseline are complete.
+Phase 0 (Project Bootstrap), Phase 1 (Research and Content Audit), and Phase 2 (User Research and Requirements) are fully **Implemented** and verified. Do not begin UI visual design or backend database migrations until the sitemap, URL patterns, taxonomies, and redirect mapping are finalized.

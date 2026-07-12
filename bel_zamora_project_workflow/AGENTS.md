@@ -2,7 +2,7 @@
 
 ## Mandatory project rule
 
-Read `bel_zamora_website_plan.md` before changing code.
+Read `docs/bel_zamora_website_plan.md` before changing code.
 
 ## Before editing
 
@@ -26,9 +26,9 @@ Read `bel_zamora_website_plan.md` before changing code.
 
 ## Before ending
 
-1. Run all relevant validation commands listed in root [`AGENTS.md`](../AGENTS.md).
+1. Run all relevant validation commands listed in [`docs/AGENTS.md`](../docs/AGENTS.md).
 2. Record exact results.
-3. Update `bel_zamora_website_plan.md`.
+3. Update `docs/bel_zamora_website_plan.md`.
 4. Update all affected documentation.
 5. State unresolved issues and blockers.
 6. Provide the exact next task and a copy-ready next-session prompt.

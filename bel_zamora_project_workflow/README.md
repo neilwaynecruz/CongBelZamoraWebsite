@@ -6,7 +6,7 @@ This folder contains the project-governance and AI-handoff documentation for the
 
 The canonical roadmap is:
 
-- [`bel_zamora_website_plan.md`](../bel_zamora_website_plan.md)
+- [`docs/bel_zamora_website_plan.md`](../docs/bel_zamora_website_plan.md)
 
 All code, configuration, tests, decisions, status updates, and supporting documentation must remain aligned with that file.
 
@@ -17,12 +17,12 @@ All code, configuration, tests, decisions, status updates, and supporting docume
 - Laravel/Vue baseline: implemented (Phase 0)
 - Git repository: initialized on `main` (remote pending)
 - Package manager: npm
-- Active phase: Phase 1 — Research and Content Audit
+- Active work: Phase 1 source verification and Phase 2 user research approval
 - Phase 0 status: Implemented
 
 ## Setup
 
-See the root [`README.md`](../README.md) and [`docs/ENVIRONMENT.md`](../docs/ENVIRONMENT.md).
+See the root [`README.md`](../README.md), [`docs/ENVIRONMENT.md`](../docs/ENVIRONMENT.md), and [`docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md`](../docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md).
 
 ## Supporting documents
 
