@@ -247,6 +247,47 @@ Recommended next task:
 
 ## 0.9 Current Project Update
 
+### Project Update: 2026-07-12 (CI Validate Job Wayfinder Generation)
+
+**Phase:** Phase 0: Project Bootstrap and Governance  
+**Task:** Fix GitHub Actions `validate` TypeScript failure caused by missing Wayfinder-generated modules  
+**Previous status:** `Implemented`  
+**New status:** `Implemented`
+
+**Completed:**
+
+- Investigated GitHub Actions job `86655041232` failure logs and confirmed `npm run types:check` fails with `TS2307` missing modules under `@/routes` and `@/actions`.
+- Verified the repository does not commit generated `resources/js/routes/**` and `resources/js/actions/**` artifacts.
+- Updated CI workflow to generate Wayfinder route/action modules before frontend checks.
+
+**Files updated:**
+
+- `.github/workflows/ci.yml`
+
+**Validation performed:**
+
+| Command / Evidence | Result |
+|---|---|
+| GitHub Actions job logs (`run 29194540578`, job `86655041232`) | Confirmed root cause: missing `@/routes` and `@/actions` modules during `vue-tsc --noEmit` |
+| `composer validate` | Passed (existing Filament exact-version warning only) |
+| `npm run lint:check` | Passed |
+| `npm run format:check` | Passed |
+| `npm run types:check` (before Wayfinder generation) | Fails with expected `TS2307` missing-module errors, matching CI failure |
+
+**Decisions:**
+
+- Keep generated Wayfinder artifacts out of version control and generate them in CI with `php artisan wayfinder:generate`.
+
+**Known issues:**
+
+- Full baseline validation could not be executed in this environment because local PHP is `8.3.6` while `composer.lock` now requires `>=8.4.1`.
+
+**Recommended next task:**
+
+- Re-run GitHub Actions `CI / validate` to confirm the new Wayfinder generation step resolves the `types:check` failure.
+
+---
+
 ### Project Update: 2026-07-12 (CI ESLint Import Order)
 
 **Phase:** Phase 0: Project Bootstrap and Governance  
