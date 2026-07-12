@@ -76,6 +76,9 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+      - name: Generate Wayfinder routes and actions
+        run: php artisan wayfinder:generate
+
       - name: Run ESLint
         run: npm run lint:check
 
