@@ -2195,6 +2195,6 @@ Return one complete copy-ready prompt.
 
 # 19. Current Recommended Prompt
 
-Based on the current audited project state, use the **Phase 4 Prompt: UI/UX Wireframing** next.
+Based on the current audited project state, use the **Phase 6 Prompt: Vue Frontend Development** next.
 
-Phase 0 (Project Bootstrap), Phase 1 (Research and Content Audit), Phase 2 (User Research and Requirements), and Phase 3 (Sitemap and Content Planning) are fully **Implemented** and verified. Do not begin high-fidelity visual design or backend database migrations until the low-fidelity wireframes and mobile-first navigation flows are approved.
+Phase 0 (Project Bootstrap), Phase 1 (Research and Content Audit), Phase 2 (User Research and Requirements), Phase 3 (Sitemap and Content Planning), Phase 4 (UI/UX Wireframing), and Phase 5 (Visual Design) are fully **Implemented** and verified. Do not begin backend database migrations or admin panel controllers until the responsive Vue public components and sitemap routing templates are developed.
