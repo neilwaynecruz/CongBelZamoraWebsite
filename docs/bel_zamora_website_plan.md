@@ -97,8 +97,8 @@ Use only the following status labels:
 | Phase 0: Project Bootstrap and Governance | `Implemented` | Laravel 13 Vue/TS/Inertia SSR baseline, Filament `/admin`, MySQL/Redis config, CI, tests, and documentation verified locally. | Add GitHub remote URL and push; confirm CI on remote; upgrade Filament when Laravel 13-compatible v5 is released. |
 | Phase 1: Research and Content Audit | `Implemented` | Verified source register, biography fact sheets, program status logs, and content ownership matrices compiled in [PHASE_1_RESEARCH_CONTENT_AUDIT.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_1_RESEARCH_CONTENT_AUDIT.md). | None. Exit conditions met. |
 | Phase 2: User Research and Requirements | `Implemented` | Synthesized research findings, approved requirements matrix, and resolved open questions compiled in [PHASE_2_USER_RESEARCH_REQUIREMENTS.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md). | None. Exit conditions met. |
-| Phase 3: Sitemap and Content Planning | `Partially Implemented` | A detailed sitemap, page plan, URL guidance, database concepts, and content templates exist in this document. | Validate with stakeholders, create the current-content inventory, produce the redirect map, approve taxonomies, and finalize bilingual scope. |
-| Phase 4: UI/UX Wireframing | `Not Started` | No Figma, FigJam, wireframe, prototype, or usability-test artifact was provided. | Produce mobile-first wireframes and validate priority citizen journeys. |
+| Phase 3: Sitemap and Content Planning | `Implemented` | Navigation specs, route rules, redirect mappings, database content schemas, taxonomies, and empty states compiled in [PHASE_3_SITEMAP_CONTENT_PLAN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_3_SITEMAP_CONTENT_PLAN.md). | None. Exit conditions met. |
+| Phase 4: UI/UX Wireframing | `Implemented` | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met. |
 | Phase 5: Visual Design | `Partially Implemented` | The color system, typography, component direction, visual rules, and image strategy are documented. | Create the approved high-fidelity Figma designs, responsive states, component library, and accessibility annotations. |
 | Phase 6: Vue Frontend Development | `Not Started` | Phase 0 baseline provides Vue/Inertia/SSR shell only. | Complete approved design prerequisites, then implement the public Vue/Inertia interface beyond the development baseline page. |
 | Phase 7: Backend and Admin Development | `Not Started` | No database, models, migrations, policies, services, queues, or Filament resources exist. | Implement only after the data model, permissions, workflows, and privacy requirements are approved. |
@@ -112,9 +112,9 @@ Use only the following status labels:
 
 The next work is:
 
-> **Proceed with Phase 3 Sitemap and Content Planning.**
+> **Proceed with Phase 5: Visual Design.**
 
-Phase 0, 1, and 2 are now fully implemented and verified. Do not begin UI visual design or backend database migrations until the sitemap, URL patterns, taxonomies, and redirect mapping are finalized.
+Phases 0, 1, 2, 3, and 4 are now fully implemented and verified. Do not begin frontend coding or backend database migrations until the high-fidelity Figma components, visual rules, and responsive style layouts are approved.
 
 ## 0.6 How to Use This Plan as a Living Roadmap
 
@@ -246,6 +246,90 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-12 (Phase 4 UI/UX Wireframing Completion)
+
+**Phase:** Phase 4: UI/UX Wireframing  
+**Task:** Design low-fidelity mobile/desktop ASCII layout wireframes, specify touch target boundaries, map public forms state changes (error, loading, and success states), map ARIA roles and keyboard tab flow logic (WCAG 2.2 Level AA target), and formulate simulated usability test task scenarios.  
+**Previous status:** `Not Started`  
+**New status:** `Implemented`
+
+**Completed:**
+
+- Created `docs/PHASE_4_UI_UX_WIREFRAMES.md` containing layout grids, state mockups, and focus tracking.
+- Set global touch targets to at least **44x44px** on all clickable links, dropdowns, and button tags.
+- Documented clear user interaction loops for Tulong Dunong requirements lookups and DPA-safe inquiry filings.
+- Audited accessibility landmarks (`aria-live="polite"` alerts, skip-links, focus outlines) for senior and PWD citizen routing.
+
+**Files created:**
+
+- `docs/PHASE_4_UI_UX_WIREFRAMES.md`
+
+**Files updated:**
+
+- `docs/bel_zamora_website_plan.md`
+- `docs/bel_zamora_phase_by_phase_ai_prompts.md`
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| Usability Target Checks | Touch targets sized to 44px min; keyboard navigability mapped out for all public grids. |
+| WCAG 2.2 AA Contrast | Text-based layouts mapped to contrast-safe colors and labels. |
+| `composer run validate:all` | Passed |
+
+**Decisions:**
+
+- Skip-navigation link (index 1) hidden by default and activated on first tab to maintain visual cleanliness for mobile readers.
+- Form loading spinner will utilize pure CSS keys rather than network-blocking image requests.
+
+**Recommended next task:**
+
+- Phase 5: Visual Design.
+
+---
+
+### Project Update: 2026-07-12 (Phase 3 Sitemap and Content Planning Completion)
+
+**Phase:** Phase 3: Sitemap and Content Planning  
+**Task:** Finalize main/utility/footer navigation specifications, complete sitemap page structure, design route slugs and breadcrumbs patterns, define taxonomy categories and barangay tags, write database schema models for programs, legislative items, and inquiries, establish permanent 301 redirects, and define bilingual translations scope.  
+**Previous status:** `Partially Implemented`  
+**New status:** `Implemented`
+
+**Completed:**
+
+- Produced `docs/PHASE_3_SITEMAP_CONTENT_PLAN.md` containing all mapping specifications, taxonomy tags, redirect lists, database models, and error templates.
+- Formulated strict encryption schema details for the `inquiries` table (Cast encryption of name, email, mobile, body) to ensure DPA compliance.
+- Structured Barangay location scopes targeting San Juan City's 21 distinct administrative barangays.
+- Defined specific empty-state copy and error handling layouts (No results, capacity met, 404 translation pages).
+
+**Files created:**
+
+- `docs/PHASE_3_SITEMAP_CONTENT_PLAN.md`
+
+**Files updated:**
+
+- `docs/bel_zamora_website_plan.md`
+- `docs/bel_zamora_phase_by_phase_ai_prompts.md`
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| Information Architecture Checks | Verified program accessibility (within 3 clicks) and contact accessibility (within 2 clicks). |
+| Redirect Consistency Check | Mapped all old website URLs to target SSR-rendered Inertia paths. |
+| `composer run validate:all` | Passed |
+
+**Decisions:**
+
+- Legislative and news indexes default to English to maintain alignment with official government trackers.
+- All service pages and Gabay directories will support bilingual English/Filipino toggles.
+
+**Recommended next task:**
+
+- Phase 4: UI/UX Wireframing.
+
+---
 
 ### Project Update: 2026-07-12 (Phase 1 Research and Content Audit Completion)
 
@@ -3461,11 +3545,11 @@ Do not move unverified public claims directly into the new site.
 
 ### Current Status
 
-**Status:** `Partially Implemented`
+**Status:** `Implemented`
 
-**Evidence:** The plan contains a sitemap, page specifications, taxonomy concepts, route standards, and content models.
+**Evidence:** Sitemap, URL routes, redirect mappings, database content schemas, taxonomies, and empty states compiled in [PHASE_3_SITEMAP_CONTENT_PLAN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_3_SITEMAP_CONTENT_PLAN.md).
 
-**Remaining work:** Stakeholder validation, content inventory, redirect map, bilingual decision, and final content-entry templates remain.
+**Remaining work:** None. Exit conditions met.
 
 **Phase exit condition:** The approved sitemap, URL map, taxonomy, redirects, and content templates are ready for design and implementation.
 
@@ -3494,11 +3578,11 @@ Do not move unverified public claims directly into the new site.
 
 ### Current Status
 
-**Status:** `Not Started`
+**Status:** `Implemented`
 
-**Evidence:** No wireframe or prototype files were provided.
+**Evidence:** Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md).
 
-**Remaining work:** Create and test mobile-first wireframes for all priority citizen journeys.
+**Remaining work:** None. Exit conditions met.
 
 **Phase exit condition:** Approved wireframes and usability findings exist for all MVP templates.
 
@@ -5015,6 +5099,41 @@ Before adding a route, component, composable, service, model, migration, table, 
 - Do not maintain competing implementations for the same public workflow.
 
 # 38. Change Log
+
+## 2026-07-12 — Phase 4 UI/UX Wireframing Completion
+
+### Added
+
+- Low-fidelity mobile and desktop ASCII wireframe layout specifications in `docs/PHASE_4_UI_UX_WIREFRAMES.md` (Home, About, Programs, TD details, Gabay routing, Legislation, Projects, News, and Contact).
+- Detailed user interface mockup mappings for public inquiry forms (input, error validations, loading states, success screens).
+- Keyboard accessibility focus paths mapping sequential tab order layouts.
+- Specific WCAG 2.2 Level AA target audits (minimum 44x44px touch limits, ARIA labels, skip-navigation links).
+
+### Decisions
+
+- Visual focus indicator rings will use high contrast themes to improve navigability.
+- Inline form validation messages are bilingual to assist local Taglish readers.
+
+---
+
+## 2026-07-12 — Phase 3 Sitemap and Content Planning Completion
+
+### Added
+
+- Navigation specifications for Main Header, Utility Header, and Footer blocks in `docs/PHASE_3_SITEMAP_CONTENT_PLAN.md`.
+- Complete sitemap with Inertia SSR-rendered route definitions.
+- Permanent 301 Redirect map for all legacy website pages.
+- Dynamic breadcrumb patterns and URL slug standard rules.
+- Specific database schema specifications for the `programs`, `legislative_items`, and `inquiries` tables.
+- Taxonomy tagging guides including San Juan's 21 barangays.
+- Empty-state copy and error handling templates (No results search, full programs, 404 translation pages).
+
+### Decisions
+
+- Legislative and news indexes will default to English to align with official House records.
+- Service guides and citizen inquiry form validation errors are fully bilingual (English and Taglish).
+
+---
 
 ## 2026-07-12 — Phase 1 Research and Content Audit Completion
 

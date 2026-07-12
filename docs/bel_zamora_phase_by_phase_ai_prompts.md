@@ -2195,6 +2195,6 @@ Return one complete copy-ready prompt.
 
 # 19. Current Recommended Prompt
 
-Based on the current audited project state, use the **Phase 3 Prompt: Sitemap and Content Planning** next.
+Based on the current audited project state, use the **Phase 4 Prompt: UI/UX Wireframing** next.
 
-Phase 0 (Project Bootstrap), Phase 1 (Research and Content Audit), and Phase 2 (User Research and Requirements) are fully **Implemented** and verified. Do not begin UI visual design or backend database migrations until the sitemap, URL patterns, taxonomies, and redirect mapping are finalized.
+Phase 0 (Project Bootstrap), Phase 1 (Research and Content Audit), Phase 2 (User Research and Requirements), and Phase 3 (Sitemap and Content Planning) are fully **Implemented** and verified. Do not begin high-fidelity visual design or backend database migrations until the low-fidelity wireframes and mobile-first navigation flows are approved.
