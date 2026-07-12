@@ -33,6 +33,7 @@ Every PR must pass CI (`.github/workflows/ci.yml`):
 
 - Keep commits focused on one task or concern
 - Do not commit `.env`, secrets, or production data
+- Do not commit local assistant/tool caches such as `.agents/` or `skills-lock.json`
 - Update `bel_zamora_website_plan.md` in the same session when task status changes
 
 ## Security and privacy

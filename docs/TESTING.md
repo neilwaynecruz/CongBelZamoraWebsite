@@ -40,6 +40,8 @@ vendor/bin/pint --test
 composer run types:check
 ```
 
+Local assistant/tool caches such as `.agents/` are ignored by ESLint and Git so validation only covers project source files.
+
 ## Builds
 
 ```powershell

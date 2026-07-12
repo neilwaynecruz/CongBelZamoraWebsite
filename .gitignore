@@ -27,4 +27,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/.agents
 /_bootstrap
+/skills-lock.json

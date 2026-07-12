@@ -83,6 +83,7 @@ export default defineConfigWithVueTs(
     },
     {
         ignores: [
+            '.agents',
             'vendor',
             'node_modules',
             'public',
@@ -94,6 +95,7 @@ export default defineConfigWithVueTs(
             'resources/js/components/ui/*',
             'resources/js/routes/**',
             'resources/js/wayfinder/**',
+            'skills-lock.json',
         ],
     },
     prettier,
