@@ -29,6 +29,7 @@ export default defineConfigWithVueTs(
             import: importPlugin,
         },
         settings: {
+            'import/internal-regex': '^@/',
             'import/resolver': {
                 typescript: {
                     alwaysTryTypes: true,
@@ -50,7 +51,15 @@ export default defineConfigWithVueTs(
             'import/order': [
                 'error',
                 {
-                    groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+                    groups: [
+                        'builtin',
+                        'external',
+                        'internal',
+                        'parent',
+                        'sibling',
+                        'index',
+                        'type',
+                    ],
                     alphabetize: { order: 'asc', caseInsensitive: true },
                 },
             ],

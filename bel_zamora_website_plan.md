@@ -247,6 +247,53 @@ Recommended next task:
 
 ## 0.9 Current Project Update
 
+### Project Update: 2026-07-12 (CI ESLint Import Order)
+
+**Phase:** Phase 0: Project Bootstrap and Governance  
+**Task:** Stabilize ESLint import ordering for GitHub Actions CI  
+**Previous status:** `Implemented`  
+**New status:** `Implemented`
+
+**Completed:**
+
+- Clarified ESLint import classification so `@/` aliases are consistently treated as internal imports.
+- Added the explicit `type` group to `import/order` to prevent local and CI disagreement about top-level type import placement.
+- Ran ESLint autofix for the affected Vue and TypeScript import blocks.
+
+**Files updated:**
+
+- `eslint.config.js`
+- `resources/js/components/PasskeyVerify.vue`
+- `resources/js/components/PasswordInput.vue`
+- `resources/js/components/TextLink.vue`
+- `resources/js/composables/useAppearance.ts`
+- `resources/js/composables/useCurrentUrl.ts`
+- `resources/js/composables/useTwoFactorAuth.ts`
+- `resources/js/lib/utils.ts`
+- `resources/js/pages/settings/Security.vue`
+
+**Validation performed:**
+
+| Command | Result |
+|---|---|
+| `npm run lint:check` | Passed |
+| `npm run format:check` | Passed |
+| `npm run types:check` | Passed |
+
+**Decisions:**
+
+- Keep CI lint checking strict with `npm run lint:check`; fix the import-order rule configuration instead of changing CI to run autofix.
+
+**Known issues:**
+
+- Full Phase 0 baseline validation was not rerun because this was a scoped ESLint/import-order fix.
+
+**Recommended next task:**
+
+- Push the lint-order fix and confirm the GitHub Actions workflow passes on the remote branch.
+
+---
+
 ### Project Update: 2026-07-12 (Phase 0 Bootstrap)
 
 **Phase:** Phase 0: Project Bootstrap and Governance  
