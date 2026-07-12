@@ -247,6 +247,57 @@ Recommended next task:
 
 ## 0.9 Current Project Update
 
+### Project Update: 2026-07-12 (CI TypeScript Wayfinder Form Binding)
+
+**Phase:** Phase 0: Project Bootstrap and Governance  
+**Task:** Fix GitHub Actions `types:check` failure caused by `.form()` calls on generated Wayfinder helpers  
+**Previous status:** `Implemented`  
+**New status:** `Implemented`
+
+**Completed:**
+
+- Replaced unsupported `helper.form()` Vue template bindings with Inertia's typed `<Form :action="helper()">` Wayfinder binding.
+- Removed the redundant explicit `method="post"` from the recovery-code regeneration form because the generated Wayfinder action already carries the HTTP method.
+- Verified no `.form()` usages remain under `resources/js`.
+
+**Files updated:**
+
+- `resources/js/components/DeleteUser.vue`
+- `resources/js/components/ManageTwoFactor.vue`
+- `resources/js/components/TwoFactorRecoveryCodes.vue`
+- `resources/js/components/TwoFactorSetupModal.vue`
+- `resources/js/pages/auth/ConfirmPassword.vue`
+- `resources/js/pages/auth/ForgotPassword.vue`
+- `resources/js/pages/auth/Login.vue`
+- `resources/js/pages/auth/Register.vue`
+- `resources/js/pages/auth/ResetPassword.vue`
+- `resources/js/pages/auth/TwoFactorChallenge.vue`
+- `resources/js/pages/auth/VerifyEmail.vue`
+- `resources/js/pages/settings/Profile.vue`
+- `resources/js/pages/settings/Security.vue`
+
+**Validation performed:**
+
+| Command | Result |
+|---|---|
+| `npm run types:check` | Passed |
+| `npm run lint:check` | Passed |
+| `npm run format:check` | Passed |
+
+**Decisions:**
+
+- Use Inertia's supported `action` prop with generated Wayfinder URL/method pairs instead of relying on untyped generated `.form` runtime properties.
+
+**Known issues:**
+
+- Full Phase 0 baseline validation was not rerun because this was a scoped frontend TypeScript CI fix.
+
+**Recommended next task:**
+
+- Push the TypeScript fix and confirm GitHub Actions `CI / validate` passes on the remote branch.
+
+---
+
 ### Project Update: 2026-07-12 (CI Validate Job Wayfinder Generation)
 
 **Phase:** Phase 0: Project Bootstrap and Governance  

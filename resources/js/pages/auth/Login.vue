@@ -39,7 +39,7 @@ defineProps<{
     <PasskeyVerify />
 
     <Form
-        v-bind="store.form()"
+        :action="store()"
         :reset-on-success="['password']"
         v-slot="{ errors, processing }"
         class="flex flex-col gap-6"

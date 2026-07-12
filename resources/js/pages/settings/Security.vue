@@ -44,7 +44,7 @@ defineOptions({
         />
 
         <Form
-            v-bind="SecurityController.update.form()"
+            :action="SecurityController.update()"
             :options="{
                 preserveScroll: true,
             }"
