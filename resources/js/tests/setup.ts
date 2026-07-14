@@ -10,7 +10,7 @@ vi.mock('@inertiajs/vue3', () => ({
                 default: undefined,
             },
         },
-        template: '<div />',
+        template: '<div><slot /></div>',
     }),
     Link: defineComponent({
         name: 'InertiaLink',
@@ -21,5 +21,9 @@ vi.mock('@inertiajs/vue3', () => ({
             },
         },
         template: '<a :href="href"><slot /></a>',
+    }),
+    usePage: () => ({
+        url: '/',
+        props: {},
     }),
 }));

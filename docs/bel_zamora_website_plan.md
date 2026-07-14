@@ -99,7 +99,7 @@ Use only the following status labels:
 | Phase 3: Sitemap and Content Planning            | `Implemented`           | Navigation specs, route rules, redirect mappings, database content schemas, taxonomies, and empty states compiled in [PHASE_3_SITEMAP_CONTENT_PLAN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_3_SITEMAP_CONTENT_PLAN.md).    | None. Exit conditions met.                                                                                                    |
 | Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
-| Phase 6: Vue Frontend Development                | `Not Started`           | Phase 0 baseline provides Vue/Inertia/SSR shell only.                                                                                                                                                                                   | Complete approved design prerequisites, then implement the public Vue/Inertia interface beyond the development baseline page. |
+| Phase 6: Vue Frontend Development                | `Partially Implemented` | Public home, Programs, and Legislation tracker vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, official-source links, route helpers, and focused frontend/backend tests. | Complete About, Projects, News, Contact form workflow, responsive browser QA, accessibility checks, structured metadata, and hydration smoke testing for every public page. |
 | Phase 7: Backend and Admin Development           | `Not Started`           | No database, models, migrations, policies, services, queues, or Filament resources exist.                                                                                                                                               | Implement only after the data model, permissions, workflows, and privacy requirements are approved.                           |
 | Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
 | Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
@@ -245,6 +245,312 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-14 (Phase 6 Legislation Tracker Vertical Slice)
+
+**Phase:** Phase 6: Vue Frontend Development
+**Task:** Implement the Legislation tracker vertical slice: legislative index template, role/status/topic filters, official-source link presentation, plain-language summaries, empty/loading/error states, responsive and keyboard-friendly UI, typed Inertia props, tests, and documentation
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Replaced the `/legislation` sitemap shell with a dedicated Vue/Inertia tracker page.
+- Added a mobile-first legislative index with search, role/status/topic filters, live result counts, no-results recovery, empty-directory state, status badges, plain-language summaries, San Juan relevance notes, and official-source CTAs.
+- Added source-stamped legislative route props for the Phase 1 attributed sample measures: `HB00123`, `HB00456`, and `HB00789`.
+- Added typed public-site records for legislative roles, tracker items, source labels, status tones, and verification metadata.
+- Preserved Phase 6 scope by keeping legislative data static and source-stamped in Laravel route props; no database migrations, backend data managers, or Filament resources were added.
+- Regenerated Laravel Wayfinder route helpers after adding the dedicated `public.legislation` route.
+- Added focused backend Inertia assertions and Vue component tests for the Legislation slice.
+- Updated architecture and testing documentation to record the Legislation slice coverage and remaining manual QA needs.
+
+**Partially completed:**
+
+- The Legislation slice has template-level empty and no-results states, but browser automation, responsive screenshots, full keyboard traversal, console inspection, and hydration checks remain pending.
+- Legislative records are route-owned static props for Phase 6 validation and must move to approved content models, policies, source-review workflow, and Filament resources in Phase 7.
+- Official source URLs are safe official-domain links, but final launch should replace generic member/Gazette references with exact bill-level official records when approved.
+
+**Remaining:**
+
+- Implement About, Projects, News, and Contact/inquiry-form templates.
+- Add canonical URLs, Open Graph metadata, structured data, and route-specific SEO beyond current titles/descriptions.
+- Perform browser automation or manual browser QA for mobile/desktop breakpoints, keyboard traversal, route navigation, hydration, and console errors once an appropriate tool is available.
+- Move legislative records, status histories, source URLs, verification dates, plain-language summaries, and approval workflow into Phase 7 backend/admin modules after the frontend template set is complete.
+
+**Files created:**
+
+- `resources/js/pages/Public/Legislation/Index.vue`
+- `resources/js/pages/Public/Legislation/Index.spec.ts`
+
+**Files updated:**
+
+- `routes/web.php`
+- `resources/js/types/public-site.ts`
+- `resources/js/routes/**`
+- `tests/Feature/InertiaTest.php`
+- `docs/ARCHITECTURE.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+
+**Files moved or removed:**
+
+- None.
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l routes/web.php` | Passed; no syntax errors. |
+| `php -l tests/Feature/InertiaTest.php` | Passed; no syntax errors. |
+| `php artisan wayfinder:generate` | Passed; generated actions and routes. |
+| `npm run format` | Passed; formatted resources. |
+| `vendor/bin/pint routes/web.php tests/Feature/InertiaTest.php` | Passed. |
+| `php artisan route:list --except-vendor` | Passed; `public.legislation` is registered at `GET /legislation`. |
+| `php artisan test` | Passed: 45 tests, 244 assertions. |
+| `npm run test` | Initially failed because the new Legislation test selected the shared language-toggle button instead of the no-results reset button; fixed the selector. Rerun passed: 6 files, 10 tests. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `vendor/bin/pint --test` | Passed. |
+| `npm run build` | Passed; Vite emitted an informational plugin timing warning. |
+| `npm run build:ssr` | Initial parallel run failed with process out-of-memory because `npm run build` and `npm run build:ssr` both launched Vite client builds at the same time. Sequential rerun passed; known `@inertiajs/vite` sourcemap warning remains non-fatal. |
+| Browser automation check | Blocked; `agent-browser` was not exposed by tool discovery in this session. |
+| Laravel HTTP smoke check | Blocked; foreground `php artisan serve --host=127.0.0.1 --port=8000` starts successfully, but background server attempts exited before accepting connections in the managed PowerShell session. |
+
+**Decisions:**
+
+- The Legislation tracker uses Vue local state for filter interaction only; source data, allowed query defaults, and future validation remain server-owned.
+- Phase 6 may use static, source-stamped route props for template validation, but not as the final content-management layer.
+- Legislative status labels remain plain-language and source-constrained; no unsupported claims or promotional interpretation were added.
+- The tracker links only to official House/Gazette domains until exact approved bill-level URLs are available.
+
+**Known issues:**
+
+- Browser-level console, hydration, keyboard, and responsive checks are still pending because no browser automation tool was available and the local background smoke server could not stay alive in this managed shell.
+- The `@inertiajs/vite` SSR sourcemap warning still appears during SSR build; it is non-fatal and matches the existing toolchain warning discussed earlier.
+- Static legislative arrays in `routes/web.php` will become difficult to maintain if more records are added before Phase 7.
+
+**Blockers:**
+
+- Browser automation access or a stable local browser QA workflow is needed before claiming full responsive/hydration validation.
+- Exact final bill-level official source URLs require District Office or legislative-staff approval before launch.
+
+**Risks:**
+
+- Publishing without exact bill-level source URLs may reduce public trust even if official-domain links are used.
+- Static route-prop data can drift from official legislative status unless Phase 7 introduces ownership, review cadence, and audit fields.
+- Search/filter behavior is client-side for Phase 6; backend-owned filtering should be reconsidered if the tracker grows substantially.
+
+**Recommended next task:**
+
+- Continue Phase 6 with the About page vertical slice: verified public biography, congressional-role explanation, source-linked profile sections, accessibility-first responsive layout, Inertia props/types, tests, and documentation, while keeping backend persistence and Filament resources deferred to Phase 7.
+
+### Project Update: 2026-07-14 (Phase 6 Programs Vertical Slice)
+
+**Phase:** Phase 6: Vue Frontend Development
+**Task:** Implement the Programs vertical slice: Programs index, Tulong Dunong detail template, Gabay San Juaneño routing interaction, empty/loading/error states, responsive and keyboard-friendly UI, typed Inertia props, tests, and documentation
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Replaced the `/programs`, `/programs/education/tulong-dunong`, and `/programs/gabay` sitemap shells with dedicated Vue/Inertia public pages.
+- Added a mobile-first Programs index with search, sector/status filters, live result counts, program cards, no-results recovery, empty-directory state, status badges, responsible-office labels, verification dates, and official next-step CTAs.
+- Added a Tulong Dunong detail page with status/action sidebar, responsible offices, partner agencies, benefit note, eligibility, requirement groups, process steps, important reminders, privacy/document-safety warnings, and official source link.
+- Added a Gabay San Juaneño routing directory with an accessible select control, dynamic response panel, responsible-office labels, District Office role explanation, preparation checklist, non-submission warnings, and next-step CTAs.
+- Added typed public-site records for program cards, program details, requirement groups, responsible-office types, and Gabay service-routing options.
+- Preserved Phase 6 scope by keeping data static and source-stamped in Laravel route props; no database migrations, backend data managers, or Filament resources were added.
+- Regenerated Laravel Wayfinder route helpers after replacing the route shells.
+- Added focused backend Inertia assertions and Vue component tests for the Programs slice.
+- Tightened shared footer heading IDs in `PublicSiteLayout` so assistive labels use stable valid IDs.
+
+**Partially completed:**
+
+- The Programs slice has template-level loading/empty/error presentation states, but browser automation, responsive screenshots, full keyboard traversal, console inspection, and hydration checks remain manual/pending.
+- Program and Gabay data are route-owned static props for Phase 6 validation and must move to approved content models, policies, and Filament resources in Phase 7.
+
+**Remaining:**
+
+- Implement About, Legislation tracker, Projects, News, and Contact/inquiry-form templates.
+- Add structured data, canonical URLs, and Open Graph metadata beyond the current page titles/descriptions.
+- Perform browser automation or manual browser QA for mobile/desktop breakpoints, keyboard traversal, route navigation, hydration, and console errors once an appropriate tool is available.
+- Move program records, service-routing options, status management, source URLs, verification dates, and approval workflow into Phase 7 backend/admin modules after the frontend template set is complete.
+
+**Files created:**
+
+- `resources/js/pages/Public/Programs/Index.vue`
+- `resources/js/pages/Public/Programs/Index.spec.ts`
+- `resources/js/pages/Public/Programs/TulongDunong.vue`
+- `resources/js/pages/Public/Programs/TulongDunong.spec.ts`
+- `resources/js/pages/Public/Programs/Gabay.vue`
+- `resources/js/pages/Public/Programs/Gabay.spec.ts`
+
+**Files updated:**
+
+- `routes/web.php`
+- `resources/js/components/public/PublicSiteLayout.vue`
+- `resources/js/types/public-site.ts`
+- `resources/js/routes/**`
+- `tests/Feature/InertiaTest.php`
+- `docs/ARCHITECTURE.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+
+**Files moved or removed:**
+
+- None.
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l routes/web.php` | Passed; no syntax errors. |
+| `php artisan wayfinder:generate` | Passed; generated actions and routes. |
+| `npm run format` | Passed; formatted new Vue files and tests. |
+| `vendor/bin/pint routes/web.php tests/Feature/InertiaTest.php` | Passed; formatted touched PHP files. |
+| `php artisan route:list --except-vendor` | Passed; Programs route names resolve to dedicated routes. |
+| `php artisan test` | Passed; 43 tests, 211 assertions. |
+| `npm run test` | Passed; 5 files, 7 tests. |
+| `npm run lint:check` | Failed initially for import order, then passed after import ordering fixes. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Failed initially because Gabay anchor hrefs allowed non-string Inertia values, then passed after narrowing Gabay contact hrefs to strings. |
+| `vendor/bin/pint --test` | Passed. |
+| `npm run build` | Passed; production client build completed with existing plugin timing warning. |
+| `npm run build:ssr` | Passed; SSR build completed with known `@inertiajs/vite` sourcemap warning and plugin timing warnings. |
+| `Invoke-WebRequest http://127.0.0.1:8000/programs` | Passed; returned HTTP 200. |
+| `Invoke-WebRequest http://127.0.0.1:8000/programs/education/tulong-dunong` | Passed; returned HTTP 200. |
+| `Invoke-WebRequest http://127.0.0.1:8000/programs/gabay` | Passed; returned HTTP 200. |
+| `(Invoke-WebRequest ...).Content \| Select-String "Mga Programa"` | Passed; `/programs` returned page-specific SSR HTML. |
+| `(Invoke-WebRequest ...).Content \| Select-String "CHED UniFAST Tulong Dunong Program"` | Passed; Tulong Dunong route returned page-specific SSR HTML. |
+| `(Invoke-WebRequest ...).Content \| Select-String "Gabay San Juane"` | Passed; Gabay route returned page-specific SSR HTML. |
+
+**Decisions:**
+
+- Phase 6 remains `Partially Implemented`; the Programs vertical slice is complete at template/test/documentation level, but the full MVP public frontend is not complete.
+- Static route-prop data is acceptable only for the Phase 6 frontend slice because Phase 7 is responsible for server-owned content models, approval workflows, authorization, and admin management.
+- The current Tulong Dunong template follows the Phase 1 verified active status while retaining prominent reminders that program amounts, slots, requirements, and deadlines must be reconfirmed for each cycle.
+
+**Known issues:**
+
+- Browser automation, responsive screenshot checks, keyboard traversal, console inspection, and hydration smoke tests are still pending because no browser automation tool was exposed in this session.
+- Existing build-tool warnings remain: `@inertiajs/vite` SSR sourcemap warning and plugin timing warnings.
+
+**Blockers:**
+
+- None for the next Phase 6 frontend slice.
+
+**Risks:**
+
+- Route-level static arrays in `routes/web.php` will become difficult to maintain if additional public slices continue to add large data sets before Phase 7.
+- Tulong Dunong public status must be reviewed before launch if a newer official announcement changes slots, eligibility, deadline, or closure status.
+- Without browser QA, CSS/layout or hydration issues may remain undetected even though static tests and builds pass.
+
+**Recommended next task:**
+
+- Continue Phase 6 with the Legislation tracker vertical slice: public legislative index, filters, official-source links, plain-language summaries, route props/types, tests, and documentation, while keeping backend persistence and Filament resources deferred to Phase 7.
+
+### Project Update: 2026-07-14 (Phase 6 Public Home and Site Chrome Slice)
+
+**Phase:** Phase 6: Vue Frontend Development
+**Task:** Implement first public frontend vertical slice using Vue/Inertia SSR templates, approved visual tokens, sitemap navigation, and accessible shared chrome
+**Previous status:** `Not Started`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Replaced the Phase 0 `Welcome` baseline route with a Laravel/Inertia public homepage at `/`.
+- Added a reusable public-site layout with skip link, sticky header, official seal assets, utility search region, language-toggle control, desktop navigation, mobile menu, contact CTA, breadcrumbs, and footer directories.
+- Added a responsive `Public/Home` Vue page using approved Phase 1-5 content: hero, quick actions, featured programs, legislative spotlight, latest updates, office-location note, official visual assets, status badges, and SEO description metadata.
+- Added SSR route shells for approved sitemap destinations so header and footer navigation resolve to Laravel/Inertia routes instead of 404s.
+- Regenerated Laravel Wayfinder route helpers and used generated route helpers in the shared public navigation.
+- Added focused Vitest component tests for the public homepage and route shell.
+- Updated the backend Inertia feature test to assert the new `Public/Home` component and required page props.
+- Removed the unused Phase 0 `Welcome.vue` baseline component and test.
+- Corrected the Phase 2 artifact status line to match the approved implemented state recorded later in the same document and in the canonical plan.
+
+**Partially completed:**
+
+- Top-level sitemap destinations now render accessible SSR route shells, but their full page-specific templates are not complete.
+- The contact route includes the `#inquiry-form` anchor target, but the Laravel-backed DPA-safe inquiry submission workflow remains a later slice.
+
+**Remaining:**
+
+- Implement full About, Programs index, Tulong Dunong detail, Gabay directory interaction, Legislation tracker, Projects, News, and Contact form templates.
+- Add Playwright/browser validation for route navigation, mobile menu behavior, responsive layouts, keyboard flow, and hydration.
+- Add page-specific metadata, canonical URLs, structured data, and richer empty/error states.
+- Connect future dynamic records to approved Laravel data sources in later slices without adding database migrations before the frontend templates are ready.
+
+**Files created:**
+
+- `resources/js/components/public/PublicSiteLayout.vue`
+- `resources/js/pages/Public/Home.vue`
+- `resources/js/pages/Public/Home.spec.ts`
+- `resources/js/pages/Public/PageShell.vue`
+- `resources/js/pages/Public/PageShell.spec.ts`
+- `resources/js/types/public-site.ts`
+- `docs/TESTING.md`
+
+**Files updated:**
+
+- `routes/web.php`
+- `resources/js/app.ts`
+- `resources/js/tests/setup.ts`
+- `resources/js/types/index.ts`
+- `tests/Feature/InertiaTest.php`
+- `resources/js/routes/**`
+- `docs/ARCHITECTURE.md`
+- `docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md`
+- `docs/bel_zamora_website_plan.md`
+
+**Files moved or removed:**
+
+- Removed `resources/js/pages/Welcome.vue`
+- Removed `resources/js/pages/Welcome.spec.ts`
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php artisan wayfinder:generate` | Passed; generated actions and routes. |
+| `php artisan route:list --except-vendor` | Passed; public homepage and sitemap shell routes listed. |
+| `npm run test` | Passed; 2 files, 3 tests. |
+| `php artisan test` | Passed; 40 tests, 153 assertions. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Failed before formatting; passed after `npm run format`. |
+| `npm run types:check` | Passed. |
+| `vendor/bin/pint --test` | Failed initially due to import order in `routes/web.php`; passed after `vendor/bin/pint routes/web.php`. |
+| `npm run build` | Passed; production client build completed with plugin timing warning. |
+| `npm run build:ssr` | Passed; SSR build completed with known `@inertiajs/vite` sourcemap warning and plugin timing warning. |
+| `Start-Process php artisan serve` and `Start-Process php artisan inertia:start-ssr` | Started local Laravel and SSR processes. |
+| `Start-Process npm.cmd run dev -- --host 127.0.0.1 --port 5173` | Started Vite via `npm.cmd` after direct `npm` startup hit Windows `npm.ps1` access denied. |
+| `Invoke-WebRequest http://127.0.0.1:8000/` | Passed; returned HTTP 200. |
+| `Invoke-WebRequest http://127.0.0.1:8000/programs/gabay` | Passed; returned HTTP 200. |
+| `Invoke-WebRequest http://[::1]:5173/@vite/client` | Passed; returned HTTP 200. |
+| `git diff --check` | Passed after Markdown trailing whitespace cleanup. |
+
+**Decisions:**
+
+- Phase 6 remains `Partially Implemented` because only the first vertical slice and sitemap route shells are complete.
+- Public chrome uses generated Laravel route helpers in Vue; route shell props remain Laravel-owned and are intentionally static until backend data modules are approved.
+- The contact page route includes the inquiry anchor, but no frontend-only submission logic was added because validation and persistence must remain server-authoritative.
+
+**Known issues:**
+
+- Browser automation, responsive screenshot checks, keyboard traversal, console inspection, and hydration smoke tests are still pending because the agent-browser tool was not exposed in this session.
+- Full MVP page-specific templates are still incomplete.
+
+**Blockers:**
+
+- None for the next frontend slice.
+
+**Risks:**
+
+- Large route-prop arrays in `routes/web.php` should move to controllers or typed view models as the frontend grows.
+- Static route shells must not be mistaken for completed MVP pages.
+
+**Recommended next task:**
+
+- Continue Phase 6 with the Programs vertical slice: Programs index, Tulong Dunong detail template, and Gabay San Juaneño routing interaction, with responsive and keyboard tests.
 
 ### Project Update: 2026-07-12 (Phase 5 Visual Design Completion)
 
@@ -3678,11 +3984,11 @@ Can a user find:
 
 ### Current Status
 
-**Status:** `Not Started`
+**Status:** `Partially Implemented`
 
-**Evidence:** No Laravel/Vue source files, dependency manifests, build files, or frontend tests exist.
+**Evidence:** `Public/Home` is connected to the Laravel `home` route through Inertia props; `PublicSiteLayout` provides shared header, footer, breadcrumbs, search region, mobile menu, and official visual assets; dedicated `Public/Programs/Index`, `Public/Programs/TulongDunong`, `Public/Programs/Gabay`, and `Public/Legislation/Index` pages replace the Programs and Legislation route shells; remaining sitemap route shells exist for approved destinations that do not yet have page-specific templates; Wayfinder route helpers were regenerated; Vitest and backend Inertia tests cover the home, Programs, and Legislation slices.
 
-**Remaining work:** Complete Phase 0 and approved design prerequisites, then implement the Vue/Inertia public interface and SSR.
+**Remaining work:** Complete About, Projects, News, Contact form workflow, responsive browser checks, keyboard checks, hydration smoke tests, canonical/Open Graph/structured metadata, and accessibility validation for all MVP public pages.
 
 **Phase exit condition:** All MVP public pages are integrated, responsive, accessible, tested, server-rendered, and documented.
 

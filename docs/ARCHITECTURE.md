@@ -38,16 +38,30 @@ Both interfaces share the same Laravel application, database, authorization poli
 | `routes/web.php` | Public web routes |
 | `tests/` | Pest/PHPUnit backend tests |
 
+## Public frontend slice conventions
+
+Phase 6 public pages live under `resources/js/pages/Public/`.
+
+Implemented Phase 6 slices:
+
+- `Public/Home`: SSR-connected homepage served by the Laravel `home` route.
+- `Public/Programs/Index`: searchable and filterable Programs & Services directory served by `public.programs`.
+- `Public/Programs/TulongDunong`: education-assistance detail template served by `public.programs.tulong-dunong`.
+- `Public/Programs/Gabay`: service-routing selector served by `public.programs.gabay`.
+- `Public/Legislation/Index`: searchable and filterable legislative tracker served by `public.legislation`.
+- `Public/PageShell`: temporary sitemap route shell for approved public destinations while page-specific slices are built.
+- `components/public/PublicSiteLayout`: shared public header, utility search region, mobile navigation, breadcrumbs, footer, official seal assets, and contact CTA.
+
+Public navigation should use Laravel Wayfinder-generated route helpers from `resources/js/routes/**` when a named route exists. Page-specific public data should arrive through Inertia props from Laravel routes or controllers. Vue may handle local UI state such as mobile menu or search visibility, but validation, authorization, and persistence remain server-owned.
+
+The current Programs and Legislation slices use static, source-stamped Inertia props in `routes/web.php` so the frontend templates, accessibility behavior, and SSR build path can be validated before Phase 7 content models and Filament resources exist. These route-prop arrays are not the final content-management layer; Phase 7 should move program records, service-routing options, legislative records, status updates, official-source URLs, verification dates, and approval workflow into server-owned models, policies, and admin resources.
+
 ## Design tokens
 
 Brand colors and typography tokens are defined in `resources/css/app.css` using Tailwind CSS 4 `@theme` syntax, aligned with `bel_zamora_website_plan.md` section 13.
 
-## Phase 0 scope boundary
+## Phase 6 scope boundary
 
-Phase 0 delivers only the executable baseline:
+Phase 6 may create public Vue templates, shared public components, typed page props, route shells, metadata, and frontend tests. It must not add database migrations, content managers, or Filament resources until the frontend template and focus-loop slices are functional.
 
-- Laravel + Vue + Inertia + SSR
-- Filament installed at `/admin` without content modules
-- CI, tests, and setup documentation
-
-Program, legislative, inquiry, and content modules begin in later phases after requirements approval.
+Program, legislative, inquiry, and content modules become backend-owned in Phase 7 after the public frontend patterns are validated.
