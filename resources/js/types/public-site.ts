@@ -131,6 +131,26 @@ export type ProjectItem = {
     verifiedAt: string;
 };
 
+export type NewsStatus = 'current' | 'archived' | 'stale_review';
+
+export type NewsRecord = {
+    title: string;
+    slug: string;
+    category: string;
+    status: NewsStatus;
+    statusLabel: string;
+    statusTone: 'current' | 'archived' | 'staleReview';
+    publishedAt: string;
+    updatedAt: string;
+    sourceLabel: string;
+    sourceUrl: string;
+    summary: string;
+    officialUpdate: string;
+    nextStep: string;
+    staleNote: string;
+    owner: string;
+};
+
 export type NewsItem = {
     title: string;
     href: NonNullable<InertiaLinkProps['href']>;

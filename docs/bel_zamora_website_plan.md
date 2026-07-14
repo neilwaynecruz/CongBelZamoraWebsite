@@ -11,8 +11,8 @@
 **Final architecture and implementation audit:** July 12, 2026  
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
-**Latest project-state audit:** July 12, 2026  
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, and setup documentation
+**Latest project-state audit:** July 15, 2026
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, and Phase 6 public Home/About/Programs/Legislation/Projects/News frontend slices
 
 ---
 
@@ -99,7 +99,7 @@ Use only the following status labels:
 | Phase 3: Sitemap and Content Planning            | `Implemented`           | Navigation specs, route rules, redirect mappings, database content schemas, taxonomies, and empty states compiled in [PHASE_3_SITEMAP_CONTENT_PLAN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_3_SITEMAP_CONTENT_PLAN.md).    | None. Exit conditions met.                                                                                                    |
 | Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
-| Phase 6: Vue Frontend Development                | `Partially Implemented` | Public home, About, Programs, Legislation tracker, and Projects vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, official-source links, route helpers, and focused frontend/backend tests. | Complete News, Contact form workflow, responsive browser QA, accessibility checks, structured metadata, and hydration smoke testing for every public page. |
+| Phase 6: Vue Frontend Development                | `Partially Implemented` | Public home, About, Programs, Legislation tracker, Projects, and News vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, official-source links, stale-content states, route helpers, and focused frontend/backend tests. | Complete Contact form workflow, responsive browser QA, accessibility checks, structured metadata, and hydration smoke testing for every public page. |
 | Phase 7: Backend and Admin Development           | `Not Started`           | No database, models, migrations, policies, services, queues, or Filament resources exist.                                                                                                                                               | Implement only after the data model, permissions, workflows, and privacy requirements are approved.                           |
 | Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
 | Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
@@ -245,6 +245,106 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-15 (Phase 6 News Vertical Slice)
+
+**Phase:** Phase 6: Vue Frontend Development
+**Task:** Implement the News vertical slice: news/media index template, category/date filters, official-update and source presentation, empty/loading/error and stale-content states, responsive and keyboard-friendly UI, typed Inertia props, tests, and documentation
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Replaced the `/news` sitemap shell with a dedicated Vue/Inertia News and Media page.
+- Added a source-linked news/media directory with search, category/status/year filters, live result counts, reset controls, no-results recovery, empty-directory state, publication/update dates, content-owner labels, official-update summaries, next-step guidance, and official-source CTAs.
+- Added stale-content handling through a visible `Needs review before reuse` status, a stale-review count, and per-record stale notes for content that must not be reused as a current advisory.
+- Added source-stamped route props for Phase 1 and visual-source-register records: Tulong Dunong orientation guidance, eGovPH Serbisyo Hub launch, 2025 National Women's Month services, Gawad Agraryo 2025, and Balik Sigla, Bigay Saya stale-review content.
+- Added typed public-site records for news status, news record metadata, source labels, official updates, next steps, stale notes, and content owners.
+- Preserved Phase 6 scope by keeping news data static and source-stamped in Laravel route props; no database migrations, backend data managers, or Filament resources were added.
+- Regenerated Laravel Wayfinder route helpers after replacing the shell with the dedicated `public.news` route.
+- Added focused backend Inertia assertions and Vue component tests for the News slice.
+- Updated architecture and testing documentation to record News slice coverage and remaining manual QA needs.
+
+**Partially completed:**
+
+- The News slice has template-level empty, no-results, and stale-content states, but browser automation, responsive screenshots, full keyboard traversal, console inspection, and hydration checks remain pending.
+- News records are route-owned static props for Phase 6 validation and must move to approved content models, media/source records, stale-review workflow, policies, and Filament resources in Phase 7.
+- Article detail pages, press-kit downloads, approved article imagery, Open Graph assets, and structured `NewsArticle` metadata remain future work.
+
+**Remaining:**
+
+- Implement Contact/inquiry-form template and server-authoritative validation workflow.
+- Add canonical URLs, Open Graph metadata, structured data, and route-specific SEO beyond current titles/descriptions.
+- Perform browser automation or manual browser QA for mobile/desktop breakpoints, keyboard traversal, route navigation, hydration, and console errors once an appropriate tool is available.
+- Move news records, category taxonomy, media assets, source URLs, verification dates, stale-review rules, and approval workflow into Phase 7 backend/admin modules after the frontend template set is complete.
+
+**Files created:**
+
+- `resources/js/pages/Public/News/Index.vue`
+- `resources/js/pages/Public/News/Index.spec.ts`
+
+**Files updated:**
+
+- `routes/web.php`
+- `resources/js/types/public-site.ts`
+- `tests/Feature/InertiaTest.php`
+- `docs/ARCHITECTURE.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+
+**Files moved or removed:**
+
+- None.
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l routes/web.php` | Passed; no syntax errors. |
+| `php -l tests/Feature/InertiaTest.php` | Passed; no syntax errors. |
+| `php artisan wayfinder:generate` | Passed; generated actions and routes. |
+| `npm run format` | Passed; formatted resources. |
+| `vendor/bin/pint routes/web.php tests/Feature/InertiaTest.php` | Passed. |
+| `php artisan route:list --except-vendor` | Passed; `public.news` is registered at `GET /news`. |
+| `php artisan test` | Passed: 50 tests, 344 assertions; local Windows environment also emitted a non-fatal `VirtualAlloc()` paging-file warning. |
+| `npm run test -- resources/js/pages/Public/News/Index.spec.ts` | Passed: 1 file, 3 tests. |
+| `npm run test` | Passed: 9 files, 19 tests. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `vendor/bin/pint --test` | Passed. |
+| `npm run build` | Passed when run alone; an earlier parallel build attempt exited nonzero without a useful compiler error while competing with the SSR build. |
+| `npm run build:ssr` | Passed; known `@inertiajs/vite` sourcemap warning and plugin timing warnings remain non-fatal. |
+| `git diff --check` | Passed; no whitespace errors. |
+| Browser automation check | Blocked; tool discovery did not expose an `agent-browser` callable tool in this session. |
+
+**Decisions:**
+
+- News items are presented as source-linked official updates or historical records, not as unsupported current service promises.
+- `Needs review before reuse` is used for stale content that should remain visible as historical evidence but not as a current advisory.
+- The page does not publish article images or downloadable media assets until source, rights, captions, alt text, and privacy checks are complete.
+- Phase 6 may use static, source-stamped route props for template validation, but not as the final content-management layer.
+
+**Known issues:**
+
+- Browser-level console, hydration, keyboard, and responsive checks are still pending because no browser automation tool was available.
+- The `@inertiajs/vite` SSR sourcemap warning still appears during SSR build; it is non-fatal and matches the existing toolchain warning discussed earlier.
+- A local Windows `VirtualAlloc()` paging-file warning appeared during `php artisan test`, but Pest still completed successfully.
+- Static news arrays in `routes/web.php` will become difficult to maintain if more records are added before Phase 7.
+
+**Blockers:**
+
+- Browser automation access or a stable local browser QA workflow is needed before claiming full responsive/hydration validation.
+- Approved article imagery, press-kit assets, captions, media rights, and privacy review are needed before launch.
+
+**Risks:**
+
+- Publishing news without current source-review metadata may mislead citizens about dates, program status, or responsible offices.
+- Static news records can drift from official sources unless Phase 7 introduces ownership, review cadence, stale-content alerts, and audit fields.
+
+**Recommended next task:**
+
+- Continue Phase 6 with the Contact/inquiry-form vertical slice: office/contact layout, DPA-safe inquiry form UI, field states, privacy warnings, success/error/loading states, Laravel-backed validation contract, tests, and documentation, while keeping storage, database migrations, and Filament inquiry management deferred until Phase 7.
 
 ### Project Update: 2026-07-14 (Phase 6 Projects Vertical Slice)
 
@@ -4183,9 +4283,9 @@ Can a user find:
 
 **Status:** `Partially Implemented`
 
-**Evidence:** `Public/Home` is connected to the Laravel `home` route through Inertia props; `PublicSiteLayout` provides shared header, footer, breadcrumbs, search region, mobile menu, and official visual assets; dedicated `Public/About`, `Public/Programs/Index`, `Public/Programs/TulongDunong`, `Public/Programs/Gabay`, `Public/Legislation/Index`, and `Public/Projects/Index` pages replace the About, Programs, Legislation, and Projects route shells; remaining sitemap route shells exist for approved destinations that do not yet have page-specific templates; Wayfinder route helpers were regenerated; Vitest and backend Inertia tests cover the home, About, Programs, Legislation, and Projects slices.
+**Evidence:** `Public/Home` is connected to the Laravel `home` route through Inertia props; `PublicSiteLayout` provides shared header, footer, breadcrumbs, search region, mobile menu, and official visual assets; dedicated `Public/About`, `Public/Programs/Index`, `Public/Programs/TulongDunong`, `Public/Programs/Gabay`, `Public/Legislation/Index`, `Public/Projects/Index`, and `Public/News/Index` pages replace the About, Programs, Legislation, Projects, and News route shells; remaining sitemap route shells exist for approved destinations that do not yet have page-specific templates; Wayfinder route helpers were regenerated; Vitest and backend Inertia tests cover the home, About, Programs, Legislation, Projects, and News slices.
 
-**Remaining work:** Complete News, Contact form workflow, responsive browser checks, keyboard checks, hydration smoke tests, canonical/Open Graph/structured metadata, and accessibility validation for all MVP public pages.
+**Remaining work:** Complete Contact form workflow, responsive browser checks, keyboard checks, hydration smoke tests, canonical/Open Graph/structured metadata, and accessibility validation for all MVP public pages.
 
 **Phase exit condition:** All MVP public pages are integrated, responsive, accessible, tested, server-rendered, and documented.
 

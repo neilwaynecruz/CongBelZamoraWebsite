@@ -692,30 +692,126 @@ Route::get('/projects', function (Request $request) {
     ]);
 })->name('public.projects');
 
-$publicPageShells = [
-    [
-        'path' => '/news',
-        'name' => 'public.news',
-        'props' => [
-            'title' => 'News and Media',
-            'eyebrow' => 'Official updates',
-            'description' => 'Verified announcements, press releases, community advisories, and future media-kit resources.',
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'News'],
-            ],
-            'sections' => [
-                [
-                    'title' => 'Current announcements',
-                    'body' => 'Urgent public updates need review, source dates, and clear contact or next-step information.',
-                ],
-                [
-                    'title' => 'Media resources',
-                    'body' => 'Approved photos, biography notes, and fact sheets require communications approval before public download.',
-                ],
-            ],
+Route::get('/news', function (Request $request) {
+    $newsItems = [
+        [
+            'title' => 'Tulong Dunong orientation schedule for eligible students',
+            'slug' => 'tulong-dunong-orientation',
+            'category' => 'Education',
+            'status' => 'current',
+            'statusLabel' => 'Current advisory',
+            'statusTone' => 'current',
+            'publishedAt' => 'July 12, 2026',
+            'updatedAt' => 'July 12, 2026',
+            'sourceLabel' => 'CHED UniFAST information',
+            'sourceUrl' => 'https://unifast.gov.ph/',
+            'summary' => 'Verified advisory content directs eligible San Juan students to current Tulong Dunong requirements, orientation guidance, and official application channels.',
+            'officialUpdate' => 'Students should confirm the active cycle, accepted documents, and deadline with the District Office and CHED / UniFAST source before preparing documents.',
+            'nextStep' => 'Read the Tulong Dunong details page and use official channels only for follow-up questions.',
+            'staleNote' => 'Review before every application cycle because slots, deadlines, and documentary requirements can change.',
+            'owner' => 'Communications Lead with Education Assistance staff review',
         ],
-    ],
+        [
+            'title' => 'Bagong Pilipinas eGovPH Serbisyo Hub launched in San Juan',
+            'slug' => 'egovph-serbisyo-hub-launch',
+            'category' => 'Digital Government',
+            'status' => 'current',
+            'statusLabel' => 'Current public-service update',
+            'statusTone' => 'current',
+            'publishedAt' => 'July 12, 2026',
+            'updatedAt' => 'July 12, 2026',
+            'sourceLabel' => 'View official San Juan news page',
+            'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
+            'summary' => 'The official San Juan source covers the inauguration and official launch of the eGovPH Serbisyo Hub at the Makabagong San Juan National Government Center.',
+            'officialUpdate' => 'Present this as a government-partnership service update and route residents to the responsible national or city channel for transaction-specific requirements.',
+            'nextStep' => 'Use Gabay San Juaneño to identify the correct office for digital government service questions.',
+            'staleNote' => 'Recheck the service scope and responsible office before publishing new transaction guidance.',
+            'owner' => 'Communications Lead',
+        ],
+        [
+            'title' => '2025 National Women\'s Month services documented',
+            'slug' => 'national-womens-month-services-2025',
+            'category' => 'Women and Family',
+            'status' => 'archived',
+            'statusLabel' => 'Archived official update',
+            'statusTone' => 'archived',
+            'publishedAt' => 'March 2025',
+            'updatedAt' => 'July 12, 2026',
+            'sourceLabel' => 'View official San Juan activity page',
+            'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_Activities/2054/2025-national-womens-month-celebration',
+            'summary' => 'The official activity page documents Women\'s Month services including healthcare, employment, legal consultation, civil-registry, and wellness support.',
+            'officialUpdate' => 'Use as an archived service record with accurate city and partner-office attribution.',
+            'nextStep' => 'For current services, check the latest official San Juan City or District Office advisory.',
+            'staleNote' => 'Do not reuse dates, service lists, or participating offices for a new year without a fresh source.',
+            'owner' => 'Communications Lead with partner-office confirmation',
+        ],
+        [
+            'title' => 'Gawad Agraryo 2025 held at Makabagong San Juan',
+            'slug' => 'gawad-agraryo-2025',
+            'category' => 'Government Partnerships',
+            'status' => 'archived',
+            'statusLabel' => 'Archived official update',
+            'statusTone' => 'archived',
+            'publishedAt' => '2025',
+            'updatedAt' => 'July 12, 2026',
+            'sourceLabel' => 'View official San Juan news page',
+            'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2144/gawad-agraryo-2025',
+            'summary' => 'The official San Juan news page documents Gawad Agraryo 2025 at the Makabagong San Juan National Government Center and identifies officials present.',
+            'officialUpdate' => 'Present the item as an event and government-partnership record without implying sole District Office operation.',
+            'nextStep' => 'Use the official source for event context, captions, and approved publication wording.',
+            'staleNote' => 'Confirm event title, date, agency ownership, and approved image rights before gallery use.',
+            'owner' => 'Communications Lead',
+        ],
+        [
+            'title' => 'Balik Sigla, Bigay Saya community gift-giving record needs review',
+            'slug' => 'balik-sigla-bigay-saya-review',
+            'category' => 'Community Outreach',
+            'status' => 'stale_review',
+            'statusLabel' => 'Needs review before reuse',
+            'statusTone' => 'staleReview',
+            'publishedAt' => 'December 2024',
+            'updatedAt' => 'July 12, 2026',
+            'sourceLabel' => 'View official San Juan activity page',
+            'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2118/balik-sigla-bigay-saya-simultaneous-christmas-gift-giving-program',
+            'summary' => 'The official San Juan page and PIA coverage document a previous holiday gift-giving activity involving San Juan officials.',
+            'officialUpdate' => 'This record should be retained only as historical evidence until current dates, partners, captions, and permissions are reviewed.',
+            'nextStep' => 'Ask the communications team to verify whether a new advisory, image set, or partner attribution exists.',
+            'staleNote' => 'Do not display as a current assistance schedule. Mark as stale until reviewed by the content owner.',
+            'owner' => 'Communications Lead and Chief of Staff approval',
+        ],
+    ];
+
+    $statusFromQuery = match ($request->query('status')) {
+        'current' => 'Current advisory',
+        'archived' => 'Archived official update',
+        'stale-review' => 'Needs review before reuse',
+        default => 'All statuses',
+    };
+
+    return Inertia::render('Public/News/Index', [
+        'breadcrumbs' => [
+            ['title' => 'Home', 'href' => '/'],
+            ['title' => 'News'],
+        ],
+        'newsItems' => $newsItems,
+        'categoryOptions' => collect($newsItems)->pluck('category')->unique()->values()->all(),
+        'statusOptions' => collect($newsItems)->pluck('statusLabel')->unique()->values()->all(),
+        'yearOptions' => collect($newsItems)
+            ->pluck('publishedAt')
+            ->map(fn (string $date) => str($date)->afterLast(' ')->toString())
+            ->unique()
+            ->values()
+            ->all(),
+        'initialFilters' => [
+            'category' => $request->query('category', 'All categories'),
+            'status' => $statusFromQuery,
+            'year' => $request->query('year', 'All years'),
+        ],
+        'verifiedAt' => 'July 12, 2026',
+    ]);
+})->name('public.news');
+
+$publicPageShells = [
     [
         'path' => '/contact',
         'name' => 'public.contact',

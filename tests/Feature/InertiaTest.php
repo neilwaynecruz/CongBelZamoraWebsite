@@ -135,4 +135,31 @@ class InertiaTest extends TestCase
                 ->component('Public/Projects/Index')
                 ->where('initialFilters.status', 'Active / ongoing service'));
     }
+
+    public function test_news_index_renders_news_slice_props(): void
+    {
+        $this->get(route('public.news'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Public/News/Index')
+                ->has('breadcrumbs', 2)
+                ->has('newsItems', 5)
+                ->where('newsItems.0.slug', 'tulong-dunong-orientation')
+                ->where('newsItems.0.statusLabel', 'Current advisory')
+                ->where('newsItems.4.statusLabel', 'Needs review before reuse')
+                ->has('categoryOptions')
+                ->has('statusOptions')
+                ->has('yearOptions')
+                ->where('initialFilters.status', 'All statuses')
+                ->where('verifiedAt', 'July 12, 2026'));
+    }
+
+    public function test_news_index_accepts_approved_status_query_filter(): void
+    {
+        $this->get(route('public.news', ['status' => 'stale-review']))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Public/News/Index')
+                ->where('initialFilters.status', 'Needs review before reuse'));
+    }
 }
