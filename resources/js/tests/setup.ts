@@ -1,5 +1,40 @@
 import { vi } from 'vitest';
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
+
+type MockFormOptions = {
+    preserveScroll?: boolean;
+    onSuccess?: () => void;
+};
+
+type MockForm<T extends Record<string, unknown>> = T & {
+    errors: Record<string, string>;
+    processing: boolean;
+    post: (url: string, options?: MockFormOptions) => void;
+    reset: () => void;
+};
+
+const createMockForm = <T extends Record<string, unknown>>(
+    initialData: T,
+): MockForm<T> => {
+    const form = reactive({
+        ...initialData,
+        errors: {},
+        processing: false,
+        post: (_url: string, options?: MockFormOptions) => {
+            options?.onSuccess?.();
+        },
+        reset: () => {},
+    }) as MockForm<T>;
+
+    form.post = vi.fn((_url: string, options?: MockFormOptions) => {
+        options?.onSuccess?.();
+    });
+    form.reset = vi.fn(() => {
+        Object.assign(form, initialData);
+    });
+
+    return form;
+};
 
 vi.mock('@inertiajs/vue3', () => ({
     Head: defineComponent({
@@ -26,4 +61,5 @@ vi.mock('@inertiajs/vue3', () => ({
         url: '/',
         props: {},
     }),
+    useForm: createMockForm,
 }));

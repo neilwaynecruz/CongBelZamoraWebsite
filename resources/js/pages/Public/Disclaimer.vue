@@ -1,0 +1,146 @@
+<script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
+import { ExternalLink, Info, Scale } from '@lucide/vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
+import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
+import type {
+    PublicBreadcrumb,
+    PublicPolicyContact,
+    PublicPolicySection,
+} from '@/types/public-site';
+
+type Props = {
+    breadcrumbs: PublicBreadcrumb[];
+    reviewDate: string;
+    sections: PublicPolicySection[];
+    contact: PublicPolicyContact;
+};
+
+defineProps<Props>();
+
+const description =
+    'Public information disclaimer for the Bel Zamora District Office website, covering service-routing limits, official sources, external links, and non-emergency use.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Public Information Disclaimer',
+    description,
+    url: 'https://www.belzamora.com/disclaimer',
+    isPartOf: {
+        '@type': 'WebSite',
+        name: 'Atty. Bel Zamora',
+        url: 'https://www.belzamora.com/',
+    },
+};
+</script>
+
+<template>
+    <PublicPageMeta
+        title="Public Information Disclaimer"
+        :description="description"
+        path="/disclaimer"
+        :structured-data="structuredData"
+    />
+
+    <PublicSiteLayout :breadcrumbs="breadcrumbs">
+        <section class="bg-surface-soft" aria-labelledby="disclaimer-title">
+            <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+                <p
+                    class="text-sm font-semibold tracking-wide text-brand-red uppercase"
+                >
+                    Official guidance
+                </p>
+                <h1
+                    id="disclaimer-title"
+                    class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                >
+                    Public Information Disclaimer
+                </h1>
+                <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    This website helps residents find official information and
+                    responsible offices. It does not replace formal government
+                    decisions, emergency channels, or agency-specific
+                    requirements.
+                </p>
+                <p class="mt-4 text-sm font-semibold text-brand-royal">
+                    Latest content review: {{ reviewDate }}
+                </p>
+            </div>
+        </section>
+
+        <section
+            class="mx-auto grid max-w-7xl gap-6 px-4 py-12 lg:grid-cols-[1fr_0.38fr] lg:px-8"
+            aria-label="Disclaimer details"
+        >
+            <div class="grid gap-5">
+                <article
+                    v-for="section in sections"
+                    :key="section.title"
+                    class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                >
+                    <div class="flex gap-3">
+                        <Scale
+                            v-if="section.title.includes('approval')"
+                            class="mt-1 size-5 shrink-0 text-brand-red"
+                            aria-hidden="true"
+                        />
+                        <ExternalLink
+                            v-else-if="section.title.includes('External')"
+                            class="mt-1 size-5 shrink-0 text-brand-red"
+                            aria-hidden="true"
+                        />
+                        <Info
+                            v-else
+                            class="mt-1 size-5 shrink-0 text-brand-red"
+                            aria-hidden="true"
+                        />
+                        <div>
+                            <h2
+                                class="font-serif text-2xl font-semibold text-brand-navy"
+                            >
+                                {{ section.title }}
+                            </h2>
+                            <p class="mt-3 text-base leading-7 text-text-muted">
+                                {{ section.body }}
+                            </p>
+                            <ul
+                                v-if="section.items?.length"
+                                class="mt-4 grid gap-2 text-sm leading-6 text-text-primary"
+                            >
+                                <li
+                                    v-for="item in section.items"
+                                    :key="item"
+                                    class="rounded-md bg-surface-soft px-4 py-3"
+                                >
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <aside
+                class="h-fit rounded-lg border border-brand-gold/60 bg-warm-soft p-6"
+                aria-labelledby="disclaimer-contact-title"
+            >
+                <h2
+                    id="disclaimer-contact-title"
+                    class="font-serif text-2xl font-semibold text-brand-navy"
+                >
+                    Need Clarification?
+                </h2>
+                <p class="mt-3 text-sm leading-6 text-text-muted">
+                    {{ contact.note }}
+                </p>
+                <Link
+                    class="mt-5 inline-flex min-h-11 items-center rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                    :href="contact.href"
+                >
+                    {{ contact.label }}
+                </Link>
+            </aside>
+        </section>
+    </PublicSiteLayout>
+</template>

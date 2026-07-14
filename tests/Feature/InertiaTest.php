@@ -162,4 +162,95 @@ class InertiaTest extends TestCase
                 ->component('Public/News/Index')
                 ->where('initialFilters.status', 'Needs review before reuse'));
     }
+
+    public function test_contact_page_renders_inquiry_form_contract(): void
+    {
+        $this->get(route('public.contact'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Public/Contact')
+                ->has('breadcrumbs', 2)
+                ->where('office.name', 'District Office of Atty. Congresswoman Bel Zamora')
+                ->has('channels', 3)
+                ->has('inquiryCategories', 4)
+                ->where('inquiryCategories.0.value', 'educational_assistance')
+                ->has('privacyHighlights', 3)
+                ->has('responseExpectations', 3)
+                ->where('inquiryAction', route('public.contact.inquiries.store'))
+                ->where('confirmation', null)
+                ->where('verifiedAt', 'July 12, 2026'));
+    }
+
+    public function test_contact_inquiry_validates_without_persistence_and_flashes_confirmation(): void
+    {
+        $this->from(route('public.contact'))
+            ->post(route('public.contact.inquiries.store'), [
+                'citizen_name' => 'Juan Dela Cruz',
+                'contact_preference' => 'email',
+                'citizen_email' => 'juan@example.com',
+                'citizen_mobile' => null,
+                'inquiry_category' => 'educational_assistance',
+                'message_body' => 'I would like to ask about the current Tulong Dunong orientation schedule.',
+                'privacy_consent' => '1',
+            ])
+            ->assertRedirect(route('public.contact'))
+            ->assertSessionHas('inquiryConfirmation.referenceCode')
+            ->assertSessionHas('inquiryConfirmation.categoryLabel', 'Educational assistance')
+            ->assertSessionHas('inquiryConfirmation.contactPreferenceLabel', 'Email');
+    }
+
+    public function test_contact_inquiry_rejects_missing_privacy_acknowledgement_and_contact_channel(): void
+    {
+        $this->from(route('public.contact'))
+            ->post(route('public.contact.inquiries.store'), [
+                'citizen_name' => 'Juan Dela Cruz',
+                'contact_preference' => 'sms',
+                'citizen_email' => null,
+                'citizen_mobile' => null,
+                'inquiry_category' => 'general_inquiry',
+                'message_body' => 'Short routing question for the District Office.',
+                'privacy_consent' => '0',
+            ])
+            ->assertRedirect(route('public.contact'))
+            ->assertSessionHasErrors(['citizen_mobile', 'privacy_consent']);
+    }
+
+    public function test_privacy_page_renders_dedicated_policy_template(): void
+    {
+        $this->get(route('public.privacy'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Public/Privacy')
+                ->has('breadcrumbs', 2)
+                ->where('effectiveDate', 'July 15, 2026')
+                ->has('sections', 4)
+                ->where('sections.0.title', 'Data minimization')
+                ->where('privacyContact.href', '/contact#inquiry-form'));
+    }
+
+    public function test_accessibility_page_renders_dedicated_statement_template(): void
+    {
+        $this->get(route('public.accessibility'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Public/Accessibility')
+                ->has('breadcrumbs', 2)
+                ->where('reviewDate', 'July 15, 2026')
+                ->has('sections', 3)
+                ->where('sections.0.title', 'Target standard')
+                ->where('supportContact.href', '/contact#inquiry-form'));
+    }
+
+    public function test_disclaimer_page_renders_dedicated_disclaimer_template(): void
+    {
+        $this->get(route('public.disclaimer'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Public/Disclaimer')
+                ->has('breadcrumbs', 2)
+                ->where('reviewDate', 'July 15, 2026')
+                ->has('sections', 4)
+                ->where('sections.0.title', 'No approval promise')
+                ->where('contact.href', '/contact#inquiry-form'));
+    }
 }

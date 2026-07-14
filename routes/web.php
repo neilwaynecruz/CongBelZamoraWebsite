@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -811,106 +813,236 @@ Route::get('/news', function (Request $request) {
     ]);
 })->name('public.news');
 
-$publicPageShells = [
-    [
-        'path' => '/contact',
-        'name' => 'public.contact',
-        'props' => [
-            'title' => 'Contact the District Office',
-            'eyebrow' => 'Assistance and inquiries',
-            'description' => 'District Office location, official contact channels, and the future DPA-safe inquiry form layout.',
-            'contentId' => 'inquiry-form',
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Contact'],
-            ],
-            'sections' => [
-                [
-                    'title' => 'Office location',
-                    'body' => 'Makabagong San Juan National Government Center, Pinaglabanan St, San Juan City.',
-                ],
-                [
-                    'title' => 'DPA-safe inquiry form',
-                    'body' => 'The MVP form will collect only basic routing and contact details and must not accept IDs, medical records, or other sensitive documents.',
-                ],
-            ],
+Route::get('/contact', function (Request $request) {
+    $inquiryCategories = [
+        [
+            'value' => 'educational_assistance',
+            'label' => 'Educational assistance',
+            'description' => 'Questions about Tulong Dunong, student orientation, or education-program routing.',
         ],
-    ],
-    [
-        'path' => '/privacy',
-        'name' => 'public.privacy',
-        'props' => [
-            'title' => 'Privacy Notice',
-            'eyebrow' => 'Data Privacy Act',
-            'description' => 'Public notice for data collection purpose, processing, retention, rights, and privacy contact.',
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Privacy Notice'],
-            ],
-            'sections' => [
-                [
-                    'title' => 'Data minimization',
-                    'body' => 'The MVP inquiry form must collect only the minimum information needed to route and answer a basic inquiry.',
-                ],
-                [
-                    'title' => 'Sensitive documents',
-                    'body' => 'Sensitive document uploads are out of MVP scope and require a separate reviewed process.',
-                ],
-            ],
+        [
+            'value' => 'medical_social_services',
+            'label' => 'Medical or social-service routing',
+            'description' => 'General routing questions for medical, welfare, burial, or city/national-agency services.',
         ],
-    ],
-    [
-        'path' => '/accessibility',
-        'name' => 'public.accessibility',
-        'props' => [
-            'title' => 'Accessibility Statement',
-            'eyebrow' => 'WCAG 2.2 AA target',
-            'description' => 'Accessibility commitment for keyboard navigation, semantic landmarks, contrast, touch targets, and support contact.',
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Accessibility'],
-            ],
-            'sections' => [
-                [
-                    'title' => 'Keyboard and screen reader support',
-                    'body' => 'Priority citizen journeys must work with semantic landmarks, explicit labels, and predictable focus order.',
-                ],
-                [
-                    'title' => 'Mobile accessibility',
-                    'body' => 'Touch targets, contrast, text size, and low-bandwidth behavior are part of the acceptance criteria.',
-                ],
-            ],
+        [
+            'value' => 'legislative_feedback',
+            'label' => 'Legislative feedback',
+            'description' => 'Comments or questions about bills, policy work, committee concerns, or public consultations.',
         ],
-    ],
-    [
-        'path' => '/disclaimer',
-        'name' => 'public.disclaimer',
-        'props' => [
-            'title' => 'Public Information Disclaimer',
-            'eyebrow' => 'Official guidance',
-            'description' => 'Clarifies external links, service routing, non-emergency use, and no-guarantee statements for assistance inquiries.',
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Disclaimer'],
-            ],
-            'sections' => [
-                [
-                    'title' => 'No approval promise',
-                    'body' => 'Service guides explain next steps and responsible offices without promising assistance approval.',
-                ],
-                [
-                    'title' => 'External sources',
-                    'body' => 'Official records may link to House, city, barangay, national-agency, or partner organization websites.',
-                ],
-            ],
+        [
+            'value' => 'general_inquiry',
+            'label' => 'General inquiry',
+            'description' => 'Basic District Office questions that do not fit the other categories.',
         ],
-    ],
-];
+    ];
 
-foreach ($publicPageShells as $page) {
-    Route::get($page['path'], fn () => Inertia::render('Public/PageShell', $page['props']))
-        ->name($page['name']);
-}
+    return Inertia::render('Public/Contact', [
+        'breadcrumbs' => [
+            ['title' => 'Home', 'href' => '/'],
+            ['title' => 'Contact'],
+        ],
+        'office' => [
+            'name' => 'District Office of Atty. Congresswoman Bel Zamora',
+            'address' => 'Upper Ground Floor, Makabagong San Juan National Government Center, Pinaglabanan St, San Juan City',
+            'locationNote' => 'The official San Juan City Government directory lists the District Office of the Congresswoman at the Upper Ground Floor with extensions 264 to 265.',
+            'officeHours' => 'Office hours and visitor procedures must be reconfirmed with the District Office before launch.',
+            'verifiedAt' => 'July 12, 2026',
+            'sourceLabel' => 'View official San Juan City Government directory',
+            'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Directory',
+        ],
+        'channels' => [
+            [
+                'label' => 'Official email',
+                'value' => 'info@belzamora.com',
+                'href' => 'mailto:info@belzamora.com',
+                'note' => 'Use for non-urgent public inquiries after the custom-domain email is activated.',
+            ],
+            [
+                'label' => 'Published legacy email',
+                'value' => 'atty.belzamora@gmail.com',
+                'href' => 'mailto:atty.belzamora@gmail.com',
+                'note' => 'Listed in the Phase 1 contact registry; confirm final long-term channel before launch.',
+            ],
+            [
+                'label' => 'Office directory extensions',
+                'value' => 'Extensions 264 to 265',
+                'note' => 'Directory listing only; direct phone number and visitor process require District Office confirmation.',
+            ],
+        ],
+        'inquiryCategories' => $inquiryCategories,
+        'privacyHighlights' => [
+            'The form asks only for name, one contact channel, inquiry category, and a short message.',
+            'Do not include government ID numbers, birth certificates, income records, grades, medical records, prescriptions, diagnosis, or photos of documents.',
+            'Document uploads are not part of the MVP and require a separate privacy, legal, security, retention, and access review.',
+        ],
+        'responseExpectations' => [
+            'This form is for non-emergency routing and basic questions only.',
+            'Submission does not guarantee program eligibility, assistance approval, appointment confirmation, or case acceptance.',
+            'The District Office may route the concern to the proper city, barangay, national-agency, or partner-office channel.',
+        ],
+        'inquiryAction' => route('public.contact.inquiries.store'),
+        'confirmation' => $request->session()->get('inquiryConfirmation'),
+        'verifiedAt' => 'July 12, 2026',
+    ]);
+})->name('public.contact');
+
+Route::post('/contact/inquiries', function (Request $request) {
+    $categoryLabels = [
+        'educational_assistance' => 'Educational assistance',
+        'medical_social_services' => 'Medical or social-service routing',
+        'legislative_feedback' => 'Legislative feedback',
+        'general_inquiry' => 'General inquiry',
+    ];
+
+    $validated = $request->validate(
+        [
+            'citizen_name' => ['required', 'string', 'max:100'],
+            'contact_preference' => ['required', Rule::in(['email', 'sms'])],
+            'citizen_email' => ['nullable', 'required_if:contact_preference,email', 'email:rfc', 'max:255'],
+            'citizen_mobile' => ['nullable', 'required_if:contact_preference,sms', 'regex:/^\+639[0-9]{9}$/'],
+            'inquiry_category' => ['required', Rule::in(array_keys($categoryLabels))],
+            'message_body' => ['required', 'string', 'min:20', 'max:1000'],
+            'privacy_consent' => ['accepted'],
+        ],
+        [
+            'citizen_name.required' => 'Ang pangalan ay kailangan / The name field is required.',
+            'contact_preference.required' => 'Pumili ng contact preference / Please choose a contact preference.',
+            'citizen_email.required_if' => 'Kailangan ang email kung email ang pinili / Email is required when email is selected.',
+            'citizen_email.email' => 'Maglagay ng valid email address / Please enter a valid email address.',
+            'citizen_mobile.required_if' => 'Kailangan ang mobile number kung SMS ang pinili / Mobile number is required when SMS is selected.',
+            'citizen_mobile.regex' => 'Gamitin ang format na +639XXXXXXXXX / Use the format +639XXXXXXXXX.',
+            'inquiry_category.required' => 'Pumili ng kategorya / Please choose a category.',
+            'message_body.required' => 'Maglagay ng maikling mensahe / Please enter a short message.',
+            'message_body.min' => 'Dagdagan pa ang detalye nang kaunti / Please provide at least 20 characters.',
+            'message_body.max' => 'Hanggang 1000 characters lamang / Please keep the message within 1000 characters.',
+            'privacy_consent.accepted' => 'Kailangan ang privacy acknowledgement / Privacy acknowledgement is required.',
+        ],
+    );
+
+    $contactPreferenceLabel = $validated['contact_preference'] === 'email'
+        ? 'Email'
+        : 'SMS / mobile';
+
+    return redirect()
+        ->route('public.contact')
+        ->with('inquiryConfirmation', [
+            'referenceCode' => 'INQ-'.now()->format('Y').'-'.Str::upper(Str::random(4)),
+            'categoryLabel' => $categoryLabels[$validated['inquiry_category']],
+            'contactPreferenceLabel' => $contactPreferenceLabel,
+            'submittedAt' => now()->format('F j, Y g:i A'),
+            'retentionNotice' => 'This Phase 6 validation-only form does not persist the inquiry yet. Phase 7 must store encrypted inquiry data with the approved 180-day retention and anonymization policy.',
+        ]);
+})->middleware('throttle:6,1')->name('public.contact.inquiries.store');
+
+Route::get('/privacy', fn () => Inertia::render('Public/Privacy', [
+    'breadcrumbs' => [
+        ['title' => 'Home', 'href' => '/'],
+        ['title' => 'Privacy Notice'],
+    ],
+    'effectiveDate' => 'July 15, 2026',
+    'sections' => [
+        [
+            'title' => 'Data minimization',
+            'body' => 'The public inquiry form asks only for a name, contact preference, contact detail, inquiry category, message, and privacy acknowledgement so staff can route and respond to the concern.',
+            'items' => [
+                'No government ID numbers are requested.',
+                'No medical, income, school, or civil-registry documents are requested.',
+                'No file uploads are accepted in the Phase 6 public form.',
+            ],
+        ],
+        [
+            'title' => 'Purpose and use',
+            'body' => 'Information submitted through the inquiry form is used only to validate the form contract in Phase 6 and, after Phase 7 is approved, to route citizen concerns to authorized District Office staff.',
+            'items' => [
+                'Program questions may be routed to the responsible program officer.',
+                'City, barangay, or national-agency concerns may be redirected to the correct office.',
+                'Legislative feedback may be reviewed by authorized legislative staff.',
+            ],
+        ],
+        [
+            'title' => 'Retention and future storage',
+            'body' => 'The current Phase 6 form validates submissions but does not persist them. Phase 7 must add encrypted storage, least-privilege staff access, audit logs, and the approved 180-day retention and anonymization policy before production inquiry intake.',
+        ],
+        [
+            'title' => 'Privacy rights',
+            'body' => 'Residents may ask how their inquiry information is handled and may request correction, deletion, or clarification through the privacy contact after production intake is enabled.',
+        ],
+    ],
+    'privacyContact' => [
+        'label' => 'Contact the District Office',
+        'href' => '/contact#inquiry-form',
+        'note' => 'For privacy questions, use the Contact page and choose General inquiry until the final Data Protection Officer mailbox is confirmed.',
+    ],
+]))->name('public.privacy');
+
+Route::get('/accessibility', fn () => Inertia::render('Public/Accessibility', [
+    'breadcrumbs' => [
+        ['title' => 'Home', 'href' => '/'],
+        ['title' => 'Accessibility'],
+    ],
+    'reviewDate' => 'July 15, 2026',
+    'sections' => [
+        [
+            'title' => 'Target standard',
+            'body' => 'The public website targets WCAG 2.2 Level AA for priority citizen journeys, including program discovery, service routing, legislative lookup, and Contact form use.',
+            'items' => [
+                'Semantic headings and landmarks are required.',
+                'Interactive controls must show visible focus states.',
+                'Important status information must not rely on color alone.',
+            ],
+        ],
+        [
+            'title' => 'Known verification gap',
+            'body' => 'Automated unit and build checks pass for Phase 6 slices, but browser-level screen reader, keyboard, hydration, and responsive checks must still be completed before launch approval.',
+        ],
+        [
+            'title' => 'Low-bandwidth and mobile support',
+            'body' => 'Pages avoid autoplay video and heavy feeds. Public-service content is delivered through SSR-friendly Inertia pages with mobile-first layouts.',
+        ],
+    ],
+    'supportContact' => [
+        'label' => 'Report an Access Barrier',
+        'href' => '/contact#inquiry-form',
+        'note' => 'If a page, form, or service guide is difficult to use with assistive technology, report the barrier through the Contact page.',
+    ],
+]))->name('public.accessibility');
+
+Route::get('/disclaimer', fn () => Inertia::render('Public/Disclaimer', [
+    'breadcrumbs' => [
+        ['title' => 'Home', 'href' => '/'],
+        ['title' => 'Disclaimer'],
+    ],
+    'reviewDate' => 'July 15, 2026',
+    'sections' => [
+        [
+            'title' => 'No approval promise',
+            'body' => 'Program pages, service guides, and inquiry responses explain next steps and responsible offices. They do not guarantee approval, slots, assistance, funding, or priority processing.',
+        ],
+        [
+            'title' => 'Responsible-office boundaries',
+            'body' => 'Some concerns belong to San Juan City Government, barangays, national agencies, schools, hospitals, or courts. The District Office may guide or route the concern without replacing the responsible office.',
+            'items' => [
+                'Emergency concerns should use official emergency channels.',
+                'Legal, medical, and financial decisions should come from qualified offices or professionals.',
+                'National-agency requirements may change without notice to the District Office.',
+            ],
+        ],
+        [
+            'title' => 'External source links',
+            'body' => 'The website links to official House, city, national-agency, and partner sources for verification. External websites have their own privacy, accessibility, and content policies.',
+        ],
+        [
+            'title' => 'Current information',
+            'body' => 'Dates, program status, requirements, contacts, and source links must be rechecked before launch and reviewed on the cadence approved in the content governance plan.',
+        ],
+    ],
+    'contact' => [
+        'label' => 'Ask for Routing Help',
+        'href' => '/contact#inquiry-form',
+        'note' => 'Use the Contact page if you need help identifying the correct office for a concern.',
+    ],
+]))->name('public.disclaimer');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');

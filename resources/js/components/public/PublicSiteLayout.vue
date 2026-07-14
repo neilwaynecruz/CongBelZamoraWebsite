@@ -140,7 +140,7 @@ const isCurrent = (href: PublicNavItem['href']) => {
                         id="global-search"
                         class="min-h-11 flex-1 rounded-md border border-border-default bg-brand-white px-4 text-base text-text-primary focus:border-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                         name="search"
-                        placeholder="Search programs, legislation, and updates"
+                        placeholder="Search programs, legislation, and updates…"
                         type="search"
                     />
                     <button

@@ -16,6 +16,18 @@ export type PublicFooterGroup = {
     links: PublicNavItem[];
 };
 
+export type PublicPolicySection = {
+    title: string;
+    body: string;
+    items?: string[];
+};
+
+export type PublicPolicyContact = {
+    label: string;
+    href: string;
+    note: string;
+};
+
 export type ProgramStatus = 'open' | 'ongoing' | 'for_announcement' | 'closed';
 
 export type FeaturedProgram = {
@@ -157,6 +169,45 @@ export type NewsItem = {
     date: string;
     category: string;
     summary: string;
+};
+
+export type ContactPreference = 'email' | 'sms';
+
+export type InquiryCategory =
+    | 'educational_assistance'
+    | 'medical_social_services'
+    | 'legislative_feedback'
+    | 'general_inquiry';
+
+export type ContactOfficeInfo = {
+    name: string;
+    address: string;
+    locationNote: string;
+    officeHours: string;
+    verifiedAt: string;
+    sourceLabel: string;
+    sourceUrl: string;
+};
+
+export type ContactChannel = {
+    label: string;
+    value: string;
+    href?: string;
+    note: string;
+};
+
+export type InquiryCategoryOption = {
+    value: InquiryCategory;
+    label: string;
+    description: string;
+};
+
+export type InquiryConfirmation = {
+    referenceCode: string;
+    categoryLabel: string;
+    contactPreferenceLabel: string;
+    submittedAt: string;
+    retentionNotice: string;
 };
 
 export type ResponsibleOfficeType =

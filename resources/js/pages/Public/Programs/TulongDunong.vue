@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import {
     ArrowRight,
     ExternalLink,
     FileWarning,
     ShieldCheck,
 } from '@lucide/vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import { gabay } from '@/routes/public/programs';
 import type { ProgramDetail, PublicBreadcrumb } from '@/types/public-site';
@@ -23,16 +24,27 @@ const statusClasses: Record<ProgramDetail['status'], string> = {
     ongoing: 'bg-brand-royal text-brand-white',
     open: 'bg-status-open text-brand-white',
 };
+
+const pageDescription = (program: ProgramDetail) =>
+    `${program.title}: status, eligibility, requirements, responsible offices, official source, and last verified date for San Juan students.`;
+
+const structuredData = (program: ProgramDetail) => ({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: program.title,
+    description: pageDescription(program),
+    url: 'https://www.belzamora.com/programs/education/tulong-dunong',
+    about: program.partnerAgencies.join(', '),
+});
 </script>
 
 <template>
-    <Head>
-        <title>{{ program.title }}</title>
-        <meta
-            name="description"
-            :content="`${program.title}: status, eligibility, requirements, responsible offices, official source, and last verified date for San Juan students.`"
-        />
-    </Head>
+    <PublicPageMeta
+        :title="program.title"
+        :description="pageDescription(program)"
+        path="/programs/education/tulong-dunong"
+        :structured-data="structuredData(program)"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="program-detail-title">

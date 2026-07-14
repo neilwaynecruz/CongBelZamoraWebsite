@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ArrowRight, ExternalLink, MapPin } from '@lucide/vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import type {
     FeaturedProgram,
@@ -26,16 +27,30 @@ const statusClasses: Record<FeaturedProgram['status'], string> = {
     for_announcement: 'bg-status-warning text-brand-white',
     closed: 'bg-status-closed text-brand-white',
 };
+
+const description =
+    'Official public-service portal of Atty. Congresswoman Bel Zamora for programs, legislation, projects, news, and District Office assistance.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Atty. Bel Zamora',
+    url: 'https://www.belzamora.com/',
+    description,
+    publisher: {
+        '@type': 'Organization',
+        name: 'District Office of Atty. Congresswoman Bel Zamora',
+    },
+};
 </script>
 
 <template>
-    <Head>
-        <title>Digital District Office for San Juan</title>
-        <meta
-            name="description"
-            content="Official public-service portal of Atty. Congresswoman Bel Zamora for programs, legislation, projects, news, and District Office assistance."
-        />
-    </Head>
+    <PublicPageMeta
+        title="Digital District Office for San Juan"
+        :description="description"
+        path="/"
+        :structured-data="structuredData"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ArrowRight } from '@lucide/vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import type { PublicBreadcrumb } from '@/types/public-site';
 
@@ -14,6 +15,7 @@ type Props = {
     eyebrow: string;
     description: string;
     breadcrumbs: PublicBreadcrumb[];
+    path?: string;
     contentId?: string;
     sections: PageShellSection[];
     primaryAction?: {
@@ -26,10 +28,11 @@ defineProps<Props>();
 </script>
 
 <template>
-    <Head>
-        <title>{{ title }}</title>
-        <meta name="description" :content="description" />
-    </Head>
+    <PublicPageMeta
+        :title="title"
+        :description="description"
+        :path="path ?? '/'"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" :aria-labelledby="`${title}-title`">

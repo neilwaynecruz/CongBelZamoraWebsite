@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 15, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, and Phase 6 public Home/About/Programs/Legislation/Projects/News frontend slices
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, and Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices. Phase 6 is implementation-complete at automated test, SSR build, and HTTP smoke level, but still awaits browser-device hydration, console, keyboard, and responsive verification.
 
 ---
 
@@ -99,7 +99,7 @@ Use only the following status labels:
 | Phase 3: Sitemap and Content Planning            | `Implemented`           | Navigation specs, route rules, redirect mappings, database content schemas, taxonomies, and empty states compiled in [PHASE_3_SITEMAP_CONTENT_PLAN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_3_SITEMAP_CONTENT_PLAN.md).    | None. Exit conditions met.                                                                                                    |
 | Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
-| Phase 6: Vue Frontend Development                | `Partially Implemented` | Public home, About, Programs, Legislation tracker, Projects, and News vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, official-source links, stale-content states, route helpers, and focused frontend/backend tests. | Complete Contact form workflow, responsive browser QA, accessibility checks, structured metadata, and hydration smoke testing for every public page. |
+| Phase 6: Vue Frontend Development                | `Implemented but Not Verified` | Public home, About, Programs, Legislation tracker, Projects, News, Contact, Privacy, Accessibility, and Disclaimer vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, Contact office layout, DPA-safe validation-only inquiry form, dedicated policy templates, route-specific canonical/Open Graph/Twitter/JSON-LD metadata, official-source links, stale-content states, route helpers, SSR runtime health check, local HTTP smoke checks, and focused frontend/backend tests. | Complete browser-device responsive QA, keyboard traversal, screen-reader-oriented semantic review, hydration console checks, and stakeholder acceptance before marking the phase `Implemented`. |
 | Phase 7: Backend and Admin Development           | `Not Started`           | No database, models, migrations, policies, services, queues, or Filament resources exist.                                                                                                                                               | Implement only after the data model, permissions, workflows, and privacy requirements are approved.                           |
 | Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
 | Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
@@ -245,6 +245,229 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-15 (Phase 6 Verification Hardening)
+
+**Phase:** Phase 6: Vue Frontend Development
+**Task:** Complete Phase 6 verification hardening as far as available tooling allows: route-specific metadata, dedicated Privacy/Accessibility/Disclaimer templates, SSR runtime smoke check, public-route HTTP smoke checks, testing stabilization, documentation, and final Phase 6 status decision
+**Previous status:** `Partially Implemented`
+**New status:** `Implemented but Not Verified`
+
+**Completed:**
+
+- Added `PublicPageMeta` as the shared public metadata component for canonical URLs, Open Graph tags, Twitter summary tags, and JSON-LD structured data.
+- Wired route-specific metadata into Home, About, Programs, Tulong Dunong, Gabay, Legislation, Projects, News, Contact, and the fallback PageShell component.
+- Replaced Privacy, Accessibility, and Disclaimer shell routes with dedicated Vue/Inertia templates served by `public.privacy`, `public.accessibility`, and `public.disclaimer`.
+- Added DPA-safe Privacy content, WCAG 2.2 AA Accessibility statement content, and public-service boundary Disclaimer content with support links back to Contact.
+- Preserved Phase 6 scope by not adding database migrations, backend data managers, persistent inquiry storage, or Filament resources.
+- Added typed policy-section and policy-contact props.
+- Added backend route assertions for the three dedicated policy pages.
+- Added component test coverage for shared public metadata output.
+- Stabilized the local Vitest command by running one worker, avoiding the Windows/Laragon paging-file failures observed during parallel esbuild transforms.
+- Completed SSR build, bounded SSR runtime health check, and local HTTP smoke checks for all requested public routes.
+
+**Partially completed:**
+
+- Browser-level responsive screenshots, keyboard traversal, console inspection, hydration verification, and screen-reader-oriented semantic review remain pending because the `agent-browser` executable was not installed in the local environment.
+- Automated checks, SSR runtime health, and local HTTP route smoke checks passed, but these are not a substitute for real browser-device QA.
+- Staff confirmation is still needed for final office hours, direct phone numbers, visitor procedures, privacy mailbox ownership, and launch wording.
+
+**Remaining:**
+
+- Install or expose browser automation, then run browser QA for `/`, `/about`, `/programs`, `/programs/gabay`, `/programs/education/tulong-dunong`, `/legislation`, `/projects`, `/news`, `/contact`, `/privacy`, `/accessibility`, and `/disclaimer`.
+- Verify mobile and desktop responsive layouts with screenshots or manual evidence.
+- Verify keyboard traversal, focus visibility, skip link behavior, mobile menu behavior, search disclosure behavior, and Contact form focus recovery.
+- Inspect browser console and hydration output on direct page loads and navigations.
+- Conduct screen-reader-oriented semantic review and stakeholder acceptance before marking Phase 6 `Implemented`.
+
+**Files created:**
+
+- `resources/js/components/public/PublicPageMeta.vue`
+- `resources/js/components/public/PublicPageMeta.spec.ts`
+- `resources/js/pages/Public/Privacy.vue`
+- `resources/js/pages/Public/Accessibility.vue`
+- `resources/js/pages/Public/Disclaimer.vue`
+
+**Files updated:**
+
+- `package.json`
+- `routes/web.php`
+- `resources/js/components/public/PublicSiteLayout.vue`
+- `resources/js/pages/Public/Home.vue`
+- `resources/js/pages/Public/About.vue`
+- `resources/js/pages/Public/Programs/Index.vue`
+- `resources/js/pages/Public/Programs/TulongDunong.vue`
+- `resources/js/pages/Public/Programs/Gabay.vue`
+- `resources/js/pages/Public/Legislation/Index.vue`
+- `resources/js/pages/Public/Projects/Index.vue`
+- `resources/js/pages/Public/News/Index.vue`
+- `resources/js/pages/Public/Contact.vue`
+- `resources/js/pages/Public/PageShell.vue`
+- `resources/js/types/public-site.ts`
+- `tests/Feature/InertiaTest.php`
+- `docs/ARCHITECTURE.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+
+**Files moved or removed:**
+
+- None.
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l routes/web.php` | Passed; no syntax errors. |
+| `php -l tests/Feature/InertiaTest.php` | Passed; no syntax errors. |
+| `php artisan wayfinder:generate` | Passed; generated actions and routes. |
+| `php artisan route:list --except-vendor` | Passed; 20 routes registered, including dedicated Privacy, Accessibility, Disclaimer, and Contact inquiry routes. |
+| `php artisan test tests/Feature/InertiaTest.php` | Passed: 17 tests, 300 assertions; local Windows environment emitted non-fatal paging-file warnings during that focused run. |
+| `php artisan test` | Passed: 56 tests, 436 assertions. |
+| `npm run test -- resources/js/components/public/PublicPageMeta.spec.ts` | Passed: 1 file, 1 test. |
+| `npm run test` | Passed after stabilizing the script to one worker: 11 files, 23 tests. |
+| `npm run lint:check` | Passed. |
+| `npm run format` | Passed; formatted resources. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `vendor/bin/pint routes/web.php tests/Feature/InertiaTest.php` | Passed. |
+| `vendor/bin/pint --test` | Passed. |
+| `npm run build` | Passed; plugin timing notices remain non-fatal. |
+| `npm run build:ssr` | Passed; known `@inertiajs/vite` sourcemap warning and plugin timing notices remain non-fatal. |
+| Bounded SSR runtime smoke test | Passed; `php artisan inertia:check-ssr` reported the SSR server running while a temporary `php artisan inertia:start-ssr` process was active, then the process was stopped. |
+| Local HTTP route smoke test | Passed; `php artisan serve` returned HTTP 200 for `/`, `/about`, `/programs`, `/programs/gabay`, `/programs/education/tulong-dunong`, `/legislation`, `/projects`, `/news`, `/contact`, `/privacy`, `/accessibility`, and `/disclaimer`. |
+| Web-interface code scan | Passed with one fixed issue; placeholder copy was adjusted and no remaining `outline-none`, `transition-all`, paste-blocking, or clickable `div`/`span` patterns were found in public Phase 6 pages/components. |
+| Browser automation check | Blocked; the `agent-browser` executable was not installed and therefore real browser-device responsive, hydration, console, keyboard, and screenshot QA could not be completed. |
+
+**Decisions:**
+
+- Phase 6 is now `Implemented but Not Verified` because all MVP public frontend routes and automated checks are complete, but required browser-device validation is still missing.
+- The project `npm run test` script now runs Vitest with one worker to avoid local Windows/Laragon paging-file failures from parallel esbuild transforms.
+- Dedicated policy templates are included in Phase 6 because Privacy, Accessibility, and Disclaimer are MVP public pages and footer destinations.
+- Metadata is centralized through `PublicPageMeta` so public pages consistently expose canonical, Open Graph, Twitter summary, and JSON-LD output.
+
+**Known issues:**
+
+- `agent-browser` is not installed, so browser automation could not run.
+- Browser console, hydration, responsive screenshots, real keyboard traversal, and assistive-technology checks are not yet verified.
+- The `@inertiajs/vite` SSR sourcemap warning still appears during SSR build; it is non-fatal and matches the existing toolchain warning discussed earlier.
+- Static public content arrays in `routes/web.php` remain Phase 6-only scaffolding and must move to approved Phase 7 content models/workflows.
+
+**Blockers:**
+
+- Browser automation access or a documented manual browser QA session is required before Phase 6 can be marked `Implemented`.
+- Staff/stakeholder acceptance is required for launch wording, office details, privacy contact, and accessibility statement ownership.
+
+**Risks:**
+
+- Marking Phase 6 fully implemented without browser verification could hide hydration, focus-order, mobile layout, or console regressions that automated component tests do not catch.
+- The validation-only Contact form must not be deployed as production intake until Phase 7 implements encrypted persistence, authorization, retention/anonymization, audit logging, and staff workflow.
+
+**Recommended next task:**
+
+- Complete Phase 6 browser acceptance: install/enable browser automation or run a documented manual QA pass for every public route, capture responsive and keyboard evidence, inspect hydration/console output, then update the plan. If that passes, mark Phase 6 `Implemented` and begin Phase 7 backend/admin development.
+
+### Project Update: 2026-07-15 (Phase 6 Contact / Inquiry Form Vertical Slice)
+
+**Phase:** Phase 6: Vue Frontend Development
+**Task:** Implement the Contact/inquiry-form vertical slice: contact and office information layout, DPA-safe inquiry form UI, field/loading/error/success/privacy-warning states, responsive and keyboard-friendly UI, typed Inertia props, Laravel-backed validation contract without persistence, tests, and documentation
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Replaced the `/contact` sitemap shell with a dedicated Vue/Inertia Contact page.
+- Added source-linked district-office information, contact channels, office-location notes, public-response expectations, and privacy highlights.
+- Added a DPA-safe inquiry form UI with explicit category selection, email/SMS contact preference, contact-channel-specific fields, message character count, privacy acknowledgement, no file-upload request, field errors, loading state, and success confirmation.
+- Added a Laravel-backed `POST /contact/inquiries` validation-only route named `public.contact.inquiries.store` with throttling, server-authoritative validation rules, bilingual validation messages, and a flash confirmation.
+- Preserved Phase 6 scope by not storing inquiry records, creating database migrations, adding backend data managers, or creating Filament inquiry resources.
+- Added typed public-site records for contact office details, contact channels, inquiry categories, contact preferences, and confirmation payloads.
+- Regenerated Laravel Wayfinder route helpers after adding the Contact routes.
+- Added focused backend Inertia/validation assertions and Vue component tests for the Contact slice.
+- Updated architecture and testing documentation to record the Contact validation contract and remaining manual QA needs.
+
+**Partially completed:**
+
+- The Contact slice has template-level field, loading, error, success, privacy-warning, and confirmation states, but browser automation, responsive screenshots, full keyboard traversal, console inspection, and hydration checks remain pending.
+- Inquiry handling is intentionally validation-only for Phase 6; Phase 7 must add encrypted persistence, retention/anonymization policy, authorization, audit logging, staff workflow, and Filament administration before production inquiry intake.
+- Office hours, direct phone numbers, walk-in procedures, and final official contact-channel ownership still need staff confirmation before launch.
+
+**Remaining:**
+
+- Perform browser automation or manual browser QA for Contact and the rest of the Phase 6 public routes across mobile/desktop breakpoints, keyboard traversal, route navigation, hydration, and console errors.
+- Add canonical URLs, Open Graph metadata, structured data, and route-specific SEO beyond current titles/descriptions.
+- Replace legal/accessibility/disclaimer shells with dedicated templates if stakeholder review confirms they are required for Phase 6 launch readiness.
+- Move inquiry records, validation policy, privacy controls, retention/anonymization workflow, staff assignment, abuse handling, audit fields, and Filament resources into Phase 7 backend/admin modules.
+
+**Files created:**
+
+- `resources/js/pages/Public/Contact.vue`
+- `resources/js/pages/Public/Contact.spec.ts`
+
+**Files updated:**
+
+- `routes/web.php`
+- `resources/js/types/public-site.ts`
+- `resources/js/tests/setup.ts`
+- `tests/Feature/InertiaTest.php`
+- `docs/ARCHITECTURE.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+
+**Files moved or removed:**
+
+- None.
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l routes/web.php` | Passed; no syntax errors. |
+| `php -l tests/Feature/InertiaTest.php` | Passed; no syntax errors. |
+| `php artisan wayfinder:generate` | Passed; generated actions and routes. |
+| `npm run format` | Passed; formatted resources. |
+| `vendor/bin/pint routes/web.php tests/Feature/InertiaTest.php` | Passed. |
+| `php artisan route:list --except-vendor` | Passed; `public.contact` is registered at `GET /contact` and `public.contact.inquiries.store` is registered at `POST /contact/inquiries`. |
+| `php artisan test tests/Feature/InertiaTest.php` | Passed: 14 tests, 246 assertions. |
+| `php artisan test` | Passed: 53 tests, 382 assertions. |
+| `npm run test -- resources/js/pages/Public/Contact.spec.ts` | Passed: 1 file, 3 tests. |
+| `npm run test` | Passed: 10 files, 22 tests. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `vendor/bin/pint --test` | Passed. |
+| `npm run build` | Passed. |
+| `npm run build:ssr` | Passed; known `@inertiajs/vite` sourcemap warning and plugin timing warnings remain non-fatal. |
+| `git diff --check` | Passed; no whitespace errors. |
+| Browser automation check | Blocked; tool discovery did not expose an `agent-browser` callable tool in this session. |
+
+**Decisions:**
+
+- Contact submissions are validated server-side and acknowledged without persistence in Phase 6 to keep the slice focused on SSR templates, form states, and the validation contract.
+- The form does not request uploads, IDs, medical documents, grades, income records, or other sensitive evidence until Phase 7 defines secure storage, access controls, retention, and staff workflow.
+- `info@belzamora.com` is presented as the preferred custom-domain public channel, while the previously published Gmail channel remains visible as a legacy/source-listed channel pending final staff confirmation.
+- `throttle:6,1` is used as interim abuse protection for the validation-only inquiry route until Phase 7 introduces production intake controls.
+
+**Known issues:**
+
+- Browser-level console, hydration, keyboard, and responsive checks are still pending because no browser automation tool was available.
+- The `@inertiajs/vite` SSR sourcemap warning still appears during SSR build; it is non-fatal and matches the existing toolchain warning discussed earlier.
+- Static Contact props in `routes/web.php` must move to approved content ownership and review workflow if office/contact details change frequently.
+- Legal, accessibility, and disclaimer pages still use generic shell templates.
+
+**Blockers:**
+
+- Browser automation access or a stable local browser QA workflow is needed before claiming full responsive/hydration validation.
+- Staff confirmation is needed for official office hours, direct phone numbers, visitor procedures, inquiry routing SLAs, and final mailbox ownership.
+- Phase 7 backend/privacy decisions are required before enabling durable inquiry intake.
+
+**Risks:**
+
+- Deploying the validation-only form as if it were a production intake system would lose citizen submissions; Phase 7 persistence and staff workflow must be completed before launch use.
+- Citizens may include sensitive personal information in free-text messages despite warnings; Phase 7 must add staff training, privacy controls, retention rules, audit logs, and secure handling.
+
+**Recommended next task:**
+
+- Continue Phase 6 verification hardening across all public routes: browser/manual QA, responsive screenshots, keyboard traversal, hydration/console checks, route-specific metadata, and dedicated legal/accessibility/disclaimer templates if required. Mark Phase 6 `Implemented` only after those checks are completed and documented.
 
 ### Project Update: 2026-07-15 (Phase 6 News Vertical Slice)
 
@@ -4283,9 +4506,9 @@ Can a user find:
 
 **Status:** `Partially Implemented`
 
-**Evidence:** `Public/Home` is connected to the Laravel `home` route through Inertia props; `PublicSiteLayout` provides shared header, footer, breadcrumbs, search region, mobile menu, and official visual assets; dedicated `Public/About`, `Public/Programs/Index`, `Public/Programs/TulongDunong`, `Public/Programs/Gabay`, `Public/Legislation/Index`, `Public/Projects/Index`, and `Public/News/Index` pages replace the About, Programs, Legislation, Projects, and News route shells; remaining sitemap route shells exist for approved destinations that do not yet have page-specific templates; Wayfinder route helpers were regenerated; Vitest and backend Inertia tests cover the home, About, Programs, Legislation, Projects, and News slices.
+**Evidence:** `Public/Home` is connected to the Laravel `home` route through Inertia props; `PublicSiteLayout` provides shared header, footer, breadcrumbs, search region, mobile menu, and official visual assets; dedicated `Public/About`, `Public/Programs/Index`, `Public/Programs/TulongDunong`, `Public/Programs/Gabay`, `Public/Legislation/Index`, `Public/Projects/Index`, `Public/News/Index`, and `Public/Contact` pages replace the About, Programs, Legislation, Projects, News, and Contact route shells; `POST /contact/inquiries` provides a validation-only Laravel contract with throttling and no persistence; remaining sitemap route shells exist for approved legal/accessibility destinations that do not yet have page-specific templates; Wayfinder route helpers were regenerated; Vitest and backend Inertia tests cover the home, About, Programs, Legislation, Projects, News, and Contact slices.
 
-**Remaining work:** Complete Contact form workflow, responsive browser checks, keyboard checks, hydration smoke tests, canonical/Open Graph/structured metadata, and accessibility validation for all MVP public pages.
+**Remaining work:** Complete responsive browser checks, keyboard checks, hydration smoke tests, canonical/Open Graph/structured metadata, dedicated legal/accessibility page templates if required, and accessibility validation for all MVP public pages.
 
 **Phase exit condition:** All MVP public pages are integrated, responsive, accessible, tested, server-rendered, and documented.
 

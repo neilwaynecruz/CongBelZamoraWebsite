@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
 import {
     ExternalLink,
     FileText,
@@ -8,6 +7,7 @@ import {
     SlidersHorizontal,
 } from '@lucide/vue';
 import { computed, ref } from 'vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import type { LegislativeItem, PublicBreadcrumb } from '@/types/public-site';
 
@@ -77,6 +77,17 @@ const filteredItems = computed(() => {
 
 const hasLegislativeItems = computed(() => props.legislativeItems.length > 0);
 
+const description =
+    'Source-linked tracker for bills, resolutions, legislative roles, House status, and plain-language summaries connected to Atty. Congresswoman Bel Zamora.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Legislative Work',
+    description,
+    url: 'https://www.belzamora.com/legislation',
+};
+
 const resetFilters = () => {
     searchQuery.value = '';
     selectedRole.value = 'All roles';
@@ -86,13 +97,12 @@ const resetFilters = () => {
 </script>
 
 <template>
-    <Head>
-        <title>Legislative Work</title>
-        <meta
-            name="description"
-            content="Source-linked tracker for bills, resolutions, legislative roles, House status, and plain-language summaries connected to Atty. Congresswoman Bel Zamora."
-        />
-    </Head>
+    <PublicPageMeta
+        title="Legislative Work"
+        :description="description"
+        path="/legislation"
+        :structured-data="structuredData"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="legislation-title">
@@ -172,7 +182,7 @@ const resetFilters = () => {
                                 id="legislation-search"
                                 v-model="searchQuery"
                                 class="min-h-11 w-full rounded-md border border-border-default bg-brand-white py-3 pr-4 pl-10 text-base text-text-primary focus:border-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                                placeholder="Enter bill number, keyword, topic, or status"
+                                placeholder="Enter bill number, keyword, topic, or status…"
                                 type="search"
                             />
                         </div>

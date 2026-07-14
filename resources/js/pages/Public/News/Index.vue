@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
 import {
     AlertTriangle,
     CalendarDays,
@@ -10,6 +9,7 @@ import {
     SlidersHorizontal,
 } from '@lucide/vue';
 import { computed, ref } from 'vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import type { NewsRecord, PublicBreadcrumb } from '@/types/public-site';
 
@@ -87,6 +87,17 @@ const staleReviewCount = computed(
         props.newsItems.filter((item) => item.status === 'stale_review').length,
 );
 
+const description =
+    'Official-source news, announcements, media updates, stale-content warnings, and verified public-service advisories from the Bel Zamora District Office.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'News and Media',
+    description,
+    url: 'https://www.belzamora.com/news',
+};
+
 const resetFilters = () => {
     searchQuery.value = '';
     selectedCategory.value = 'All categories';
@@ -96,13 +107,12 @@ const resetFilters = () => {
 </script>
 
 <template>
-    <Head>
-        <title>News and Media</title>
-        <meta
-            name="description"
-            content="Official-source news, announcements, media updates, stale-content warnings, and verified public-service advisories from the Bel Zamora District Office."
-        />
-    </Head>
+    <PublicPageMeta
+        title="News and Media"
+        :description="description"
+        path="/news"
+        :structured-data="structuredData"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="news-title">
@@ -190,7 +200,7 @@ const resetFilters = () => {
                                 id="news-search"
                                 v-model="searchQuery"
                                 class="min-h-11 w-full rounded-md border border-border-default bg-brand-white py-3 pr-4 pl-10 text-base text-text-primary focus:border-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                                placeholder="Search headline, category, source note, or owner"
+                                placeholder="Search headline, category, source note, or owner…"
                                 type="search"
                             />
                         </div>

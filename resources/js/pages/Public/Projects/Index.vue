@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
 import {
     ExternalLink,
     FileText,
@@ -9,6 +8,7 @@ import {
     SlidersHorizontal,
 } from '@lucide/vue';
 import { computed, ref } from 'vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import type { ProjectItem, PublicBreadcrumb } from '@/types/public-site';
 
@@ -81,6 +81,17 @@ const filteredProjects = computed(() => {
 
 const hasProjects = computed(() => props.projects.length > 0);
 
+const description =
+    'Source-linked projects and results directory for San Juan public-service activities, government partnerships, evidence notes, status, and location filters.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Projects and Results',
+    description,
+    url: 'https://www.belzamora.com/projects',
+};
+
 const resetFilters = () => {
     searchQuery.value = '';
     selectedBarangay.value = 'All barangays';
@@ -90,13 +101,12 @@ const resetFilters = () => {
 </script>
 
 <template>
-    <Head>
-        <title>Projects and Results</title>
-        <meta
-            name="description"
-            content="Source-linked projects and results directory for San Juan public-service activities, government partnerships, evidence notes, status, and location filters."
-        />
-    </Head>
+    <PublicPageMeta
+        title="Projects and Results"
+        :description="description"
+        path="/projects"
+        :structured-data="structuredData"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="projects-title">
@@ -176,7 +186,7 @@ const resetFilters = () => {
                                 id="project-search"
                                 v-model="searchQuery"
                                 class="min-h-11 w-full rounded-md border border-border-default bg-brand-white py-3 pr-4 pl-10 text-base text-text-primary focus:border-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                                placeholder="Search project, partner, location, source, or category"
+                                placeholder="Search project, partner, location, source, or category…"
                                 type="search"
                             />
                         </div>

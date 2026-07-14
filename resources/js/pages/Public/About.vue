@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ArrowRight, ExternalLink, Scale, ShieldCheck } from '@lucide/vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import type {
     AboutFact,
@@ -25,16 +26,33 @@ type Props = {
 };
 
 defineProps<Props>();
+
+const description =
+    'Verified public biography, congressional role, committee memberships, values, and responsibility boundaries for Atty. Congresswoman Bel Zamora.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: 'About Atty. Bel Zamora',
+    description,
+    url: 'https://www.belzamora.com/about',
+    mainEntity: {
+        '@type': 'Person',
+        name: 'Ysabel Maria Jorge Zamora',
+        alternateName: 'Atty. Bel Zamora',
+        jobTitle: 'Representative, Lone District of San Juan City',
+    },
+};
 </script>
 
 <template>
-    <Head>
-        <title>About Atty. Bel Zamora</title>
-        <meta
-            name="description"
-            content="Verified public biography, congressional role, committee memberships, values, and responsibility boundaries for Atty. Congresswoman Bel Zamora."
-        />
-    </Head>
+    <PublicPageMeta
+        title="About Atty. Bel Zamora"
+        :description="description"
+        path="/about"
+        og-type="profile"
+        :structured-data="structuredData"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="about-title">

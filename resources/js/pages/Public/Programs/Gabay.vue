@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ArrowRight, Building2, CircleHelp, ShieldAlert } from '@lucide/vue';
 import { computed, ref } from 'vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import { contact, programs } from '@/routes/public';
 import type { GabayServiceOption, PublicBreadcrumb } from '@/types/public-site';
@@ -32,16 +33,26 @@ const officeTypeClasses: Record<
 };
 
 const contactInquiryHref = `${contact.url()}#inquiry-form`;
+
+const description =
+    'Citizen service-routing directory for San Juan residents: find the responsible District Office, city, barangay, or national agency without submitting sensitive documents.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Gabay San Juaneño',
+    description,
+    url: 'https://www.belzamora.com/programs/gabay',
+};
 </script>
 
 <template>
-    <Head>
-        <title>Gabay San Juaneño</title>
-        <meta
-            name="description"
-            content="Citizen service-routing directory for San Juan residents: find the responsible District Office, city, barangay, or national agency without submitting sensitive documents."
-        />
-    </Head>
+    <PublicPageMeta
+        title="Gabay San Juaneño"
+        :description="description"
+        path="/programs/gabay"
+        :structured-data="structuredData"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="gabay-title">

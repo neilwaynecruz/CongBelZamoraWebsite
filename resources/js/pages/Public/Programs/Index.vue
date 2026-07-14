@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ArrowRight, Search, SlidersHorizontal } from '@lucide/vue';
 import { computed, ref } from 'vue';
+import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import { contact } from '@/routes/public';
 import { gabay } from '@/routes/public/programs';
@@ -61,6 +62,17 @@ const filteredPrograms = computed(() => {
 const hasPrograms = computed(() => props.programs.length > 0);
 const contactInquiryHref = `${contact.url()}#inquiry-form`;
 
+const description =
+    'Mobile-first directory of Bel Zamora District Office programs, service guides, statuses, requirements, and responsible offices.';
+
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Programs and Services',
+    description,
+    url: 'https://www.belzamora.com/programs',
+};
+
 const resetFilters = () => {
     searchQuery.value = '';
     selectedSector.value = 'All sectors';
@@ -69,13 +81,12 @@ const resetFilters = () => {
 </script>
 
 <template>
-    <Head>
-        <title>Programs and Services</title>
-        <meta
-            name="description"
-            content="Mobile-first directory of Bel Zamora District Office programs, service guides, statuses, requirements, and responsible offices."
-        />
-    </Head>
+    <PublicPageMeta
+        title="Programs and Services"
+        :description="description"
+        path="/programs"
+        :structured-data="structuredData"
+    />
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="programs-title">
@@ -157,7 +168,7 @@ const resetFilters = () => {
                                 v-model="searchQuery"
                                 class="min-h-11 w-full rounded-md border border-border-default bg-brand-white py-3 pr-4 pl-10 text-base text-text-primary focus:border-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                                 type="search"
-                                placeholder="Enter program name, sector, or office"
+                                placeholder="Enter program name, sector, or office…"
                             />
                         </div>
                     </div>
