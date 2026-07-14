@@ -45,16 +45,18 @@ Phase 6 public pages live under `resources/js/pages/Public/`.
 Implemented Phase 6 slices:
 
 - `Public/Home`: SSR-connected homepage served by the Laravel `home` route.
+- `Public/About`: verified public biography, congressional role, responsibility boundaries, and official source links served by `public.about`.
 - `Public/Programs/Index`: searchable and filterable Programs & Services directory served by `public.programs`.
 - `Public/Programs/TulongDunong`: education-assistance detail template served by `public.programs.tulong-dunong`.
 - `Public/Programs/Gabay`: service-routing selector served by `public.programs.gabay`.
 - `Public/Legislation/Index`: searchable and filterable legislative tracker served by `public.legislation`.
+- `Public/Projects/Index`: searchable and filterable projects/results directory served by `public.projects`.
 - `Public/PageShell`: temporary sitemap route shell for approved public destinations while page-specific slices are built.
 - `components/public/PublicSiteLayout`: shared public header, utility search region, mobile navigation, breadcrumbs, footer, official seal assets, and contact CTA.
 
 Public navigation should use Laravel Wayfinder-generated route helpers from `resources/js/routes/**` when a named route exists. Page-specific public data should arrive through Inertia props from Laravel routes or controllers. Vue may handle local UI state such as mobile menu or search visibility, but validation, authorization, and persistence remain server-owned.
 
-The current Programs and Legislation slices use static, source-stamped Inertia props in `routes/web.php` so the frontend templates, accessibility behavior, and SSR build path can be validated before Phase 7 content models and Filament resources exist. These route-prop arrays are not the final content-management layer; Phase 7 should move program records, service-routing options, legislative records, status updates, official-source URLs, verification dates, and approval workflow into server-owned models, policies, and admin resources.
+The current About, Programs, Legislation, and Projects slices use static, source-stamped Inertia props in `routes/web.php` so the frontend templates, accessibility behavior, and SSR build path can be validated before Phase 7 content models and Filament resources exist. These route-prop arrays are not the final content-management layer; Phase 7 should move biography records, source links, program records, service-routing options, legislative records, project records, status updates, evidence/caption metadata, official-source URLs, verification dates, and approval workflow into server-owned models, policies, and admin resources.
 
 ## Design tokens
 

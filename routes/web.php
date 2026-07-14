@@ -86,6 +86,146 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+Route::get('/about', function () {
+    return Inertia::render('Public/About', [
+        'breadcrumbs' => [
+            ['title' => 'Home', 'href' => '/'],
+            ['title' => 'About'],
+        ],
+        'profile' => [
+            'publicName' => 'Atty. Bel Zamora',
+            'fullName' => 'Ysabel Maria Jorge Zamora',
+            'title' => 'Representative, Lone District of San Juan City',
+            'district' => 'Lone District of San Juan City',
+            'summary' => 'A verified public profile for Atty. Congresswoman Bel Zamora, written in plain public-service language and limited to facts recorded in the Phase 1 source register.',
+            'verifiedAt' => 'July 12, 2026',
+        ],
+        'facts' => [
+            [
+                'label' => 'Public service name',
+                'value' => 'Atty. Bel Zamora',
+                'sourceLabel' => 'Official website and public profile records',
+                'sourceUrl' => 'https://www.belzamora.com/',
+            ],
+            [
+                'label' => 'Full legal name',
+                'value' => 'Ysabel Maria Jorge Zamora',
+                'sourceLabel' => 'House of Representatives member record K099',
+                'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+            ],
+            [
+                'label' => 'Current office',
+                'value' => 'Representative / Congresswoman, Lone District of San Juan City',
+                'sourceLabel' => 'House of Representatives member record K099',
+                'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+            ],
+            [
+                'label' => 'Terms of office',
+                'value' => '19th Congress (2022-2025), 20th Congress (2025-2028)',
+                'sourceLabel' => 'House of Representatives member database',
+                'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+            ],
+            [
+                'label' => 'Bar admission',
+                'value' => 'Roll No. 59288; admitted May 3, 2011',
+                'sourceLabel' => 'Supreme Court law list / IBP record cited in Phase 1',
+            ],
+            [
+                'label' => 'Education',
+                'value' => 'Juris Doctor, Ateneo Law School; AB Psychology, Ateneo de Manila University',
+                'sourceLabel' => 'Supreme Court roll records / official biography portal cited in Phase 1',
+            ],
+        ],
+        'timeline' => [
+            [
+                'period' => '2025-present',
+                'title' => '20th Congress Representative',
+                'description' => 'Serving as Representative of the Lone District of San Juan City, with verified committee memberships recorded in the House profile.',
+                'sourceLabel' => 'House of Representatives member and committee records',
+            ],
+            [
+                'period' => '2022-2025',
+                'title' => '19th Congress Representative',
+                'description' => 'Served as Representative of the Lone District of San Juan City during the 19th Congress.',
+                'sourceLabel' => 'House of Representatives member database',
+            ],
+            [
+                'period' => 'May 3, 2011',
+                'title' => 'Philippine Bar admission',
+                'description' => 'Admitted to the Philippine Bar under Roll No. 59288, as cited in the Phase 1 biography verification worksheet.',
+                'sourceLabel' => 'Supreme Court law list / IBP record cited in Phase 1',
+            ],
+        ],
+        'committeeMemberships' => [
+            'Committee on Accounts - Member for the Majority',
+            'Committee on Appropriations - Member for the Majority',
+            'Committee on Health - Member for the Majority',
+            'Committee on Rules - Member for the Majority',
+            'Committee on Women and Gender Equality - Member for the Majority',
+        ],
+        'valuePillars' => [
+            [
+                'title' => 'Edukasyon at Kabataan',
+                'summary' => 'Education assistance and youth pathways are presented with current status, source links, and no approval promises.',
+            ],
+            [
+                'title' => 'Kababaihan at Pamilya',
+                'summary' => 'Women, family, and solo-parent concerns are explained with dignity, privacy safeguards, and responsible-office boundaries.',
+            ],
+            [
+                'title' => 'Kalusugan at Kapakanan',
+                'summary' => 'Health and public-welfare concerns are routed carefully to the District Office, city government, or national agencies as appropriate.',
+            ],
+        ],
+        'responsibilityBoundaries' => [
+            [
+                'title' => 'Congressional and legislative work',
+                'office' => 'District Office / Legislative staff',
+                'summary' => 'Bills, resolutions, committee work, and policy feedback belong to the congressional role and should be checked against official House records.',
+                'nextStepLabel' => 'View legislative tracker',
+                'nextStepHref' => '/legislation',
+            ],
+            [
+                'title' => 'Programs with national or city partners',
+                'office' => 'District Office with partner agency',
+                'summary' => 'The District Office may provide orientation and routing, but eligibility, slots, and final approval follow the current official program rules.',
+                'nextStepLabel' => 'Check program status',
+                'nextStepHref' => '/programs',
+            ],
+            [
+                'title' => 'City, barangay, and national-agency services',
+                'office' => 'Proper city, barangay, or national office',
+                'summary' => 'Local permits, barangay certificates, city services, and agency-managed benefits should start with the correct responsible office.',
+                'nextStepLabel' => 'Use Gabay San Juaneño',
+                'nextStepHref' => '/programs/gabay',
+            ],
+        ],
+        'sourceLinks' => [
+            [
+                'label' => 'House member record',
+                'href' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                'note' => 'Primary source for official office, district, and member profile details.',
+            ],
+            [
+                'label' => 'House committee memberships',
+                'href' => 'https://www.congress.gov.ph/house-members/view/memberships/?member=K099&page=',
+                'note' => 'Primary source for committee roles and membership updates.',
+            ],
+            [
+                'label' => 'Official website archive',
+                'href' => 'https://www.belzamora.com/',
+                'note' => 'Reference for existing public identity and contact registry, subject to Phase 1 cleanup rules.',
+            ],
+            [
+                'label' => 'San Juan City Government directory',
+                'href' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Directory',
+                'note' => 'Official source for District Office location verification.',
+            ],
+        ],
+        'verifiedAt' => 'July 12, 2026',
+    ]);
+})->name('public.about');
+
 Route::get('/programs', function () {
     $programs = [
         [
@@ -428,53 +568,131 @@ Route::get('/legislation', function (Request $request) {
     ]);
 })->name('public.legislation');
 
+Route::get('/projects', function (Request $request) {
+    $projects = [
+        [
+            'title' => 'Educational Assistance for Children of Solo Parents',
+            'slug' => 'solo-parent-educational-assistance',
+            'category' => 'Public Assistance and Education',
+            'status' => 'completed',
+            'statusLabel' => 'Completed / documented',
+            'statusTone' => 'completed',
+            'barangay' => 'Citywide',
+            'location' => 'San Juan City, official activity record',
+            'responsibleOffice' => 'San Juan City Government with documented District Office participation',
+            'partner' => 'San Juan City Government',
+            'summary' => 'The official source describes a distribution of educational assistance for children of registered solo parents in San Juan.',
+            'evidenceSummary' => 'Use the official San Juan activity page as the canonical source and request the approved original image before publication.',
+            'impactNote' => 'Supports families and students while keeping the page clear that the activity is a city-government record with documented officials present.',
+            'imageGuidance' => 'Approved original activity image required; do not hotlink the temporary CMS image URL.',
+            'sourceLabel' => 'View official San Juan activity page',
+            'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_Activities/1028/pamamahagi-ng-p300000-educational-assistance-para-sa-mga-anak-ng-solo-parents-ng-san-juan',
+            'verifiedAt' => 'July 12, 2026',
+        ],
+        [
+            'title' => 'Bagong Pilipinas eGovPH Serbisyo Hub',
+            'slug' => 'egovph-serbisyo-hub',
+            'category' => 'Digital Government',
+            'status' => 'ongoing',
+            'statusLabel' => 'Active / ongoing service',
+            'statusTone' => 'ongoing',
+            'barangay' => 'Citywide',
+            'location' => 'Makabagong San Juan National Government Center',
+            'responsibleOffice' => 'DICT, national government, San Juan City Government, and partner offices',
+            'partner' => 'DICT / eGovPH and city partners',
+            'summary' => 'The official source covers the inauguration and launch of the eGovPH Serbisyo Hub at the Makabagong San Juan National Government Center.',
+            'evidenceSummary' => 'The page should present this as a government partnership and point residents to the correct service channel.',
+            'impactNote' => 'Helps residents understand where national digital government services are available in San Juan.',
+            'imageGuidance' => 'Use only an approved local copy with source, rights, caption, and alt text review.',
+            'sourceLabel' => 'View official San Juan news page',
+            'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
+            'verifiedAt' => 'July 12, 2026',
+        ],
+        [
+            'title' => '2025 National Women\'s Month Services',
+            'slug' => 'national-womens-month-services-2025',
+            'category' => 'Women and Family Services',
+            'status' => 'completed',
+            'statusLabel' => 'Completed / archived',
+            'statusTone' => 'completed',
+            'barangay' => 'Citywide',
+            'location' => 'San Juan City, official activity record',
+            'responsibleOffice' => 'City Government and partner departments with District Office coordination where documented',
+            'partner' => 'City Health Department and partner offices',
+            'summary' => 'The official source describes a Women\'s Month activity with healthcare, employment, legal consultation, civil-registry, and wellness services.',
+            'evidenceSummary' => 'The page must identify the city and partner offices as organizers when supported by the source.',
+            'impactNote' => 'Highlights access to women, family, health, legal, and civil-registry services without overstating District Office ownership.',
+            'imageGuidance' => 'Use the image as advocacy evidence only after source, consent, caption, and privacy review.',
+            'sourceLabel' => 'View official San Juan activity page',
+            'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_Activities/2054/2025-national-womens-month-celebration',
+            'verifiedAt' => 'July 12, 2026',
+        ],
+        [
+            'title' => 'Gawad Agraryo 2025 at Makabagong San Juan',
+            'slug' => 'gawad-agraryo-2025',
+            'category' => 'Government Partnerships',
+            'status' => 'completed',
+            'statusLabel' => 'Completed / documented',
+            'statusTone' => 'completed',
+            'barangay' => 'Citywide',
+            'location' => 'Makabagong San Juan National Government Center',
+            'responsibleOffice' => 'National government and city partners',
+            'partner' => 'National government and San Juan City partners',
+            'summary' => 'The official source documents Gawad Agraryo 2025 at the Makabagong San Juan National Government Center and identifies Congresswoman Bel Zamora among officials present.',
+            'evidenceSummary' => 'Use this only for the related event, gallery, or government-partnership context with a factual caption.',
+            'impactNote' => 'Shows San Juan as a venue for national-government partnership activity without implying sole District Office operation.',
+            'imageGuidance' => 'Avoid cropping the stage title when it is necessary to identify the event.',
+            'sourceLabel' => 'View official San Juan news page',
+            'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2144/gawad-agraryo-2025',
+            'verifiedAt' => 'July 12, 2026',
+        ],
+        [
+            'title' => 'Balik Sigla, Bigay Saya Community Gift-Giving',
+            'slug' => 'balik-sigla-bigay-saya',
+            'category' => 'Community Outreach',
+            'status' => 'completed',
+            'statusLabel' => 'Completed / documented',
+            'statusTone' => 'completed',
+            'barangay' => 'Citywide',
+            'location' => 'San Juan City, official activity record',
+            'responsibleOffice' => 'San Juan City Government and documented partner officials',
+            'partner' => 'San Juan City Government',
+            'summary' => 'The official San Juan page and PIA coverage document the Balik Sigla, Bigay Saya community gift-giving activity.',
+            'evidenceSummary' => 'Present as a source-linked community-outreach record and avoid using private news images without permission.',
+            'impactNote' => 'Provides residents with a public record of community support activity while preserving source attribution.',
+            'imageGuidance' => 'Request approved original image files from the District Office or City Public Information Department.',
+            'sourceLabel' => 'View official San Juan activity page',
+            'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2118/balik-sigla-bigay-saya-simultaneous-christmas-gift-giving-program',
+            'verifiedAt' => 'July 12, 2026',
+        ],
+    ];
+
+    $statusFromQuery = match ($request->query('status')) {
+        'completed' => 'Completed / documented',
+        'ongoing' => 'Active / ongoing service',
+        'source-pending' => 'Source pending',
+        default => 'All statuses',
+    };
+
+    return Inertia::render('Public/Projects/Index', [
+        'breadcrumbs' => [
+            ['title' => 'Home', 'href' => '/'],
+            ['title' => 'Projects'],
+        ],
+        'projects' => $projects,
+        'barangayOptions' => collect($projects)->pluck('barangay')->unique()->values()->all(),
+        'statusOptions' => collect($projects)->pluck('statusLabel')->unique()->values()->all(),
+        'categoryOptions' => collect($projects)->pluck('category')->unique()->values()->all(),
+        'initialFilters' => [
+            'barangay' => $request->query('barangay', 'All barangays'),
+            'status' => $statusFromQuery,
+            'category' => $request->query('category', 'All categories'),
+        ],
+        'verifiedAt' => 'July 12, 2026',
+    ]);
+})->name('public.projects');
+
 $publicPageShells = [
-    [
-        'path' => '/about',
-        'name' => 'public.about',
-        'props' => [
-            'title' => 'About Atty. Bel Zamora',
-            'eyebrow' => 'Public profile',
-            'description' => 'Verified biography, congressional role, legal background, and public-service values for the Lone District of San Juan City.',
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'About'],
-            ],
-            'sections' => [
-                [
-                    'title' => 'Verified official facts',
-                    'body' => 'Biography content follows the Phase 1 source register, including official House records, bar admission details, and approved office identity.',
-                ],
-                [
-                    'title' => 'Congressional scope',
-                    'body' => 'The page will distinguish congressional responsibilities from city-government, barangay, and national-agency services.',
-                ],
-            ],
-        ],
-    ],
-    [
-        'path' => '/projects',
-        'name' => 'public.projects',
-        'props' => [
-            'title' => 'Projects and Results',
-            'eyebrow' => 'Transparency',
-            'description' => 'A source-verified project directory for San Juan results, locations, partners, status, captions, and public evidence.',
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Projects'],
-            ],
-            'sections' => [
-                [
-                    'title' => 'Location-aware updates',
-                    'body' => 'Project templates support barangay filtering and distinguish completed, ongoing, and source-pending records.',
-                ],
-                [
-                    'title' => 'Evidence and captions',
-                    'body' => 'Images require source, rights, alt text, factual captions, and privacy review before publication.',
-                ],
-            ],
-        ],
-    ],
     [
         'path' => '/news',
         'name' => 'public.news',

@@ -67,6 +67,70 @@ export type LegislativeItem = {
     officialSourceUrl: string;
 };
 
+export type AboutProfile = {
+    publicName: string;
+    fullName: string;
+    title: string;
+    district: string;
+    summary: string;
+    verifiedAt: string;
+};
+
+export type AboutFact = {
+    label: string;
+    value: string;
+    sourceLabel: string;
+    sourceUrl?: string;
+};
+
+export type AboutTimelineItem = {
+    period: string;
+    title: string;
+    description: string;
+    sourceLabel: string;
+};
+
+export type AboutValuePillar = {
+    title: string;
+    summary: string;
+};
+
+export type AboutResponsibilityBoundary = {
+    title: string;
+    office: string;
+    summary: string;
+    nextStepLabel: string;
+    nextStepHref: string;
+};
+
+export type AboutSourceLink = {
+    label: string;
+    href: string;
+    note: string;
+};
+
+export type ProjectStatus = 'completed' | 'ongoing' | 'source_pending';
+
+export type ProjectItem = {
+    title: string;
+    slug: string;
+    category: string;
+    status: ProjectStatus;
+    statusLabel: string;
+    statusTone: 'completed' | 'ongoing' | 'sourcePending';
+    barangay: string;
+    location: string;
+    responsibleOffice: string;
+    partner: string;
+    summary: string;
+    evidenceSummary: string;
+    impactNote: string;
+    imageGuidance: string;
+    sourceLabel: string;
+    sourceUrl: string;
+    verifiedAt: string;
+};
+
 export type NewsItem = {
     title: string;
     href: NonNullable<InertiaLinkProps['href']>;
