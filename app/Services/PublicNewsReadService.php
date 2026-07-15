@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\NewsRecord;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+
+class PublicNewsReadService
+{
+    /**
+     * @return array{
+     *     breadcrumbs: array<int, array<string, string>>,
+     *     newsItems: array<int, array<string, mixed>>,
+     *     categoryOptions: array<int, string>,
+     *     statusOptions: array<int, string>,
+     *     yearOptions: array<int, string>,
+     *     initialFilters: array{category: string, status: string, year: string},
+     *     verifiedAt: string
+     * }
+     */
+    public function indexProps(Request $request): array
+    {
+        $items = NewsRecord::query()
+            ->published()
+            ->with(['category', 'status', 'mediaAssets'])
+            ->ordered()
+            ->get()
+            ->map(fn (NewsRecord $record): array => $this->newsItem($record));
+
+        return [
+            'breadcrumbs' => [
+                ['title' => 'Home', 'href' => '/'],
+                ['title' => 'News'],
+            ],
+            'newsItems' => $items->values()->all(),
+            'categoryOptions' => $items->pluck('category')->unique()->values()->all(),
+            'statusOptions' => $items->pluck('statusLabel')->unique()->values()->all(),
+            'yearOptions' => $items
+                ->pluck('publishedAt')
+                ->map(fn (string $date): string => str($date)->afterLast(' ')->toString())
+                ->unique()
+                ->values()
+                ->all(),
+            'initialFilters' => [
+                'category' => $request->query('category', 'All categories'),
+                'status' => $this->statusFromQuery($request),
+                'year' => $request->query('year', 'All years'),
+            ],
+            'verifiedAt' => $this->latestVerifiedAt($items),
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function newsItem(NewsRecord $record): array
+    {
+        return [
+            'title' => $record->title,
+            'slug' => $record->slug,
+            'category' => $record->category->name,
+            'status' => $record->status->value->value,
+            'statusLabel' => $record->status->label,
+            'statusTone' => $record->status->tone->value,
+            'publishedAt' => $record->published_at_label,
+            'updatedAt' => $record->public_updated_at_label,
+            'sourceLabel' => $record->source_label,
+            'sourceUrl' => $record->source_url,
+            'summary' => $record->summary,
+            'officialUpdate' => $record->official_update,
+            'nextStep' => $record->next_step,
+            'staleNote' => $record->stale_note,
+            'owner' => $record->owner_label,
+        ];
+    }
+
+    private function statusFromQuery(Request $request): string
+    {
+        return match ($request->query('status')) {
+            'current' => 'Current advisory',
+            'archived' => 'Archived official update',
+            'stale-review' => 'Needs review before reuse',
+            default => 'All statuses',
+        };
+    }
+
+    /**
+     * @param  Collection<int, array<string, mixed>>  $items
+     */
+    private function latestVerifiedAt(Collection $items): string
+    {
+        $latest = $items
+            ->pluck('updatedAt')
+            ->filter()
+            ->sort()
+            ->last();
+
+        return is_string($latest) ? $latest : 'Source review pending';
+    }
+}

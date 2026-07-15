@@ -79,6 +79,25 @@ The passing run checked:
 - Browser console and hydration output: no errors in the passing run.
 - Horizontal overflow: none detected on checked desktop/mobile viewports.
 - Route-specific titles, H1s, canonical links, and JSON-LD metadata.
+
+## About Source-Link Verification
+
+About page source-link maintenance was performed on July 16, 2026.
+
+Validation evidence:
+
+- `Invoke-WebRequest -Uri https://belzamora.com/ -MaximumRedirection 5` passed with `200 OK`.
+- `Invoke-WebRequest -Uri https://www.sanjuancity.gov.ph/Makabagong_SJ_Directory -Method Head -MaximumRedirection 5` passed with `200 OK`.
+- `Invoke-WebRequest -Uri https://www.congress.gov.ph/house-members/view/?member=K099 -Method Head -MaximumRedirection 5` returned `403 Forbidden` from the House site security layer. This was recorded as an automated-client block, not a DNS failure or missing page.
+- `Invoke-WebRequest -Uri https://www.congress.gov.ph/house-members/view/memberships/?member=K099 -Method Head -MaximumRedirection 5` returned `403 Forbidden` from the House site security layer. The source URL remains official, and the previous malformed empty `page=` query parameter was removed.
+- `php -l routes\web.php` passed.
+- `php artisan test tests\Feature\InertiaTest.php --filter=about` passed: 1 test, 34 assertions.
+- `npm run test -- resources/js/pages/Public/About.spec.ts` passed: 1 file, 3 tests.
+- `git diff --check` passed.
+
+Browser automation note:
+
+- `agent-browser` link validation could not complete in this local Windows/Laragon session because the host hit paging-file/memory failures while launching multiple browser sessions.
 - Skip link visibility on first Tab and activation to `main#main-content`.
 - Search disclosure and mobile navigation disclosure.
 - Programs, Legislation, Projects, and News filter no-result states and Reset controls.
@@ -120,7 +139,7 @@ Additional July 15, 2026 motion/scroll validation after the smooth-scroll refine
 
 ## Phase 7 Backend/Admin Foundation Tests
 
-The first Phase 7 slices add backend-owned governance tables, encrypted inquiry storage, public inquiry persistence, audit logging, role policies, Filament inquiry authorization, inquiry retention automation, backend-owned Programs/Gabay records, backend-owned Legislation records, backend-owned Projects records, and Filament program/service-guide/legislative/project authorization.
+The first Phase 7 slices add backend-owned governance tables, encrypted inquiry storage, public inquiry persistence, audit logging, role policies, Filament inquiry authorization, inquiry retention automation, backend-owned Programs/Gabay records, backend-owned Legislation records, backend-owned Projects records, backend-owned News/media records, and Filament program/service-guide/legislative/project/news authorization.
 
 Relevant commands:
 
@@ -129,6 +148,7 @@ php artisan test tests\Feature\Phase7GovernanceSchemaTest.php tests\Feature\Phas
 php artisan test tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\InertiaTest.php
 php artisan test tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\InertiaTest.php
 php artisan test tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\InertiaTest.php
+php artisan test tests\Feature\Phase7NewsWorkflowTest.php tests\Feature\InertiaTest.php
 composer lint:check
 composer types:check
 php artisan test
@@ -145,11 +165,12 @@ Latest results:
 - Targeted Programs/Gabay backend and Inertia contract tests passed: 23 tests, 385 assertions.
 - Targeted Legislation backend and Inertia contract tests passed: 23 tests, 362 assertions.
 - Targeted Projects backend and Inertia contract tests passed: 23 tests, 368 assertions.
-- Full Laravel test suite passed: 80 tests, 694 assertions.
-- `composer test` passed: Pint, PHPStan, and 80 tests / 694 assertions.
-- Pint and PHPStan passed.
+- Targeted News/media backend and Inertia contract tests passed: 23 tests, 371 assertions.
+- Full Laravel test suite passed: 86 tests, 764 assertions.
+- `composer test` was not rerun after the News slice because full PHPStan hit local Windows paging-file/time limits. Targeted PHPStan for the News slice passed with 0 errors.
+- Pint passed; targeted PHPStan for the News slice passed with 0 errors.
 - Testing migrations ran successfully and Phase 7 migrations show `Ran`.
-- Route list shows the public inquiry POST route, public Programs, Legislation, and Projects controller routes, and Filament inquiry/program/service-guide/legislative-record/project/project-evidence routes.
+- Route list shows the public inquiry POST route, public Programs, Legislation, Projects, and News controller routes, and Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset routes.
 - Schedule list shows `php artisan inquiries:anonymize-expired` daily at 02:30.
 
 Coverage added:
@@ -180,4 +201,11 @@ Coverage added:
 - Least-privilege policy separation for Project Editor, Content Administrator, Reviewer / Approver, Inquiry Officer, Legislative Editor, Read-Only Auditor, and Super Administrator roles.
 - Filament `ProjectResource` and `ProjectEvidenceResource` authorization.
 - Public Projects route using backend records while preserving Phase 6 Inertia prop contracts and `status=ongoing` query mapping.
+- News/media schema existence for news categories, statuses, records, and media assets.
+- News enum casts and category/status/media relationships.
+- Media-asset, source-record, and approval-record attachments for seeded news records.
+- Least-privilege policy separation for Communications Editor, Media Manager, Content Administrator, Reviewer / Approver, Inquiry Officer, Project Editor, Read-Only Auditor, and Super Administrator roles.
+- Filament `NewsRecordResource` and `NewsMediaAssetResource` authorization.
+- Public News route using backend records while preserving Phase 6 Inertia prop contracts and `status=stale-review` query mapping.
 - Current frontend contract checks after the Projects backend slice: `npm run lint:check`, `npm run format:check`, `npm run types:check`, `npm run test`, `npm run build`, and `npm run build:ssr` passed. SSR still emits the known `@inertiajs/vite` sourcemap warning.
+- Current frontend contract checks after the News backend slice: `npm run lint:check`, `npm run format:check`, `npm run types:check`, `npm run test`, `npm run build`, and `npm run build:ssr` passed. SSR still emits the known `@inertiajs/vite` sourcemap warning.

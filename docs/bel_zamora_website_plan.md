@@ -11,8 +11,8 @@
 **Final architecture and implementation audit:** July 12, 2026  
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
-**Latest project-state audit:** July 15, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and initial Phase 7 backend/admin slices. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide/legislative-record/project/project-evidence resources, backend-owned Programs, Gabay, Legislation, and Projects records, and public read services that preserve the verified Phase 6 Programs/Tulong Dunong/Gabay/Legislation/Projects Inertia contracts.
+**Latest project-state audit:** July 16, 2026
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and initial Phase 7 backend/admin slices. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset resources, backend-owned Programs, Gabay, Legislation, Projects, and News records, and public read services that preserve the verified Phase 6 Programs/Tulong Dunong/Gabay/Legislation/Projects/News Inertia contracts.
 
 ---
 
@@ -100,7 +100,7 @@ Use only the following status labels:
 | Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
 | Phase 6: Vue Frontend Development                | `Implemented` | Public home, About, Programs, Legislation tracker, Projects, News, Contact, Privacy, Accessibility, and Disclaimer vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, Contact office layout, DPA-safe validation-only inquiry form, dedicated policy templates, route-specific canonical/Open Graph/Twitter/JSON-LD metadata, official-source links, stale-content states, route helpers, SSR build, local HTTP smoke checks, focused frontend/backend tests, and Chrome CDP browser acceptance for desktop/mobile hydration, console, keyboard, responsive overflow, mobile navigation, search, filters, and Contact form states. | Stakeholder acceptance, final office-detail confirmation, and production content/backend ownership remain for later phases. |
-| Phase 7: Backend and Admin Development           | `Partially Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs and Gabay backend slice implemented with `program_categories`, `programs`, `program_requirements`, `program_updates`, `service_guides`, `service_guide_steps`, source/approval attachments, policies, Filament `ProgramResource` and `ServiceGuideResource`, seed records, public read service, and preserved Programs/Tulong Dunong/Gabay Inertia contracts. Legislation backend slice implemented with `legislative_roles`, `legislative_statuses`, `legislative_topics`, `legislative_records`, `legislative_source_histories`, source/approval attachments, policies, Filament `LegislativeRecordResource`, seed records, public read service, and preserved Legislation tracker Inertia contracts. Projects backend slice implemented with `project_categories`, `project_statuses`, `project_partners`, `projects`, `project_evidences`, source/approval attachments, policies, Filament `ProjectResource` and `ProjectEvidenceResource`, seed records, public read service, and preserved Projects index Inertia contract. | Continue vertical slices for server-owned About/static content, News/media, audit viewer, stale-content automation, and dashboard widgets. |
+| Phase 7: Backend and Admin Development           | `Partially Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs and Gabay backend slice implemented with `program_categories`, `programs`, `program_requirements`, `program_updates`, `service_guides`, `service_guide_steps`, source/approval attachments, policies, Filament `ProgramResource` and `ServiceGuideResource`, seed records, public read service, and preserved Programs/Tulong Dunong/Gabay Inertia contracts. Legislation backend slice implemented with `legislative_roles`, `legislative_statuses`, `legislative_topics`, `legislative_records`, `legislative_source_histories`, source/approval attachments, policies, Filament `LegislativeRecordResource`, seed records, public read service, and preserved Legislation tracker Inertia contracts. Projects backend slice implemented with `project_categories`, `project_statuses`, `project_partners`, `projects`, `project_evidences`, source/approval attachments, policies, Filament `ProjectResource` and `ProjectEvidenceResource`, seed records, public read service, and preserved Projects index Inertia contract. News/media backend slice implemented with `news_categories`, `news_statuses`, `news_records`, `news_media_assets`, source/approval attachments, policies, Filament `NewsRecordResource` and `NewsMediaAssetResource`, seed records, public read service, stale-review fields, and preserved News index Inertia contract. | Continue vertical slices for server-owned About/static content, audit viewer, stale-content automation, and dashboard widgets. |
 | Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
 | Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
 | Phase 10: Content and Legal Approval             | `Blocked`               | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided.                                                                                                                               | Complete content and implementation review, then obtain documented approval.                                                  |
@@ -113,7 +113,7 @@ The next work is:
 
 > **Continue Phase 7: Backend and Admin Development.**
 
-Phases 0, 1, 2, 3, 4, 5, and 6 are implemented. Phase 7 has started with shared governance, inquiry, Programs, Gabay/service-guide, Legislation, and Projects foundations. Continue replacing remaining Phase 6 static route-prop arrays incrementally with server-owned models and services while preserving the verified public Vue/Inertia contracts.
+Phases 0, 1, 2, 3, 4, 5, and 6 are implemented. Phase 7 has started with shared governance, inquiry, Programs, Gabay/service-guide, Legislation, Projects, and News/media foundations. Continue replacing remaining Phase 6 static route-prop arrays incrementally with server-owned models and services while preserving the verified public Vue/Inertia contracts.
 
 ## 0.6 How to Use This Plan as a Living Roadmap
 
@@ -245,6 +245,168 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-16 (About Source-Link Audit)
+
+**Phase:** Phase 6/7 source governance maintenance
+**Task:** Verify and correct About page official-resource links used by the public profile source panel
+**Previous status:** About profile source links implemented
+**New status:** About profile source links corrected and test-pinned
+
+**Completed:**
+
+- Rechecked the About page source-link contract in `routes/web.php`.
+- Replaced `https://www.belzamora.com/` with the verified working no-`www` source URL `https://belzamora.com/` for the public-service-name fact and official website source link.
+- Removed the empty `page=` query parameter from the House committee-membership source URL.
+- Updated Phase 1 source-register documentation and the plan reference list to match the corrected source URLs.
+- Added backend Inertia assertions so the corrected About source URLs remain pinned.
+
+**Validation performed:**
+
+| Command | Result |
+| --- | --- |
+| `Invoke-WebRequest -Uri https://belzamora.com/ -MaximumRedirection 5` | Passed: `200 OK`. |
+| `Invoke-WebRequest -Uri https://www.sanjuancity.gov.ph/Makabagong_SJ_Directory -Method Head -MaximumRedirection 5` | Passed: `200 OK`. |
+| `Invoke-WebRequest -Uri https://www.congress.gov.ph/house-members/view/?member=K099 -Method Head -MaximumRedirection 5` | Returned `403 Forbidden` from the House site security layer; this is a Cloudflare/security-service block to automated clients, not a DNS or missing-page result. |
+| `Invoke-WebRequest -Uri https://www.congress.gov.ph/house-members/view/memberships/?member=K099 -Method Head -MaximumRedirection 5` | Returned `403 Forbidden` from the House site security layer; the URL remains the official House committee-membership source, with the malformed empty `page=` parameter removed. |
+| `php -l routes\web.php` | Passed. |
+| `php artisan test tests\Feature\InertiaTest.php --filter=about` | Passed: 1 test, 34 assertions. |
+| `npm run test -- resources/js/pages/Public/About.spec.ts` | Passed: 1 file, 3 tests. |
+| `git diff --check` | Passed. |
+
+**Known issues:**
+
+- Browser automation through `agent-browser` could not complete in this local Windows session because the machine hit paging-file/memory failures while launching multiple browser sessions.
+- The official House of Representatives site blocks automated HTTP verification with Cloudflare `403`; the About page still links to the official House source because it is the authoritative record.
+
+**Recommended next task:**
+
+- Continue Phase 7 with server-owned About/static profile content so biography facts, source URLs, review dates, and approval history move out of route-owned static arrays and into auditable content records.
+
+### Project Update: 2026-07-15 (Phase 7 News/Media Backend/Admin Slice)
+
+**Phase:** Phase 7: Backend and Admin Development
+**Task:** Implement backend-owned news categories, status/stale-review states, news/media records, admin resources, policies, source/approval attachments, and public read services while preserving the Phase 6 News index contract
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Added `NewsStatusValue` and `NewsStatusTone` enums.
+- Added migrations for `news_categories`, `news_statuses`, `news_records`, and `news_media_assets`.
+- Added Eloquent models, enum casts, relationships, scopes, factories, and seeded records for the approved Phase 6 News content.
+- Added media asset review placeholders with caption, alt text, rights note, source URL, verification, and optional local media path fields.
+- Attached source records and content approval records to seeded news records.
+- Added `NewsRecordPolicy`, `NewsCategoryPolicy`, `NewsStatusPolicy`, and `NewsMediaAssetPolicy`.
+- Extended the `User` model with `canManageNewsMedia()`.
+- Added Filament `NewsRecordResource` and `NewsMediaAssetResource` with list/create/view/edit pages, category/status selectors, stale-review fields, media rights fields, publication/review fields, and audit hooks.
+- Added `PublicNewsReadService` and `PublicNewsController`.
+- Replaced the `/news` static route-prop array with backend-owned read service props.
+- Preserved the verified Phase 6 News index Inertia prop contract and query mapping for `status=stale-review`.
+- Added tests for schema, model casts/relationships, policy boundaries, Filament authorization, source/approval workflow, stale-review seed records, media metadata, and public integration.
+
+**Remaining:**
+
+- Server-owned About/static profile content models and admin workflow.
+- Audit viewer, stale-content automation jobs, dashboard widgets, and remaining Phase 7 admin hardening.
+- Formal media-rights review and local optimized media files during Phase 8 content migration.
+
+**Files created:**
+
+- `app/Enums/NewsStatusTone.php`
+- `app/Enums/NewsStatusValue.php`
+- `app/Filament/Resources/NewsMediaAssetResource.php`
+- `app/Filament/Resources/NewsMediaAssetResource/Pages/CreateNewsMediaAsset.php`
+- `app/Filament/Resources/NewsMediaAssetResource/Pages/EditNewsMediaAsset.php`
+- `app/Filament/Resources/NewsMediaAssetResource/Pages/ListNewsMediaAssets.php`
+- `app/Filament/Resources/NewsMediaAssetResource/Pages/ViewNewsMediaAsset.php`
+- `app/Filament/Resources/NewsRecordResource.php`
+- `app/Filament/Resources/NewsRecordResource/Pages/CreateNewsRecord.php`
+- `app/Filament/Resources/NewsRecordResource/Pages/EditNewsRecord.php`
+- `app/Filament/Resources/NewsRecordResource/Pages/ListNewsRecords.php`
+- `app/Filament/Resources/NewsRecordResource/Pages/ViewNewsRecord.php`
+- `app/Http/Controllers/PublicNewsController.php`
+- `app/Models/NewsCategory.php`
+- `app/Models/NewsMediaAsset.php`
+- `app/Models/NewsRecord.php`
+- `app/Models/NewsStatus.php`
+- `app/Policies/NewsCategoryPolicy.php`
+- `app/Policies/NewsMediaAssetPolicy.php`
+- `app/Policies/NewsRecordPolicy.php`
+- `app/Policies/NewsStatusPolicy.php`
+- `app/Services/PublicNewsReadService.php`
+- `database/factories/NewsCategoryFactory.php`
+- `database/factories/NewsMediaAssetFactory.php`
+- `database/factories/NewsRecordFactory.php`
+- `database/factories/NewsStatusFactory.php`
+- `database/migrations/2026_07_15_000220_create_news_categories_table.php`
+- `database/migrations/2026_07_15_000230_create_news_statuses_table.php`
+- `database/migrations/2026_07_15_000240_create_news_records_table.php`
+- `database/migrations/2026_07_15_000250_create_news_media_assets_table.php`
+- `database/seeders/NewsRecordSeeder.php`
+- `tests/Feature/Phase7NewsWorkflowTest.php`
+
+**Files updated:**
+
+- `app/Models/User.php`
+- `database/seeders/DatabaseSeeder.php`
+- `docs/ARCHITECTURE.md`
+- `docs/PHASE_7_BACKEND_ADMIN.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+- `routes/web.php`
+- `tests/Feature/InertiaTest.php`
+
+**Validation performed:**
+
+| Command | Result |
+| --- | --- |
+| `php -l app\Services\PublicNewsReadService.php` | Passed. |
+| `php -l app\Http\Controllers\PublicNewsController.php` | Passed. |
+| `php -l database\seeders\NewsRecordSeeder.php` | Passed. |
+| `php -l app\Filament\Resources\NewsRecordResource.php` | Passed. |
+| `php -l app\Filament\Resources\NewsMediaAssetResource.php` | Passed. |
+| `php -l tests\Feature\Phase7NewsWorkflowTest.php` | Passed. |
+| `php artisan test tests\Feature\Phase7NewsWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 23 tests, 371 assertions. |
+| `php artisan migrate:fresh --env=testing --force` | Passed; all migrations ran, including News/media tables. |
+| `php artisan route:list --except-vendor` | Passed; 51 routes including public News controller route and Filament news-record/news-media-asset routes. |
+| `php artisan test` | Passed: 86 tests, 764 assertions. |
+| `composer lint:check` | Passed on final rerun. An earlier parallel Pint attempt failed once due local Windows paging-file process pressure. |
+| `vendor\bin\pint --test` | Passed. |
+| `php -d memory_limit=1G vendor\bin\phpstan analyse app\Enums\NewsStatusTone.php app\Enums\NewsStatusValue.php app\Models\NewsCategory.php app\Models\NewsStatus.php app\Models\NewsRecord.php app\Models\NewsMediaAsset.php app\Services\PublicNewsReadService.php app\Http\Controllers\PublicNewsController.php app\Policies\NewsRecordPolicy.php app\Policies\NewsMediaAssetPolicy.php app\Policies\NewsCategoryPolicy.php app\Policies\NewsStatusPolicy.php database\seeders\NewsRecordSeeder.php --no-progress --memory-limit=1G` | Passed: 0 errors. |
+| `composer types:check` | Could not complete in this local session: first failed from Windows paging-file/worker memory pressure, second direct full PHPStan attempt timed out after 180 seconds, and the final retry was interrupted by the user request to continue. |
+| `npm run lint:check` | Passed on rerun. An earlier parallel validation attempt was interrupted by local process/memory pressure. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `npm run test` | Passed: 11 files, 23 tests. |
+| `npm run build` | Passed; Vite emitted plugin timing notice only. |
+| `npm run build:ssr` | Passed; Vite emitted the known `@inertiajs/vite` sourcemap warning and plugin timing notices. |
+| `git diff --check` | Passed. |
+
+**Decisions:**
+
+- News statuses use unique slugs while allowing shared machine status values so public labels such as `Current advisory` and `Current public-service update` can both map to the same `current` contract value.
+- News media assets are modeled separately from generic source records because they need caption, alt text, rights, source, optional local media path, and verification metadata.
+- Public `/news` keeps the verified Phase 6 prop shape and route name while switching its source to `PublicNewsReadService`.
+
+**Known issues:**
+
+- The full `composer types:check` command could not complete in this memory-constrained Windows session, but targeted PHPStan over the new News slice passed with 0 errors.
+- The SSR build still emits the known `@inertiajs/vite` sourcemap warning from the current Vite/Inertia plugin path; the build succeeds.
+- Seeded news media asset rows intentionally do not include local optimized files yet. Approved originals, captions, alt text, reuse rights, and privacy/consent reviews remain Phase 8 content-migration work.
+
+**Blockers:**
+
+- None for the next Phase 7 backend slice.
+
+**Risks:**
+
+- News source pages can drift or become stale without scheduled stale-content automation and staff dashboard alerts.
+- News images must not be published from external sources until rights, consent, caption, and alt-text reviews are complete.
+
+**Recommended next task:**
+
+- Continue Phase 7 with server-owned About/static profile content: biography facts, committee/source links, profile sections, policies, Filament resources, public read service preserving the About Inertia contract, tests, and documentation.
 
 ### Project Update: 2026-07-15 (Phase 7 Projects Backend/Admin Slice)
 
@@ -2695,7 +2857,7 @@ The design should study successful political and government websites but transla
 
 | Reference                                                                    | Useful Lesson                                                                                                            | Adapt for Bel Zamora                                                                                         | Avoid                                                                            |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| **Congresswoman Bel Zamora official website** — https://www.belzamora.com/   | Existing identity, “First Congresswoman” positioning, legislation categories, official contact, House and San Juan links | Preserve the strongest official identity and verified existing content while rebuilding around citizen tasks | Keeping only a profile, legislation, media, and contact structure                |
+| **Congresswoman Bel Zamora official website** — https://belzamora.com/       | Existing identity, “First Congresswoman” positioning, legislation categories, official contact, House and San Juan links | Preserve the strongest official identity and verified existing content while rebuilding around citizen tasks | Keeping only a profile, legislation, media, and contact structure                |
 | **House of Representatives Philippines** — https://www.congress.gov.ph/      | Official legislative records, member role, bills, co-authored measures, and committees                                   | Link every legislative item to the official House record and state her exact role                            | Copying dense government tables without plain-language summaries                 |
 | **San Juan City Government** — https://www.sanjuancity.gov.ph/               | Local identity, public announcements, services, transparency links, city information                                     | Coordinate links and clearly distinguish city services from congressional services                           | Duplicating city-government content without ownership labels                     |
 | **Quezon City Government** — https://quezoncity.gov.ph/                      | Citizen guides, program cards, public announcements, task-based navigation                                               | Create a smaller **Gabay San Juaneño** service guide                                                         | Large-city information overload                                                  |
@@ -5558,12 +5720,12 @@ The strongest final statement is:
 
 ## Bel Zamora and San Juan sources
 
-1. Official website of Congresswoman Bel Zamora: https://www.belzamora.com/
+1. Official website of Congresswoman Bel Zamora: https://belzamora.com/
 2. Alternate publicly associated domain: https://www.attybelzamora.com/
-3. Official contact page: https://www.belzamora.com/contact-page/
-4. Official legislation page: https://www.belzamora.com/legislation/
+3. Official contact page: https://belzamora.com/contact-page/
+4. Official legislation page: https://belzamora.com/legislation/
 5. House member page and legislative records: https://www.congress.gov.ph/house-members/view/?member=K099
-6. House committee membership page: https://www.congress.gov.ph/house-members/view/memberships/?member=K099&page=
+6. House committee membership page: https://www.congress.gov.ph/house-members/view/memberships/?member=K099
 7. Official Facebook page: https://www.facebook.com/attybelzamora/
 8. San Juan City Government: https://www.sanjuancity.gov.ph/
 9. Rappler profile reference: https://www.rappler.com/people/p12222910-ysabel-maria-jorge-zamora/

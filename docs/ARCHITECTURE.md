@@ -62,7 +62,7 @@ Implemented Phase 6 slices:
 
 Public navigation should use Laravel Wayfinder-generated route helpers from `resources/js/routes/**` when a named route exists. Page-specific public data should arrive through Inertia props from Laravel routes or controllers. Vue may handle local UI state such as mobile menu or search visibility, but validation, authorization, and persistence remain server-owned.
 
-The current About, News, Contact, Privacy, Accessibility, and Disclaimer slices use static, source-stamped Inertia props in `routes/web.php` so the frontend templates, accessibility behavior, validation contracts, metadata, and SSR build path can be validated before each Phase 7 content module exists. Programs, Tulong Dunong, Gabay, Legislation, Projects, and Contact submissions have moved to backend-owned Phase 7 services while preserving their verified Phase 6 public contracts. Remaining route-prop arrays are not the final content-management layer; Phase 7 should continue moving biography records, source links, news records, status updates, media/caption metadata, official-source URLs, verification dates, stale-content states, content-owner fields, audit logging, and approval workflow into server-owned models, policies, services, and admin resources.
+The current About, Contact, Privacy, Accessibility, and Disclaimer slices use static, source-stamped Inertia props in `routes/web.php` so the frontend templates, accessibility behavior, validation contracts, metadata, and SSR build path can be validated before each Phase 7 content module exists. Programs, Tulong Dunong, Gabay, Legislation, Projects, News, and Contact submissions have moved to backend-owned Phase 7 services while preserving their verified Phase 6 public contracts. Remaining route-prop arrays are not the final content-management layer; Phase 7 should continue moving biography records, source links, official-source URLs, verification dates, content-owner fields, audit logging, and approval workflow into server-owned models, policies, services, and admin resources.
 
 Phase 6 browser acceptance was completed with direct Chrome DevTools Protocol automation after `agent-browser` could not auto-launch Chrome in the local sandbox. The accepted public frontend contract covers desktop/mobile route rendering, hydration without console errors, no horizontal overflow at checked viewports, route metadata, skip-link behavior, mobile navigation, search disclosure, page filters, and Contact form validation/success states.
 
@@ -76,11 +76,11 @@ Shared public motion also lives in `resources/css/app.css` and is activated thro
 
 Phase 6 may create public Vue templates, shared public components, typed page props, route shells, metadata, and frontend tests. It must not add database migrations, content managers, or Filament resources until the frontend template and focus-loop slices are functional.
 
-Program, legislative, project, inquiry, and content modules become backend-owned in Phase 7 after the public frontend patterns are validated.
+Program, legislative, project, news/media, inquiry, and content modules become backend-owned in Phase 7 after the public frontend patterns are validated.
 
 ## Phase 7 Backend/Admin Foundation
 
-The first Phase 7 slices introduce server-owned governance, inquiry, Programs, Gabay/service-guide, Legislation, and Projects foundations without breaking the verified Phase 6 public route contracts.
+The first Phase 7 slices introduce server-owned governance, inquiry, Programs, Gabay/service-guide, Legislation, Projects, and News/media foundations without breaking the verified Phase 6 public route contracts.
 
 Implemented backend foundations:
 
@@ -93,6 +93,7 @@ Implemented backend foundations:
 - `service_guides` and `service_guide_steps` for Gabay San Juaneño routing options and checklist warnings.
 - `legislative_roles`, `legislative_statuses`, `legislative_topics`, `legislative_records`, and `legislative_source_histories` for backend-owned legislative tracker content.
 - `project_categories`, `project_statuses`, `project_partners`, `projects`, and `project_evidences` for backend-owned project/result content, partner attribution, and evidence metadata.
+- `news_categories`, `news_statuses`, `news_records`, and `news_media_assets` for backend-owned news/media content, stale-review states, and media rights metadata.
 
 The public Contact form now posts to `PublicInquiryController@store`, validates through `StorePublicInquiryRequest`, persists through `SubmitInquiry`, and keeps the existing Inertia confirmation prop shape. Inquiry PII fields are encrypted at rest, raw IP/user-agent values are not stored, and audit logs redact citizen-provided PII.
 
@@ -117,5 +118,11 @@ The public Projects route now resolves through `PublicProjectController` and `Pu
 - `/projects`
 
 `ProjectResource` and `ProjectEvidenceResource` expose backend management for authorized project/content roles. Project editors and content administrators can create/update project and evidence records, reviewer/approver and auditor roles can view/review without editing, and inquiry/legislative officers cannot manage project content.
+
+The public News route now resolves through `PublicNewsController` and `PublicNewsReadService`:
+
+- `/news`
+
+`NewsRecordResource` and `NewsMediaAssetResource` expose backend management for authorized communications/media/content roles. Communications editors, media managers, and content administrators can create/update news and media records, reviewer/approver and auditor roles can view/review without editing, and inquiry/project/legislative/program officers cannot manage news content.
 
 Retention is enforced by `inquiries:anonymize-expired`, scheduled daily in `routes/console.php`. Production environments must run both queue workers and the Laravel scheduler.

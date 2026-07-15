@@ -16,11 +16,11 @@ The website content must only be pulled from or verified against the following d
 ### 1.1 Tier 1: Primary Official Sources (Authority)
 - **House of Representatives of the Philippines**:
   - Member Profile: [Rep. Ysabel Maria Zamora (K099)](https://www.congress.gov.ph/house-members/view/?member=K099)
-  - Committee Membership: [K099 Memberships](https://www.congress.gov.ph/house-members/view/memberships/?member=K099&page=)
+  - Committee Membership: [K099 Memberships](https://www.congress.gov.ph/house-members/view/memberships/?member=K099)
 - **Official Domains of Rep. Bel Zamora**:
-  - Main website: `https://www.belzamora.com/`
+  - Main website: `https://belzamora.com/`
   - Alternate domain: `https://www.attybelzamora.com/`
-  - Contact registry: `https://www.belzamora.com/contact-page/`
+  - Contact registry: `https://belzamora.com/contact-page/`
 - **Official Social Media Channels**:
   - Facebook: `https://www.facebook.com/attybelzamora/`
   - Instagram: `https://www.instagram.com/attybelzamora/`

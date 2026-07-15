@@ -60,7 +60,7 @@ const structuredData = {
             <div
                 class="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:grid-cols-[1.1fr_0.9fr] md:items-center lg:px-8 lg:py-24"
             >
-                <div>
+                <div class="reveal-fade-up">
                     <p
                         class="text-sm font-semibold tracking-wide text-brand-gold uppercase"
                     >
@@ -97,7 +97,7 @@ const structuredData = {
                 </div>
 
                 <aside
-                    class="rounded-lg border border-brand-white/25 bg-brand-white/10 p-6 backdrop-blur"
+                    class="reveal-slide-right rounded-lg border border-brand-white/25 bg-brand-white/10 p-6 backdrop-blur"
                     aria-label="Official identity and office location"
                 >
                     <div class="flex items-center gap-4">
@@ -152,11 +152,11 @@ const structuredData = {
                 </h2>
             </div>
 
-            <div class="mt-8 grid gap-4 md:grid-cols-3">
+            <div class="reveal-group mt-8 grid gap-4 md:grid-cols-3">
                 <Link
                     v-for="action in quickActions"
                     :key="action.title"
-                    class="group rounded-lg border border-border-default bg-brand-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-red hover:shadow-md focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                    class="group reveal-item rounded-lg border border-border-default bg-brand-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-red hover:shadow-md focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                     :href="action.href"
                 >
                     <span
@@ -215,11 +215,11 @@ const structuredData = {
                     </Link>
                 </div>
 
-                <div class="mt-8 grid gap-5 md:grid-cols-3">
+                <div class="reveal-group mt-8 grid gap-5 md:grid-cols-3">
                     <article
                         v-for="program in featuredPrograms"
                         :key="program.title"
-                        class="rounded-lg border border-border-default border-t-brand-red bg-brand-white p-5 shadow-sm"
+                        class="reveal-item rounded-lg border border-border-default border-t-brand-red bg-brand-white p-5 shadow-sm"
                     >
                         <div class="flex flex-wrap items-center gap-2">
                             <span
@@ -262,7 +262,7 @@ const structuredData = {
             class="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
         >
             <article
-                class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                class="reveal-slide-left rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
                 aria-labelledby="legislative-spotlight-title"
             >
                 <p
@@ -314,7 +314,7 @@ const structuredData = {
             </article>
 
             <section
-                class="rounded-lg border border-border-default bg-warm-soft p-6"
+                class="reveal-slide-right rounded-lg border border-border-default bg-warm-soft p-6"
                 aria-labelledby="latest-news-title"
             >
                 <p
@@ -328,11 +328,11 @@ const structuredData = {
                 >
                     Latest verified updates
                 </h2>
-                <div class="mt-6 grid gap-4">
+                <div class="reveal-group mt-6 grid gap-4">
                     <article
                         v-for="item in latestNews"
                         :key="item.title"
-                        class="border-b border-brand-gold/40 pb-4 last:border-b-0 last:pb-0"
+                        class="reveal-item border-b border-brand-gold/40 pb-4 last:border-b-0 last:pb-0"
                     >
                         <p class="text-xs font-semibold text-text-muted">
                             {{ item.date }} · {{ item.category }}

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Database\Seeders\LegislativeRecordSeeder;
+use Database\Seeders\NewsRecordSeeder;
 use Database\Seeders\ProgramAndServiceGuideSeeder;
 use Database\Seeders\ProjectRecordSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -41,6 +42,8 @@ class InertiaTest extends TestCase
                 ->has('valuePillars', 3)
                 ->has('responsibilityBoundaries', 3)
                 ->has('sourceLinks', 4)
+                ->where('sourceLinks.1.href', 'https://www.congress.gov.ph/house-members/view/memberships/?member=K099')
+                ->where('sourceLinks.2.href', 'https://belzamora.com/')
                 ->where('verifiedAt', 'July 12, 2026'));
     }
 
@@ -155,6 +158,8 @@ class InertiaTest extends TestCase
 
     public function test_news_index_renders_news_slice_props(): void
     {
+        $this->seed(NewsRecordSeeder::class);
+
         $this->get(route('public.news'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -173,6 +178,8 @@ class InertiaTest extends TestCase
 
     public function test_news_index_accepts_approved_status_query_filter(): void
     {
+        $this->seed(NewsRecordSeeder::class);
+
         $this->get(route('public.news', ['status' => 'stale-review']))
             ->assertOk()
             ->assertInertia(fn ($page) => $page

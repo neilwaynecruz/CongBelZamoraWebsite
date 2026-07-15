@@ -113,6 +113,16 @@ class User extends Authenticatable implements FilamentUser, PasskeyUser
         );
     }
 
+    public function canManageNewsMedia(): bool
+    {
+        return $this->hasAdminRole(
+            AdminRole::SuperAdministrator,
+            AdminRole::ContentAdministrator,
+            AdminRole::CommunicationsEditor,
+            AdminRole::MediaManager,
+        );
+    }
+
     public function canReviewPublicContent(): bool
     {
         return $this->hasAdminRole(
