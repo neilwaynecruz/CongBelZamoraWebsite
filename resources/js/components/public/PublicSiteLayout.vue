@@ -82,7 +82,9 @@ const isCurrent = (href: PublicNavItem['href']) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-brand-white text-text-primary">
+    <div
+        class="public-site-shell min-h-screen bg-brand-white text-text-primary"
+    >
         <a
             class="sr-only z-50 rounded-md bg-brand-navy px-4 py-3 text-sm font-semibold text-brand-white focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
             href="#main-content"
@@ -124,33 +126,35 @@ const isCurrent = (href: PublicNavItem['href']) => {
                 </div>
             </div>
 
-            <div
-                id="site-search"
-                class="border-b border-border-default bg-surface-soft"
-                :class="{ hidden: !isSearchOpen }"
-            >
-                <form
-                    class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row lg:px-8"
-                    role="search"
+            <Transition name="public-disclosure">
+                <div
+                    v-show="isSearchOpen"
+                    id="site-search"
+                    class="border-b border-border-default bg-surface-soft"
                 >
-                    <label class="sr-only" for="global-search">
-                        Search programs, legislation, and updates
-                    </label>
-                    <input
-                        id="global-search"
-                        class="min-h-11 flex-1 rounded-md border border-border-default bg-brand-white px-4 text-base text-text-primary focus:border-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                        name="search"
-                        placeholder="Search programs, legislation, and updates…"
-                        type="search"
-                    />
-                    <button
-                        class="min-h-11 rounded-md bg-brand-royal px-5 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                        type="submit"
+                    <form
+                        class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:flex-row lg:px-8"
+                        role="search"
                     >
-                        Search
-                    </button>
-                </form>
-            </div>
+                        <label class="sr-only" for="global-search">
+                            Search programs, legislation, and updates
+                        </label>
+                        <input
+                            id="global-search"
+                            class="min-h-11 flex-1 rounded-md border border-border-default bg-brand-white px-4 text-base text-text-primary focus:border-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            name="search"
+                            placeholder="Search programs, legislation, and updates…"
+                            type="search"
+                        />
+                        <button
+                            class="min-h-11 rounded-md bg-brand-royal px-5 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            type="submit"
+                        >
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </Transition>
 
             <div
                 class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 lg:px-8"
@@ -230,32 +234,34 @@ const isCurrent = (href: PublicNavItem['href']) => {
                 </div>
             </div>
 
-            <nav
-                id="mobile-navigation"
-                class="border-t border-border-default bg-brand-white px-4 py-4 lg:hidden"
-                :class="{ hidden: !isMobileMenuOpen }"
-                aria-label="Mobile main"
-            >
-                <div class="grid gap-2">
-                    <Link
-                        v-for="item in mainNavigation"
-                        :key="item.title"
-                        class="min-h-11 rounded-md px-3 py-3 text-base font-semibold text-text-primary hover:bg-surface-soft focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                        :href="item.href"
-                        :aria-current="
-                            isCurrent(item.href) ? 'page' : undefined
-                        "
-                    >
-                        {{ item.title }}
-                    </Link>
-                    <Link
-                        class="mt-2 min-h-11 rounded-md bg-brand-red px-3 py-3 text-center text-base font-semibold text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                        :href="contactInquiryHref"
-                    >
-                        Magtanong / Get Assistance
-                    </Link>
-                </div>
-            </nav>
+            <Transition name="public-disclosure">
+                <nav
+                    v-show="isMobileMenuOpen"
+                    id="mobile-navigation"
+                    class="border-t border-border-default bg-brand-white px-4 py-4 lg:hidden"
+                    aria-label="Mobile main"
+                >
+                    <div class="grid gap-2">
+                        <Link
+                            v-for="item in mainNavigation"
+                            :key="item.title"
+                            class="min-h-11 rounded-md px-3 py-3 text-base font-semibold text-text-primary hover:bg-surface-soft focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            :href="item.href"
+                            :aria-current="
+                                isCurrent(item.href) ? 'page' : undefined
+                            "
+                        >
+                            {{ item.title }}
+                        </Link>
+                        <Link
+                            class="mt-2 min-h-11 rounded-md bg-brand-red px-3 py-3 text-center text-base font-semibold text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            :href="contactInquiryHref"
+                        >
+                            Magtanong / Get Assistance
+                        </Link>
+                    </div>
+                </nav>
+            </Transition>
         </header>
 
         <main id="main-content" tabindex="-1">

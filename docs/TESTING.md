@@ -16,6 +16,13 @@ npm run build
 npm run build:ssr
 ```
 
+On this Windows/Laragon environment, `npm run test` may need a larger Node heap:
+
+```powershell
+$env:NODE_OPTIONS='--max-old-space-size=4096'
+npm run test
+```
+
 ## Current Phase 6 Coverage
 
 - `tests/Feature/InertiaTest.php` verifies that `/` renders the `Public/Home` Inertia component and required homepage props.
@@ -43,17 +50,70 @@ npm run build:ssr
 - `php artisan inertia:check-ssr` passed while a bounded local `php artisan inertia:start-ssr` process was running.
 - Local HTTP smoke testing through `php artisan serve` returned `200` for `/`, `/about`, `/programs`, `/programs/gabay`, `/programs/education/tulong-dunong`, `/legislation`, `/projects`, `/news`, `/contact`, `/privacy`, `/accessibility`, and `/disclaimer`.
 
-## Manual and Browser Checks Still Required
+## Phase 6 Browser Acceptance
 
-Before a Phase 6 slice is marked complete, validate:
+Phase 6 browser acceptance was completed on July 15, 2026 with direct Chrome DevTools Protocol automation after `agent-browser` 0.31.2 installed successfully but could not auto-launch Chrome in the sandbox (`CDP response channel closed`).
 
-- Public route loads from Laravel.
-- SSR build succeeds.
-- Hydration produces no browser console errors.
-- Header, footer, breadcrumbs, mobile menu, and search controls work by keyboard.
-- Mobile and desktop breakpoints match the approved wireframes.
-- Touch targets remain at least 44px.
-- Page metadata and descriptions match the page purpose.
-- Form submissions use Laravel-backed validation and do not collect sensitive documents.
+Repeatable command shape:
 
-Browser automation, responsive screenshots, keyboard traversal, console inspection, and hydration checks remain pending for the public home, About, Programs, Legislation, Projects, News, Contact, Privacy, Accessibility, and Disclaimer slices because the `agent-browser` executable was not installed in the current local agent session.
+```powershell
+$env:SESSION_DRIVER = 'file'
+# Start php artisan serve on 127.0.0.1:8022 and Chrome with --remote-debugging-port=9226,
+# then run:
+node scripts\phase6-browser-acceptance.mjs
+```
+
+Acceptance evidence:
+
+- `storage/app/qa/phase6-browser/phase6-browser-acceptance.json`
+- `storage/app/qa/phase6-browser/desktop-home.png`
+- `storage/app/qa/phase6-browser/desktop-contact.png`
+- `storage/app/qa/phase6-browser/mobile-home.png`
+- `storage/app/qa/phase6-browser/mobile-programs.png`
+- `storage/app/qa/phase6-browser/mobile-contact.png`
+
+The passing run checked:
+
+- 24 route/viewport combinations: 12 public routes on desktop `1366x900` and mobile `390x844` DPR 2.
+- `/`, `/about`, `/programs`, `/programs/gabay`, `/programs/education/tulong-dunong`, `/legislation`, `/projects`, `/news`, `/contact`, `/privacy`, `/accessibility`, and `/disclaimer`.
+- Browser console and hydration output: no errors in the passing run.
+- Horizontal overflow: none detected on checked desktop/mobile viewports.
+- Route-specific titles, H1s, canonical links, and JSON-LD metadata.
+- Skip link visibility on first Tab and activation to `main#main-content`.
+- Search disclosure and mobile navigation disclosure.
+- Programs, Legislation, Projects, and News filter no-result states and Reset controls.
+- Contact form validation errors and validation-only success confirmation.
+
+Remaining later-phase QA:
+
+- Formal screen-reader user testing.
+- Stakeholder content/legal/privacy/accessibility approval.
+- Production hosting, monitoring, and launch-path validation after Phase 7+ backend/admin work.
+
+## Phase 6 Typography and Motion Check
+
+After the public typography and shared motion refinement, a targeted Chrome CDP check generated:
+
+- `storage/app/qa/phase6-browser/phase6-typography-motion-check.json`
+- `storage/app/qa/phase6-browser/desktop-home-typography-motion.png`
+- `storage/app/qa/phase6-browser/mobile-home-typography-motion.png`
+
+The report recorded `failures: []` and verified:
+
+- Desktop Home, desktop Contact, and mobile Home rendered with the expected public shell.
+- Body text used the `Instrument Sans`, `Aptos`, `Segoe UI`, and system sans-serif stack.
+- H1 text used the civic/legal serif fallback stack.
+- No browser console errors were captured.
+- No horizontal overflow was detected.
+- Search disclosure and mobile navigation disclosure opened successfully.
+- Smooth scrolling, sticky-header scroll offsets, and progressive scroll reveal are defined in CSS and remain covered by the `prefers-reduced-motion` override.
+
+The wrapper command timed out after printing and saving the complete clean report because the inline CDP websocket stayed open. Both local QA ports were confirmed closed afterward.
+
+Additional July 15, 2026 motion/scroll validation after the smooth-scroll refinement:
+
+- `public/hot` was removed and `Test-Path public\hot` returned `False`, so Laravel no longer points local browser sessions at a stale Vite dev-server URL.
+- `npm run build` passed and generated `public/build/assets/app-DZBxTc8Z.css`.
+- `rg` confirmed the production CSS asset contains `scroll-behavior:smooth`, `scroll-padding-top`, `public-section-scroll`, `scrollbar-width:thin`, and the `prefers-reduced-motion` override.
+- `Invoke-WebRequest http://127.0.0.1:8000/` returned HTTP 200; the HTML referenced `app-DZBxTc8Z.css` and did not include `@vite/client`.
+- A fresh `agent-browser`/Edge CDP relaunch attempt in this local session closed the page WebSocket with code `1006`, so the latest scroll-specific pass was validated through source, production asset, and Laravel HTTP output rather than a new screenshot run.

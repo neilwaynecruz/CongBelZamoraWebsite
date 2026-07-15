@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@500;600;700&display=swap');
-
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -11,10 +9,12 @@
 
 @theme inline {
     --font-sans:
-        Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        'Instrument Sans', 'Aptos', 'Segoe UI', ui-sans-serif, system-ui,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
     --font-serif:
-        'Source Serif 4', ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+        'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia,
+        Cambria, 'Times New Roman', serif;
 
     --color-brand-royal: #1746a2;
     --color-brand-red: #d62828;
@@ -101,12 +101,17 @@
     body,
     html {
         --font-sans:
-            Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-            'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            'Instrument Sans', 'Aptos', 'Segoe UI', ui-sans-serif, system-ui,
+            sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+            'Segoe UI Symbol', 'Noto Color Emoji';
     }
 
     .font-serif {
         font-family: var(--font-serif);
+    }
+
+    .text-balance-public {
+        text-wrap: balance;
     }
 }
 
@@ -187,7 +192,202 @@
     * {
         @apply border-border outline-ring/50;
     }
+
+    html {
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-variant-ligatures: common-ligatures contextual;
+        scroll-behavior: smooth;
+        scroll-padding-top: clamp(7rem, 14vh, 10rem);
+        scrollbar-color: rgb(23 70 162 / 48%) transparent;
+        scrollbar-color: color-mix(
+                in srgb,
+                var(--color-brand-royal) 48%,
+                transparent
+            )
+            transparent;
+        scrollbar-gutter: stable;
+        scrollbar-width: thin;
+        text-rendering: optimizeLegibility;
+    }
+
     body {
         @apply bg-background text-foreground;
+        color: var(--color-text-primary);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.65;
+    }
+
+    h1,
+    h2,
+    h3 {
+        letter-spacing: 0;
+        text-wrap: balance;
+    }
+
+    p,
+    li,
+    dd {
+        text-wrap: pretty;
+    }
+
+    :target {
+        scroll-margin-top: clamp(7rem, 14vh, 10rem);
+    }
+}
+
+@layer components {
+    .public-site-shell {
+        font-feature-settings:
+            'kern' 1,
+            'liga' 1,
+            'calt' 1;
+    }
+
+    .public-site-shell :where(.font-serif) {
+        font-weight: 600;
+        letter-spacing: 0;
+    }
+
+    .public-site-shell :where(p, li, dd) {
+        line-height: 1.7;
+    }
+
+    .public-site-shell :where(a, button) {
+        transition-duration: 180ms;
+        transition-property:
+            color, background-color, border-color, box-shadow, transform,
+            opacity;
+        transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .public-site-shell main > section {
+        animation: public-section-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .public-site-shell main > section:nth-of-type(2) {
+        animation-delay: 70ms;
+    }
+
+    .public-site-shell main > section:nth-of-type(3) {
+        animation-delay: 120ms;
+    }
+
+    .public-site-shell main > section:nth-of-type(n + 4) {
+        animation-delay: 160ms;
+    }
+
+    .public-site-shell
+        :where(
+            article,
+            aside,
+            form,
+            [aria-label='Contact verification note'],
+            [aria-label='Program directory verification note'],
+            [aria-label='Legislation verification note'],
+            [aria-label='Projects verification note'],
+            [aria-label='News verification note']
+        ) {
+        transition:
+            border-color 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .public-disclosure-enter-active,
+    .public-disclosure-leave-active {
+        overflow: hidden;
+        transition:
+            opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .public-disclosure-enter-from,
+    .public-disclosure-leave-to {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    .public-disclosure-enter-to,
+    .public-disclosure-leave-from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes public-section-enter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes public-section-scroll {
+    from {
+        opacity: 0.18;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@supports (animation-timeline: view()) {
+    .public-site-shell main > section:not(:first-of-type) {
+        animation-delay: 0ms;
+        animation-duration: 1ms;
+        animation-name: public-section-scroll;
+        animation-range: entry 0% cover 24%;
+        animation-timeline: view();
+    }
+}
+
+@supports selector(::-webkit-scrollbar) {
+    html::-webkit-scrollbar {
+        width: 0.75rem;
+    }
+
+    html::-webkit-scrollbar-track {
+        background: var(--color-surface-soft);
+    }
+
+    html::-webkit-scrollbar-thumb {
+        background: #889eca;
+        background: color-mix(
+            in srgb,
+            var(--color-brand-royal) 42%,
+            var(--color-border-default)
+        );
+        border: 0.2rem solid var(--color-surface-soft);
+        border-radius: 999px;
+    }
+
+    html::-webkit-scrollbar-thumb:hover {
+        background: #6180bc;
+        background: color-mix(
+            in srgb,
+            var(--color-brand-royal) 62%,
+            var(--color-border-default)
+        );
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
     }
 }

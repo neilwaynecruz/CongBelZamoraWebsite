@@ -64,6 +64,16 @@ To represent the Zamora administration in San Juan City, Red (`#D62828`) serves 
 
 To ensure the site feels responsive, fluid, and premium, we define specific keyframe triggers. All animations are hardware-accelerated (`transform` and `opacity` only) and fall back to zero duration when `@media (prefers-reduced-motion: reduce)` is active.
 
+### 3.0 Implemented Typography and Motion Refinement
+
+The Phase 6 visual polish pass uses the following production-safe typography and motion decisions:
+
+- **Body and interface:** `Instrument Sans`, served through the Laravel/Vite font pipeline, followed by `Aptos`, `Segoe UI`, and system sans-serif fallbacks.
+- **Headings and formal labels:** `Iowan Old Style`, `Palatino Linotype`, `Book Antiqua`, `Georgia`, and system serif fallbacks for a readable civic/legal tone without a runtime network dependency.
+- **Runtime font rule:** public CSS must not import Google Fonts or other external font CSS at runtime.
+- **Motion signature:** shared public pages use smooth anchor scrolling, sticky-header scroll offsets, restrained fade-and-rise section entrance, progressive scroll reveal where supported, animated search/mobile navigation disclosure, and short hover transitions for links, buttons, cards, and callouts.
+- **Accessibility rule:** `prefers-reduced-motion: reduce` collapses non-essential animation and transitions.
+
 ### 3.1 CSS Keyframes Registry
 
 #### Staggered Card Fade-Up (`fade-up-stagger`)
@@ -200,8 +210,8 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
-        sans: ['"Inter"', 'system-ui', 'sans-serif'],
+        serif: ['"Iowan Old Style"', '"Palatino Linotype"', '"Book Antiqua"', 'Georgia', 'serif'],
+        sans: ['"Instrument Sans"', 'Aptos', '"Segoe UI"', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'xxs': '0.625rem', // 10px

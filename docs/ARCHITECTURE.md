@@ -64,9 +64,13 @@ Public navigation should use Laravel Wayfinder-generated route helpers from `res
 
 The current About, Programs, Legislation, Projects, News, Contact, Privacy, Accessibility, and Disclaimer slices use static, source-stamped Inertia props in `routes/web.php` so the frontend templates, accessibility behavior, validation contracts, metadata, and SSR build path can be validated before Phase 7 content models and Filament resources exist. These route-prop arrays and the Contact POST route are not the final content-management or inquiry-storage layer; Phase 7 should move biography records, source links, program records, service-routing options, legislative records, project records, news records, inquiry records, status updates, evidence/caption metadata, official-source URLs, verification dates, stale-content states, content-owner fields, encrypted inquiry storage, retention/anonymization, rate-limit policy, audit logging, and approval workflow into server-owned models, policies, services, and admin resources.
 
+Phase 6 browser acceptance was completed with direct Chrome DevTools Protocol automation after `agent-browser` could not auto-launch Chrome in the local sandbox. The accepted public frontend contract covers desktop/mobile route rendering, hydration without console errors, no horizontal overflow at checked viewports, route metadata, skip-link behavior, mobile navigation, search disclosure, page filters, and Contact form validation/success states.
+
 ## Design tokens
 
-Brand colors and typography tokens are defined in `resources/css/app.css` using Tailwind CSS 4 `@theme` syntax, aligned with `bel_zamora_website_plan.md` section 13.
+Brand colors and typography tokens are defined in `resources/css/app.css` using Tailwind CSS 4 `@theme` syntax, aligned with `bel_zamora_website_plan.md` section 13. Runtime CSS must not depend on external font imports; the public site uses locally served `Instrument Sans` for body/interface text and system civic/legal serif fallbacks for headings so restricted networks and low-bandwidth visitors receive readable typography without browser console errors.
+
+Shared public motion also lives in `resources/css/app.css` and is activated through `components/public/PublicSiteLayout.vue`. Motion is limited to smooth anchor scrolling, sticky-header scroll offsets, public section entrance, progressive scroll reveal, search/mobile-navigation disclosure, and short interactive transitions, with a `prefers-reduced-motion` override for accessibility.
 
 ## Phase 6 scope boundary
 
