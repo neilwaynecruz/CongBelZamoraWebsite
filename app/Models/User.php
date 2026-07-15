@@ -95,6 +95,24 @@ class User extends Authenticatable implements FilamentUser, PasskeyUser
         );
     }
 
+    public function canManageLegislation(): bool
+    {
+        return $this->hasAdminRole(
+            AdminRole::SuperAdministrator,
+            AdminRole::ContentAdministrator,
+            AdminRole::LegislativeEditor,
+        );
+    }
+
+    public function canManageProjects(): bool
+    {
+        return $this->hasAdminRole(
+            AdminRole::SuperAdministrator,
+            AdminRole::ContentAdministrator,
+            AdminRole::ProjectEditor,
+        );
+    }
+
     public function canReviewPublicContent(): bool
     {
         return $this->hasAdminRole(

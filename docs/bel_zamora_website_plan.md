@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 15, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and initial Phase 7 backend/admin slices. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide resources, backend-owned Programs and Gabay records, and public read services that preserve the verified Phase 6 Programs/Tulong Dunong/Gabay Inertia contracts.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and initial Phase 7 backend/admin slices. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide/legislative-record/project/project-evidence resources, backend-owned Programs, Gabay, Legislation, and Projects records, and public read services that preserve the verified Phase 6 Programs/Tulong Dunong/Gabay/Legislation/Projects Inertia contracts.
 
 ---
 
@@ -100,7 +100,7 @@ Use only the following status labels:
 | Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
 | Phase 6: Vue Frontend Development                | `Implemented` | Public home, About, Programs, Legislation tracker, Projects, News, Contact, Privacy, Accessibility, and Disclaimer vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, Contact office layout, DPA-safe validation-only inquiry form, dedicated policy templates, route-specific canonical/Open Graph/Twitter/JSON-LD metadata, official-source links, stale-content states, route helpers, SSR build, local HTTP smoke checks, focused frontend/backend tests, and Chrome CDP browser acceptance for desktop/mobile hydration, console, keyboard, responsive overflow, mobile navigation, search, filters, and Contact form states. | Stakeholder acceptance, final office-detail confirmation, and production content/backend ownership remain for later phases. |
-| Phase 7: Backend and Admin Development           | `Partially Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs and Gabay backend slice implemented with `program_categories`, `programs`, `program_requirements`, `program_updates`, `service_guides`, `service_guide_steps`, source/approval attachments, policies, Filament `ProgramResource` and `ServiceGuideResource`, seed records, public read service, and preserved Programs/Tulong Dunong/Gabay Inertia contracts. | Continue vertical slices for server-owned About/static content, Legislation, Projects, News/media, audit viewer, stale-content automation, and dashboard widgets. |
+| Phase 7: Backend and Admin Development           | `Partially Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs and Gabay backend slice implemented with `program_categories`, `programs`, `program_requirements`, `program_updates`, `service_guides`, `service_guide_steps`, source/approval attachments, policies, Filament `ProgramResource` and `ServiceGuideResource`, seed records, public read service, and preserved Programs/Tulong Dunong/Gabay Inertia contracts. Legislation backend slice implemented with `legislative_roles`, `legislative_statuses`, `legislative_topics`, `legislative_records`, `legislative_source_histories`, source/approval attachments, policies, Filament `LegislativeRecordResource`, seed records, public read service, and preserved Legislation tracker Inertia contracts. Projects backend slice implemented with `project_categories`, `project_statuses`, `project_partners`, `projects`, `project_evidences`, source/approval attachments, policies, Filament `ProjectResource` and `ProjectEvidenceResource`, seed records, public read service, and preserved Projects index Inertia contract. | Continue vertical slices for server-owned About/static content, News/media, audit viewer, stale-content automation, and dashboard widgets. |
 | Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
 | Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
 | Phase 10: Content and Legal Approval             | `Blocked`               | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided.                                                                                                                               | Complete content and implementation review, then obtain documented approval.                                                  |
@@ -113,7 +113,7 @@ The next work is:
 
 > **Continue Phase 7: Backend and Admin Development.**
 
-Phases 0, 1, 2, 3, 4, 5, and 6 are implemented. Phase 7 has started with shared governance, inquiry, Programs, and Gabay/service-guide foundations. Continue replacing remaining Phase 6 static route-prop arrays incrementally with server-owned models and services while preserving the verified public Vue/Inertia contracts.
+Phases 0, 1, 2, 3, 4, 5, and 6 are implemented. Phase 7 has started with shared governance, inquiry, Programs, Gabay/service-guide, Legislation, and Projects foundations. Continue replacing remaining Phase 6 static route-prop arrays incrementally with server-owned models and services while preserving the verified public Vue/Inertia contracts.
 
 ## 0.6 How to Use This Plan as a Living Roadmap
 
@@ -245,6 +245,253 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-15 (Phase 7 Projects Backend/Admin Slice)
+
+**Phase:** Phase 7: Backend and Admin Development
+**Task:** Implement backend-owned project/result categories, statuses, partners, projects, evidence records, admin resources, policies, source/approval attachments, and public read services while preserving the Phase 6 Projects index contract
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Added `ProjectStatusValue` and `ProjectStatusTone` enums.
+- Added migrations for `project_categories`, `project_statuses`, `project_partners`, `projects`, and `project_evidences`.
+- Added Eloquent models, enum casts, relationships, scopes, factories, and seeded records for the approved Phase 6 Projects content.
+- Attached source records, evidence rows, and content approval records to seeded project records.
+- Added `ProjectPolicy`, `ProjectCategoryPolicy`, `ProjectStatusPolicy`, `ProjectPartnerPolicy`, and `ProjectEvidencePolicy`.
+- Extended the `User` model with `canManageProjects()`.
+- Added Filament `ProjectResource` and `ProjectEvidenceResource` with list/create/view/edit pages, status/category/partner selectors, evidence and rights fields, publication/review fields, and audit hooks.
+- Added `PublicProjectReadService` and `PublicProjectController`.
+- Replaced the `/projects` static route-prop array with backend-owned read service props.
+- Preserved the verified Phase 6 Projects index Inertia prop contract and query mapping for `status=ongoing`.
+- Added tests for schema, model casts/relationships, policy boundaries, Filament authorization, source/approval workflow, seed records, and public integration.
+
+**Remaining:**
+
+- Server-owned About/static profile content models and admin workflow.
+- News/media models with source, stale-review, media-rights, and approval workflow.
+- Audit viewer, stale-content automation, dashboard widgets, and remaining Phase 7 admin hardening.
+
+**Files created:**
+
+- `app/Enums/ProjectStatusTone.php`
+- `app/Enums/ProjectStatusValue.php`
+- `app/Filament/Resources/ProjectEvidenceResource.php`
+- `app/Filament/Resources/ProjectEvidenceResource/Pages/CreateProjectEvidence.php`
+- `app/Filament/Resources/ProjectEvidenceResource/Pages/EditProjectEvidence.php`
+- `app/Filament/Resources/ProjectEvidenceResource/Pages/ListProjectEvidence.php`
+- `app/Filament/Resources/ProjectEvidenceResource/Pages/ViewProjectEvidence.php`
+- `app/Filament/Resources/ProjectResource.php`
+- `app/Filament/Resources/ProjectResource/Pages/CreateProject.php`
+- `app/Filament/Resources/ProjectResource/Pages/EditProject.php`
+- `app/Filament/Resources/ProjectResource/Pages/ListProjects.php`
+- `app/Filament/Resources/ProjectResource/Pages/ViewProject.php`
+- `app/Http/Controllers/PublicProjectController.php`
+- `app/Models/Project.php`
+- `app/Models/ProjectCategory.php`
+- `app/Models/ProjectEvidence.php`
+- `app/Models/ProjectPartner.php`
+- `app/Models/ProjectStatus.php`
+- `app/Policies/ProjectCategoryPolicy.php`
+- `app/Policies/ProjectEvidencePolicy.php`
+- `app/Policies/ProjectPartnerPolicy.php`
+- `app/Policies/ProjectPolicy.php`
+- `app/Policies/ProjectStatusPolicy.php`
+- `app/Services/PublicProjectReadService.php`
+- `database/factories/ProjectCategoryFactory.php`
+- `database/factories/ProjectEvidenceFactory.php`
+- `database/factories/ProjectFactory.php`
+- `database/factories/ProjectPartnerFactory.php`
+- `database/factories/ProjectStatusFactory.php`
+- `database/migrations/2026_07_15_000170_create_project_categories_table.php`
+- `database/migrations/2026_07_15_000180_create_project_statuses_table.php`
+- `database/migrations/2026_07_15_000190_create_project_partners_table.php`
+- `database/migrations/2026_07_15_000200_create_projects_table.php`
+- `database/migrations/2026_07_15_000210_create_project_evidences_table.php`
+- `database/seeders/ProjectRecordSeeder.php`
+- `tests/Feature/Phase7ProjectsWorkflowTest.php`
+
+**Files updated:**
+
+- `app/Models/User.php`
+- `database/seeders/DatabaseSeeder.php`
+- `docs/ARCHITECTURE.md`
+- `docs/PHASE_7_BACKEND_ADMIN.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+- `routes/web.php`
+- `tests/Feature/InertiaTest.php`
+
+**Validation performed:**
+
+| Command | Result |
+| --- | --- |
+| `php -l app\Services\PublicProjectReadService.php` | Passed. |
+| `php -l app\Http\Controllers\PublicProjectController.php` | Passed. |
+| `php -l database\seeders\ProjectRecordSeeder.php` | Passed. |
+| `php -l app\Filament\Resources\ProjectResource.php` | Passed. |
+| `php -l app\Filament\Resources\ProjectEvidenceResource.php` | Passed. |
+| `php -l tests\Feature\Phase7ProjectsWorkflowTest.php` | Passed. |
+| `php artisan test tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\InertiaTest.php` | Initially failed because Eloquent inferred `project_evidence`; fixed `ProjectEvidence::$table`. Rerun passed: 23 tests, 368 assertions. |
+| `php artisan migrate:fresh --env=testing --force` | Passed; all migrations ran, including project tables. |
+| `php artisan route:list --except-vendor` | Passed; 43 routes including public Projects controller route and Filament project/project-evidence routes. |
+| `php artisan test` | Passed: 80 tests, 694 assertions. |
+| `composer lint:check` | Initially failed on `routes/web.php` import ordering; `composer lint` fixed it. Rerun passed. |
+| `composer types:check` | Passed: PHPStan, 0 errors. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `npm run test` | Passed: 11 files, 23 tests. |
+| `npm run build` | Passed; Vite emitted plugin timing notice only. |
+| `npm run build:ssr` | Passed; Vite emitted the known `@inertiajs/vite` sourcemap warning and plugin timing notices. |
+| `composer test` | Passed: Pint, PHPStan, and 80 tests / 694 assertions. |
+| `git diff --check` | Passed. |
+
+**Decisions:**
+
+- Project statuses use unique slugs while allowing shared machine status values so multiple public labels, such as `Completed / documented` and `Completed / archived`, can map to the same Phase 6 `completed` contract value.
+- Project evidence is modeled separately from generic source records because it carries caption, rights, optional media path, and publication-specific review fields.
+- Public `/projects` keeps the verified Phase 6 prop shape and route name while switching its source to `PublicProjectReadService`.
+
+**Known issues:**
+
+- The SSR build still emits the known `@inertiajs/vite` sourcemap warning from the current Vite/Inertia plugin path; the build succeeds.
+- Seeded project evidence records do not include local media files yet. Approved originals, rights review, captions, alt text, and optimized local assets remain future content-migration work.
+
+**Blockers:**
+
+- None for the next Phase 7 backend slice.
+
+**Risks:**
+
+- Project source pages can drift or disappear unless stale-content automation and periodic source review are completed.
+- Public project images must not be launched until media rights, privacy/consent, caption, and alt-text reviews are complete.
+
+**Recommended next task:**
+
+- Continue Phase 7 with the News/media backend-admin slice: create news/media categories, records, source/stale-review models, policies, Filament resources, public read service that preserves the News index prop contract, tests, and documentation.
+
+### Project Update: 2026-07-15 (Phase 7 Legislation Backend/Admin Slice)
+
+**Phase:** Phase 7: Backend and Admin Development
+**Task:** Implement backend-owned legislative records, statuses, topics, roles, source history, admin resources, policies, source/approval attachments, and public read services while preserving the Phase 6 Legislation tracker contract
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Added `LegislativeRoleValue` and `LegislativeStatusTone` enums.
+- Added migrations for `legislative_roles`, `legislative_statuses`, `legislative_topics`, `legislative_records`, and `legislative_source_histories`.
+- Added Eloquent models, enum casts, relationships, scopes, factories, and seeded records for the approved Phase 6 Legislation tracker content.
+- Added source-history rows, source-record attachments, and content-approval attachments to seeded legislative records.
+- Added `LegislativeRecordPolicy`, `LegislativeRolePolicy`, `LegislativeStatusPolicy`, `LegislativeTopicPolicy`, and `LegislativeSourceHistoryPolicy`.
+- Extended the `User` model with `canManageLegislation()`.
+- Added Filament `LegislativeRecordResource` with list/create/view/edit pages, taxonomy selectors, source-history repeaters, source/review fields, and audit hooks.
+- Added `PublicLegislationReadService` and `PublicLegislationController`.
+- Replaced the `/legislation` static route-prop array with backend-owned read service props.
+- Preserved the verified Phase 6 Legislation tracker Inertia prop contract and query mapping for `role=co-author`.
+- Added tests for schema, model casts/relationships, policy boundaries, Filament authorization, source/approval workflow, seed records, and public integration.
+
+**Remaining:**
+
+- Server-owned About/static profile content models and admin workflow.
+- Project/result models with evidence, partner attribution, and admin workflow.
+- News/media models with approval workflow and stale-content checks.
+- Audit-log read-only Filament resource and staff dashboard widgets.
+- Queue jobs for stale-content checks and source-review notifications.
+- Full role/permission management UI and privileged MFA enforcement review.
+
+**Files created:**
+
+- `app/Enums/LegislativeRoleValue.php`
+- `app/Enums/LegislativeStatusTone.php`
+- `app/Filament/Resources/LegislativeRecordResource.php`
+- `app/Filament/Resources/LegislativeRecordResource/Pages/CreateLegislativeRecord.php`
+- `app/Filament/Resources/LegislativeRecordResource/Pages/EditLegislativeRecord.php`
+- `app/Filament/Resources/LegislativeRecordResource/Pages/ListLegislativeRecords.php`
+- `app/Filament/Resources/LegislativeRecordResource/Pages/ViewLegislativeRecord.php`
+- `app/Http/Controllers/PublicLegislationController.php`
+- `app/Models/LegislativeRecord.php`
+- `app/Models/LegislativeRole.php`
+- `app/Models/LegislativeSourceHistory.php`
+- `app/Models/LegislativeStatus.php`
+- `app/Models/LegislativeTopic.php`
+- `app/Policies/LegislativeRecordPolicy.php`
+- `app/Policies/LegislativeRolePolicy.php`
+- `app/Policies/LegislativeSourceHistoryPolicy.php`
+- `app/Policies/LegislativeStatusPolicy.php`
+- `app/Policies/LegislativeTopicPolicy.php`
+- `app/Services/PublicLegislationReadService.php`
+- `database/factories/LegislativeRecordFactory.php`
+- `database/factories/LegislativeRoleFactory.php`
+- `database/factories/LegislativeSourceHistoryFactory.php`
+- `database/factories/LegislativeStatusFactory.php`
+- `database/factories/LegislativeTopicFactory.php`
+- `database/migrations/2026_07_15_000120_create_legislative_roles_table.php`
+- `database/migrations/2026_07_15_000130_create_legislative_statuses_table.php`
+- `database/migrations/2026_07_15_000140_create_legislative_topics_table.php`
+- `database/migrations/2026_07_15_000150_create_legislative_records_table.php`
+- `database/migrations/2026_07_15_000160_create_legislative_source_histories_table.php`
+- `database/seeders/LegislativeRecordSeeder.php`
+- `tests/Feature/Phase7LegislationWorkflowTest.php`
+
+**Files updated:**
+
+- `app/Models/User.php`
+- `database/seeders/DatabaseSeeder.php`
+- `docs/ARCHITECTURE.md`
+- `docs/PHASE_7_BACKEND_ADMIN.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+- `routes/web.php`
+- `tests/Feature/InertiaTest.php`
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l app\Services\PublicLegislationReadService.php` | Passed. |
+| `php -l database\seeders\LegislativeRecordSeeder.php` | Passed. |
+| `php -l app\Filament\Resources\LegislativeRecordResource.php` | Passed. |
+| `php -l tests\Feature\Phase7LegislationWorkflowTest.php` | Passed. |
+| `php -l app\Models\LegislativeRecord.php` | Passed. |
+| `php artisan test tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 23 tests, 362 assertions. |
+| `php artisan migrate:fresh --env=testing --force` | Passed after shortening MySQL index names for legislative composite indexes. |
+| `php artisan route:list --except-vendor` | Passed; 35 routes including public Legislation controller route and Filament legislative-record routes. |
+| `composer lint:check` | Initially failed on import order, then passed. |
+| `composer types:check` | Initially failed on a factory string type, then passed. |
+| `php artisan test` | Passed: 74 tests, 627 assertions. |
+| `composer test` | Passed: Pint, PHPStan, and 74 tests / 627 assertions. |
+| `php artisan migrate:status --env=testing` | Passed; new Legislation migrations show `Ran`. |
+
+**Decisions:**
+
+- Preserve the Phase 6 Legislation tracker prop shape exactly at the public route boundary.
+- Store roles, statuses, and topics as first-class backend records while mapping role/status enum values for stable public props.
+- Seed only the existing reviewed Phase 6 legislative sample records; do not add new bill claims.
+- Keep source-history rows local to legislative records and attach formal source/approval records through shared governance tables.
+- Allow Legislative Editor and Content Administrator roles to manage legislative records; allow Reviewer / Approver and Read-Only Auditor roles to view/review without editing; keep Inquiry Officer and Program Officer roles isolated from legislative content management.
+
+**Known issues:**
+
+- Phase 7 remains partially implemented; governance, inquiry, Programs/Gabay, and Legislation backend slices are complete.
+- About, Projects, and News still use Phase 6 route-owned static props.
+- Final bill-level official source URLs and formal District Office legislative-staff approval are still required before launch.
+
+**Blockers:**
+
+- None for the next Phase 7 backend slice.
+
+**Risks:**
+
+- Seeded legislative records are based on Phase 6 reviewed sample content and still require final official source confirmation before launch.
+- Legislative status can change; stale-content automation is still pending.
+- Admin role management remains a typed-column foundation, not a full delegated permission-management UI.
+
+**Recommended next task:**
+
+- Continue Phase 7 with the Projects backend/admin slice: create project/result/evidence models, policies, Filament resources, public read services that preserve the Projects index prop contract, tests, and documentation.
 
 ### Project Update: 2026-07-15 (Phase 7 Programs and Gabay Backend/Admin Slice)
 

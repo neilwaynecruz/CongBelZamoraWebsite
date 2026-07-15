@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\LegislativeRecordSeeder;
 use Database\Seeders\ProgramAndServiceGuideSeeder;
+use Database\Seeders\ProjectRecordSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -92,6 +94,8 @@ class InertiaTest extends TestCase
 
     public function test_legislation_tracker_renders_legislative_slice_props(): void
     {
+        $this->seed(LegislativeRecordSeeder::class);
+
         $this->get(route('public.legislation'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -109,6 +113,8 @@ class InertiaTest extends TestCase
 
     public function test_legislation_tracker_accepts_approved_role_query_filter(): void
     {
+        $this->seed(LegislativeRecordSeeder::class);
+
         $this->get(route('public.legislation', ['role' => 'co-author']))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -118,6 +124,8 @@ class InertiaTest extends TestCase
 
     public function test_projects_index_renders_project_slice_props(): void
     {
+        $this->seed(ProjectRecordSeeder::class);
+
         $this->get(route('public.projects'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -136,6 +144,8 @@ class InertiaTest extends TestCase
 
     public function test_projects_index_accepts_approved_status_query_filter(): void
     {
+        $this->seed(ProjectRecordSeeder::class);
+
         $this->get(route('public.projects', ['status' => 'ongoing']))
             ->assertOk()
             ->assertInertia(fn ($page) => $page

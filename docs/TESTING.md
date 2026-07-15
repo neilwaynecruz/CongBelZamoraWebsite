@@ -120,18 +120,20 @@ Additional July 15, 2026 motion/scroll validation after the smooth-scroll refine
 
 ## Phase 7 Backend/Admin Foundation Tests
 
-The first Phase 7 slices add backend-owned governance tables, encrypted inquiry storage, public inquiry persistence, audit logging, role policies, Filament inquiry authorization, inquiry retention automation, backend-owned Programs/Gabay records, and Filament program/service-guide authorization.
+The first Phase 7 slices add backend-owned governance tables, encrypted inquiry storage, public inquiry persistence, audit logging, role policies, Filament inquiry authorization, inquiry retention automation, backend-owned Programs/Gabay records, backend-owned Legislation records, backend-owned Projects records, and Filament program/service-guide/legislative/project authorization.
 
 Relevant commands:
 
 ```powershell
 php artisan test tests\Feature\Phase7GovernanceSchemaTest.php tests\Feature\Phase7InquiryWorkflowTest.php
 php artisan test tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\InertiaTest.php
+php artisan test tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\InertiaTest.php
+php artisan test tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\InertiaTest.php
 composer lint:check
 composer types:check
 php artisan test
 composer test
-php artisan migrate --env=testing --force
+php artisan migrate:fresh --env=testing --force
 php artisan migrate:status --env=testing
 php artisan route:list --except-vendor
 php artisan schedule:list
@@ -141,11 +143,13 @@ Latest results:
 
 - Targeted Phase 7 tests passed: 6 tests, 45 assertions.
 - Targeted Programs/Gabay backend and Inertia contract tests passed: 23 tests, 385 assertions.
-- Full Laravel test suite passed: 68 tests, 566 assertions.
-- `composer test` passed: Pint, PHPStan, and 68 tests / 566 assertions.
+- Targeted Legislation backend and Inertia contract tests passed: 23 tests, 362 assertions.
+- Targeted Projects backend and Inertia contract tests passed: 23 tests, 368 assertions.
+- Full Laravel test suite passed: 80 tests, 694 assertions.
+- `composer test` passed: Pint, PHPStan, and 80 tests / 694 assertions.
 - Pint and PHPStan passed.
 - Testing migrations ran successfully and Phase 7 migrations show `Ran`.
-- Route list shows the public inquiry POST route, public Programs controller routes, and Filament inquiry/program/service-guide routes.
+- Route list shows the public inquiry POST route, public Programs, Legislation, and Projects controller routes, and Filament inquiry/program/service-guide/legislative-record/project/project-evidence routes.
 - Schedule list shows `php artisan inquiries:anonymize-expired` daily at 02:30.
 
 Coverage added:
@@ -164,3 +168,16 @@ Coverage added:
 - Least-privilege policy separation for Program Officer, Content Administrator, Reviewer / Approver, Inquiry Officer, Read-Only Auditor, and Super Administrator roles.
 - Filament `ProgramResource` and `ServiceGuideResource` authorization.
 - Public Programs index, Tulong Dunong detail, and Gabay routing routes using backend records while preserving Phase 6 Inertia prop contracts.
+- Legislation schema existence for roles, statuses, topics, records, and source histories.
+- Legislative enum casts and role/status/topic/source-history relationships.
+- Source-history, source-record, and approval-record attachments for seeded legislative records.
+- Least-privilege policy separation for Legislative Editor, Content Administrator, Reviewer / Approver, Inquiry Officer, Program Officer, Read-Only Auditor, and Super Administrator roles.
+- Filament `LegislativeRecordResource` authorization.
+- Public Legislation tracker route using backend records while preserving Phase 6 Inertia prop contracts and `role=co-author` query mapping.
+- Projects schema existence for project categories, statuses, partners, records, and evidence rows.
+- Project enum casts and category/status/partner/evidence relationships.
+- Evidence, source-record, and approval-record attachments for seeded project records.
+- Least-privilege policy separation for Project Editor, Content Administrator, Reviewer / Approver, Inquiry Officer, Legislative Editor, Read-Only Auditor, and Super Administrator roles.
+- Filament `ProjectResource` and `ProjectEvidenceResource` authorization.
+- Public Projects route using backend records while preserving Phase 6 Inertia prop contracts and `status=ongoing` query mapping.
+- Current frontend contract checks after the Projects backend slice: `npm run lint:check`, `npm run format:check`, `npm run types:check`, `npm run test`, `npm run build`, and `npm run build:ssr` passed. SSR still emits the known `@inertiajs/vite` sourcemap warning.

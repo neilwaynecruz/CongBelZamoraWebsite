@@ -43,22 +43,46 @@ Implemented:
 - `PublicProgramReadService` and `PublicProgramController` for `/programs`, `/programs/gabay`, and `/programs/education/tulong-dunong`.
 - Public read service props that preserve the verified Phase 6 Programs index, Tulong Dunong detail, and Gabay routing Inertia contracts.
 
+### Legislation Tracker
+
+Implemented:
+
+- `legislative_roles`, `legislative_statuses`, `legislative_topics`, `legislative_records`, and `legislative_source_histories`.
+- Eloquent models, enum casts, relationships, factories, scopes, and seeded backend records for the approved Phase 6 Legislation tracker content.
+- Source-history records plus shared source-record and content-approval attachments for seeded legislative records.
+- Least-privilege policies for Legislative Editor, Content Administrator, Reviewer / Approver, Read-Only Auditor, Inquiry Officer, Program Officer, and Super Administrator roles.
+- Filament `LegislativeRecordResource` with create/view/edit/list pages, taxonomy selectors, source-history repeaters, source/review fields, and audit hooks.
+- `PublicLegislationReadService` and `PublicLegislationController` for `/legislation`.
+- Public read service props that preserve the verified Phase 6 Legislation tracker Inertia contract, including `role=co-author` query mapping.
+
+### Projects and Results
+
+Implemented:
+
+- `project_categories`, `project_statuses`, `project_partners`, `projects`, and `project_evidences`.
+- Eloquent models, enum casts, relationships, factories, scopes, and seeded backend records for the approved Phase 6 Projects content.
+- Project evidence rows plus shared source-record and content-approval attachments for seeded project records.
+- Least-privilege policies for Project Editor, Content Administrator, Reviewer / Approver, Read-Only Auditor, Inquiry Officer, Legislative Editor, and Super Administrator roles.
+- Filament `ProjectResource` and `ProjectEvidenceResource` with create/view/edit/list pages, taxonomy selectors, evidence rights fields, source/review fields, and audit hooks.
+- `PublicProjectReadService` and `PublicProjectController` for `/projects`.
+- Public read service props that preserve the verified Phase 6 Projects index Inertia contract, including `status=ongoing` query mapping.
+
 ---
 
 ## 2. Role Matrix
 
-| Role | Staff Panel | Inquiry Records | Programs / Service Guides | Source Records | Approval Records | Audit Records |
-|---|---:|---:|---:|---:|---:|---:|
-| Super Administrator | Yes | View/update | Create/update/delete | Create/update/delete | Review/update | View |
-| Content Administrator | Yes | No | Create/update/delete | Create/update/delete | Create/review/update | No |
-| Communications Editor | Yes | No | No | Create/update | Create | No |
-| Program Officer | Yes | No | Create/update | Create/update | Create | No |
-| Legislative Editor | Yes | No | No | Create/update | Create | No |
-| Project Editor | Yes | No | No | Create/update | Create | No |
-| Media Manager | Yes | No | No | Create/update | Create | No |
-| Reviewer / Approver | Yes | No | View/review | View | Review/update | No |
-| Inquiry Officer | Yes | View/update unassigned or assigned inquiries | No | View | View | No |
-| Read-Only Auditor | Yes | View only | View only | View | View | View |
+| Role | Staff Panel | Inquiry Records | Programs / Service Guides | Legislative Records | Projects / Evidence | Source Records | Approval Records | Audit Records |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Super Administrator | Yes | View/update | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Review/update | View |
+| Content Administrator | Yes | No | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/review/update | No |
+| Communications Editor | Yes | No | No | No | No | Create/update | Create | No |
+| Program Officer | Yes | No | Create/update | No | No | Create/update | Create | No |
+| Legislative Editor | Yes | No | No | Create/update | No | Create/update | Create | No |
+| Project Editor | Yes | No | No | No | Create/update | Create/update | Create | No |
+| Media Manager | Yes | No | No | No | No | Create/update | Create | No |
+| Reviewer / Approver | Yes | No | View/review | View/review | View/review | View | Review/update | No |
+| Inquiry Officer | Yes | View/update unassigned or assigned inquiries | No | No | No | View | View | No |
+| Read-Only Auditor | Yes | View only | View only | View only | View only | View | View | View |
 
 Public content editors do not automatically receive access to citizen inquiry data.
 
@@ -116,7 +140,47 @@ Seeded records are copied from approved Phase 6 content only. They include respo
 
 ---
 
-## 5. Privacy Rules
+## 5. Legislation Public Contract
+
+The public route now reads from backend records:
+
+- `GET /legislation`
+
+The public prop shape remains compatible with the Phase 6 Vue template:
+
+- `breadcrumbs`
+- `legislativeItems`
+- `roleOptions`
+- `statusOptions`
+- `topicOptions`
+- `initialFilters`
+- `verifiedAt`
+
+Seeded records are copied from approved Phase 6 content only. They preserve bill numbers, official titles, public titles, role labels, status tones, topics, committees, plain-language summaries, San Juan relevance notes, and official-source CTAs.
+
+---
+
+## 6. Projects Public Contract
+
+The public route now reads from backend records:
+
+- `GET /projects`
+
+The public prop shape remains compatible with the Phase 6 Vue template:
+
+- `breadcrumbs`
+- `projects`
+- `barangayOptions`
+- `statusOptions`
+- `categoryOptions`
+- `initialFilters`
+- `verifiedAt`
+
+Seeded records are copied from approved Phase 6 content only. They preserve project titles, slugs, category labels, status labels and tones, barangay filters, partner attribution, responsible-office boundaries, evidence summaries, image guidance, official-source CTAs, and verification dates.
+
+---
+
+## 7. Privacy Rules
 
 - No ID numbers, certificates, medical records, income records, school records, or uploads are collected.
 - Audit logs do not store citizen name, email, phone, or message body.
@@ -127,7 +191,7 @@ Seeded records are copied from approved Phase 6 content only. They include respo
 
 ---
 
-## 6. Queue and Scheduler
+## 8. Queue and Scheduler
 
 Email confirmation uses Laravel notifications and implements `ShouldQueue`.
 
@@ -157,7 +221,7 @@ Expected schedule entry:
 
 ---
 
-## 7. Environment Variables
+## 9. Environment Variables
 
 Add to every environment:
 
@@ -169,36 +233,43 @@ Production should continue using a real queue backend such as Redis and must kee
 
 ---
 
-## 8. Validation Results
+## 10. Validation Results
 
 Latest local validation:
 
 | Command | Result |
 |---|---|
 | `php -l` on representative new PHP files | Passed. |
+| `php artisan test tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 23 tests, 368 assertions. |
+| `php artisan test tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 23 tests, 362 assertions. |
 | `php artisan test tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 23 tests, 385 assertions. |
 | `php artisan test tests\Feature\Phase7GovernanceSchemaTest.php tests\Feature\Phase7InquiryWorkflowTest.php` | Passed: 6 tests, 45 assertions. |
 | `composer lint:check` | Passed. |
 | `composer types:check` | Passed. |
-| `php artisan test` | Passed: 68 tests, 566 assertions. |
-| `composer test` | Passed: Pint, PHPStan, and 68 tests / 566 assertions. |
-| `php artisan migrate --env=testing --force` | Passed; all new Phase 7 migrations ran, including Programs/Gabay migrations. |
+| `php artisan test` | Passed: 80 tests, 694 assertions. |
+| `composer test` | Passed: Pint, PHPStan, and 80 tests / 694 assertions. |
+| `php artisan migrate:fresh --env=testing --force` | Passed; all Phase 7 migrations ran, including Programs/Gabay, Legislation, and Projects migrations. |
 | `php artisan migrate:status --env=testing` | Passed; Phase 7 migrations show `Ran`. |
-| `php artisan route:list --except-vendor` | Passed; 31 routes including public Programs controller routes and Filament inquiry/program/service-guide routes. |
+| `php artisan route:list --except-vendor` | Passed; 43 routes including public Programs/Legislation/Projects controller routes and Filament inquiry/program/service-guide/legislative-record/project/project-evidence routes. |
 | `php artisan schedule:list` | Passed; daily inquiry anonymization is scheduled. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `npm run test` | Passed: 11 files, 23 tests. |
+| `npm run build` | Passed; Vite emitted plugin timing notice only. |
+| `npm run build:ssr` | Passed; Vite emitted the known `@inertiajs/vite` sourcemap warning and plugin timing notices. |
+| `git diff --check` | Passed. |
 
 ---
 
-## 9. Remaining Phase 7 Work
+## 11. Remaining Phase 7 Work
 
 Next backend/admin slices:
 
 1. Server-owned public content models and read services for About/static pages.
-2. Legislative record models, source histories, and filters.
-3. Project/result models with evidence and partner attribution.
-4. News/media models with approval workflow and stale-content checks.
-5. Audit log Filament read-only resource.
-6. Dashboard widgets for stale content, open programs, pending approvals, unanswered inquiries, and site health.
-7. Queue jobs for stale-content checks and notification routing.
+2. News/media models with approval workflow and stale-content checks.
+3. Audit log Filament read-only resource.
+4. Dashboard widgets for stale content, open programs, pending approvals, unanswered inquiries, and site health.
+5. Queue jobs for stale-content checks and notification routing.
 
 Phase 7 must not be marked `Implemented` until every MVP backend/admin module passes authorization, validation, audit, privacy, admin, and public integration acceptance criteria.

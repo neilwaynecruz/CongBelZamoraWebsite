@@ -25,5 +25,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(ProgramAndServiceGuideSeeder::class);
+        $this->call(LegislativeRecordSeeder::class);
+        $this->call(ProjectRecordSeeder::class);
     }
 }
