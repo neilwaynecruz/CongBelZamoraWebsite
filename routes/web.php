@@ -1,9 +1,10 @@
 <?php
 
+use App\Enums\InquiryCategory;
+use App\Http\Controllers\PublicInquiryController;
+use App\Http\Controllers\PublicProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -228,261 +229,9 @@ Route::get('/about', function () {
     ]);
 })->name('public.about');
 
-Route::get('/programs', function () {
-    $programs = [
-        [
-            'title' => 'CHED UniFAST Tulong Dunong',
-            'href' => '/programs/education/tulong-dunong',
-            'sector' => 'Education',
-            'status' => 'open',
-            'statusLabel' => 'Bukas / Open',
-            'summary' => 'District Office triage and orientation for eligible San Juan college students under CHED and UniFAST rules.',
-            'responsibleOfficeType' => 'joint_initiative',
-            'responsibleOfficeLabel' => 'District Office and CHED / UniFAST partnership',
-            'partnerAgency' => 'CHED / UniFAST',
-            'beneficiaryGroup' => 'San Juan college and incoming college students',
-            'applicationPeriod' => 'Current round must be reconfirmed with the District Office',
-            'verifiedAt' => 'July 12, 2026',
-            'sourceLabel' => 'CHED UniFAST information',
-            'sourceUrl' => 'https://ched.gov.ph/unifast/',
-        ],
-        [
-            'title' => 'Solo Parent Educational Assistance',
-            'href' => '/programs/gabay',
-            'sector' => 'Solo Parents',
-            'status' => 'open',
-            'statusLabel' => 'Bukas / Open',
-            'summary' => 'Routing guidance for education-support programs connected to registered San Juan solo parents.',
-            'responsibleOfficeType' => 'joint_initiative',
-            'responsibleOfficeLabel' => 'San Juan City Government with District Office coordination',
-            'partnerAgency' => 'San Juan City Government',
-            'beneficiaryGroup' => 'Children of registered San Juan solo parents',
-            'applicationPeriod' => 'Follow the current city government advisory',
-            'verifiedAt' => 'July 12, 2026',
-        ],
-        [
-            'title' => 'eGovPH Serbisyo Hub',
-            'href' => '/programs/gabay',
-            'sector' => 'Digital Services',
-            'status' => 'ongoing',
-            'statusLabel' => 'Ongoing',
-            'summary' => 'Guidance for residents using national digital government services hosted in Makabagong San Juan.',
-            'responsibleOfficeType' => 'joint_initiative',
-            'responsibleOfficeLabel' => 'DICT, national government, and city partners',
-            'partnerAgency' => 'DICT / eGovPH',
-            'beneficiaryGroup' => 'San Juan residents using national digital services',
-            'applicationPeriod' => 'Ongoing service guidance',
-            'verifiedAt' => 'July 12, 2026',
-        ],
-        [
-            'title' => 'Medical and Public Welfare Routing',
-            'href' => '/programs/gabay',
-            'sector' => 'Health',
-            'status' => 'for_announcement',
-            'statusLabel' => 'For Announcement',
-            'summary' => 'Plain-language routing for hospital, public-welfare, and social-service concerns that may belong to city or national agencies.',
-            'responsibleOfficeType' => 'city_government',
-            'responsibleOfficeLabel' => 'San Juan City Government or national agency, depending on concern',
-            'partnerAgency' => 'City Health Office / DSWD / DOH as applicable',
-            'beneficiaryGroup' => 'Residents seeking medical or welfare guidance',
-            'applicationPeriod' => 'Use Gabay to identify the correct office first',
-            'verifiedAt' => 'July 12, 2026',
-        ],
-    ];
-
-    return Inertia::render('Public/Programs/Index', [
-        'breadcrumbs' => [
-            ['title' => 'Home', 'href' => '/'],
-            ['title' => 'Programs'],
-        ],
-        'programs' => $programs,
-        'sectors' => collect($programs)->pluck('sector')->unique()->values()->all(),
-        'statuses' => collect($programs)->pluck('statusLabel')->unique()->values()->all(),
-        'verifiedAt' => 'July 12, 2026',
-    ]);
-})->name('public.programs');
-
-Route::get('/programs/gabay', function () {
-    return Inertia::render('Public/Programs/Gabay', [
-        'breadcrumbs' => [
-            ['title' => 'Home', 'href' => '/'],
-            ['title' => 'Programs', 'href' => '/programs'],
-            ['title' => 'Gabay San Juaneño'],
-        ],
-        'serviceOptions' => [
-            [
-                'id' => 'education-assistance',
-                'label' => 'Education assistance / Tulong Dunong',
-                'concern' => 'Scholarship or education-assistance inquiry',
-                'responsibleOfficeType' => 'joint_initiative',
-                'responsibleOfficeLabel' => 'District Office and CHED / UniFAST',
-                'districtOfficeRole' => 'The District Office can help explain the current announcement, triage questions, and guide eligible students to the approved channel.',
-                'canDistrictOfficeDirectlyHandle' => true,
-                'explanation' => 'Tulong Dunong follows CHED and UniFAST rules. The District Office may help with orientation and routing, but final eligibility and approval depend on the current official program rules.',
-                'prepareItems' => [
-                    'Current school enrollment or registration details',
-                    'Proof of San Juan residency when required by the current announcement',
-                    'Valid contact information for official follow-up',
-                    'Questions about eligibility, deadline, and accepted documents',
-                ],
-                'doNotSubmitItems' => [
-                    'Government ID scans through the basic inquiry form',
-                    'Income records, certificates, or student documents through unofficial accounts',
-                    'Medical, financial, or family-sensitive records unless an approved secure process exists',
-                ],
-                'nextStep' => 'Read the Tulong Dunong page first, then contact the District Office only through official channels if details remain unclear.',
-                'contactLabel' => 'Read Tulong Dunong details',
-                'contactHref' => '/programs/education/tulong-dunong',
-            ],
-            [
-                'id' => 'medical-public-welfare',
-                'label' => 'Medical or public-welfare concern',
-                'concern' => 'Medical, hospital, or public-welfare routing',
-                'responsibleOfficeType' => 'city_government',
-                'responsibleOfficeLabel' => 'San Juan City Government / City Health Office',
-                'districtOfficeRole' => 'The District Office may provide routing information, but medical and welfare program operations usually belong to city or national agencies.',
-                'canDistrictOfficeDirectlyHandle' => false,
-                'explanation' => 'General medical support, hospital routing, and city social-service concerns should start with the proper city or national office so residents receive correct requirements and official processing steps.',
-                'prepareItems' => [
-                    'Name of the hospital, clinic, or public office involved',
-                    'General description of the concern without sensitive medical details',
-                    'Preferred official contact channel',
-                ],
-                'doNotSubmitItems' => [
-                    'Medical certificates or prescriptions',
-                    'Hospital bills with personal diagnosis details',
-                    'Patient IDs, PhilHealth records, or other sensitive documents',
-                ],
-                'nextStep' => 'Use the official San Juan City Government or City Health Office channel for requirements and processing details.',
-                'contactLabel' => 'Visit San Juan City portal',
-                'contactHref' => 'https://www.sanjuancity.gov.ph/',
-            ],
-            [
-                'id' => 'local-permit-barangay',
-                'label' => 'Local permits, roads, or barangay issue',
-                'concern' => 'Business permit, local road, zoning, or barangay service',
-                'responsibleOfficeType' => 'city_government',
-                'responsibleOfficeLabel' => 'San Juan City Government or barangay office',
-                'districtOfficeRole' => 'The District Office can clarify that these concerns are local-government responsibilities and point residents to the proper city or barangay channel.',
-                'canDistrictOfficeDirectlyHandle' => false,
-                'explanation' => 'City permits, barangay certificates, zoning, road maintenance, and local ordinance enforcement are handled by local government offices rather than the congressional District Office.',
-                'prepareItems' => [
-                    'Barangay or street location',
-                    'Type of permit, certificate, or local service needed',
-                    'Photos or evidence only when the receiving local office asks through an official channel',
-                ],
-                'doNotSubmitItems' => [
-                    'Business registration files through the District Office inquiry form',
-                    'Personal IDs or property documents through unofficial pages',
-                    'Sensitive complaint details beyond what is needed for routing',
-                ],
-                'nextStep' => 'Contact the relevant barangay hall or city department and keep any reference number they provide.',
-                'contactLabel' => 'Visit San Juan City portal',
-                'contactHref' => 'https://www.sanjuancity.gov.ph/',
-            ],
-            [
-                'id' => 'legislative-feedback',
-                'label' => 'Legislative concern or feedback',
-                'concern' => 'Bill, resolution, policy, or legislative feedback',
-                'responsibleOfficeType' => 'district_office',
-                'responsibleOfficeLabel' => 'District Office / Legislative staff',
-                'districtOfficeRole' => 'The District Office can receive general feedback, route policy questions to legislative staff, and point residents to official House records.',
-                'canDistrictOfficeDirectlyHandle' => true,
-                'explanation' => 'Legislative feedback is within the congressional role, but staff still need clear, non-sensitive messages and official source references where possible.',
-                'prepareItems' => [
-                    'Bill number or policy topic, if known',
-                    'Short plain-language comment or question',
-                    'Preferred contact channel for a response',
-                ],
-                'doNotSubmitItems' => [
-                    'Private case files unrelated to public policy',
-                    'Sensitive personal records as evidence',
-                    'Legal-service requests that require formal counsel',
-                ],
-                'nextStep' => 'Use the public inquiry path or review the legislative tracker once the full Phase 6 template is implemented.',
-                'contactLabel' => 'Send a basic inquiry',
-                'contactHref' => '/contact#inquiry-form',
-            ],
-        ],
-        'verifiedAt' => 'July 12, 2026',
-    ]);
-})->name('public.programs.gabay');
-
-Route::get('/programs/education/tulong-dunong', function () {
-    return Inertia::render('Public/Programs/TulongDunong', [
-        'breadcrumbs' => [
-            ['title' => 'Home', 'href' => '/'],
-            ['title' => 'Programs', 'href' => '/programs'],
-            ['title' => 'Education'],
-            ['title' => 'Tulong Dunong'],
-        ],
-        'program' => [
-            'title' => 'CHED UniFAST Tulong Dunong Program',
-            'eyebrow' => 'Education assistance',
-            'description' => 'Financial assistance guidance for qualified college or incoming college students, subject to CHED UniFAST rules and the current official District Office announcement.',
-            'status' => 'open',
-            'statusLabel' => 'Bukas / Open',
-            'responsibleOfficeLabel' => 'District Office and CHED / UniFAST partnership',
-            'partnerAgencies' => [
-                'CHED / UniFAST',
-                'District Office of Congresswoman Atty. Bel Zamora',
-                'Approved implementing partners named in the current announcement',
-            ],
-            'benefit' => 'Historical reference: ₱7,500 per qualified scholar for the cited round. The current approved benefit must be reconfirmed for every new application cycle.',
-            'applicationPeriod' => 'Current round must be reconfirmed with the District Office',
-            'verifiedAt' => 'July 12, 2026',
-            'sourceLabel' => 'CHED UniFAST information',
-            'sourceUrl' => 'https://ched.gov.ph/unifast/',
-            'officeRole' => 'Triage, orientation, and public guidance. Final eligibility, slots, and approval follow official CHED / UniFAST and District Office rules.',
-            'eligibility' => [
-                'Filipino citizen and San Juan City resident, when required by the current official announcement.',
-                'Currently enrolled or incoming college student in a CHED-recognized higher education institution.',
-                'Meets academic, family-income, and other UniFAST eligibility rules for the current cycle.',
-                'Not disqualified by overlapping scholarship or assistance rules stated in the current announcement.',
-            ],
-            'requirementGroups' => [
-                [
-                    'title' => 'Identity and residency',
-                    'items' => [
-                        'Valid identification, if required by the current official announcement.',
-                        'Proof of San Juan residency or barangay certificate, when required.',
-                    ],
-                    'note' => 'Do not send ID scans through the basic inquiry form.',
-                ],
-                [
-                    'title' => 'School and eligibility',
-                    'items' => [
-                        'Enrollment form or certificate of registration.',
-                        'Academic record or certificate required by the current cycle.',
-                        'Income-related document or certificate of indigency only when officially requested.',
-                        'Official application form, when released.',
-                    ],
-                    'note' => 'Document lists may change per academic year.',
-                ],
-            ],
-            'processSteps' => [
-                'Review the current official announcement, status, deadline, and eligibility.',
-                'Prepare only the documents required for the current cycle.',
-                'Submit through the approved District Office or CHED / UniFAST channel.',
-                'Keep any confirmation or reference number from the official channel.',
-                'Wait for official validation and announcements; submission does not guarantee approval.',
-            ],
-            'reminders' => [
-                'Limited slots may apply and must be stated in the current announcement.',
-                'A first-come, first-served rule should only be shown when officially stated.',
-                'Do not send personal documents to unofficial pages, personal accounts, or comment threads.',
-                'Check publication and last-updated dates before relying on program details.',
-            ],
-            'privacyNotes' => [
-                'The MVP inquiry form must not collect ID scans, income records, student records, or sensitive uploads.',
-                'Any future document-upload portal requires separate privacy, security, retention, and access review.',
-                'Use official channels only when submitting required documents.',
-            ],
-            'contactHref' => '/contact#inquiry-form',
-            'latestAnnouncementHref' => '/news',
-        ],
-    ]);
-})->name('public.programs.tulong-dunong');
+Route::get('/programs', [PublicProgramController::class, 'index'])->name('public.programs');
+Route::get('/programs/gabay', [PublicProgramController::class, 'gabay'])->name('public.programs.gabay');
+Route::get('/programs/education/tulong-dunong', [PublicProgramController::class, 'tulongDunong'])->name('public.programs.tulong-dunong');
 
 Route::get('/legislation', function (Request $request) {
     $legislativeItems = [
@@ -814,29 +563,6 @@ Route::get('/news', function (Request $request) {
 })->name('public.news');
 
 Route::get('/contact', function (Request $request) {
-    $inquiryCategories = [
-        [
-            'value' => 'educational_assistance',
-            'label' => 'Educational assistance',
-            'description' => 'Questions about Tulong Dunong, student orientation, or education-program routing.',
-        ],
-        [
-            'value' => 'medical_social_services',
-            'label' => 'Medical or social-service routing',
-            'description' => 'General routing questions for medical, welfare, burial, or city/national-agency services.',
-        ],
-        [
-            'value' => 'legislative_feedback',
-            'label' => 'Legislative feedback',
-            'description' => 'Comments or questions about bills, policy work, committee concerns, or public consultations.',
-        ],
-        [
-            'value' => 'general_inquiry',
-            'label' => 'General inquiry',
-            'description' => 'Basic District Office questions that do not fit the other categories.',
-        ],
-    ];
-
     return Inertia::render('Public/Contact', [
         'breadcrumbs' => [
             ['title' => 'Home', 'href' => '/'],
@@ -870,7 +596,7 @@ Route::get('/contact', function (Request $request) {
                 'note' => 'Directory listing only; direct phone number and visitor process require District Office confirmation.',
             ],
         ],
-        'inquiryCategories' => $inquiryCategories,
+        'inquiryCategories' => InquiryCategory::publicOptions(),
         'privacyHighlights' => [
             'The form asks only for name, one contact channel, inquiry category, and a short message.',
             'Do not include government ID numbers, birth certificates, income records, grades, medical records, prescriptions, diagnosis, or photos of documents.',
@@ -887,53 +613,9 @@ Route::get('/contact', function (Request $request) {
     ]);
 })->name('public.contact');
 
-Route::post('/contact/inquiries', function (Request $request) {
-    $categoryLabels = [
-        'educational_assistance' => 'Educational assistance',
-        'medical_social_services' => 'Medical or social-service routing',
-        'legislative_feedback' => 'Legislative feedback',
-        'general_inquiry' => 'General inquiry',
-    ];
-
-    $validated = $request->validate(
-        [
-            'citizen_name' => ['required', 'string', 'max:100'],
-            'contact_preference' => ['required', Rule::in(['email', 'sms'])],
-            'citizen_email' => ['nullable', 'required_if:contact_preference,email', 'email:rfc', 'max:255'],
-            'citizen_mobile' => ['nullable', 'required_if:contact_preference,sms', 'regex:/^\+639[0-9]{9}$/'],
-            'inquiry_category' => ['required', Rule::in(array_keys($categoryLabels))],
-            'message_body' => ['required', 'string', 'min:20', 'max:1000'],
-            'privacy_consent' => ['accepted'],
-        ],
-        [
-            'citizen_name.required' => 'Ang pangalan ay kailangan / The name field is required.',
-            'contact_preference.required' => 'Pumili ng contact preference / Please choose a contact preference.',
-            'citizen_email.required_if' => 'Kailangan ang email kung email ang pinili / Email is required when email is selected.',
-            'citizen_email.email' => 'Maglagay ng valid email address / Please enter a valid email address.',
-            'citizen_mobile.required_if' => 'Kailangan ang mobile number kung SMS ang pinili / Mobile number is required when SMS is selected.',
-            'citizen_mobile.regex' => 'Gamitin ang format na +639XXXXXXXXX / Use the format +639XXXXXXXXX.',
-            'inquiry_category.required' => 'Pumili ng kategorya / Please choose a category.',
-            'message_body.required' => 'Maglagay ng maikling mensahe / Please enter a short message.',
-            'message_body.min' => 'Dagdagan pa ang detalye nang kaunti / Please provide at least 20 characters.',
-            'message_body.max' => 'Hanggang 1000 characters lamang / Please keep the message within 1000 characters.',
-            'privacy_consent.accepted' => 'Kailangan ang privacy acknowledgement / Privacy acknowledgement is required.',
-        ],
-    );
-
-    $contactPreferenceLabel = $validated['contact_preference'] === 'email'
-        ? 'Email'
-        : 'SMS / mobile';
-
-    return redirect()
-        ->route('public.contact')
-        ->with('inquiryConfirmation', [
-            'referenceCode' => 'INQ-'.now()->format('Y').'-'.Str::upper(Str::random(4)),
-            'categoryLabel' => $categoryLabels[$validated['inquiry_category']],
-            'contactPreferenceLabel' => $contactPreferenceLabel,
-            'submittedAt' => now()->format('F j, Y g:i A'),
-            'retentionNotice' => 'This Phase 6 validation-only form does not persist the inquiry yet. Phase 7 must store encrypted inquiry data with the approved 180-day retention and anonymization policy.',
-        ]);
-})->middleware('throttle:6,1')->name('public.contact.inquiries.store');
+Route::post('/contact/inquiries', [PublicInquiryController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('public.contact.inquiries.store');
 
 Route::get('/privacy', fn () => Inertia::render('Public/Privacy', [
     'breadcrumbs' => [

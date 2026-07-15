@@ -32,7 +32,7 @@ npm run test
 - `tests/Feature/InertiaTest.php` verifies that `/projects` renders the dedicated Projects component with required project records, filter options, and the approved `status=ongoing` query mapping.
 - `tests/Feature/InertiaTest.php` verifies that `/news` renders the dedicated News component with required news records, filter options, source metadata, stale-review content, and the approved `status=stale-review` query mapping.
 - `tests/Feature/InertiaTest.php` verifies that `/contact` renders the dedicated Contact component with office, channel, inquiry-category, privacy, response-expectation, action URL, and confirmation props.
-- `tests/Feature/InertiaTest.php` verifies that `POST /contact/inquiries` accepts valid Phase 6 validation-only submissions, flashes a reference confirmation without persistence, and rejects missing SMS contact and privacy acknowledgement fields.
+- `tests/Feature/InertiaTest.php` verifies that `POST /contact/inquiries` accepts valid submissions, flashes the established confirmation shape, persists the inquiry through the Phase 7 encrypted storage path, and rejects missing SMS contact and privacy acknowledgement fields.
 - `tests/Feature/InertiaTest.php` verifies that `/privacy`, `/accessibility`, and `/disclaimer` render dedicated policy templates with required route props and support-contact links.
 - `resources/js/pages/Public/Home.spec.ts` verifies homepage content and core accessibility landmarks.
 - `resources/js/pages/Public/About.spec.ts` verifies verified biography facts, official source links, congressional role content, committee memberships, values, responsibility boundaries, and source-review empty states.
@@ -117,3 +117,50 @@ Additional July 15, 2026 motion/scroll validation after the smooth-scroll refine
 - `rg` confirmed the production CSS asset contains `scroll-behavior:smooth`, `scroll-padding-top`, `public-section-scroll`, `scrollbar-width:thin`, and the `prefers-reduced-motion` override.
 - `Invoke-WebRequest http://127.0.0.1:8000/` returned HTTP 200; the HTML referenced `app-DZBxTc8Z.css` and did not include `@vite/client`.
 - A fresh `agent-browser`/Edge CDP relaunch attempt in this local session closed the page WebSocket with code `1006`, so the latest scroll-specific pass was validated through source, production asset, and Laravel HTTP output rather than a new screenshot run.
+
+## Phase 7 Backend/Admin Foundation Tests
+
+The first Phase 7 slices add backend-owned governance tables, encrypted inquiry storage, public inquiry persistence, audit logging, role policies, Filament inquiry authorization, inquiry retention automation, backend-owned Programs/Gabay records, and Filament program/service-guide authorization.
+
+Relevant commands:
+
+```powershell
+php artisan test tests\Feature\Phase7GovernanceSchemaTest.php tests\Feature\Phase7InquiryWorkflowTest.php
+php artisan test tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\InertiaTest.php
+composer lint:check
+composer types:check
+php artisan test
+composer test
+php artisan migrate --env=testing --force
+php artisan migrate:status --env=testing
+php artisan route:list --except-vendor
+php artisan schedule:list
+```
+
+Latest results:
+
+- Targeted Phase 7 tests passed: 6 tests, 45 assertions.
+- Targeted Programs/Gabay backend and Inertia contract tests passed: 23 tests, 385 assertions.
+- Full Laravel test suite passed: 68 tests, 566 assertions.
+- `composer test` passed: Pint, PHPStan, and 68 tests / 566 assertions.
+- Pint and PHPStan passed.
+- Testing migrations ran successfully and Phase 7 migrations show `Ran`.
+- Route list shows the public inquiry POST route, public Programs controller routes, and Filament inquiry/program/service-guide routes.
+- Schedule list shows `php artisan inquiries:anonymize-expired` daily at 02:30.
+
+Coverage added:
+
+- Governance schema existence and enum casts.
+- Inquiry encrypted-at-rest behavior.
+- Public Contact integration and confirmation flash compatibility.
+- Audit log creation without citizen PII in audit values.
+- Queued on-demand email notification for email inquiries.
+- Inquiry policy separation between content staff, inquiry officers, and auditors.
+- Filament inquiry resource authorization.
+- Retention anonymization command.
+- Programs/Gabay schema existence for categories, programs, requirements, updates, service guides, and service guide steps.
+- Program enum casts and category/requirement relationships.
+- Source-record and approval-record attachments for seeded program and service-guide content.
+- Least-privilege policy separation for Program Officer, Content Administrator, Reviewer / Approver, Inquiry Officer, Read-Only Auditor, and Super Administrator roles.
+- Filament `ProgramResource` and `ServiceGuideResource` authorization.
+- Public Programs index, Tulong Dunong detail, and Gabay routing routes using backend records while preserving Phase 6 Inertia prop contracts.

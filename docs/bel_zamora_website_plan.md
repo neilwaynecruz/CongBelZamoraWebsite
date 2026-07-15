@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 15, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, and Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices. Phase 6 public frontend browser acceptance is complete for desktop/mobile route loading, hydration/console checks, responsive overflow checks, skip-link/focus behavior, mobile navigation, search disclosure, filters, Contact form validation/success states, SSR build, and automated frontend/backend tests.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and initial Phase 7 backend/admin slices. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide resources, backend-owned Programs and Gabay records, and public read services that preserve the verified Phase 6 Programs/Tulong Dunong/Gabay Inertia contracts.
 
 ---
 
@@ -100,7 +100,7 @@ Use only the following status labels:
 | Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
 | Phase 6: Vue Frontend Development                | `Implemented` | Public home, About, Programs, Legislation tracker, Projects, News, Contact, Privacy, Accessibility, and Disclaimer vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, Contact office layout, DPA-safe validation-only inquiry form, dedicated policy templates, route-specific canonical/Open Graph/Twitter/JSON-LD metadata, official-source links, stale-content states, route helpers, SSR build, local HTTP smoke checks, focused frontend/backend tests, and Chrome CDP browser acceptance for desktop/mobile hydration, console, keyboard, responsive overflow, mobile navigation, search, filters, and Contact form states. | Stakeholder acceptance, final office-detail confirmation, and production content/backend ownership remain for later phases. |
-| Phase 7: Backend and Admin Development           | `Not Started`           | No database, models, migrations, policies, services, queues, or Filament resources exist.                                                                                                                                               | Implement only after the data model, permissions, workflows, and privacy requirements are approved.                           |
+| Phase 7: Backend and Admin Development           | `Partially Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs and Gabay backend slice implemented with `program_categories`, `programs`, `program_requirements`, `program_updates`, `service_guides`, `service_guide_steps`, source/approval attachments, policies, Filament `ProgramResource` and `ServiceGuideResource`, seed records, public read service, and preserved Programs/Tulong Dunong/Gabay Inertia contracts. | Continue vertical slices for server-owned About/static content, Legislation, Projects, News/media, audit viewer, stale-content automation, and dashboard widgets. |
 | Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
 | Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
 | Phase 10: Content and Legal Approval             | `Blocked`               | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided.                                                                                                                               | Complete content and implementation review, then obtain documented approval.                                                  |
@@ -111,9 +111,9 @@ Use only the following status labels:
 
 The next work is:
 
-> **Proceed with Phase 7: Backend and Admin Development.**
+> **Continue Phase 7: Backend and Admin Development.**
 
-Phases 0, 1, 2, 3, 4, 5, and 6 are now implemented. Phase 7 may begin the approved backend/admin work for content models, permissions, validation, auditability, privacy-safe inquiry storage, and Filament workflows. Do not treat Phase 6 static route-prop arrays as production content management.
+Phases 0, 1, 2, 3, 4, 5, and 6 are implemented. Phase 7 has started with shared governance, inquiry, Programs, and Gabay/service-guide foundations. Continue replacing remaining Phase 6 static route-prop arrays incrementally with server-owned models and services while preserving the verified public Vue/Inertia contracts.
 
 ## 0.6 How to Use This Plan as a Living Roadmap
 
@@ -245,6 +245,272 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-15 (Phase 7 Programs and Gabay Backend/Admin Slice)
+
+**Phase:** Phase 7: Backend and Admin Development
+**Task:** Implement backend-owned Programs and Gabay/service-guide records, admin resources, policies, source/approval attachments, and public read services while preserving Phase 6 public contracts
+**Previous status:** `Partially Implemented`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Added `ProgramStatus` and `ResponsibleOfficeType` enums for server-owned status and responsibility boundaries.
+- Added migrations for `program_categories`, `programs`, `program_requirements`, `program_updates`, `service_guides`, and `service_guide_steps`.
+- Added Eloquent models, relationships, casts, scopes, factories, and seed records for the approved Programs and Gabay MVP content.
+- Added source-record and content-approval attachments to seeded program and service-guide content.
+- Added `ProgramPolicy`, `ProgramCategoryPolicy`, `ProgramRequirementPolicy`, `ProgramUpdatePolicy`, `ServiceGuidePolicy`, and `ServiceGuideStepPolicy`.
+- Extended the `User` model with program-management and public-content-review role helpers.
+- Added Filament `ProgramResource` and `ServiceGuideResource` with list/create/view/edit pages, repeatable requirements/checklist items, source/publication fields, and audit hooks.
+- Added `PublicProgramReadService` and `PublicProgramController`.
+- Replaced the `/programs`, `/programs/gabay`, and `/programs/education/tulong-dunong` static route-prop arrays with backend-owned read service props.
+- Preserved the verified Phase 6 Inertia prop contracts for Programs index, Tulong Dunong detail, and Gabay routing.
+- Added tests for schema, model casts/relationships, policy boundaries, Filament authorization, source/approval workflow, seed records, and public integration.
+
+**Remaining:**
+
+- Server-owned About/static profile content models and admin workflow.
+- Legislative record models, source histories, filters, and Filament workflow.
+- Project/result models with evidence, partner attribution, and admin workflow.
+- News/media models with approval workflow and stale-content checks.
+- Audit-log read-only Filament resource and staff dashboard widgets.
+- Queue jobs for stale-content checks and source-review notifications.
+- Full role/permission management UI and privileged MFA enforcement review.
+
+**Files created:**
+
+- `app/Enums/ProgramStatus.php`
+- `app/Enums/ResponsibleOfficeType.php`
+- `app/Filament/Resources/ProgramResource.php`
+- `app/Filament/Resources/ProgramResource/Pages/CreateProgram.php`
+- `app/Filament/Resources/ProgramResource/Pages/EditProgram.php`
+- `app/Filament/Resources/ProgramResource/Pages/ListPrograms.php`
+- `app/Filament/Resources/ProgramResource/Pages/ViewProgram.php`
+- `app/Filament/Resources/ServiceGuideResource.php`
+- `app/Filament/Resources/ServiceGuideResource/Pages/CreateServiceGuide.php`
+- `app/Filament/Resources/ServiceGuideResource/Pages/EditServiceGuide.php`
+- `app/Filament/Resources/ServiceGuideResource/Pages/ListServiceGuides.php`
+- `app/Filament/Resources/ServiceGuideResource/Pages/ViewServiceGuide.php`
+- `app/Http/Controllers/PublicProgramController.php`
+- `app/Models/Program.php`
+- `app/Models/ProgramCategory.php`
+- `app/Models/ProgramRequirement.php`
+- `app/Models/ProgramUpdate.php`
+- `app/Models/ServiceGuide.php`
+- `app/Models/ServiceGuideStep.php`
+- `app/Policies/ProgramCategoryPolicy.php`
+- `app/Policies/ProgramPolicy.php`
+- `app/Policies/ProgramRequirementPolicy.php`
+- `app/Policies/ProgramUpdatePolicy.php`
+- `app/Policies/ServiceGuidePolicy.php`
+- `app/Policies/ServiceGuideStepPolicy.php`
+- `app/Services/PublicProgramReadService.php`
+- `database/factories/ProgramCategoryFactory.php`
+- `database/factories/ProgramFactory.php`
+- `database/factories/ProgramRequirementFactory.php`
+- `database/factories/ProgramUpdateFactory.php`
+- `database/factories/ServiceGuideFactory.php`
+- `database/factories/ServiceGuideStepFactory.php`
+- `database/migrations/2026_07_15_000060_create_program_categories_table.php`
+- `database/migrations/2026_07_15_000070_create_programs_table.php`
+- `database/migrations/2026_07_15_000080_create_program_requirements_table.php`
+- `database/migrations/2026_07_15_000090_create_program_updates_table.php`
+- `database/migrations/2026_07_15_000100_create_service_guides_table.php`
+- `database/migrations/2026_07_15_000110_create_service_guide_steps_table.php`
+- `database/seeders/ProgramAndServiceGuideSeeder.php`
+- `tests/Feature/Phase7ProgramsWorkflowTest.php`
+
+**Files updated:**
+
+- `app/Models/User.php`
+- `database/seeders/DatabaseSeeder.php`
+- `docs/ARCHITECTURE.md`
+- `docs/PHASE_7_BACKEND_ADMIN.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+- `routes/web.php`
+- `tests/Feature/InertiaTest.php`
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l app\Services\PublicProgramReadService.php` | Passed. |
+| `php -l database\seeders\ProgramAndServiceGuideSeeder.php` | Passed. |
+| `php -l app\Filament\Resources\ProgramResource.php` | Passed. |
+| `php -l app\Filament\Resources\ServiceGuideResource.php` | Passed. |
+| `php -l tests\Feature\Phase7ProgramsWorkflowTest.php` | Passed. |
+| `php artisan test tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 23 tests, 385 assertions. |
+| `php artisan migrate --env=testing --force` | Passed; six new Programs/Gabay migrations ran. |
+| `php artisan route:list --except-vendor` | Passed; 31 routes including public Programs controller routes and Filament program/service-guide routes. |
+| `composer lint:check` | Passed after removing unused imports. |
+| `composer types:check` | Passed. |
+| `php artisan test` | Passed: 68 tests, 566 assertions. |
+| `composer test` | Passed: Pint, PHPStan, and 68 tests / 566 assertions. |
+| `php artisan migrate:status --env=testing` | Passed; new Programs/Gabay migrations show `Ran`. |
+
+**Decisions:**
+
+- Preserve the Phase 6 Programs, Tulong Dunong, and Gabay prop shapes exactly at the public route boundary.
+- Seed only the already reviewed Phase 6 Programs/Gabay content as backend records; do not invent new service claims.
+- Keep formal source/approval records polymorphic, attached to programs and service guides.
+- Allow Program Officer and Content Administrator roles to manage program/service-guide content; allow Reviewer / Approver and Read-Only Auditor roles to view/review without editing; keep Inquiry Officer isolated from content management.
+- Continue to defer persistent document uploads, program applications, and backend data managers for unrelated modules.
+
+**Known issues:**
+
+- Phase 7 remains partially implemented; only governance, inquiry, Programs, and Gabay/service-guide backend slices are complete.
+- About, Legislation, Projects, and News still use Phase 6 route-owned static props.
+- Filament resources provide program/service content editing but do not yet expose a full dashboard for stale content, pending approvals, or audit review.
+
+**Blockers:**
+
+- None for the next Phase 7 backend slice.
+
+**Risks:**
+
+- Seeded Programs/Gabay records are based on Phase 6 reviewed content and still require final District Office content approval before launch.
+- Source links, program status, and requirements can change; stale-content automation is still pending.
+- Admin role management remains a typed-column foundation, not a full delegated permission-management UI.
+
+**Recommended next task:**
+
+- Continue Phase 7 with the Legislation backend/admin slice: create legislative record/status/source models, policies, Filament resources, public read services that preserve the Legislation tracker prop contract, tests, and documentation.
+
+### Project Update: 2026-07-15 (Phase 7 Backend/Admin Foundation and Inquiry Slice)
+
+**Phase:** Phase 7: Backend and Admin Development
+**Task:** Implement shared backend/admin foundations and privacy-safe inquiry persistence without removing verified Phase 6 public contracts
+**Previous status:** `Not Started`
+**New status:** `Partially Implemented`
+
+**Completed:**
+
+- Added typed staff role foundation with `users.admin_role` and `App\Enums\AdminRole`.
+- Added shared governance tables and models: `source_records`, `content_approvals`, and `audit_logs`.
+- Added inquiry tables and models: `inquiry_categories` and encrypted `inquiries`.
+- Replaced the Phase 6 validation-only Contact POST closure with `PublicInquiryController`, `StorePublicInquiryRequest`, and `SubmitInquiry`.
+- Preserved the existing public route name `public.contact.inquiries.store` and the Contact page confirmation prop shape.
+- Added encrypted casts for citizen name, email, mobile number, and message body.
+- Added hashed request fingerprints for audit logs instead of raw IP/user-agent storage.
+- Added queued email confirmation notification for email-based inquiries.
+- Added `inquiries:anonymize-expired` and scheduled it daily at 02:30.
+- Added inquiry, source-record, content-approval, and audit policies.
+- Added a Filament `InquiryResource` with list/view/edit pages and least-privilege query scoping.
+- Added factories and tests for governance schema, inquiry workflow, privacy, policies, Filament authorization, notification, audit logging, and retention anonymization.
+- Added `INQUIRY_RETENTION_DAYS=180` to `.env.example`.
+- Added [PHASE_7_BACKEND_ADMIN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_7_BACKEND_ADMIN.md).
+
+**Remaining:**
+
+- Server-owned public content models and read services for static pages.
+- Program and Gabay/service-guide models, Filament resources, approval workflow, and public prop replacement.
+- Legislative, project, news/media, gallery/media asset, office-location, FAQ, and site-setting modules.
+- Audit-log read-only Filament resource and staff dashboard widgets.
+- Stale-content and broken-source automation.
+- Full role/permission management UI and privileged MFA enforcement review.
+- Production queue, scheduler, backup, monitoring, and staff handover validation.
+
+**Files created:**
+
+- `app/Console/Commands/AnonymizeExpiredInquiries.php`
+- `app/Enums/AdminRole.php`
+- `app/Enums/ContentApprovalStatus.php`
+- `app/Enums/ContactPreference.php`
+- `app/Enums/InquiryCategory.php`
+- `app/Enums/InquiryStatus.php`
+- `app/Enums/SourceType.php`
+- `app/Filament/Resources/InquiryResource.php`
+- `app/Filament/Resources/InquiryResource/Pages/EditInquiry.php`
+- `app/Filament/Resources/InquiryResource/Pages/ListInquiries.php`
+- `app/Filament/Resources/InquiryResource/Pages/ViewInquiry.php`
+- `app/Http/Controllers/PublicInquiryController.php`
+- `app/Http/Requests/StorePublicInquiryRequest.php`
+- `app/Models/AuditLog.php`
+- `app/Models/ContentApproval.php`
+- `app/Models/Inquiry.php`
+- `app/Models/InquiryCategory.php`
+- `app/Models/SourceRecord.php`
+- `app/Notifications/InquiryReceivedNotification.php`
+- `app/Policies/AuditLogPolicy.php`
+- `app/Policies/ContentApprovalPolicy.php`
+- `app/Policies/InquiryPolicy.php`
+- `app/Policies/SourceRecordPolicy.php`
+- `app/Services/AuditLogService.php`
+- `app/Services/SubmitInquiry.php`
+- `config/belzamora.php`
+- `database/factories/AuditLogFactory.php`
+- `database/factories/ContentApprovalFactory.php`
+- `database/factories/InquiryCategoryFactory.php`
+- `database/factories/InquiryFactory.php`
+- `database/factories/SourceRecordFactory.php`
+- `database/migrations/2026_07_15_000000_add_admin_role_to_users_table.php`
+- `database/migrations/2026_07_15_000010_create_source_records_table.php`
+- `database/migrations/2026_07_15_000020_create_content_approvals_table.php`
+- `database/migrations/2026_07_15_000030_create_audit_logs_table.php`
+- `database/migrations/2026_07_15_000040_create_inquiry_categories_table.php`
+- `database/migrations/2026_07_15_000050_create_inquiries_table.php`
+- `docs/PHASE_7_BACKEND_ADMIN.md`
+- `tests/Feature/Phase7GovernanceSchemaTest.php`
+- `tests/Feature/Phase7InquiryWorkflowTest.php`
+
+**Files updated:**
+
+- `.env.example`
+- `app/Models/User.php`
+- `database/factories/UserFactory.php`
+- `database/seeders/DatabaseSeeder.php`
+- `docs/ARCHITECTURE.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+- `routes/console.php`
+- `routes/web.php`
+- `tests/Feature/InertiaTest.php`
+
+**Validation performed:**
+
+| Command / Check | Result |
+|---|---|
+| `php -l` on representative new PHP files | Passed. |
+| `php artisan test tests\Feature\Phase7GovernanceSchemaTest.php tests\Feature\Phase7InquiryWorkflowTest.php` | Passed: 6 tests, 45 assertions. |
+| `composer lint` | Passed after formatting one Filament resource file. |
+| `composer lint:check` | Passed. |
+| `composer types:check` | Passed. |
+| `php artisan test` | Passed: 62 tests, 482 assertions. |
+| `php artisan migrate --env=testing --force` | Passed; all new Phase 7 migrations ran. |
+| `php artisan migrate:status --env=testing` | Passed; new Phase 7 migrations show `Ran`. |
+| `php artisan route:list --except-vendor` | Passed; 23 routes listed, including public inquiry POST and Filament inquiry routes. |
+| `php artisan schedule:list` | Passed; `inquiries:anonymize-expired` scheduled daily at 02:30. |
+| `php artisan about --only=environment,cache,drivers` | Passed; local environment observed Laravel 13.19.0, PHP 8.4.14, Composer 2.8.12, MySQL/Redis drivers configured. |
+
+**Decisions:**
+
+- Use an internal typed role column for the first Phase 7 slice instead of introducing a new permission package.
+- Keep citizen inquiry data separate from public content modules and deny content-editor roles inquiry access.
+- Store inquiry PII with Laravel encrypted casts and keep raw PII out of audit log values.
+- Store request fingerprints as hashes, not raw IP addresses or user-agent strings.
+- Keep Phase 6 static public content arrays until each content module is replaced in its own tested vertical slice.
+
+**Known issues:**
+
+- Phase 7 is not complete; only shared foundations and the inquiry slice are implemented.
+- Static public content arrays in `routes/web.php` remain for About, Programs, Gabay, Legislation, Projects, and News.
+- Full privileged MFA enforcement for admin roles still needs a dedicated security review.
+- Production scheduler and queue workers must be configured outside local tests.
+
+**Blockers:**
+
+- None for the next Phase 7 backend slice.
+
+**Risks:**
+
+- Losing or rotating `APP_KEY` would make encrypted inquiry columns unreadable.
+- Inquiry data is now persisted; production launch requires queue, scheduler, backups, staff access review, privacy contact confirmation, and operational training.
+- Content source/approval tables exist, but public content will still drift until the public modules move off route-level arrays.
+
+**Recommended next task:**
+
+- Continue Phase 7 with the Programs and Gabay backend/admin slice: create server-owned program categories, programs, requirements, updates, service-guide records, source records, approval records, Filament resources, policies, tests, and public Inertia read services that preserve the existing Programs/Tulong Dunong/Gabay Vue contracts.
 
 ### Project Update: 2026-07-15 (Phase 6 Typography and Motion Polish)
 

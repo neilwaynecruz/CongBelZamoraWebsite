@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Database\Seeders\ProgramAndServiceGuideSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -43,6 +44,8 @@ class InertiaTest extends TestCase
 
     public function test_programs_index_renders_program_slice_props(): void
     {
+        $this->seed(ProgramAndServiceGuideSeeder::class);
+
         $this->get(route('public.programs'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -58,6 +61,8 @@ class InertiaTest extends TestCase
 
     public function test_tulong_dunong_detail_renders_program_contract(): void
     {
+        $this->seed(ProgramAndServiceGuideSeeder::class);
+
         $this->get(route('public.programs.tulong-dunong'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -72,6 +77,8 @@ class InertiaTest extends TestCase
 
     public function test_gabay_directory_renders_routing_options(): void
     {
+        $this->seed(ProgramAndServiceGuideSeeder::class);
+
         $this->get(route('public.programs.gabay'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
@@ -181,7 +188,7 @@ class InertiaTest extends TestCase
                 ->where('verifiedAt', 'July 12, 2026'));
     }
 
-    public function test_contact_inquiry_validates_without_persistence_and_flashes_confirmation(): void
+    public function test_contact_inquiry_persists_safely_and_flashes_confirmation(): void
     {
         $this->from(route('public.contact'))
             ->post(route('public.contact.inquiries.store'), [
@@ -197,6 +204,8 @@ class InertiaTest extends TestCase
             ->assertSessionHas('inquiryConfirmation.referenceCode')
             ->assertSessionHas('inquiryConfirmation.categoryLabel', 'Educational assistance')
             ->assertSessionHas('inquiryConfirmation.contactPreferenceLabel', 'Email');
+
+        $this->assertDatabaseCount('inquiries', 1);
     }
 
     public function test_contact_inquiry_rejects_missing_privacy_acknowledgement_and_contact_channel(): void
