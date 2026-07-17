@@ -17,7 +17,7 @@ class NewsMediaAssetResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationGroup = 'Public Content';
+    protected static ?string $navigationGroup = 'News & Media';
 
     protected static ?int $navigationSort = 61;
 

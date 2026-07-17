@@ -19,7 +19,7 @@ class ProgramResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $navigationGroup = 'Programs and Services';
+    protected static ?string $navigationGroup = 'Programs & Services';
 
     protected static ?int $navigationSort = 20;
 
@@ -143,11 +143,23 @@ class ProgramResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn (ProgramStatus $state): string => $state->label())
                     ->badge()
+                    ->color(fn (ProgramStatus $state): string => match ($state) {
+                        ProgramStatus::Open => 'success',
+                        ProgramStatus::Ongoing => 'info',
+                        ProgramStatus::ForAnnouncement => 'warning',
+                        ProgramStatus::Closed => 'gray',
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('responsible_office_type')
                     ->label('Responsible office')
                     ->formatStateUsing(fn (ResponsibleOfficeType $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (ResponsibleOfficeType $state): string => match ($state) {
+                        ResponsibleOfficeType::DistrictOffice => 'primary',
+                        ResponsibleOfficeType::CityGovernment => 'success',
+                        ResponsibleOfficeType::NationalAgency => 'warning',
+                        ResponsibleOfficeType::JointInitiative => 'info',
+                    }),
                 Tables\Columns\IconColumn::make('is_featured')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('published_at')

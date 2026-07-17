@@ -19,7 +19,7 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
-    protected static ?string $navigationGroup = 'Public Content';
+    protected static ?string $navigationGroup = 'Projects';
 
     protected static ?int $navigationSort = 50;
 
@@ -161,10 +161,20 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('status.value')
                     ->label('Status')
                     ->formatStateUsing(fn (ProjectStatusValue $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (ProjectStatusValue $state): string => match ($state) {
+                        ProjectStatusValue::Completed => 'success',
+                        ProjectStatusValue::Ongoing => 'info',
+                        ProjectStatusValue::SourcePending => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('status.tone')
                     ->formatStateUsing(fn (ProjectStatusTone $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (ProjectStatusTone $state): string => match ($state) {
+                        ProjectStatusTone::Completed => 'success',
+                        ProjectStatusTone::Ongoing => 'info',
+                        ProjectStatusTone::SourcePending => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('barangay')
                     ->searchable()
                     ->sortable(),

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\AdminRole;
+use App\Models\AuditLog;
 use App\Models\LegislativeRecord;
 use App\Models\NewsRecord;
 use App\Models\Program;
@@ -36,16 +37,24 @@ class FlagStaleContent implements ShouldQueue
                 ->where('review_due_at', '<=', now())
                 ->get();
 
-            $counts[$label] = $records->count();
+            $counts[$label] = 0;
 
-            $records->each(fn (Model $record): mixed => $auditLog->record(
-                event: 'content.review_overdue',
-                auditable: $record,
-                metadata: [
-                    'model' => $record::class,
-                    'review_due_at' => (string) $record->getAttribute('review_due_at'),
-                ],
-            ));
+            $records->each(function (Model $record) use (&$counts, $label, $auditLog): void {
+                if ($this->alreadyLoggedToday('content.review_overdue', $record)) {
+                    return;
+                }
+
+                $auditLog->record(
+                    event: 'content.review_overdue',
+                    auditable: $record,
+                    metadata: [
+                        'model' => $record::class,
+                        'review_due_at' => (string) $record->getAttribute('review_due_at'),
+                    ],
+                );
+
+                $counts[$label]++;
+            });
         }
 
         $sourceRecords = SourceRecord::query()
@@ -53,20 +62,38 @@ class FlagStaleContent implements ShouldQueue
             ->where('next_review_at', '<=', now())
             ->get();
 
-        $counts['source_records'] = $sourceRecords->count();
+        $counts['source_records'] = 0;
 
-        $sourceRecords->each(fn (SourceRecord $record): mixed => $auditLog->record(
-            event: 'source_record.review_overdue',
-            auditable: $record,
-            metadata: [
-                'source_title' => $record->title,
-                'next_review_at' => (string) $record->next_review_at,
-            ],
-        ));
+        $sourceRecords->each(function (SourceRecord $record) use (&$counts, $auditLog): void {
+            if ($this->alreadyLoggedToday('source_record.review_overdue', $record)) {
+                return;
+            }
+
+            $auditLog->record(
+                event: 'source_record.review_overdue',
+                auditable: $record,
+                metadata: [
+                    'source_title' => $record->title,
+                    'next_review_at' => (string) $record->next_review_at,
+                ],
+            );
+
+            $counts['source_records']++;
+        });
 
         if (array_sum($counts) > 0) {
             Notification::send($this->recipients(), new StaleContentDigestNotification($counts));
         }
+    }
+
+    private function alreadyLoggedToday(string $event, Model $record): bool
+    {
+        return AuditLog::query()
+            ->where('event', $event)
+            ->where('auditable_type', $record->getMorphClass())
+            ->where('auditable_id', $record->getKey())
+            ->where('occurred_at', '>=', now()->startOfDay())
+            ->exists();
     }
 
     /**

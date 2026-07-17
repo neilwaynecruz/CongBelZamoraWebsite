@@ -4,8 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PublicPageResource\Pages;
 use App\Models\PublicPage;
+use App\Support\PublicPageProps;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -48,8 +51,19 @@ class PublicPageResource extends Resource
                             ->required()
                             ->rows(18)
                             ->formatStateUsing(fn (?array $state): string => json_encode($state ?? [], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '{}')
-                            ->dehydrateStateUsing(fn (?string $state): array => json_decode($state ?: '{}', true, flags: JSON_THROW_ON_ERROR))
-                            ->rules(['json'])
+                            ->dehydrateStateUsing(fn (?string $state): array => PublicPageProps::decode($state))
+                            ->rules([
+                                'json',
+                                fn (Get $get): Closure => function (string $attribute, mixed $value, Closure $fail) use ($get): void {
+                                    PublicPageProps::validateJsonForSlug(
+                                        is_string($value) ? $value : null,
+                                        (string) $get('slug'),
+                                        (string) $get('component'),
+                                        $fail,
+                                    );
+                                },
+                            ])
+                            ->helperText('Keep this as a JSON object matching the selected public Vue page contract.')
                             ->columnSpanFull(),
                     ]),
                 Forms\Components\Section::make('Source and review')

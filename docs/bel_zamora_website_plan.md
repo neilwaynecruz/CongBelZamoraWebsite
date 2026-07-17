@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 18, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and Phase 7 backend/admin MVP modules. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset/public-page/audit-log resources, backend-owned Programs, Gabay, Legislation, Projects, News, Home/About/Contact/static policy page records, public read services that preserve the verified Phase 6 Vue/Inertia contracts, dashboard health widgets, and queued stale-content automation.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and Phase 7 backend/admin MVP modules. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset/public-page/audit-log resources, backend-owned Programs, Gabay, Legislation, Projects, News, Home/About/Contact/static policy page records, public read services that preserve the verified Phase 6 Vue/Inertia contracts, a custom District Operations Dashboard with Vite-backed Filament theme, role-aware widgets, audited required-page health checks, privacy-redacted inquiry attention items, and queued stale-content automation.
 
 ---
 
@@ -100,7 +100,7 @@ Use only the following status labels:
 | Phase 4: UI/UX Wireframing                       | `Implemented`           | Mobile and desktop ASCII layout grids, ARIA element mapping, skip links, form state grids, and accessibility audits compiled in [PHASE_4_UI_UX_WIREFRAMES.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_4_UI_UX_WIREFRAMES.md). | None. Exit conditions met.                                                                                                    |
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
 | Phase 6: Vue Frontend Development                | `Implemented` | Public home, About, Programs, Legislation tracker, Projects, News, Contact, Privacy, Accessibility, and Disclaimer vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, Contact office layout, DPA-safe validation-only inquiry form, dedicated policy templates, route-specific canonical/Open Graph/Twitter/JSON-LD metadata, official-source links, stale-content states, route helpers, SSR build, local HTTP smoke checks, focused frontend/backend tests, and Chrome CDP browser acceptance for desktop/mobile hydration, console, keyboard, responsive overflow, mobile navigation, search, filters, and Contact form states. | Stakeholder acceptance, final office-detail confirmation, and production content/backend ownership remain for later phases. |
-| Phase 7: Backend and Admin Development           | `Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs/Gabay, Legislation, Projects, News/media, and static public pages are backend-owned with source/approval attachments, least-privilege policies, Filament resources, seed records, public read services, and preserved Phase 6 Inertia contracts. Audit logs are exposed through a read-only Filament resource. Dashboard widgets surface open programs, pending approvals, unanswered inquiries, stale content, source-review due records, and recent audit activity. Queued stale-content automation and reviewer digest notification are scheduled daily. | None for Phase 7 MVP. Proceed to Phase 8 content migration/upload and stakeholder content acceptance. |
+| Phase 7: Backend and Admin Development           | `Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs/Gabay, Legislation, Projects, News/media, and static public pages are backend-owned with source/approval attachments, least-privilege policies, Filament resources, seed records, public read services, and preserved Phase 6 Inertia contracts. Audit logs are exposed through a read-only Filament resource. The custom District Operations Dashboard adds a Vite-backed Filament civic theme, branded command header, role-aware content/inquiry/audit widgets, privacy-redacted needs-attention items, and audited required-page health checks. Queued stale-content automation and reviewer digest notification are scheduled daily. | None for Phase 7 MVP. Proceed to Phase 8 content migration/upload and stakeholder content acceptance. |
 | Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
 | Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
 | Phase 10: Content and Legal Approval             | `Blocked`               | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided.                                                                                                                               | Complete content and implementation review, then obtain documented approval.                                                  |
@@ -283,6 +283,45 @@ Recommended next task:
 
 - Continue Phase 7 with server-owned About/static profile content so biography facts, source URLs, review dates, and approval history move out of route-owned static arrays and into auditable content records.
 
+### Project Update: 2026-07-18 (District Operations Dashboard Redesign)
+
+**Phase:** Phase 7: Backend and Admin Development
+**Task:** Implement the Filament District Operations Dashboard redesign plan with a civic theme, role-aware widgets, privacy-safe attention queues, audited health checks, and documentation
+**Previous status:** `Implemented`
+**New status:** `Implemented`
+
+**Completed:**
+
+- Registered the custom Filament admin theme through the Vite pipeline with `->viteTheme('resources/css/filament/admin/theme.css')`.
+- Added the "Bel Zamora District Office" brand name, civic color palette, collapsible sidebar, ordered navigation groups, and a custom dashboard page.
+- Added a branded dashboard header with Manila time, permission-gated quick actions, and an audited required-public-pages health check action.
+- Added `AdminDashboardMetricsService` for role-aware dashboard counts, needs-attention items, Filament resource URLs, and privacy-safe inquiry attention labels.
+- Added `NeedsAttentionWidget` for overdue reviews, pending approvals, due sources, and authorized unanswered inquiry alerts.
+- Enhanced content-health stats, recent audit activity badges, resource navigation groups, and table badge colors.
+- Updated environment, Phase 7, testing, and redesign documentation.
+
+**Validation performed:**
+
+| Command | Result |
+| --- | --- |
+| `php artisan test --filter=FilamentDashboard` | Passed: 6 tests, 17 assertions. |
+| `php artisan test` | Passed: 102 tests, 862 assertions. |
+| `vendor\bin\pint --test` | Passed. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `npm run test` | Passed: 11 files, 23 tests. |
+| `npm run build` | Passed; emitted the Filament admin `theme-*.css` asset through Vite. |
+| `git diff --check` | Passed. |
+
+**Remaining / Phase 8 carry-forward:**
+
+- Formal stakeholder/admin UX acceptance should happen during Phase 8/10 after final content migration and staff review.
+
+**Recommended next task:**
+
+- Run the full backend/frontend validation suite, then continue Phase 8 content migration with the redesigned admin dashboard as the staff control surface.
+
 ### Project Update: 2026-07-18 (Phase 7 Backend/Admin Completion)
 
 **Phase:** Phase 7: Backend and Admin Development
@@ -328,6 +367,31 @@ Recommended next task:
 **Recommended next task:**
 
 - Begin Phase 8: Content Migration and Upload. Prepare a reviewed staging migration using only approved content, media with documented rights/consent, source records, content approval records, and audit-safe import steps.
+
+### Project Update: 2026-07-18 (Phase 7 Backend/Admin Polish Pass)
+
+**Phase:** Phase 7: Backend and Admin Development
+**Task:** Address Phase 7 quality-review findings for widget authorization, static page prop safety, stale-content deduplication, and required public page health checks
+**Previous status:** `Implemented`
+**New status:** `Implemented`
+
+**Completed:**
+
+- Added role-aware `canView()` gates to Phase 7 dashboard widgets.
+- Kept inquiry counts visible only to inquiry/audit-capable roles and audit activity visible only to audit-capable roles.
+- Added `PublicPageProps` validation and safe decoding so `PublicPageResource` no longer uses a throwing JSON decoder during normal dehydration.
+- Added slug-specific required prop-key checks for Home, About, Contact, Privacy, Accessibility, and Disclaimer records.
+- Added daily deduplication for stale-content audit events and reviewer digest notifications.
+- Added `public-pages:check-required` deployment/health command for required published public page slugs.
+- Added focused tests for widget gates, public page prop validation, deduplication, and required-page command success/failure.
+
+**Validation performed:**
+
+| Command | Result |
+| --- | --- |
+| `php -l` on representative changed PHP files | Passed. |
+| `php artisan test tests\Feature\Phase7StaticContentWorkflowTest.php` | Passed: 10 tests, 77 assertions. |
+| `php artisan test tests\Feature\Phase7GovernanceSchemaTest.php tests\Feature\Phase7InquiryWorkflowTest.php tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\Phase7NewsWorkflowTest.php tests\Feature\Phase7StaticContentWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 57 tests, 709 assertions. |
 
 ### Project Update: 2026-07-15 (Phase 7 News/Media Backend/Admin Slice)
 

@@ -97,8 +97,11 @@ Implemented:
 
 - Read-only Filament `AuditLogResource` for authorized audit review.
 - Filament dashboard widgets for open programs, pending approvals, unanswered inquiries, stale content, source records due for review, and recent audit activity.
+- Widget-level access gates keep audit activity visible only to audit-capable roles and inquiry counts visible only to inquiry/audit-capable roles.
 - Queued `FlagStaleContent` job and `StaleContentDigestNotification`.
+- Daily stale-content audit events and reviewer digest notifications are deduplicated by record/event/day.
 - `content:flag-stale` command scheduled daily at 03:00.
+- `public-pages:check-required` verifies that required backend-owned static public pages are published before deployment or content migration sign-off.
 
 ---
 
@@ -244,6 +247,8 @@ The following public routes now read from backend-owned `public_pages` records:
 
 The public prop shapes remain compatible with the Phase 6 Vue templates. Contact injects dynamic inquiry categories, the inquiry action URL, and the session confirmation while the office/channel/privacy copy remains backend-owned.
 
+`PublicPageResource` keeps the MVP JSON prop editor but validates the JSON object and required page-specific prop keys server-side before saving. Invalid JSON is handled as a normal validation error instead of a thrown decode exception.
+
 ---
 
 ## 9. Privacy Rules
@@ -283,6 +288,12 @@ Verification command:
 
 ```bash
 php artisan schedule:list
+```
+
+Required public page health check:
+
+```bash
+php artisan public-pages:check-required
 ```
 
 Expected schedule entries:
@@ -347,6 +358,16 @@ Latest local validation:
 | `npm run test` | Passed: 11 files, 23 tests. |
 | `npm run build` | Passed outside sandbox after local sandbox denied write access to `public/build/assets`. |
 | `npm run build:ssr` | Passed outside sandbox; existing `@inertiajs/vite` sourcemap warning only. |
+| `php artisan test tests\Feature\Phase7StaticContentWorkflowTest.php` | Passed after Phase 7 polish pass: 10 tests, 77 assertions. |
+| Combined Phase 7 workflow tests after polish pass | Passed: 57 tests, 709 assertions. |
+| `php artisan test --filter=FilamentDashboard` | Passed after District Operations Dashboard redesign: 6 tests, 17 assertions. |
+| `php artisan test` | Passed after District Operations Dashboard redesign: 102 tests, 862 assertions. |
+| `vendor\bin\pint --test` | Passed after District Operations Dashboard redesign. |
+| `npm run lint:check` | Passed after District Operations Dashboard redesign. |
+| `npm run format:check` | Passed after District Operations Dashboard redesign. |
+| `npm run types:check` | Passed after District Operations Dashboard redesign. |
+| `npm run test` | Passed after District Operations Dashboard redesign: 11 files, 23 tests. |
+| `npm run build` | Passed after District Operations Dashboard redesign; emitted `theme-*.css` through Vite. |
 
 ---
 
@@ -360,3 +381,42 @@ Carry-forward items for later phases:
 - Phase 10 must obtain formal District Office, legal/privacy, communications, and executive approval.
 - Phase 11 must configure production queue workers, scheduler, monitoring, backups, and hosting.
 - Sensitive uploads remain out of scope until a separate reviewed privacy/security workflow exists.
+
+---
+
+## 14. District Operations Dashboard Redesign
+
+A dedicated visual and operational polish pass was implemented to transform the functional admin panel into a professional **District Operations Dashboard** (Command Center).
+
+### Visual & Theme Refinement
+- **Branding**: Set admin panel title to "Bel Zamora District Office".
+- **Theme compilation**: Custom theme stylesheet registered via Vite using `->viteTheme('resources/css/filament/admin/theme.css')`.
+- **Tailwind v4 Setup**: Modified `theme.css` to use Tailwind v4 `@import` and `@source` directives instead of deprecated Tailwind v3 config imports, ensuring compatibility with the main build pipeline.
+- **Color System**: Implemented HSL-tailored civic colors (Deep Navy `#0B1F3A`, Civic Red `#D62828`, Warm Gold `#C9A227`, Success Green `#16733C`, Royal Blue `#1746A2`, and Gray/Zinc).
+- **Sidebar**: Configured collapsible sidebar using `sidebarCollapsibleOnDesktop()`.
+
+### Custom Dashboard Layout & Widgets
+- **Custom Dashboard Page**: Replaced the default dashboard page with a custom dashboard class `App\Filament\Pages\Dashboard` for layout and widget ordering.
+- **AdminDashboardMetricsService**: Created a centralized metrics service to handle role-aware queries (open programs, pending approvals, stale content, sources due, unanswered inquiries). Counts are cached for 30 seconds.
+- **DashboardHeaderWidget**: A full-width branded welcome banner displaying the current Manila date/time and displaying permission-gated quick action buttons (Review Content, Create News, Open Inquiries, View Audit Log).
+- **Audited Health Check**: The dashboard header includes a permission-gated "Run Required Pages Check" Livewire action that executes `public-pages:check-required`, emits a Filament notification, and records an `admin_dashboard_health_check_run` audit event.
+- **NeedsAttentionWidget**: A custom role-aware Blade widget summarizing critical items (overdue content reviews, pending approvals, due source records, and unanswered inquiries >48 hours) sorted by urgency. Inquiry attention labels use reference codes only and do not expose citizen names, contact details, or message bodies.
+- **Phase7ContentHealthOverview**: Enhanced stats widgets with colored severities, description helper text, role-sensitive content/inquiry visibility, and links generated through Filament resources.
+- **RecentAuditActivity**: Restyled audit logs into a clean tracker table featuring color-coded event badges, readable event labels, and Manila timezone formatting.
+
+### Navigation Grouping
+Resources are organized into logical groups to reflect the civic platform architecture:
+- **Public Content**: `PublicPageResource`
+- **Programs & Services**: `ProgramResource`, `ServiceGuideResource`
+- **Legislative Records**: `LegislativeRecordResource`
+- **Projects**: `ProjectResource`, `ProjectEvidenceResource`
+- **News & Media**: `NewsRecordResource`, `NewsMediaAssetResource`
+- **Inquiries**: `InquiryResource`
+- **Governance & Audit**: `AuditLogResource`
+
+### Resource UI Enhancements
+- Table status and tone columns are color-coded (success, info, warning, gray) using Filament badge styling.
+- Navigation icons and sorting orders are applied consistently across all resources.
+
+### Dashboard Validation
+- `tests/Feature/FilamentDashboardTest.php` verifies staff dashboard access, metrics keys, inquiry-count role gates, needs-attention role gates, inquiry dashboard redaction, and audited dashboard health checks.

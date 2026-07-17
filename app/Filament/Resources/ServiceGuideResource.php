@@ -18,7 +18,7 @@ class ServiceGuideResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
 
-    protected static ?string $navigationGroup = 'Programs and Services';
+    protected static ?string $navigationGroup = 'Programs & Services';
 
     protected static ?int $navigationSort = 30;
 
@@ -120,7 +120,13 @@ class ServiceGuideResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('responsible_office_type')
                     ->formatStateUsing(fn (ResponsibleOfficeType $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (ResponsibleOfficeType $state): string => match ($state) {
+                        ResponsibleOfficeType::DistrictOffice => 'primary',
+                        ResponsibleOfficeType::CityGovernment => 'success',
+                        ResponsibleOfficeType::NationalAgency => 'warning',
+                        ResponsibleOfficeType::JointInitiative => 'info',
+                    }),
                 Tables\Columns\IconColumn::make('can_district_office_directly_handle')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('is_featured')

@@ -19,7 +19,7 @@ class NewsRecordResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
-    protected static ?string $navigationGroup = 'Public Content';
+    protected static ?string $navigationGroup = 'News & Media';
 
     protected static ?int $navigationSort = 60;
 
@@ -163,10 +163,20 @@ class NewsRecordResource extends Resource
                 Tables\Columns\TextColumn::make('status.value')
                     ->label('Status')
                     ->formatStateUsing(fn (NewsStatusValue $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (NewsStatusValue $state): string => match ($state) {
+                        NewsStatusValue::Current => 'success',
+                        NewsStatusValue::Archived => 'gray',
+                        NewsStatusValue::StaleReview => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('status.tone')
                     ->formatStateUsing(fn (NewsStatusTone $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (NewsStatusTone $state): string => match ($state) {
+                        NewsStatusTone::Current => 'success',
+                        NewsStatusTone::Archived => 'gray',
+                        NewsStatusTone::StaleReview => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('published_at_label')
                     ->label('Published'),
                 Tables\Columns\TextColumn::make('public_updated_at_label')

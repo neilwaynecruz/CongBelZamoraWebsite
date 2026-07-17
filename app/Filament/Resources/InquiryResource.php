@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\AdminRole;
+use App\Enums\ContactPreference;
 use App\Enums\InquiryCategory as InquiryCategoryEnum;
 use App\Enums\InquiryStatus;
 use App\Filament\Resources\InquiryResource\Pages;
@@ -15,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class InquiryResource extends Resource
 {
@@ -22,7 +24,7 @@ class InquiryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
 
-    protected static ?string $navigationGroup = 'Citizen Services';
+    protected static ?string $navigationGroup = 'Inquiries';
 
     protected static ?int $navigationSort = 10;
 
@@ -37,7 +39,7 @@ class InquiryResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = Inquiry::query()->with('assignedOfficer');
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (! $user instanceof User) {
             return $query->whereRaw('1 = 0');
@@ -71,7 +73,7 @@ class InquiryResource extends Resource
                         Forms\Components\Select::make('status')
                             ->options(InquiryStatus::options())
                             ->required()
-                            ->disabled(fn (?Inquiry $record): bool => ! $record || ! auth()->user()?->can('update', $record)),
+                            ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
                         Forms\Components\Select::make('assigned_officer_id')
                             ->label('Assigned officer')
                             ->relationship(
@@ -81,10 +83,10 @@ class InquiryResource extends Resource
                             )
                             ->searchable()
                             ->preload()
-                            ->disabled(fn (?Inquiry $record): bool => ! $record || ! auth()->user()?->can('update', $record)),
+                            ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
                         Forms\Components\TextInput::make('inquiry_category')
                             ->label('Category')
-                            ->formatStateUsing(fn (?InquiryCategoryEnum $state): string => $state?->label() ?? '')
+                            ->formatStateUsing(fn (mixed $state): string => self::formatInquiryCategory($state))
                             ->disabled(),
                     ]),
                 Forms\Components\Section::make('Citizen-provided details')
@@ -95,7 +97,7 @@ class InquiryResource extends Resource
                             ->label('Name')
                             ->disabled(),
                         Forms\Components\TextInput::make('contact_preference')
-                            ->formatStateUsing(fn ($state): string => is_object($state) && method_exists($state, 'label') ? $state->label() : (string) $state)
+                            ->formatStateUsing(fn (mixed $state): string => self::formatContactPreference($state))
                             ->disabled(),
                         Forms\Components\TextInput::make('citizen_email')
                             ->label('Email')
@@ -117,14 +119,14 @@ class InquiryResource extends Resource
                         Forms\Components\DateTimePicker::make('retention_expires_at')
                             ->disabled(),
                         Forms\Components\DateTimePicker::make('responded_at')
-                            ->disabled(fn (?Inquiry $record): bool => ! $record || ! auth()->user()?->can('update', $record)),
+                            ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
                         Forms\Components\DateTimePicker::make('resolved_at')
-                            ->disabled(fn (?Inquiry $record): bool => ! $record || ! auth()->user()?->can('update', $record)),
+                            ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
                         Forms\Components\DateTimePicker::make('anonymized_at')
                             ->disabled(),
                         Forms\Components\KeyValue::make('routing_notes')
                             ->columnSpanFull()
-                            ->disabled(fn (?Inquiry $record): bool => ! $record || ! auth()->user()?->can('update', $record)),
+                            ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
                     ]),
             ]);
     }
@@ -139,11 +141,12 @@ class InquiryResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('inquiry_category')
                     ->label('Category')
-                    ->formatStateUsing(fn (InquiryCategoryEnum $state): string => $state->label())
+                    ->formatStateUsing(fn (mixed $state): string => self::formatInquiryCategory($state))
                     ->badge(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn (InquiryStatus $state): string => $state->label())
+                    ->formatStateUsing(fn (mixed $state): string => self::formatInquiryStatus($state))
                     ->badge()
+                    ->color(fn (mixed $state): string => self::inquiryStatusColor($state))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('assignedOfficer.name')
                     ->label('Assigned officer')
@@ -164,7 +167,7 @@ class InquiryResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
-                    ->visible(fn (Inquiry $record): bool => auth()->user()?->can('update', $record) ?? false),
+                    ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record)),
             ])
             ->bulkActions([]);
     }
@@ -179,5 +182,58 @@ class InquiryResource extends Resource
             'view' => Pages\ViewInquiry::route('/{record}'),
             'edit' => Pages\EditInquiry::route('/{record}/edit'),
         ];
+    }
+
+    private static function canUpdateInquiry(?Inquiry $record): bool
+    {
+        $user = Auth::user();
+
+        return $record !== null
+            && $user instanceof User
+            && $user->can('update', $record);
+    }
+
+    private static function formatInquiryCategory(mixed $state): string
+    {
+        $category = $state instanceof InquiryCategoryEnum
+            ? $state
+            : InquiryCategoryEnum::tryFrom((string) $state);
+
+        return $category?->label() ?? '';
+    }
+
+    private static function formatContactPreference(mixed $state): string
+    {
+        $preference = $state instanceof ContactPreference
+            ? $state
+            : ContactPreference::tryFrom((string) $state);
+
+        return $preference?->label() ?? '';
+    }
+
+    private static function formatInquiryStatus(mixed $state): string
+    {
+        $status = self::inquiryStatusFrom($state);
+
+        return $status?->label() ?? '';
+    }
+
+    private static function inquiryStatusColor(mixed $state): string
+    {
+        return match (self::inquiryStatusFrom($state)) {
+            InquiryStatus::Pending => 'danger',
+            InquiryStatus::UnderReview => 'warning',
+            InquiryStatus::Resolved => 'success',
+            InquiryStatus::Closed => 'gray',
+            InquiryStatus::Anonymized => 'info',
+            null => 'gray',
+        };
+    }
+
+    private static function inquiryStatusFrom(mixed $state): ?InquiryStatus
+    {
+        return $state instanceof InquiryStatus
+            ? $state
+            : InquiryStatus::tryFrom((string) $state);
     }
 }

@@ -17,7 +17,7 @@ class ProjectEvidenceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationGroup = 'Public Content';
+    protected static ?string $navigationGroup = 'Projects';
 
     protected static ?int $navigationSort = 51;
 

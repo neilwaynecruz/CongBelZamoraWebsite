@@ -96,6 +96,28 @@ Check the schedule with:
 php artisan schedule:list
 ```
 
+Before deployment or Phase 8 content-migration sign-off, verify the backend-owned static public pages exist:
+
+```powershell
+php artisan public-pages:check-required
+```
+
+## Filament admin theme
+
+The staff admin panel uses a custom District Operations Dashboard theme registered through the normal Vite pipeline:
+
+```text
+resources/css/filament/admin/theme.css
+```
+
+Build it with the standard frontend command:
+
+```powershell
+npm run build
+```
+
+Do not maintain a separate Tailwind v3 or manually compiled public CSS workflow for the Filament theme. The panel provider loads the theme with `->viteTheme('resources/css/filament/admin/theme.css')`.
+
 ## SSR
 
 Inertia SSR is enabled in `config/inertia.php`.

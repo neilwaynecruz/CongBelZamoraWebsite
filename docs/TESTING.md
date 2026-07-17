@@ -150,6 +150,7 @@ php artisan test tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\I
 php artisan test tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\InertiaTest.php
 php artisan test tests\Feature\Phase7NewsWorkflowTest.php tests\Feature\InertiaTest.php
 php artisan test tests\Feature\Phase7StaticContentWorkflowTest.php tests\Feature\InertiaTest.php
+php artisan test --filter=FilamentDashboard
 composer lint:check
 composer types:check
 php artisan test
@@ -169,12 +170,13 @@ Latest results:
 - Targeted News/media backend and Inertia contract tests passed: 23 tests, 371 assertions.
 - Targeted static-page/audit/freshness and Inertia contract tests passed: 24 tests, 369 assertions.
 - Combined Phase 7 backend and Inertia contract tests passed: 54 tests, 696 assertions.
-- Full Laravel test suite passed: 93 tests, 832 assertions.
+- Full Laravel test suite passed after the dashboard redesign: 102 tests, 862 assertions.
 - `composer test` was not rerun after the News slice because full PHPStan hit local Windows paging-file/time limits. Targeted PHPStan for the News slice passed with 0 errors.
 - Pint passed; targeted PHPStan for the News slice passed with 0 errors.
 - Testing migrations ran successfully and Phase 7 migrations show `Ran`.
 - Route list shows the public inquiry POST route, public Programs, Legislation, Projects, News, and static page controller routes, and Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset/public-page/audit-log routes.
 - Schedule list shows `php artisan inquiries:anonymize-expired` daily at 02:30 and `php artisan content:flag-stale` daily at 03:00.
+- Targeted Filament dashboard redesign tests passed: 6 tests, 17 assertions.
 
 Coverage added:
 
@@ -201,6 +203,11 @@ Coverage added:
 - Filament `PublicPageResource` and `AuditLogResource` authorization.
 - Home, About, Contact, Privacy, Accessibility, and Disclaimer routes using backend `public_pages` while preserving Phase 6 Inertia prop contracts.
 - Queued stale-content job audit logging and reviewer digest notification routing.
+- Phase 7 dashboard widget role gates for audit and inquiry visibility.
+- Public page prop JSON validation and required prop-key checks.
+- Daily stale-content audit/notification deduplication.
+- Required public page health check command.
+- Custom District Operations Dashboard widgets, role-aware metrics service, privacy-redacted inquiry attention items, and audited required-page health-check action.
 - Filament `LegislativeRecordResource` authorization.
 - Public Legislation tracker route using backend records while preserving Phase 6 Inertia prop contracts and `role=co-author` query mapping.
 - Projects schema existence for project categories, statuses, partners, records, and evidence rows.

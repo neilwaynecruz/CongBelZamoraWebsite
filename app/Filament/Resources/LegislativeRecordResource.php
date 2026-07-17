@@ -19,7 +19,7 @@ class LegislativeRecordResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Public Content';
+    protected static ?string $navigationGroup = 'Legislative Records';
 
     protected static ?int $navigationSort = 40;
 
@@ -159,13 +159,23 @@ class LegislativeRecordResource extends Resource
                 Tables\Columns\TextColumn::make('role.value')
                     ->label('Role')
                     ->formatStateUsing(fn (LegislativeRoleValue $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (LegislativeRoleValue $state): string => match ($state) {
+                        LegislativeRoleValue::PrincipalAuthor => 'info',
+                        LegislativeRoleValue::CoAuthor => 'gray',
+                        LegislativeRoleValue::Sponsor => 'warning',
+                    }),
                 Tables\Columns\TextColumn::make('status.label')
                     ->label('Status')
                     ->badge(),
                 Tables\Columns\TextColumn::make('status.tone')
                     ->formatStateUsing(fn (LegislativeStatusTone $state): string => $state->label())
-                    ->badge(),
+                    ->badge()
+                    ->color(fn (LegislativeStatusTone $state): string => match ($state) {
+                        LegislativeStatusTone::Passed => 'success',
+                        LegislativeStatusTone::Pending => 'warning',
+                        LegislativeStatusTone::Enacted => 'success',
+                    }),
                 Tables\Columns\TextColumn::make('topic.name')
                     ->label('Topic')
                     ->sortable(),

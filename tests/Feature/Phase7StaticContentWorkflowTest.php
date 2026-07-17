@@ -5,12 +5,15 @@ namespace Tests\Feature;
 use App\Enums\AdminRole;
 use App\Filament\Resources\AuditLogResource;
 use App\Filament\Resources\PublicPageResource;
+use App\Filament\Widgets\Phase7ContentHealthOverview;
+use App\Filament\Widgets\RecentAuditActivity;
 use App\Jobs\FlagStaleContent;
 use App\Models\AuditLog;
 use App\Models\PublicPage;
 use App\Models\SourceRecord;
 use App\Models\User;
 use App\Notifications\StaleContentDigestNotification;
+use App\Support\PublicPageProps;
 use Database\Seeders\PublicPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
@@ -90,6 +93,58 @@ class Phase7StaticContentWorkflowTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_dashboard_widgets_are_role_gated(): void
+    {
+        $contentAdmin = User::factory()->adminRole(AdminRole::ContentAdministrator)->create();
+        $auditor = User::factory()->adminRole(AdminRole::ReadOnlyAuditor)->create();
+        $inquiryOfficer = User::factory()->adminRole(AdminRole::InquiryOfficer)->create();
+        $programOfficer = User::factory()->adminRole(AdminRole::ProgramOfficer)->create();
+
+        $this->actingAs($contentAdmin);
+        expect(Phase7ContentHealthOverview::canView())->toBeTrue()
+            ->and(RecentAuditActivity::canView())->toBeFalse();
+
+        $this->actingAs($auditor);
+        expect(Phase7ContentHealthOverview::canView())->toBeTrue()
+            ->and(RecentAuditActivity::canView())->toBeTrue();
+
+        $this->actingAs($inquiryOfficer);
+        expect(Phase7ContentHealthOverview::canView())->toBeTrue()
+            ->and(RecentAuditActivity::canView())->toBeFalse();
+
+        $this->actingAs($programOfficer);
+        expect(Phase7ContentHealthOverview::canView())->toBeTrue()
+            ->and(RecentAuditActivity::canView())->toBeFalse();
+    }
+
+    public function test_public_page_props_validation_reports_contract_errors(): void
+    {
+        $messages = [];
+        $fail = function (string $message) use (&$messages): void {
+            $messages[] = $message;
+        };
+
+        PublicPageProps::validateJsonForSlug(
+            json: '{"breadcrumbs":[]}',
+            slug: 'about',
+            component: 'Public/About',
+            fail: $fail,
+        );
+
+        expect($messages)->toContain('The about page props must include the [profile] key.');
+
+        $messages = [];
+
+        PublicPageProps::validateJsonForSlug(
+            json: '{not valid',
+            slug: 'about',
+            component: 'Public/About',
+            fail: $fail,
+        );
+
+        expect($messages)->toContain('The Inertia props must be a valid JSON object.');
+    }
+
     public function test_static_public_routes_use_backend_pages_with_phase_6_contracts(): void
     {
         $this->seed(PublicPageSeeder::class);
@@ -126,12 +181,14 @@ class Phase7StaticContentWorkflowTest extends TestCase
             ->create(['next_review_at' => now()->subDay()]);
 
         FlagStaleContent::dispatchSync();
+        FlagStaleContent::dispatchSync();
 
         expect(AuditLog::query()->where('event', 'content.review_overdue')->count())->toBe(1)
             ->and(AuditLog::query()->where('event', 'source_record.review_overdue')->count())->toBe(1);
 
         Notification::assertSentTo($reviewer, StaleContentDigestNotification::class);
         Notification::assertNotSentTo($inquiryOfficer, StaleContentDigestNotification::class);
+        expect(Notification::sent($reviewer, StaleContentDigestNotification::class))->toHaveCount(1);
     }
 
     public function test_stale_content_command_is_registered_and_dispatches_job(): void
@@ -139,5 +196,18 @@ class Phase7StaticContentWorkflowTest extends TestCase
         Artisan::call('content:flag-stale');
 
         expect(Artisan::output())->toContain('Queued public-content freshness check.');
+    }
+
+    public function test_required_public_pages_command_reports_missing_and_published_pages(): void
+    {
+        Artisan::call('public-pages:check-required');
+
+        expect(Artisan::output())->toContain('Missing required published public pages: home, about, contact, privacy, accessibility, disclaimer');
+
+        $this->seed(PublicPageSeeder::class);
+
+        Artisan::call('public-pages:check-required');
+
+        expect(Artisan::output())->toContain('All required backend-owned public pages are published.');
     }
 }

@@ -17,7 +17,7 @@ class AuditLogResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
-    protected static ?string $navigationGroup = 'Governance';
+    protected static ?string $navigationGroup = 'Governance & Audit';
 
     protected static ?int $navigationSort = 90;
 
@@ -63,6 +63,13 @@ class AuditLogResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('event')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'created' => 'success',
+                        'updated' => 'warning',
+                        'deleted' => 'danger',
+                        default => 'info',
+                    })
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('actor.name')
@@ -70,13 +77,14 @@ class AuditLogResource extends Resource
                     ->placeholder('System')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('auditable_type')
-                    ->label('Record type')
+                    ->label('Record Type')
+                    ->formatStateUsing(fn (string $state): string => str(class_basename($state))->headline())
                     ->searchable(),
                 Tables\Columns\TextColumn::make('auditable_id')
                     ->label('Record ID')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occurred_at')
-                    ->dateTime(timezone: 'Asia/Manila')
+                    ->dateTime(format: 'M j, Y g:i A', timezone: 'Asia/Manila')
                     ->sortable(),
             ])
             ->defaultSort('occurred_at', 'desc')
