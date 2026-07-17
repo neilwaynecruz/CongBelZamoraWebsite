@@ -226,6 +226,35 @@
         letter-spacing: 0.01em;
     }
 
+    .fi-select-input {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-position: calc(100% - 0.82rem) 50%;
+        background-repeat: no-repeat;
+        background-size: 1rem 1rem;
+        color: inherit;
+    }
+
+    .fi-select-input::-ms-expand {
+        display: none;
+    }
+
+    .fi-select-input:dir(rtl) {
+        background-position: 0.82rem 50%;
+    }
+
+    .dark .fi-select-input {
+        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .fi-pagination-records-per-page-select .fi-select-input {
+        min-width: 4.25rem;
+        padding-inline-end: 2.1rem;
+        font-variant-numeric: tabular-nums;
+    }
+
     .fi-ta-row {
         transition:
             background-color 160ms ease,
