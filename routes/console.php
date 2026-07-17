@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('inquiries:anonymize-expired')->dailyAt('02:30');
+Schedule::command('content:flag-stale')->dailyAt('03:00');

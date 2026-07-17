@@ -139,7 +139,7 @@ Additional July 15, 2026 motion/scroll validation after the smooth-scroll refine
 
 ## Phase 7 Backend/Admin Foundation Tests
 
-The first Phase 7 slices add backend-owned governance tables, encrypted inquiry storage, public inquiry persistence, audit logging, role policies, Filament inquiry authorization, inquiry retention automation, backend-owned Programs/Gabay records, backend-owned Legislation records, backend-owned Projects records, backend-owned News/media records, and Filament program/service-guide/legislative/project/news authorization.
+Phase 7 adds backend-owned governance tables, encrypted inquiry storage, public inquiry persistence, audit logging, role policies, Filament inquiry authorization, inquiry retention automation, backend-owned Programs/Gabay records, backend-owned Legislation records, backend-owned Projects records, backend-owned News/media records, backend-owned static public pages, read-only audit viewing, dashboard widgets, stale-content automation, and Filament program/service-guide/legislative/project/news/static-page/audit authorization.
 
 Relevant commands:
 
@@ -149,6 +149,7 @@ php artisan test tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\Iner
 php artisan test tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\InertiaTest.php
 php artisan test tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\InertiaTest.php
 php artisan test tests\Feature\Phase7NewsWorkflowTest.php tests\Feature\InertiaTest.php
+php artisan test tests\Feature\Phase7StaticContentWorkflowTest.php tests\Feature\InertiaTest.php
 composer lint:check
 composer types:check
 php artisan test
@@ -161,17 +162,19 @@ php artisan schedule:list
 
 Latest results:
 
-- Targeted Phase 7 tests passed: 6 tests, 45 assertions.
+- Targeted Phase 7 governance/inquiry tests passed: 6 tests, 45 assertions.
 - Targeted Programs/Gabay backend and Inertia contract tests passed: 23 tests, 385 assertions.
 - Targeted Legislation backend and Inertia contract tests passed: 23 tests, 362 assertions.
 - Targeted Projects backend and Inertia contract tests passed: 23 tests, 368 assertions.
 - Targeted News/media backend and Inertia contract tests passed: 23 tests, 371 assertions.
-- Full Laravel test suite passed: 86 tests, 764 assertions.
+- Targeted static-page/audit/freshness and Inertia contract tests passed: 24 tests, 369 assertions.
+- Combined Phase 7 backend and Inertia contract tests passed: 54 tests, 696 assertions.
+- Full Laravel test suite passed: 93 tests, 832 assertions.
 - `composer test` was not rerun after the News slice because full PHPStan hit local Windows paging-file/time limits. Targeted PHPStan for the News slice passed with 0 errors.
 - Pint passed; targeted PHPStan for the News slice passed with 0 errors.
 - Testing migrations ran successfully and Phase 7 migrations show `Ran`.
-- Route list shows the public inquiry POST route, public Programs, Legislation, Projects, and News controller routes, and Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset routes.
-- Schedule list shows `php artisan inquiries:anonymize-expired` daily at 02:30.
+- Route list shows the public inquiry POST route, public Programs, Legislation, Projects, News, and static page controller routes, and Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset/public-page/audit-log routes.
+- Schedule list shows `php artisan inquiries:anonymize-expired` daily at 02:30 and `php artisan content:flag-stale` daily at 03:00.
 
 Coverage added:
 
@@ -193,6 +196,11 @@ Coverage added:
 - Legislative enum casts and role/status/topic/source-history relationships.
 - Source-history, source-record, and approval-record attachments for seeded legislative records.
 - Least-privilege policy separation for Legislative Editor, Content Administrator, Reviewer / Approver, Inquiry Officer, Program Officer, Read-Only Auditor, and Super Administrator roles.
+- Public page schema, seed source records, and content approvals.
+- Least-privilege policy separation for public page editors, reviewers, auditors, and inquiry officers.
+- Filament `PublicPageResource` and `AuditLogResource` authorization.
+- Home, About, Contact, Privacy, Accessibility, and Disclaimer routes using backend `public_pages` while preserving Phase 6 Inertia prop contracts.
+- Queued stale-content job audit logging and reviewer digest notification routing.
 - Filament `LegislativeRecordResource` authorization.
 - Public Legislation tracker route using backend records while preserving Phase 6 Inertia prop contracts and `role=co-author` query mapping.
 - Projects schema existence for project categories, statuses, partners, records, and evidence rows.

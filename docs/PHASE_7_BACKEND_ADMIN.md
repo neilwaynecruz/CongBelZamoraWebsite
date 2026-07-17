@@ -1,8 +1,8 @@
 # Phase 7: Backend and Admin Development
 
 **Project:** Atty. Congresswoman Bel Zamora public-service website  
-**Phase status:** Partially Implemented  
-**Latest update:** July 15, 2026  
+**Phase status:** Implemented
+**Latest update:** July 18, 2026
 **Canonical plan:** `docs/bel_zamora_website_plan.md`
 
 This document records the implemented Phase 7 backend/admin slices. It does not replace the canonical plan.
@@ -80,22 +80,42 @@ Implemented:
 - `PublicNewsReadService` and `PublicNewsController` for `/news`.
 - Public read service props that preserve the verified Phase 6 News index Inertia contract, including `status=stale-review` query mapping.
 
+### Static Public Pages
+
+Implemented:
+
+- `public_pages` for backend-owned Home, About, Contact, Privacy, Accessibility, and Disclaimer page props.
+- Eloquent model, factory, policy, and seeded records copied from approved Phase 6 static route props.
+- Source-record and content-approval attachments for every seeded static public page.
+- `PublicStaticPageReadService` and `PublicStaticPageController` for `/`, `/about`, `/contact`, `/privacy`, `/accessibility`, and `/disclaimer`.
+- Public read service props that preserve the verified Phase 6 Vue/Inertia contracts while adding backend review metadata.
+- Filament `PublicPageResource` with create/view/edit/list pages and audit hooks.
+
+### Audit, Dashboard, and Freshness Automation
+
+Implemented:
+
+- Read-only Filament `AuditLogResource` for authorized audit review.
+- Filament dashboard widgets for open programs, pending approvals, unanswered inquiries, stale content, source records due for review, and recent audit activity.
+- Queued `FlagStaleContent` job and `StaleContentDigestNotification`.
+- `content:flag-stale` command scheduled daily at 03:00.
+
 ---
 
 ## 2. Role Matrix
 
-| Role | Staff Panel | Inquiry Records | Programs / Service Guides | Legislative Records | Projects / Evidence | News / Media | Source Records | Approval Records | Audit Records |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Super Administrator | Yes | View/update | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Review/update | View |
-| Content Administrator | Yes | No | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/review/update | No |
-| Communications Editor | Yes | No | No | No | No | Create/update | Create/update | Create | No |
-| Program Officer | Yes | No | Create/update | No | No | No | Create/update | Create | No |
-| Legislative Editor | Yes | No | No | Create/update | No | No | Create/update | Create | No |
-| Project Editor | Yes | No | No | No | Create/update | No | Create/update | Create | No |
-| Media Manager | Yes | No | No | No | No | Create/update | Create/update | Create | No |
-| Reviewer / Approver | Yes | No | View/review | View/review | View/review | View/review | View | Review/update | No |
-| Inquiry Officer | Yes | View/update unassigned or assigned inquiries | No | No | No | No | View | View | No |
-| Read-Only Auditor | Yes | View only | View only | View only | View only | View only | View | View | View |
+| Role | Staff Panel | Inquiry Records | Public Pages | Programs / Service Guides | Legislative Records | Projects / Evidence | News / Media | Source Records | Approval Records | Audit Records |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Super Administrator | Yes | View/update | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Review/update | View |
+| Content Administrator | Yes | No | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/update/delete | Create/review/update | No |
+| Communications Editor | Yes | No | Create/update | No | No | No | Create/update | Create/update | Create | No |
+| Program Officer | Yes | No | No | Create/update | No | No | No | Create/update | Create | No |
+| Legislative Editor | Yes | No | No | No | Create/update | No | No | Create/update | Create | No |
+| Project Editor | Yes | No | No | No | No | Create/update | No | Create/update | Create | No |
+| Media Manager | Yes | No | No | No | No | No | Create/update | Create/update | Create | No |
+| Reviewer / Approver | Yes | No | View/review | View/review | View/review | View/review | View/review | View | Review/update | No |
+| Inquiry Officer | Yes | View/update unassigned or assigned inquiries | No | No | No | No | No | View | View | No |
+| Read-Only Auditor | Yes | View only | View only | View only | View only | View only | View only | View | View | View |
 
 Public content editors do not automatically receive access to citizen inquiry data.
 
@@ -211,9 +231,22 @@ The public prop shape remains compatible with the Phase 6 Vue template:
 
 Seeded records are copied from approved Phase 6 content only. They preserve titles, slugs, category labels, status labels and tones, publication/update labels, official-source CTAs, summaries, official-update notes, next steps, stale notes, owner labels, and stale-review states.
 
+## 8. Static Page Public Contracts
+
+The following public routes now read from backend-owned `public_pages` records:
+
+- `GET /`
+- `GET /about`
+- `GET /contact`
+- `GET /privacy`
+- `GET /accessibility`
+- `GET /disclaimer`
+
+The public prop shapes remain compatible with the Phase 6 Vue templates. Contact injects dynamic inquiry categories, the inquiry action URL, and the session confirmation while the office/channel/privacy copy remains backend-owned.
+
 ---
 
-## 8. Privacy Rules
+## 9. Privacy Rules
 
 - No ID numbers, certificates, medical records, income records, school records, or uploads are collected.
 - Audit logs do not store citizen name, email, phone, or message body.
@@ -224,7 +257,7 @@ Seeded records are copied from approved Phase 6 content only. They preserve titl
 
 ---
 
-## 9. Queue and Scheduler
+## 10. Queue and Scheduler
 
 Email confirmation uses Laravel notifications and implements `ShouldQueue`.
 
@@ -240,21 +273,28 @@ Scheduled retention command:
 php artisan schedule:run
 ```
 
+Scheduled freshness command:
+
+```bash
+php artisan content:flag-stale
+```
+
 Verification command:
 
 ```bash
 php artisan schedule:list
 ```
 
-Expected schedule entry:
+Expected schedule entries:
 
 ```text
 30 2 * * * php artisan inquiries:anonymize-expired
+0 3 * * * php artisan content:flag-stale
 ```
 
 ---
 
-## 10. Environment Variables
+## 11. Environment Variables
 
 Add to every environment:
 
@@ -266,7 +306,7 @@ Production should continue using a real queue backend such as Redis and must kee
 
 ---
 
-## 11. Validation Results
+## 12. Validation Results
 
 Latest local validation:
 
@@ -295,16 +335,28 @@ Latest local validation:
 | `git diff --check` | Passed. |
 | Targeted News PHPStan command | Passed: 0 errors for new News enums, models, policies, controller, read service, and seeder. |
 | `composer types:check` | Could not complete in the local Windows session because full PHPStan hit paging-file/time limits. |
+| `php artisan test tests\Feature\Phase7StaticContentWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 24 tests, 369 assertions. |
+| `php artisan test tests\Feature\Phase7GovernanceSchemaTest.php tests\Feature\Phase7InquiryWorkflowTest.php tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\Phase7LegislationWorkflowTest.php tests\Feature\Phase7ProjectsWorkflowTest.php tests\Feature\Phase7NewsWorkflowTest.php tests\Feature\Phase7StaticContentWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 54 tests, 696 assertions. |
+| `php artisan migrate:fresh --env=testing --force` | Passed; all migrations ran through `2026_07_15_000260_create_public_pages_table`. |
+| `php artisan route:list --except-vendor` | Passed; 57 routes including public static page controller routes and Filament Public Page / Audit Log resources. |
+| `php artisan schedule:list` | Passed; daily inquiry anonymization and stale-content freshness checks are scheduled. |
+| `php artisan test` | Passed: 93 tests, 832 assertions. |
+| `vendor\bin\pint --test` | Passed. |
+| `npm run lint:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `npm run test` | Passed: 11 files, 23 tests. |
+| `npm run build` | Passed outside sandbox after local sandbox denied write access to `public/build/assets`. |
+| `npm run build:ssr` | Passed outside sandbox; existing `@inertiajs/vite` sourcemap warning only. |
 
 ---
 
-## 12. Remaining Phase 7 Work
+## 13. Remaining Phase 7 Work
 
-Next backend/admin slices:
+No remaining Phase 7 MVP backend/admin slices.
 
-1. Server-owned public content models and read services for About/static pages.
-2. Audit log Filament read-only resource.
-3. Dashboard widgets for stale content, open programs, pending approvals, unanswered inquiries, and site health.
-4. Queue jobs for stale-content checks and notification routing.
+Carry-forward items for later phases:
 
-Phase 7 must not be marked `Implemented` until every MVP backend/admin module passes authorization, validation, audit, privacy, admin, and public integration acceptance criteria.
+- Phase 8 must migrate only approved content and media with reviewable source, rights, and privacy records.
+- Phase 10 must obtain formal District Office, legal/privacy, communications, and executive approval.
+- Phase 11 must configure production queue workers, scheduler, monitoring, backups, and hosting.
+- Sensitive uploads remain out of scope until a separate reviewed privacy/security workflow exists.

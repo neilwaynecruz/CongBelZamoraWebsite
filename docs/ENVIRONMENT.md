@@ -77,6 +77,25 @@ QUEUE_CONNECTION=database
 
 Run `php artisan queue:table` and migrate if using the database queue driver.
 
+Phase 7 background work uses the queue for inquiry confirmations and stale-content reviewer digests. Run a worker while testing queued behavior locally:
+
+```powershell
+php artisan queue:work
+```
+
+The scheduler should run these Phase 7 commands:
+
+```text
+30 2 * * * php artisan inquiries:anonymize-expired
+0 3 * * * php artisan content:flag-stale
+```
+
+Check the schedule with:
+
+```powershell
+php artisan schedule:list
+```
+
 ## SSR
 
 Inertia SSR is enabled in `config/inertia.php`.

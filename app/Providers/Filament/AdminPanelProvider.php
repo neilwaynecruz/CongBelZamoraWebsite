@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\Phase7ContentHealthOverview;
+use App\Filament\Widgets\RecentAuditActivity;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -38,6 +40,8 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+                Phase7ContentHealthOverview::class,
+                RecentAuditActivity::class,
                 Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([

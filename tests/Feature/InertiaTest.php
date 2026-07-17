@@ -6,12 +6,20 @@ use Database\Seeders\LegislativeRecordSeeder;
 use Database\Seeders\NewsRecordSeeder;
 use Database\Seeders\ProgramAndServiceGuideSeeder;
 use Database\Seeders\ProjectRecordSeeder;
+use Database\Seeders\PublicPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class InertiaTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(PublicPageSeeder::class);
+    }
 
     public function test_home_page_renders_public_home_component(): void
     {
