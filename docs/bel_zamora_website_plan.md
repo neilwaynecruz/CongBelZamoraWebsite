@@ -11,8 +11,8 @@
 **Final architecture and implementation audit:** July 12, 2026  
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
-**Latest project-state audit:** July 18, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, and Phase 7 backend/admin MVP modules. Phase 6 public frontend browser acceptance is complete. Phase 7 now includes typed staff roles, shared source/approval/audit tables, encrypted inquiry persistence, public inquiry validation, retention anonymization, queued email confirmation, policies, Filament inquiry/program/service-guide/legislative-record/project/project-evidence/news-record/news-media-asset/public-page/audit-log resources, backend-owned Programs, Gabay, Legislation, Projects, News, Home/About/Contact/static policy page records, public read services that preserve the verified Phase 6 Vue/Inertia contracts, a custom District Operations Dashboard with Vite-backed Filament theme, role-aware widgets, audited required-page health checks, privacy-redacted inquiry attention items, and queued stale-content automation.
+**Latest project-state audit:** July 20, 2026
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, and Phase 9 automated/HTTP/SSR/security/source-link QA. Phase 9 fixed PHPStan type issues, added baseline security headers, hardened external source links, and added a Phase 9 QA regression test. Current-session browser automation, real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
 
 ---
 
@@ -101,8 +101,8 @@ Use only the following status labels:
 | Phase 5: Visual Design                           | `Implemented`           | SVG brand assets (logos, favicons) generated in public/assets and design system configurations compiled in [PHASE_5_VISUAL_DESIGN.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_5_VISUAL_DESIGN.md).                            | None. Exit conditions met.                                                                                                    |
 | Phase 6: Vue Frontend Development                | `Implemented` | Public home, About, Programs, Legislation tracker, Projects, News, Contact, Privacy, Accessibility, and Disclaimer vertical slices implemented: shared public chrome, breadcrumbs, footer navigation, verified biography profile, responsibility boundaries, Programs index, Tulong Dunong detail, Gabay routing interaction, legislative filters, project evidence filters, news category/status/year filters, Contact office layout, DPA-safe validation-only inquiry form, dedicated policy templates, route-specific canonical/Open Graph/Twitter/JSON-LD metadata, official-source links, stale-content states, route helpers, SSR build, local HTTP smoke checks, focused frontend/backend tests, and Chrome CDP browser acceptance for desktop/mobile hydration, console, keyboard, responsive overflow, mobile navigation, search, filters, and Contact form states. | Stakeholder acceptance, final office-detail confirmation, and production content/backend ownership remain for later phases. |
 | Phase 7: Backend and Admin Development           | `Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs/Gabay, Legislation, Projects, News/media, and static public pages are backend-owned with source/approval attachments, least-privilege policies, Filament resources, seed records, public read services, and preserved Phase 6 Inertia contracts. Audit logs are exposed through a read-only Filament resource. The custom District Operations Dashboard adds a Vite-backed Filament civic theme, branded command header, role-aware content/inquiry/audit widgets, privacy-redacted needs-attention items, and audited required-page health checks. Queued stale-content automation and reviewer digest notification are scheduled daily. | None for Phase 7 MVP. Proceed to Phase 8 content migration/upload and stakeholder content acceptance. |
-| Phase 8: Content Migration and Upload            | `Not Started`           | No staging application, database, media library, or migration worksheet exists.                                                                                                                                                         | Complete verified content inventory and application modules before migration.                                                 |
-| Phase 9: Testing and Quality Assurance           | `Partially Implemented` | Pest, PHPUnit, Vitest, Pint, ESLint, Prettier, vue-tsc, and CI gates exist from Phase 0.                                                                                                                                                | Execute full QA, accessibility, and security reports after feature implementation.                                            |
+| Phase 8: Content Migration and Upload            | `Implemented` | MVP staging content is seeded through backend-owned records for public pages, Programs/Gabay, Legislation, Projects, News, and media-register placeholders. Source records, approval records, content owners, review dates, historical/stale labels, redirect routes, `robots.txt`, `sitemap.xml`, and [PHASE_8_CONTENT_MIGRATION.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_8_CONTENT_MIGRATION.md) are in place and covered by `Phase8ContentMigrationTest`. | Formal stakeholder, legal/privacy, final contact-channel, and non-brand media-rights approval remain Phase 10 launch-approval work. |
+| Phase 9: Testing and Quality Assurance           | `Implemented but Not Verified` | `docs/PHASE_9_QA_REPORT.md`, `Phase9QualityAssuranceTest`, full `composer test`, frontend lint/type/test/build checks, SSR runtime check, HTTP smoke, redirect/sitemap/robots checks, dependency audits, source-link review, security-header middleware, and external-link hardening are complete. | Current-session browser automation failed on this Windows host (`CDP response channel closed`), and real-device, screen-reader, staff usability, and production backup/restore evidence remain required before marking Phase 9 `Implemented`. |
 | Phase 10: Content and Legal Approval             | `Blocked`               | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided.                                                                                                                               | Complete content and implementation review, then obtain documented approval.                                                  |
 | Phase 11: Deployment and Launch                  | `Blocked`               | No application, canonical-domain decision, hosting environment, deployment pipeline, or launch approval exists.                                                                                                                         | Complete prior phases and approve hosting, domain, security, backup, monitoring, and rollback.                                |
 | Phase 12: Maintenance and Continuous Improvement | `Not Started`           | The website is not deployed.                                                                                                                                                                                                            | Begin only after launch; prepare ownership and schedules before deployment.                                                   |
@@ -111,9 +111,9 @@ Use only the following status labels:
 
 The next work is:
 
-> **Begin Phase 8: Content Migration and Upload.**
+> **Complete Phase 9 browser and real-device verification.**
 
-Phases 0, 1, 2, 3, 4, 5, 6, and 7 are implemented. Begin Phase 8 by preparing a reviewed staging content migration: verify final office details, collect approved public copy and media, seed or import only reviewable content records, confirm image/privacy rights, and preserve the Phase 7 source, approval, audit, retention, and stale-review workflow.
+Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated, HTTP, SSR, privacy, security, source-link, redirect, sitemap, and content QA is complete and documented, but Phase 9 must not be marked fully `Implemented` until browser automation or documented manual browser QA, real-device mobile review, screen-reader-oriented review, staff usability review, and production backup/restore evidence are recorded.
 
 ## 0.6 How to Use This Plan as a Living Roadmap
 
@@ -245,6 +245,164 @@ Recommended next task:
 ```
 
 ## 0.9 Current Project Update
+
+### Project Update: 2026-07-19 (Phase 8 Content Migration and Upload)
+
+**Phase:** Phase 8: Content Migration and Upload
+**Task:** Migrate approved MVP public content into backend-owned staging records, document the migration ledger, implement redirects and search-index artifacts, and validate source/approval/media governance.
+**Previous status:** `Not Started`
+**New status:** `Implemented`
+
+**Completed:**
+
+- Added `docs/PHASE_8_CONTENT_MIGRATION.md` as the migration log, content inventory, redirect map, media register, validation record, and carry-forward approval list.
+- Confirmed MVP staging seed content for public pages, Programs/Gabay, Tulong Dunong, Legislation, Projects, News, and policy pages.
+- Preserved source records, content approval records, content owners, verification dates, review dates, historical/stale labels, and public read-service contracts.
+- Normalized Tulong Dunong source records from the Cloudflare-challenged `https://ched.gov.ph/unifast/` path to the reachable official `https://unifast.gov.ph/` source.
+- Added permanent redirects for approved legacy URLs: `/contact-page`, `/about-bel`, `/biography-full`, `/programs-services`, and `/tulong-dunong-slots`.
+- Added `/about/biography` as a live SSR About alias so the biography legacy redirect does not land on a missing route.
+- Added `public/sitemap.xml` and linked it from `public/robots.txt`.
+- Added `tests/Feature/Phase8ContentMigrationTest.php` for record reconciliation, source/approval completeness, historical-content handling, media-rights placeholders, redirects, and search-index files.
+
+**Files created:**
+
+- `docs/PHASE_8_CONTENT_MIGRATION.md`
+- `public/sitemap.xml`
+- `tests/Feature/Phase8ContentMigrationTest.php`
+
+**Files updated:**
+
+- `database/seeders/ProgramAndServiceGuideSeeder.php`
+- `docs/TESTING.md`
+- `docs/ARCHITECTURE.md`
+- `docs/bel_zamora_website_plan.md`
+- `public/robots.txt`
+- `resources/js/pages/Public/Programs/TulongDunong.spec.ts`
+- `routes/web.php`
+
+**Validation performed:**
+
+| Command | Result |
+| --- | --- |
+| `php artisan test tests\Feature\Phase8ContentMigrationTest.php` | Passed: 6 tests, 236 assertions. |
+| `Invoke-WebRequest -Uri https://belzamora.com/ -MaximumRedirection 5` | Passed: `200 OK`. HEAD returns `405 Method Not Allowed`, so GET is the correct verification method. |
+| `Invoke-WebRequest -Uri https://www.sanjuancity.gov.ph/Makabagong_SJ_Directory -Method Head -MaximumRedirection 5` | Passed: `200 OK`. |
+| `Invoke-WebRequest -Uri https://unifast.gov.ph/ -Method Head -MaximumRedirection 5` | Passed: `200 OK`. |
+| `Invoke-WebRequest` for San Juan source pages used by Projects and News | Passed: `200 OK` for checked migrated MVP source URLs. |
+| `Invoke-WebRequest` for House member and committee URLs | Returned automated-client `403 Forbidden` from the official House site security layer; retained as authoritative official sources. |
+| `Invoke-WebRequest -Uri https://ched.gov.ph/unifast/` | Returned Cloudflare challenge; replaced with `https://unifast.gov.ph/` in migrated Tulong Dunong source records. |
+| `php -l routes\web.php` | Passed. |
+| `php -l database\seeders\ProgramAndServiceGuideSeeder.php` | Passed. |
+| `php -l tests\Feature\Phase8ContentMigrationTest.php` | Passed. |
+| `php artisan test tests\Feature\Phase8ContentMigrationTest.php tests\Feature\Phase7ProgramsWorkflowTest.php tests\Feature\Phase7StaticContentWorkflowTest.php tests\Feature\InertiaTest.php` | Passed: 39 tests, 702 assertions. |
+| `php artisan test` | Passed: 108 tests, 1098 assertions. |
+| `vendor\bin\pint --test routes\web.php database\seeders\ProgramAndServiceGuideSeeder.php tests\Feature\Phase8ContentMigrationTest.php` | Passed. |
+| `composer lint:check` | Passed. |
+| `vendor\bin\phpstan analyse tests\Feature\Phase8ContentMigrationTest.php database\seeders\ProgramAndServiceGuideSeeder.php --no-progress --memory-limit=1G` | Passed: 0 errors. |
+| `composer types:check` | Could not complete in this local Windows session because PHPStan parallel workers hit paging-file/out-of-memory failures. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `npm run test` | Passed: 11 files, 23 tests. |
+| `php -r "exit(simplexml_load_file('public/sitemap.xml') === false ? 1 : 0);"` | Passed. |
+| `php artisan route:list --except-vendor` | Passed: 64 routes, including Phase 8 redirects and `/about/biography`. |
+| `npm run build` | Passed. |
+| `npm run build:ssr` | Passed on sequential rerun; emitted the known `@inertiajs/vite` sourcemap warning and plugin timing notices only. |
+| `git diff --check` | Passed. |
+
+**Known issues / carry-forward approvals:**
+
+- Formal stakeholder/admin review remains Phase 10.
+- Final District Office contact-channel and office-hour confirmation remains Phase 10.
+- Legal/privacy approval of public notices and inquiry handling remains Phase 10.
+- No non-brand public photos were uploaded because approved originals, rights, consent, caption, and alt-text approval were not provided; media records remain placeholders until Phase 10/approved media upload.
+- Full `composer types:check` remains constrained by local Windows paging-file memory; targeted PHPStan over changed Phase 8 files passed with 0 errors.
+
+**Recommended next task:**
+
+- Begin Phase 9: Testing and Quality Assurance with full backend/frontend/browser/accessibility/privacy/security/performance QA against the migrated MVP content.
+
+### Project Update: 2026-07-20 (Phase 9 Testing and Quality Assurance)
+
+**Phase:** Phase 9: Testing and Quality Assurance
+**Task:** Run full QA across backend, frontend, SSR, security, privacy, redirects, sitemap/robots, source links, and migrated MVP content.
+**Previous status:** `Not Started`
+**New status:** `Implemented but Not Verified`
+
+**Completed:**
+
+- Added `docs/PHASE_9_QA_REPORT.md` with the QA matrix, exact command results, defects, accepted exceptions, and launch-verification blockers.
+- Added `tests/Feature/Phase9QualityAssuranceTest.php` for sitemap route coverage, public inquiry rate limiting, and baseline security-header assertions.
+- Fixed PHPStan defects in dashboard metrics, public static-page date formatting, and faker-backed factories.
+- Added `ApplySecurityHeaders` middleware for `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, and HTTPS-only HSTS.
+- Hardened public external source links that open new tabs to use `rel="noopener noreferrer"`.
+- Removed the ignored stale `public/hot` marker before production-style HTTP/SSR smoke checks.
+- Verified public routes, redirects, SSR metadata, sitemap XML, robots.txt, dependency audits, and source links where automated clients were permitted.
+
+**Files created:**
+
+- `app/Http/Middleware/ApplySecurityHeaders.php`
+- `docs/PHASE_9_QA_REPORT.md`
+- `tests/Feature/Phase9QualityAssuranceTest.php`
+
+**Files updated:**
+
+- `app/Services/AdminDashboardMetricsService.php`
+- `app/Services/PublicStaticPageReadService.php`
+- `bootstrap/app.php`
+- `database/factories/NewsCategoryFactory.php`
+- `database/factories/PublicPageFactory.php`
+- `docs/ARCHITECTURE.md`
+- `docs/TESTING.md`
+- `docs/bel_zamora_website_plan.md`
+- `resources/js/pages/Public/About.vue`
+- `resources/js/pages/Public/Contact.vue`
+- `resources/js/pages/Public/Home.vue`
+- `resources/js/pages/Public/Legislation/Index.vue`
+- `resources/js/pages/Public/News/Index.vue`
+- `resources/js/pages/Public/Programs/TulongDunong.vue`
+- `resources/js/pages/Public/Projects/Index.vue`
+
+**Validation performed:**
+
+| Command or process | Result |
+| --- | --- |
+| `composer validate` | Passed with the accepted exact-Filament-pin warning. |
+| `composer test` | Passed: Pint, PHPStan 0 errors, Pest 111 tests, 1133 assertions. |
+| `npm run lint:check` | Passed. |
+| `npm run format:check` | Passed. |
+| `npm run types:check` | Passed. |
+| `npm run test` | Passed: 11 files, 23 tests. |
+| `npm run build:ssr` | Passed; emitted the known Inertia sourcemap warning. |
+| `php artisan route:list --except-vendor` | Passed: 64 routes. |
+| `php artisan schedule:list` | Passed: inquiry anonymization and stale-content commands scheduled daily. |
+| Isolated SQLite `migrate:fresh --seed --force` | Passed for local restoration simulation. |
+| Local HTTP smoke | Passed: MVP routes, `robots.txt`, and `sitemap.xml` returned 200; approved legacy redirects returned 301. |
+| SSR metadata smoke | Passed with SSR worker: MVP routes included canonical, Open Graph title, and JSON-LD. |
+| `php artisan inertia:check-ssr` | Passed while the SSR worker was running. |
+| `composer audit` | Passed: no advisories. |
+| `npm audit --audit-level=high` | Passed: 0 vulnerabilities. |
+| Live source-link review | Passed for Bel Zamora, San Juan, and UniFAST URLs; official House and PIA URLs returned automated-client `403 Forbidden` and remain manual-review official sources. |
+| Agent Browser / Chrome CDP browser QA | Blocked locally: Agent Browser reported `CDP response channel closed`; direct Chrome headless exited before exposing CDP. |
+| `git diff --check` | Passed. |
+
+**Known issues:**
+
+- Current-session browser automation, hydration console review, responsive screenshots, keyboard traversal, focus visibility, mobile navigation, filters, search disclosure, and Contact form browser-state verification were not refreshed because Chrome/CDP cannot launch in this host.
+- Real-device mobile, screen-reader-oriented, staff usability, and production backup/restore checks remain required before launch.
+- Local MySQL may be in an inconsistent migration-history state if tables exist but Laravel reports nothing to roll back; for disposable local data use `php artisan migrate:fresh --seed`, otherwise back up first.
+- `composer validate --strict` still warns about the exact Filament 3.3.54 pin, accepted as the documented Laravel 13 compatibility decision.
+- `npm run build:ssr` still emits the known `@inertiajs/vite` sourcemap warning.
+
+**Blockers:**
+
+- Working browser automation or documented manual browser QA evidence.
+- Real-device, screen-reader, and staff usability validation.
+- Production/staging backup-restore, TLS/HSTS, queue/scheduler supervision, and monitoring validation on the final host.
+
+**Recommended next task:**
+
+- Complete Phase 9 browser/manual and real-device acceptance, then move to Phase 10 only after Phase 9 can be marked `Implemented`.
 
 ### Project Update: 2026-07-16 (About Source-Link Audit)
 
@@ -5519,11 +5677,11 @@ Can a user find:
 
 ### Current Status
 
-**Status:** `Not Started`
+**Status:** `Implemented`
 
-**Evidence:** No staging system, migration worksheet, seeded database, or approved media library exists.
+**Evidence:** MVP content is seeded into backend-owned records with source records, approval records, owners, review dates, redirect routes, `robots.txt`, `sitemap.xml`, and migration documentation in `docs/PHASE_8_CONTENT_MIGRATION.md`. `tests/Feature/Phase8ContentMigrationTest.php` validates record reconciliation, source/approval governance, historical/stale labels, media-rights placeholders, redirects, and search-index files.
 
-**Remaining work:** Complete content verification, application modules, and migration tooling before uploading.
+**Remaining work:** Formal District Office, legal/privacy, communications, executive, and non-brand media approval remain in Phase 10. Production upload, domain, hosting, and launch operations remain later-phase work.
 
 **Phase exit condition:** Approved content is migrated, sourced, accessible, redirected, reviewed, and ready for final approval.
 
@@ -5538,10 +5696,11 @@ Can a user find:
 
 ### Outputs
 
-- Complete staging content
+- MVP staging content
 - Source-linked records
-- Redirect file
-- Updated media library
+- Permanent redirects
+- `robots.txt` and `sitemap.xml`
+- Media register with approved brand assets and non-brand media placeholders pending rights/consent approval
 
 ---
 
@@ -5549,13 +5708,13 @@ Can a user find:
 
 ### Current Status
 
-**Status:** `Not Started`
+**Status:** `Implemented but Not Verified`
 
-**Evidence:** No executable application or test artifacts exist.
+**Evidence:** `docs/PHASE_9_QA_REPORT.md`, `tests/Feature/Phase9QualityAssuranceTest.php`, full `composer test`, frontend lint/type/test/build checks, SSR runtime check, local HTTP smoke, redirect checks, sitemap/robots validation, dependency audits, source-link review, baseline security-header middleware, and external-link hardening are complete.
 
-**Remaining work:** Implement automated and manual QA across functionality, browsers, accessibility, privacy, security, performance, and recovery.
+**Remaining work:** Complete current-session browser automation or documented manual browser QA, real-device mobile review, screen-reader-oriented review, staff usability review, and production backup/restore validation. Agent Browser and direct Chrome CDP are blocked on this Windows/Laragon host.
 
-**Phase exit condition:** All required reports pass or contain formally accepted exceptions.
+**Phase exit condition:** All required reports pass or contain formally accepted exceptions, no launch-blocking defect remains, browser/hydration/responsive/accessibility evidence is current, privacy and authorization tests pass, backup restoration works, performance is acceptable, and staging is ready for formal approval.
 
 ### Testing areas
 
@@ -5575,11 +5734,11 @@ Can a user find:
 
 ### Outputs
 
-- QA report
-- Accessibility report
-- Security checklist
-- Performance report
-- Resolved issue log
+- QA report: `docs/PHASE_9_QA_REPORT.md`
+- Accessibility report section: included in `docs/PHASE_9_QA_REPORT.md`, pending refreshed browser and screen-reader evidence
+- Security checklist section: included in `docs/PHASE_9_QA_REPORT.md`, with security-header and dependency-audit fixes complete
+- Performance report section: included in `docs/PHASE_9_QA_REPORT.md`, with bundle-size evidence and Lighthouse/Core Web Vitals pending browser availability
+- Resolved issue log and accepted-risk register: included in `docs/PHASE_9_QA_REPORT.md`
 
 ---
 

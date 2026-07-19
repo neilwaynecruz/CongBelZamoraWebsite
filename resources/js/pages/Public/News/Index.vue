@@ -473,7 +473,7 @@ const resetFilters = () => {
                             <a
                                 class="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                                 :href="item.sourceUrl"
-                                rel="noreferrer"
+                                rel="noopener noreferrer"
                                 target="_blank"
                             >
                                 {{ item.sourceLabel }}

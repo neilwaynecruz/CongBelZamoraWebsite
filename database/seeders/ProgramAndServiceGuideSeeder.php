@@ -94,7 +94,7 @@ class ProgramAndServiceGuideSeeder extends Seeder
                 'application_period' => 'Current round must be reconfirmed with the District Office',
                 'benefit' => 'Historical reference: ₱7,500 per qualified scholar for the cited round. The current approved benefit must be reconfirmed for every new application cycle.',
                 'source_label' => 'CHED UniFAST information',
-                'source_url' => 'https://ched.gov.ph/unifast/',
+                'source_url' => 'https://unifast.gov.ph/',
                 'verified_at' => now()->setDate(2026, 7, 12)->startOfDay(),
                 'content_owner_id' => $owner->id,
                 'approved_by_id' => $approver->id,
@@ -175,7 +175,7 @@ class ProgramAndServiceGuideSeeder extends Seeder
         $this->attachGovernance(
             model: $tulongDunong,
             title: 'CHED UniFAST information',
-            url: 'https://ched.gov.ph/unifast/',
+            url: 'https://unifast.gov.ph/',
             owner: $owner,
             approver: $approver,
         );

@@ -25,6 +25,18 @@ Both interfaces share the same Laravel application, database, authorization poli
 2. Filament resources manage content using Livewire internally.
 3. Business rules, validation, and policies remain authoritative on the server.
 
+## Security headers
+
+Baseline web security headers are applied by `App\Http\Middleware\ApplySecurityHeaders` in the web middleware stack:
+
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: SAMEORIGIN`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains` only when the request is HTTPS
+
+Production hosting must still terminate HTTPS correctly and should validate TLS, HSTS, queue workers, scheduler supervision, backups, and monitoring during deployment readiness.
+
 ## Directory conventions
 
 | Path | Purpose |
@@ -138,3 +150,25 @@ The public static routes now resolve through `PublicStaticPageController` and `P
 `PublicPageResource` exposes backend management for authorized public-content roles. `AuditLogResource` exposes read-only audit history to super administrators and read-only auditors. Dashboard widgets surface open programs, pending approvals, unanswered inquiries, stale content, due source reviews, and recent audit activity.
 
 Retention is enforced by `inquiries:anonymize-expired`, scheduled daily in `routes/console.php`. Freshness review automation is queued by `content:flag-stale`, scheduled daily at 03:00. Production environments must run both queue workers and the Laravel scheduler.
+
+## Phase 8 Content Migration Boundary
+
+Phase 8 uses the Phase 7 backend-owned records as the staging migration target. MVP content is seeded through `DatabaseSeeder` and the module seeders for `public_pages`, Programs/Gabay, Legislation, Projects, News, and media-register placeholders. Imported content must preserve source records, content approval records, owners, verification dates, review dates, historical/stale labels, and public route contracts.
+
+Legacy URL support lives in `routes/web.php` as permanent redirects for approved old paths:
+
+- `/contact-page` to `/contact`
+- `/about-bel` to `/about`
+- `/biography-full` to `/about/biography`
+- `/programs-services` to `/programs`
+- `/tulong-dunong-slots` to `/programs/education/tulong-dunong`
+
+`/about/biography` is an SSR About alias so the approved biography redirect lands on a live route. Search-index artifacts are static for the MVP: `public/robots.txt` points to `https://belzamora.com/sitemap.xml`, and `public/sitemap.xml` lists the public SSR MVP routes.
+
+Non-brand news/media assets are recorded in `news_media_assets` with source, caption, alt-text, rights, and verification metadata, but `media_path` remains `null` until approved local derivatives, rights, consent, and caption review are provided. Production personal data, applicant lists, document scans, and resident/student photos without documented consent are not migrated.
+
+## Phase 9 QA Boundary
+
+Phase 9 automated, HTTP, SSR, source-link, privacy, security, redirect, sitemap, and content QA is documented in `docs/PHASE_9_QA_REPORT.md`. QA fixes introduced typed service/factory cleanup, baseline security headers, explicit `noopener noreferrer` on public external links, and `Phase9QualityAssuranceTest`.
+
+Current-session browser automation is not available on this Windows/Laragon host because Agent Browser reports `CDP response channel closed` and direct Chrome headless exits before exposing CDP. Phase 9 cannot be marked fully implemented until browser or documented manual QA evidence covers hydration console output, responsive screenshots, keyboard traversal, visible focus, skip link behavior, mobile navigation, filters, search disclosure, Contact form states, real-device review, and screen-reader-oriented review.

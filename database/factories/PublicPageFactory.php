@@ -17,6 +17,7 @@ class PublicPageFactory extends Factory
     public function definition(): array
     {
         $title = fake()->unique()->words(3, true);
+        $title = is_array($title) ? implode(' ', $title) : $title;
 
         return [
             'slug' => Str::slug($title),

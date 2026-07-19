@@ -32,7 +32,7 @@ const program: ProgramDetail = {
     ],
     responsibleOfficeLabel: 'District Office and CHED / UniFAST partnership',
     sourceLabel: 'CHED UniFAST information',
-    sourceUrl: 'https://ched.gov.ph/unifast/',
+    sourceUrl: 'https://unifast.gov.ph/',
     status: 'open',
     statusLabel: 'Bukas / Open',
     title: 'CHED UniFAST Tulong Dunong Program',

@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicStaticPageController::class, 'home'])->name('home');
 Route::get('/about', [PublicStaticPageController::class, 'about'])->name('public.about');
+Route::get('/about/biography', [PublicStaticPageController::class, 'about'])->name('public.about.biography');
+
+Route::permanentRedirect('/contact-page', '/contact');
+Route::permanentRedirect('/about-bel', '/about');
+Route::permanentRedirect('/biography-full', '/about/biography');
+Route::permanentRedirect('/programs-services', '/programs');
+Route::permanentRedirect('/tulong-dunong-slots', '/programs/education/tulong-dunong');
 
 Route::get('/programs', [PublicProgramController::class, 'index'])->name('public.programs');
 Route::get('/programs/gabay', [PublicProgramController::class, 'gabay'])->name('public.programs.gabay');

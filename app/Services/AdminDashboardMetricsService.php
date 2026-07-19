@@ -22,10 +22,15 @@ use App\Models\PublicPage;
 use App\Models\ServiceGuide;
 use App\Models\SourceRecord;
 use App\Models\User;
+use Carbon\CarbonImmutable;
+use DateTimeInterface;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * @phpstan-type NeedsAttentionItem array{type: string, title: string, status: string, date: DateTimeInterface, severity: 'danger'|'warning', url: string}
+ */
 class AdminDashboardMetricsService
 {
     /**
@@ -104,10 +109,11 @@ class AdminDashboardMetricsService
     /**
      * Get list of items needing attention (overdue content, pending approvals, due sources, and inquiries).
      *
-     * @return array<int, array{type: string, title: string, status: string, date: mixed, severity: string, url: string}>
+     * @return list<NeedsAttentionItem>
      */
     public function getNeedsAttentionItems(User $user): array
     {
+        /** @var list<NeedsAttentionItem> $items */
         $items = [];
 
         foreach ($this->staleContentModelsFor($user) as $label => [$class, $resource]) {
@@ -127,7 +133,7 @@ class AdminDashboardMetricsService
                     'type' => $label,
                     'title' => $this->recordTitle($record),
                     'status' => 'Stale Review',
-                    'date' => $record->review_due_at,
+                    'date' => $this->recordDate($record, 'review_due_at'),
                     'severity' => 'warning',
                     'url' => $this->recordUrl($resource, $record, $user),
                 ];
@@ -158,7 +164,7 @@ class AdminDashboardMetricsService
                     'type' => 'Approval',
                     'title' => 'Approval for '.$this->readableRecordType($approval->approvable).': '.$this->recordTitle($approval->approvable),
                     'status' => 'Pending Review',
-                    'date' => $approval->submitted_at,
+                    'date' => $this->recordDate($approval, 'submitted_at'),
                     'severity' => 'danger',
                     'url' => $this->recordUrl($resource, $approval->approvable, $user),
                 ];
@@ -188,7 +194,7 @@ class AdminDashboardMetricsService
                 'type' => 'Source',
                 'title' => 'Source for '.$this->readableRecordType($source->sourceable).': '.$this->recordTitle($source->sourceable),
                 'status' => 'Verification Due',
-                'date' => $source->next_review_at,
+                'date' => $this->recordDate($source, 'next_review_at'),
                 'severity' => 'warning',
                 'url' => $this->recordUrl($resource, $source->sourceable, $user),
             ];
@@ -215,7 +221,7 @@ class AdminDashboardMetricsService
                     'type' => 'Inquiry',
                     'title' => "Inquiry {$inquiry->reference_code} awaiting response",
                     'status' => 'Overdue Answer (>48h)',
-                    'date' => $inquiry->created_at,
+                    'date' => $this->recordDate($inquiry, 'created_at'),
                     'severity' => 'danger',
                     'url' => $this->recordUrl(InquiryResource::class, $inquiry, $user),
                 ];
@@ -308,5 +314,20 @@ class AdminDashboardMetricsService
         }
 
         return $this->readableRecordType($record).' #'.$record->getKey();
+    }
+
+    private function recordDate(Model $record, string $attribute): DateTimeInterface
+    {
+        $value = $record->getAttribute($attribute);
+
+        if ($value instanceof DateTimeInterface) {
+            return $value;
+        }
+
+        if (is_string($value) && $value !== '') {
+            return CarbonImmutable::parse($value);
+        }
+
+        return CarbonImmutable::now();
     }
 }

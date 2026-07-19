@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\PublicPage;
+use Carbon\CarbonImmutable;
+use DateTimeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -52,7 +54,7 @@ class PublicStaticPageReadService
     private function withReviewMetadata(PublicPage $page, array $props): array
     {
         if (! Arr::has($props, 'verifiedAt')) {
-            $props['verifiedAt'] = $page->verified_at?->timezone('Asia/Manila')->format('F j, Y')
+            $props['verifiedAt'] = $this->formatManilaDate($page->verified_at)
                 ?? 'Source review pending';
         }
 
@@ -60,10 +62,27 @@ class PublicStaticPageReadService
             'owner' => $page->owner_label,
             'sourceLabel' => $page->source_label,
             'sourceUrl' => $page->source_url,
-            'verifiedAt' => $page->verified_at?->timezone('Asia/Manila')->format('F j, Y'),
-            'reviewDueAt' => $page->review_due_at?->timezone('Asia/Manila')->format('F j, Y'),
+            'verifiedAt' => $this->formatManilaDate($page->verified_at),
+            'reviewDueAt' => $this->formatManilaDate($page->review_due_at),
         ];
 
         return $props;
+    }
+
+    private function formatManilaDate(mixed $value): ?string
+    {
+        if ($value instanceof DateTimeInterface) {
+            return CarbonImmutable::instance($value)
+                ->timezone('Asia/Manila')
+                ->format('F j, Y');
+        }
+
+        if (is_string($value) && $value !== '') {
+            return CarbonImmutable::parse($value)
+                ->timezone('Asia/Manila')
+                ->format('F j, Y');
+        }
+
+        return null;
     }
 }

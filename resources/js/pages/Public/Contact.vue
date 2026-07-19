@@ -204,7 +204,7 @@ const structuredData = {
                     <a
                         class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                         :href="office.sourceUrl"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         target="_blank"
                     >
                         {{ office.sourceLabel }}

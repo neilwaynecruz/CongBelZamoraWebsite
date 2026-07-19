@@ -16,6 +16,7 @@ class NewsCategoryFactory extends Factory
     public function definition(): array
     {
         $name = fake()->unique()->words(3, true);
+        $name = is_array($name) ? implode(' ', $name) : $name;
 
         return [
             'name' => $name,

@@ -16,6 +16,67 @@ npm run build
 npm run build:ssr
 ```
 
+## Phase 8 Content Migration Checks
+
+Run the Phase 8 migration acceptance test after changing seed content, redirects, robots, sitemap, or media-register records:
+
+```powershell
+php artisan test tests\Feature\Phase8ContentMigrationTest.php
+```
+
+The test verifies:
+
+- MVP staging record counts for public pages, Programs/Gabay, Projects, News, source records, and published approval records.
+- Source ownership, verifier, verification date, review date, and public status on migrated source records.
+- Tulong Dunong historical-value wording and stale-review handling for historical news.
+- News media register placeholders include caption, alt text, rights notes, and verification metadata while keeping `media_path` empty until approved local media derivatives are provided.
+- Approved legacy redirects return `301` and land on live SSR destinations.
+- `robots.txt` references `https://belzamora.com/sitemap.xml`, and `sitemap.xml` lists the MVP public routes.
+
+## Phase 9 QA Checks
+
+Phase 9 QA evidence is recorded in `docs/PHASE_9_QA_REPORT.md`.
+
+Core commands:
+
+```powershell
+composer validate
+composer test
+npm run lint:check
+npm run format:check
+npm run types:check
+npm run test
+npm run build:ssr
+php artisan route:list --except-vendor
+php artisan schedule:list
+php artisan inertia:check-ssr
+composer audit
+npm audit --audit-level=high
+php -r "exit(simplexml_load_file('public/sitemap.xml') === false ? 1 : 0);"
+php artisan test tests\Feature\Phase9QualityAssuranceTest.php
+```
+
+Latest July 20, 2026 results:
+
+- `composer test` passed: Pint, PHPStan 0 errors, Pest 111 tests, 1133 assertions.
+- `npm run lint:check`, `npm run format:check`, `npm run types:check`, and `npm run test` passed; Vitest reported 11 files and 23 tests.
+- `npm run build:ssr` passed and emitted only the known `@inertiajs/vite` sourcemap warning.
+- `php artisan route:list --except-vendor` passed with 64 routes.
+- `php artisan schedule:list` showed daily inquiry anonymization and stale-content review commands.
+- `php artisan inertia:check-ssr` passed while the SSR worker was running.
+- `composer audit` and `npm audit --audit-level=high` reported no advisories or high vulnerabilities.
+- Isolated SQLite `migrate:fresh --seed --force` passed for local restoration simulation.
+- Local HTTP smoke with a seeded SQLite QA database returned 200 for all MVP routes and 301 for approved legacy redirects.
+- SSR metadata smoke verified canonical, Open Graph title, and JSON-LD on all MVP public routes when the SSR worker was running.
+- `Phase9QualityAssuranceTest` covers sitemap route resolution, baseline web security headers, and public inquiry rate limiting.
+
+Current limitations:
+
+- Current-session browser automation is blocked on this Windows/Laragon host. Agent Browser 0.31.2 discovers Chrome but fails with `CDP response channel closed`; direct Chrome headless exits before exposing a CDP port.
+- Phase 6 browser acceptance remains historical evidence, but Phase 9 still needs refreshed browser or documented manual QA for hydration console output, desktop/mobile screenshots, keyboard traversal, focus visibility, skip link behavior, mobile navigation, filters, search disclosure, and Contact form states.
+- Real-device mobile, screen-reader-oriented, staff usability, and production backup/restore checks remain required before launch approval.
+- `composer validate --strict` warns about the exact Filament 3.3.54 pin; this is accepted because the exact pin is the documented Laravel 13 compatibility decision.
+
 On this Windows/Laragon environment, `npm run test` may need a larger Node heap:
 
 ```powershell

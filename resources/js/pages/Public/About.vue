@@ -184,7 +184,7 @@ const structuredData = {
                                 v-if="fact.sourceUrl"
                                 class="font-semibold text-brand-royal underline-offset-4 hover:underline focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                                 :href="fact.sourceUrl"
-                                rel="noreferrer"
+                                rel="noopener noreferrer"
                                 target="_blank"
                             >
                                 {{ fact.sourceLabel }}
@@ -415,7 +415,7 @@ const structuredData = {
                         :key="source.href"
                         class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-red focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                         :href="source.href"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         target="_blank"
                     >
                         <span
