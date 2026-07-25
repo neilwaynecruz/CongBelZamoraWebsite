@@ -29,10 +29,8 @@
                 background-color: oklch(0.145 0 0);
             }
         </style>
-
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/svg+xml" href="{{ asset('assets/images/brand/House_of_Representative_Logo_Seal.svg') }}">
+        <link rel="apple-touch-icon" href="{{ asset('assets/images/brand/House_of_Representative_Logo_Seal.svg') }}">
 
         @fonts
 

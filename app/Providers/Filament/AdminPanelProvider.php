@@ -33,6 +33,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Bel Zamora District Office')
+            ->brandLogo(asset('assets/images/brand/House_of_Representative_Logo_Seal.svg'))
+            ->brandLogoHeight('3.25rem')
+            ->favicon(asset('assets/images/brand/House_of_Representative_Logo_Seal.svg'))
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => Color::hex('#0b1f3a'), // Deep Navy

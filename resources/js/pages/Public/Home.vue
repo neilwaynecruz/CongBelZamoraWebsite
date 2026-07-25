@@ -97,31 +97,44 @@ const structuredData = {
                 </div>
 
                 <aside
-                    class="reveal-slide-right rounded-lg border border-brand-white/25 bg-brand-white/10 p-6 backdrop-blur"
+                    class="reveal-slide-right rounded-2xl border border-brand-white/25 bg-brand-white/10 p-6 shadow-2xl backdrop-blur-md"
                     aria-label="Official identity and office location"
                 >
-                    <div class="flex items-center gap-4">
-                        <img
-                            class="size-16 rounded-full bg-brand-white p-2"
-                            src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
-                            alt="Official Seal of the House of Representatives"
-                        />
-                        <img
-                            class="size-16 rounded-full bg-brand-white p-2"
-                            src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
-                            alt="Official Seal of San Juan City"
-                        />
+                    <div
+                        class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+                    >
+                        <div
+                            class="flex h-13 items-center justify-center rounded-xl bg-brand-white/95 px-3.5 py-1.5 shadow-md backdrop-blur-md sm:h-15"
+                        >
+                            <img
+                                class="h-9 w-auto object-contain sm:h-11"
+                                src="/assets/images/brand/CongBelLogo_transparent.png"
+                                alt="Congresswoman Bel Zamora official logo"
+                            />
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <img
+                                class="size-11 rounded-full bg-brand-white p-1 shadow-md sm:size-13"
+                                src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
+                                alt="Official Seal of the House of Representatives"
+                            />
+                            <img
+                                class="size-11 rounded-full bg-brand-white p-1 shadow-md sm:size-13"
+                                src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
+                                alt="Official Seal of San Juan City"
+                            />
+                        </div>
                     </div>
                     <h2 class="mt-6 font-serif text-2xl font-semibold">
                         Lone District of San Juan City
                     </h2>
-                    <p class="mt-3 text-sm leading-6 text-brand-white/82">
-                        Verified office details and program information are
-                        maintained through the source register and content
-                        ownership process.
+                    <p class="mt-3 text-sm leading-6 text-brand-white/88">
+                        Official digital district office portal of Rep. Atty.
+                        Bel Zamora providing verified assistance, legislative
+                        updates, and community programs.
                     </p>
                     <p
-                        class="mt-6 flex gap-3 text-sm leading-6 text-brand-white/88"
+                        class="mt-6 flex gap-3 text-sm leading-6 font-medium text-brand-white/95"
                     >
                         <MapPin
                             class="mt-1 size-5 shrink-0 text-brand-gold"
