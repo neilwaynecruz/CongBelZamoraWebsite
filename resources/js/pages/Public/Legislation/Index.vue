@@ -107,7 +107,7 @@ const resetFilters = () => {
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="legislation-title">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8 lg:py-14"
             >
                 <div>
                     <p
@@ -117,11 +117,13 @@ const resetFilters = () => {
                     </p>
                     <h1
                         id="legislation-title"
-                        class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                        class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                     >
                         Bills, resolutions, and official House records
                     </h1>
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    <p
+                        class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                    >
                         Review documented roles, current status, plain-language
                         summaries, and source links without promotional
                         attribution or unsupported claims.
@@ -164,7 +166,7 @@ const resetFilters = () => {
                 </div>
 
                 <div
-                    class="mt-5 grid gap-4 lg:grid-cols-[1.35fr_0.8fr_0.9fr_0.8fr_auto]"
+                    class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-[1.35fr_0.8fr_0.9fr_0.8fr_auto]"
                 >
                     <div>
                         <label
@@ -258,7 +260,7 @@ const resetFilters = () => {
                     </div>
 
                     <button
-                        class="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold lg:self-start"
+                        class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold md:self-end xl:mt-7 xl:w-auto xl:self-start"
                         type="button"
                         @click="resetFilters"
                     >

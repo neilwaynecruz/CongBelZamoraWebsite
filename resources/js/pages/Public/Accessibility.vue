@@ -45,7 +45,7 @@ const structuredData = {
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="accessibility-title">
-            <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8 lg:py-14">
                 <p
                     class="text-sm font-semibold tracking-wide text-brand-red uppercase"
                 >
@@ -53,11 +53,13 @@ const structuredData = {
                 </p>
                 <h1
                     id="accessibility-title"
-                    class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                    class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                 >
                     Accessibility Statement
                 </h1>
-                <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                <p
+                    class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                >
                     The public website is designed for keyboard navigation,
                     screen-reader landmarks, mobile access, high-contrast
                     reading, and low-bandwidth citizen tasks.
@@ -72,7 +74,7 @@ const structuredData = {
             class="mx-auto max-w-7xl px-4 py-12 lg:px-8"
             aria-label="Accessibility commitments"
         >
-            <div class="grid gap-5 md:grid-cols-3">
+            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <article
                     class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
                 >

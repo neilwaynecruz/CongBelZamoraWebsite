@@ -37,7 +37,7 @@ const structuredData = {
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="not-found-title">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1fr_0.58fr] lg:items-center lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.58fr] lg:items-center lg:px-8 lg:py-14"
             >
                 <div>
                     <p
@@ -47,25 +47,27 @@ const structuredData = {
                     </p>
                     <h1
                         id="not-found-title"
-                        class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                        class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                     >
                         This public-service page is not available
                     </h1>
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    <p
+                        class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                    >
                         The link may be outdated, moved, or pending publication.
                         Use the official navigation below to continue safely.
                     </p>
 
-                    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <div class="mt-8 flex flex-col gap-3 min-[480px]:flex-row">
                         <Link
-                            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                             :href="home.url()"
                         >
                             <Home class="size-4" aria-hidden="true" />
                             Return Home
                         </Link>
                         <Link
-                            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-brand-royal bg-brand-white px-5 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-brand-royal bg-brand-white px-5 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                             :href="programs.url()"
                         >
                             Browse Programs

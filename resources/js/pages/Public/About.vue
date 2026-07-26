@@ -60,7 +60,7 @@ const structuredData = {
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="about-title">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8 lg:py-14"
             >
                 <div>
                     <p
@@ -70,14 +70,16 @@ const structuredData = {
                     </p>
                     <h1
                         id="about-title"
-                        class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                        class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                     >
                         {{ profile.publicName }}
                     </h1>
                     <p class="mt-4 text-lg font-semibold text-brand-royal">
                         {{ profile.title }}
                     </p>
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    <p
+                        class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                    >
                         {{ profile.summary }}
                     </p>
                 </div>
@@ -107,7 +109,7 @@ const structuredData = {
         </section>
 
         <section
-            class="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[0.72fr_1fr] lg:px-8"
+            class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[0.72fr_1fr] lg:px-8"
             aria-labelledby="identity-title"
         >
             <aside
@@ -175,8 +177,8 @@ const structuredData = {
                         Biography facts are being verified
                     </h2>
                     <p class="mt-3 text-base leading-7 text-text-muted">
-                        Additional biography details are published after
-                        source verification and District Office review.
+                        Additional biography details are published after source
+                        verification and District Office review.
                     </p>
                 </div>
 
@@ -275,7 +277,7 @@ const structuredData = {
         </section>
 
         <section
-            class="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[0.85fr_1fr] lg:px-8"
+            class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[0.85fr_1fr] lg:px-8"
             aria-labelledby="timeline-title"
         >
             <div>
@@ -348,7 +350,7 @@ const structuredData = {
                     Service pillars reflected in the site
                 </h2>
 
-                <div class="mt-8 grid gap-5 md:grid-cols-3">
+                <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     <article
                         v-for="pillar in valuePillars"
                         :key="pillar.title"
@@ -425,7 +427,7 @@ const structuredData = {
                     Source links used for this profile
                 </h2>
 
-                <div class="mt-8 grid gap-4 md:grid-cols-2">
+                <div class="mt-8 grid gap-4 sm:grid-cols-2">
                     <a
                         v-for="source in sourceLinks"
                         :key="source.href"

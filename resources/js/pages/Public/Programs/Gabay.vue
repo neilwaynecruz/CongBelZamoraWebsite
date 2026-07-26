@@ -56,7 +56,7 @@ const structuredData = {
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="gabay-title">
-            <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8 lg:py-14">
                 <p
                     class="text-sm font-semibold tracking-wide text-brand-red uppercase"
                 >
@@ -64,11 +64,13 @@ const structuredData = {
                 </p>
                 <h1
                     id="gabay-title"
-                    class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                    class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                 >
                     Gabay San Juaneño service-routing directory
                 </h1>
-                <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                <p
+                    class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                >
                     Choose a concern to see which office handles it, what to
                     prepare, what not to send online, and the safest next step.
                 </p>
@@ -76,7 +78,7 @@ const structuredData = {
         </section>
 
         <section
-            class="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[0.42fr_1fr] lg:px-8"
+            class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[0.42fr_1fr] lg:px-8"
         >
             <aside
                 class="self-start rounded-lg border border-border-default bg-brand-white p-5 shadow-sm lg:sticky lg:top-36"
@@ -166,7 +168,7 @@ const structuredData = {
                         {{ selectedService.explanation }}
                     </p>
 
-                    <dl class="mt-6 grid gap-5 md:grid-cols-2">
+                    <dl class="mt-6 grid gap-5 sm:grid-cols-2">
                         <div
                             class="rounded-md border border-border-default bg-surface-soft p-5"
                         >
@@ -197,7 +199,7 @@ const structuredData = {
                         </div>
                     </dl>
 
-                    <div class="mt-8 grid gap-5 md:grid-cols-2">
+                    <div class="mt-8 grid gap-5 sm:grid-cols-2">
                         <section aria-labelledby="prepare-title">
                             <h3
                                 id="prepare-title"
@@ -243,7 +245,7 @@ const structuredData = {
                         </section>
                     </div>
 
-                    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <div class="mt-8 flex flex-col gap-3 min-[480px]:flex-row">
                         <a
                             class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                             :href="selectedService.contactHref"

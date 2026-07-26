@@ -92,7 +92,7 @@ const structuredData = {
                 aria-hidden="true"
             />
             <div
-                class="relative mx-auto grid max-w-7xl gap-8 px-4 py-14 md:grid-cols-[minmax(0,1.02fr)_minmax(22rem,0.98fr)] md:items-center lg:px-8 lg:py-20"
+                class="relative mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[minmax(0,1.02fr)_minmax(22rem,0.98fr)] lg:items-center lg:px-8 lg:py-20"
             >
                 <div class="reveal-fade-up">
                     <div
@@ -108,28 +108,28 @@ const structuredData = {
                     </p>
                     <h1
                         id="home-hero-title"
-                        class="mt-4 max-w-4xl font-serif text-4xl leading-[1.08] font-semibold text-brand-white sm:text-5xl lg:text-6xl"
+                        class="mt-4 max-w-4xl font-serif text-3xl leading-[1.08] font-semibold text-brand-white min-[360px]:text-4xl sm:text-5xl lg:text-6xl"
                     >
                         Atty. Congresswoman Bel Zamora
                     </h1>
                     <p
-                        class="mt-5 max-w-2xl text-lg leading-8 font-medium text-brand-white/92"
+                        class="mt-5 max-w-2xl text-base leading-7 font-medium text-brand-white/92 sm:text-lg sm:leading-8"
                     >
                         Serbisyong publiko, makatao, at malinaw para sa San
                         Juaneño: official program guidance, legislative updates,
                         project records, and secure District Office assistance
                         pathways.
                     </p>
-                    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <div class="mt-8 flex flex-col gap-3 min-[480px]:flex-row">
                         <Link
-                            class="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-brand-white px-5 py-3 text-sm font-bold text-brand-red shadow-lg transition hover:-translate-y-px hover:shadow-xl focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-brand-white px-5 py-3 text-sm font-bold text-brand-red shadow-lg transition hover:-translate-y-px hover:shadow-xl focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                             :href="contactInquiryHref"
                         >
                             Magtanong / Get Assistance
                             <ArrowRight class="size-4" aria-hidden="true" />
                         </Link>
                         <Link
-                            class="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-brand-white/70 px-5 py-3 text-sm font-bold text-brand-white transition hover:bg-brand-white/10 focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md border border-brand-white/70 px-5 py-3 text-sm font-bold text-brand-white transition hover:bg-brand-white/10 focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                             :href="programs.url()"
                         >
                             View Programs
@@ -137,7 +137,7 @@ const structuredData = {
                         </Link>
                     </div>
                     <div
-                        class="mt-9 grid max-w-3xl gap-3 text-sm text-brand-white/90 sm:grid-cols-3"
+                        class="mt-9 grid max-w-3xl gap-3 text-sm text-brand-white/90 min-[480px]:grid-cols-2 sm:grid-cols-3"
                         aria-label="Primary public service categories"
                     >
                         <div
@@ -195,7 +195,7 @@ const structuredData = {
                     class="reveal-slide-right overflow-hidden rounded-lg border border-brand-white/35 bg-brand-white text-brand-navy shadow-2xl shadow-brand-navy/35"
                     aria-label="Official identity and office location"
                 >
-                    <div class="border-b border-border-default p-6">
+                    <div class="border-b border-border-default p-5 sm:p-6">
                         <div
                             class="grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start"
                         >
@@ -225,7 +225,7 @@ const structuredData = {
                             />
                         </div>
 
-                        <div class="mt-6 grid gap-3 sm:grid-cols-3">
+                        <div class="mt-6 grid gap-3 min-[520px]:grid-cols-3">
                             <div
                                 class="rounded-lg border border-border-default bg-surface-soft p-4"
                             >
@@ -422,7 +422,7 @@ const structuredData = {
         </section>
 
         <section class="bg-brand-white" aria-labelledby="service-help-title">
-            <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8 lg:py-14">
                 <div
                     class="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start"
                 >
@@ -524,16 +524,18 @@ const structuredData = {
                             </li>
                         </ol>
 
-                        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                        <div
+                            class="mt-6 flex flex-col gap-3 min-[480px]:flex-row"
+                        >
                             <Link
-                                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-bold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-bold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                                 :href="gabay.url()"
                             >
                                 Open service guide
                                 <ArrowRight class="size-4" aria-hidden="true" />
                             </Link>
                             <Link
-                                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-brand-royal bg-brand-white px-4 py-3 text-sm font-bold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-brand-royal bg-brand-white px-4 py-3 text-sm font-bold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                                 :href="contactInquiryHref"
                             >
                                 Ask the District Office
@@ -579,7 +581,7 @@ const structuredData = {
                             <Link
                                 v-for="action in quickActions"
                                 :key="action.title"
-                                class="group reveal-item relative flex min-h-[13.5rem] flex-col overflow-hidden rounded-lg border border-border-default bg-brand-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-brand-red hover:shadow-lg focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                class="group reveal-item relative flex min-h-0 flex-col overflow-hidden rounded-lg border border-border-default bg-brand-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-brand-red hover:shadow-lg focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold sm:min-h-[13.5rem]"
                                 :href="action.href"
                             >
                                 <span
@@ -618,7 +620,7 @@ const structuredData = {
         </section>
 
         <section
-            class="border-y border-border-default bg-surface-soft py-16"
+            class="border-y border-border-default bg-surface-soft py-10 sm:py-12 lg:py-16"
             aria-labelledby="featured-programs-title"
         >
             <div class="mx-auto max-w-7xl px-4 lg:px-8">
@@ -644,7 +646,7 @@ const structuredData = {
                         </p>
                     </div>
                     <Link
-                        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-brand-royal bg-brand-white px-4 py-3 text-sm font-bold text-brand-royal shadow-sm transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                        class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-brand-royal bg-brand-white px-4 py-3 text-sm font-bold text-brand-royal shadow-sm transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold sm:w-fit"
                         href="/programs"
                     >
                         View all programs
@@ -652,11 +654,13 @@ const structuredData = {
                     </Link>
                 </div>
 
-                <div class="reveal-group mt-8 grid gap-5 md:grid-cols-3">
+                <div
+                    class="reveal-group mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+                >
                     <article
                         v-for="program in featuredPrograms"
                         :key="program.title"
-                        class="reveal-item relative flex min-h-[18rem] flex-col overflow-hidden rounded-lg border border-border-default bg-brand-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-brand-red hover:shadow-lg"
+                        class="reveal-item relative flex min-h-0 flex-col overflow-hidden rounded-lg border border-border-default bg-brand-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-brand-red hover:shadow-lg sm:min-h-[18rem]"
                     >
                         <span
                             class="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#D62828,#C9A227,#1746A2)]"
@@ -700,7 +704,7 @@ const structuredData = {
         </section>
 
         <section
-            class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
+            class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-14"
         >
             <article
                 class="reveal-slide-left rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"

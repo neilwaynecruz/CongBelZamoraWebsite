@@ -45,7 +45,7 @@ const structuredData = {
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="disclaimer-title">
-            <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8 lg:py-14">
                 <p
                     class="text-sm font-semibold tracking-wide text-brand-red uppercase"
                 >
@@ -53,11 +53,13 @@ const structuredData = {
                 </p>
                 <h1
                     id="disclaimer-title"
-                    class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                    class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                 >
                     Public Information Disclaimer
                 </h1>
-                <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                <p
+                    class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                >
                     This website helps residents find official information and
                     responsible offices. It does not replace formal government
                     decisions, emergency channels, or agency-specific
@@ -70,7 +72,7 @@ const structuredData = {
         </section>
 
         <section
-            class="mx-auto grid max-w-7xl gap-6 px-4 py-12 lg:grid-cols-[1fr_0.38fr] lg:px-8"
+            class="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.38fr] lg:px-8"
             aria-label="Disclaimer details"
         >
             <div class="grid gap-5">

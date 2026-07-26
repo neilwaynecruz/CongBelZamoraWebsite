@@ -146,7 +146,7 @@ const resetFilters = () => {
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="news-title">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8 lg:py-14"
             >
                 <div>
                     <p
@@ -156,14 +156,16 @@ const resetFilters = () => {
                     </p>
                     <h1
                         id="news-title"
-                        class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                        class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                     >
                         Official updates with source and review dates
                     </h1>
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    <p
+                        class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                    >
                         Read announcements, event records, and public-service
-                        advisories with source links, content owners, and
-                        review notes before relying on details.
+                        advisories with source links, content owners, and review
+                        notes before relying on details.
                     </p>
                 </div>
 
@@ -217,7 +219,9 @@ const resetFilters = () => {
                         </p>
                     </div>
 
-                    <dl class="grid gap-3 sm:grid-cols-4">
+                    <dl
+                        class="grid gap-3 min-[520px]:grid-cols-2 lg:grid-cols-4"
+                    >
                         <div
                             v-for="stat in announcementStats"
                             :key="stat.label"
@@ -255,7 +259,7 @@ const resetFilters = () => {
                 </div>
 
                 <div
-                    class="mt-5 grid gap-4 lg:grid-cols-[1.35fr_0.9fr_0.9fr_0.7fr_auto]"
+                    class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-[1.35fr_0.9fr_0.9fr_0.7fr_auto]"
                 >
                     <div>
                         <label
@@ -349,7 +353,7 @@ const resetFilters = () => {
                     </div>
 
                     <button
-                        class="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold lg:self-start"
+                        class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold md:self-end xl:mt-7 xl:w-auto xl:self-start"
                         type="button"
                         @click="resetFilters"
                     >
@@ -455,7 +459,7 @@ const resetFilters = () => {
                             </div>
 
                             <h3
-                                class="mt-3 font-serif text-2xl font-semibold text-brand-navy"
+                                class="mt-3 font-serif text-2xl leading-tight font-semibold break-words text-brand-navy"
                             >
                                 {{ item.title }}
                             </h3>
@@ -561,7 +565,7 @@ const resetFilters = () => {
                                 </div>
                             </dl>
                             <a
-                                class="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                class="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                                 :href="item.sourceUrl"
                                 rel="noopener noreferrer"
                                 target="_blank"

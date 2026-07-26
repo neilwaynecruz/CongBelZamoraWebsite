@@ -49,7 +49,7 @@ const structuredData = (program: ProgramDetail) => ({
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="program-detail-title">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1fr_0.45fr] lg:items-start lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.45fr] lg:items-start lg:px-8 lg:py-14"
             >
                 <div>
                     <p
@@ -59,11 +59,13 @@ const structuredData = (program: ProgramDetail) => ({
                     </p>
                     <h1
                         id="program-detail-title"
-                        class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                        class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                     >
                         {{ program.title }}
                     </h1>
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    <p
+                        class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                    >
                         {{ program.description }}
                     </p>
                 </div>
@@ -134,12 +136,12 @@ const structuredData = (program: ProgramDetail) => ({
         </section>
 
         <section
-            class="mx-auto max-w-7xl px-4 pt-10 lg:px-8"
+            class="mx-auto max-w-7xl px-4 pt-8 sm:pt-10 lg:px-8"
             aria-labelledby="program-glance-title"
         >
             <div class="border-y border-border-default bg-brand-white py-5">
                 <div
-                    class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
+                    class="flex flex-col gap-3 min-[520px]:flex-row min-[520px]:items-end min-[520px]:justify-between"
                 >
                     <div>
                         <p
@@ -160,7 +162,7 @@ const structuredData = (program: ProgramDetail) => ({
                     </p>
                 </div>
 
-                <dl class="mt-5 grid gap-3 md:grid-cols-4">
+                <dl class="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-4">
                     <div class="border-l-2 border-brand-red pl-4">
                         <dt
                             class="text-xs font-semibold tracking-wide text-text-muted uppercase"
@@ -218,7 +220,7 @@ const structuredData = (program: ProgramDetail) => ({
         >
             <div class="grid gap-8">
                 <article
-                    class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                    class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm sm:p-6"
                     aria-labelledby="about-program-title"
                 >
                     <h2
@@ -227,7 +229,7 @@ const structuredData = (program: ProgramDetail) => ({
                     >
                         About the program
                     </h2>
-                    <dl class="mt-6 grid gap-4 md:grid-cols-2">
+                    <dl class="mt-6 grid gap-4 sm:grid-cols-2">
                         <div>
                             <dt class="text-sm font-semibold text-text-primary">
                                 Benefit
@@ -266,7 +268,7 @@ const structuredData = (program: ProgramDetail) => ({
                 </article>
 
                 <section
-                    class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                    class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm sm:p-6"
                     aria-labelledby="eligibility-title"
                 >
                     <h2
@@ -306,7 +308,7 @@ const structuredData = (program: ProgramDetail) => ({
                 </section>
 
                 <section
-                    class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                    class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm sm:p-6"
                     aria-labelledby="requirements-title"
                 >
                     <h2
@@ -323,7 +325,7 @@ const structuredData = (program: ProgramDetail) => ({
 
                     <div
                         v-if="program.requirementGroups.length > 0"
-                        class="mt-6 grid gap-5 md:grid-cols-2"
+                        class="mt-6 grid gap-5 sm:grid-cols-2"
                     >
                         <article
                             v-for="group in program.requirementGroups"
@@ -366,7 +368,7 @@ const structuredData = (program: ProgramDetail) => ({
                 </section>
 
                 <section
-                    class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                    class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm sm:p-6"
                     aria-labelledby="process-title"
                 >
                     <h2

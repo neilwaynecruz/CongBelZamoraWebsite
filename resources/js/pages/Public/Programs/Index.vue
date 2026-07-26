@@ -110,7 +110,7 @@ const resetFilters = () => {
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="programs-title">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8 lg:py-14"
             >
                 <div>
                     <p
@@ -120,11 +120,13 @@ const resetFilters = () => {
                     </p>
                     <h1
                         id="programs-title"
-                        class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                        class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                     >
                         Mga Programa at Serbisyo ng Tanggapan ng Distrito
                     </h1>
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    <p
+                        class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                    >
                         Check current program status, eligibility signals,
                         responsible office, verified date, and safe next steps
                         before contacting any office.
@@ -152,7 +154,7 @@ const resetFilters = () => {
             aria-labelledby="program-filters-title"
         >
             <div
-                class="mb-6 grid gap-3 border-y border-border-default bg-brand-white py-4 sm:grid-cols-3"
+                class="mb-6 grid gap-3 border-y border-border-default bg-brand-white py-4 min-[520px]:grid-cols-3"
                 aria-label="Program directory snapshot"
             >
                 <div
@@ -190,7 +192,7 @@ const resetFilters = () => {
                 </div>
 
                 <div
-                    class="mt-5 grid gap-4 md:grid-cols-[1.4fr_0.8fr_0.8fr_auto]"
+                    class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_0.8fr_0.8fr_auto]"
                 >
                     <div>
                         <label
@@ -261,7 +263,7 @@ const resetFilters = () => {
                     </div>
 
                     <button
-                        class="mt-7 min-h-11 rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold md:self-start"
+                        class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold md:self-end xl:mt-7 xl:w-auto xl:self-start"
                         type="button"
                         @click="resetFilters"
                     >
@@ -319,16 +321,16 @@ const resetFilters = () => {
                     Subukang ibahin ang iyong hinahanap o gamitin ang Gabay San
                     Juaneño directory para malaman kung saang opisina lalapit.
                 </p>
-                <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+                <div class="mt-5 flex flex-col gap-3 min-[480px]:flex-row">
                     <button
-                        class="inline-flex min-h-11 items-center justify-center rounded-md border border-brand-royal px-5 py-3 text-sm font-semibold text-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                        class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-brand-royal px-5 py-3 text-sm font-semibold text-brand-royal focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                         type="button"
                         @click="resetFilters"
                     >
                         Clear filters
                     </button>
                     <Link
-                        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                        class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold min-[480px]:w-auto"
                         :href="gabay.url()"
                     >
                         Open Gabay San Juaneño
@@ -337,7 +339,7 @@ const resetFilters = () => {
                 </div>
             </div>
 
-            <div v-else class="grid gap-5 lg:grid-cols-3">
+            <div v-else class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                 <article
                     v-for="program in filteredPrograms"
                     :key="program.title"
@@ -361,7 +363,7 @@ const resetFilters = () => {
                         </div>
 
                         <h3
-                            class="mt-5 font-serif text-2xl font-semibold text-brand-navy"
+                            class="mt-5 font-serif text-2xl leading-tight font-semibold break-words text-brand-navy"
                         >
                             {{ program.title }}
                         </h3>
@@ -405,17 +407,17 @@ const resetFilters = () => {
                         </dl>
 
                         <div
-                            class="mt-auto flex flex-col gap-3 pt-6 sm:flex-row lg:flex-col"
+                            class="mt-auto flex flex-col gap-3 pt-6 min-[480px]:flex-row lg:flex-col"
                         >
                             <Link
-                                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                                 :href="program.href"
                             >
                                 View requirements and steps
                                 <ArrowRight class="size-4" aria-hidden="true" />
                             </Link>
                             <Link
-                                class="inline-flex min-h-11 items-center justify-center rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                class="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                                 :href="contactInquiryHref"
                             >
                                 Magtanong / Inquire

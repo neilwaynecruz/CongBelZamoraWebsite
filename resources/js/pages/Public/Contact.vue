@@ -117,7 +117,7 @@ const structuredData = {
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" aria-labelledby="contact-title">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 py-14 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:px-8 lg:py-14"
             >
                 <div>
                     <p
@@ -127,11 +127,13 @@ const structuredData = {
                     </p>
                     <h1
                         id="contact-title"
-                        class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                        class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                     >
                         Contact the District Office
                     </h1>
-                    <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                    <p
+                        class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                    >
                         Ask basic questions, find the office location, and use a
                         privacy-safe inquiry path that does not collect document
                         uploads or sensitive records.
@@ -181,7 +183,7 @@ const structuredData = {
                             </p>
                         </div>
 
-                        <div class="grid gap-3 md:grid-cols-3">
+                        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                             <div class="border-l-2 border-brand-red pl-4">
                                 <p
                                     class="text-xs font-semibold tracking-wide text-text-muted uppercase"
@@ -339,7 +341,7 @@ const structuredData = {
 
             <section
                 id="inquiry-form"
-                class="scroll-mt-32 rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                class="scroll-mt-32 rounded-lg border border-border-default bg-brand-white p-5 shadow-sm sm:p-6"
                 aria-labelledby="inquiry-form-title"
             >
                 <div class="flex items-start gap-3">
@@ -470,7 +472,7 @@ const structuredData = {
 
                     <div>
                         <label
-                            class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
+                            class="flex flex-col gap-1 text-sm font-semibold text-text-primary min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between"
                             for="citizen-name"
                         >
                             <span>Pangalan / Full name</span>
@@ -508,7 +510,7 @@ const structuredData = {
 
                     <fieldset>
                         <legend
-                            class="flex w-full items-center justify-between gap-3 text-sm font-semibold text-text-primary"
+                            class="flex w-full flex-col gap-1 text-sm font-semibold text-text-primary min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between"
                         >
                             <span>Contact preference</span>
                             <span
@@ -554,7 +556,7 @@ const structuredData = {
                     <div class="grid gap-5 sm:grid-cols-2">
                         <div>
                             <label
-                                class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
+                                class="flex flex-col gap-1 text-sm font-semibold text-text-primary min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between"
                                 for="citizen-email"
                             >
                                 <span>Email address</span>
@@ -595,7 +597,7 @@ const structuredData = {
 
                         <div>
                             <label
-                                class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
+                                class="flex flex-col gap-1 text-sm font-semibold text-text-primary min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between"
                                 for="citizen-mobile"
                             >
                                 <span>Mobile number</span>
@@ -644,7 +646,7 @@ const structuredData = {
 
                     <div>
                         <label
-                            class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
+                            class="flex flex-col gap-1 text-sm font-semibold text-text-primary min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between"
                             for="inquiry-category"
                         >
                             <span>Kategorya / Category</span>
@@ -704,7 +706,7 @@ const structuredData = {
 
                     <div>
                         <label
-                            class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
+                            class="flex flex-col gap-1 text-sm font-semibold text-text-primary min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between"
                             for="message-body"
                         >
                             <span>Mensahe / Message</span>
@@ -811,7 +813,7 @@ const structuredData = {
                     </div>
 
                     <button
-                        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold disabled:cursor-not-allowed disabled:bg-status-closed"
+                        class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold disabled:cursor-not-allowed disabled:bg-status-closed sm:w-auto"
                         :disabled="form.processing"
                         type="submit"
                     >

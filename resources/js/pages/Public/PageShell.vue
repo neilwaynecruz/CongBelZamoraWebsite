@@ -36,7 +36,7 @@ defineProps<Props>();
 
     <PublicSiteLayout :breadcrumbs="breadcrumbs">
         <section class="bg-surface-soft" :aria-labelledby="`${title}-title`">
-            <div class="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8 lg:py-14">
                 <p
                     class="text-sm font-semibold tracking-wide text-brand-red uppercase"
                 >
@@ -44,11 +44,13 @@ defineProps<Props>();
                 </p>
                 <h1
                     :id="`${title}-title`"
-                    class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold text-brand-navy sm:text-5xl"
+                    class="mt-3 max-w-4xl font-serif text-3xl leading-tight font-semibold text-brand-navy min-[360px]:text-4xl lg:text-5xl"
                 >
                     {{ title }}
                 </h1>
-                <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
+                <p
+                    class="mt-5 max-w-3xl text-base leading-7 text-text-muted sm:text-lg sm:leading-8"
+                >
                     {{ description }}
                 </p>
                 <Link
