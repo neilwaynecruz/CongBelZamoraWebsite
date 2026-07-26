@@ -82,10 +82,39 @@ const filteredNewsItems = computed(() => {
 
 const hasNewsItems = computed(() => props.newsItems.length > 0);
 
+const currentNewsCount = computed(
+    () =>
+        props.newsItems.filter((item) => item.statusTone === 'current').length,
+);
+
+const archivedNewsCount = computed(
+    () =>
+        props.newsItems.filter((item) => item.statusTone === 'archived').length,
+);
+
 const staleReviewCount = computed(
     () =>
         props.newsItems.filter((item) => item.status === 'stale_review').length,
 );
+
+const announcementStats = computed(() => [
+    {
+        label: 'Published updates',
+        value: props.newsItems.length.toString(),
+    },
+    {
+        label: 'Current indicators',
+        value: currentNewsCount.value.toString(),
+    },
+    {
+        label: 'Archived records',
+        value: archivedNewsCount.value.toString(),
+    },
+    {
+        label: 'Needs review',
+        value: staleReviewCount.value.toString(),
+    },
+]);
 
 const description =
     'Official-source news, announcements, media updates, stale-content warnings, and verified public-service advisories from the Bel Zamora District Office.';
@@ -165,6 +194,51 @@ const resetFilters = () => {
             class="mx-auto max-w-7xl px-4 py-10 lg:px-8"
             aria-labelledby="news-filters-title"
         >
+            <div
+                class="mb-6 border-y border-border-default bg-brand-white py-5"
+                aria-labelledby="announcement-register-title"
+            >
+                <div class="grid gap-5 lg:grid-cols-[0.5fr_1fr] lg:items-start">
+                    <div>
+                        <p
+                            class="text-sm font-semibold tracking-wide text-brand-red uppercase"
+                        >
+                            Official updates
+                        </p>
+                        <h2
+                            id="announcement-register-title"
+                            class="mt-1 font-serif text-3xl font-semibold text-brand-navy"
+                        >
+                            Announcement register
+                        </h2>
+                        <p class="mt-3 text-sm leading-6 text-text-muted">
+                            Updates are grouped by category, publication year,
+                            source label, content owner, and current/archive
+                            indicator.
+                        </p>
+                    </div>
+
+                    <dl class="grid gap-3 sm:grid-cols-4">
+                        <div
+                            v-for="stat in announcementStats"
+                            :key="stat.label"
+                            class="border-l-2 border-brand-gold pl-4"
+                        >
+                            <dt
+                                class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                            >
+                                {{ stat.label }}
+                            </dt>
+                            <dd
+                                class="mt-1 font-serif text-3xl font-semibold text-brand-navy"
+                            >
+                                {{ stat.value }}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
             <div
                 class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm"
             >
@@ -341,35 +415,44 @@ const resetFilters = () => {
                 <article
                     v-for="item in filteredNewsItems"
                     :key="item.slug"
-                    class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm"
+                    class="rounded-lg border border-border-default bg-brand-white shadow-sm"
                 >
-                    <div class="flex flex-wrap items-center gap-2">
+                    <div class="h-1.5 bg-brand-red" aria-hidden="true" />
+
+                    <div
+                        class="flex flex-wrap items-center justify-between gap-3 border-b border-border-default p-5"
+                    >
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span
+                                class="rounded-full bg-surface-soft px-3 py-1 text-xs font-semibold text-brand-royal"
+                            >
+                                {{ item.category }}
+                            </span>
+                            <span
+                                class="rounded-full px-3 py-1 text-xs font-semibold"
+                                :class="statusClasses[item.statusTone]"
+                            >
+                                {{ item.statusLabel }}
+                            </span>
+                        </div>
                         <span
-                            class="rounded-full bg-surface-soft px-3 py-1 text-xs font-semibold text-brand-royal"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-text-muted"
                         >
-                            {{ item.category }}
-                        </span>
-                        <span
-                            class="rounded-full px-3 py-1 text-xs font-semibold"
-                            :class="statusClasses[item.statusTone]"
-                        >
-                            {{ item.statusLabel }}
+                            <CalendarDays
+                                class="size-4 text-brand-red"
+                                aria-hidden="true"
+                            />
+                            Published {{ item.publishedAt }}
                         </span>
                     </div>
 
-                    <div class="mt-5 grid gap-6 lg:grid-cols-[1fr_0.42fr]">
+                    <div class="grid gap-6 p-5 lg:grid-cols-[1fr_0.42fr]">
                         <div>
                             <div
                                 class="flex flex-wrap items-center gap-3 text-sm text-text-muted"
                             >
-                                <span class="inline-flex items-center gap-2">
-                                    <CalendarDays
-                                        class="size-4 text-brand-red"
-                                        aria-hidden="true"
-                                    />
-                                    Published {{ item.publishedAt }}
-                                </span>
                                 <span>Updated {{ item.updatedAt }}</span>
+                                <span>Source: {{ item.sourceLabel }}</span>
                             </div>
 
                             <h3
@@ -392,7 +475,7 @@ const resetFilters = () => {
                                         class="size-4"
                                         aria-hidden="true"
                                     />
-                                    Official update and next step
+                                    Official update, source, and next step
                                 </summary>
                                 <div class="mt-4 grid gap-4 text-sm leading-6">
                                     <p class="text-text-muted">
@@ -418,6 +501,14 @@ const resetFilters = () => {
                                             Content owner:
                                         </span>
                                         {{ item.owner }}
+                                    </p>
+                                    <p class="text-text-muted">
+                                        <span
+                                            class="font-semibold text-text-primary"
+                                        >
+                                            Source label:
+                                        </span>
+                                        {{ item.sourceLabel }}
                                     </p>
                                 </div>
                             </details>
@@ -455,7 +546,7 @@ const resetFilters = () => {
                             <dl class="grid gap-3 text-sm">
                                 <div>
                                     <dt class="font-semibold text-text-primary">
-                                        Status
+                                        Current / archive indicator
                                     </dt>
                                     <dd class="mt-1 text-text-muted">
                                         {{ item.statusLabel }}

@@ -49,6 +49,8 @@ describe('Tulong Dunong detail page', () => {
         });
 
         expect(wrapper.text()).toContain('CHED UniFAST Tulong Dunong Program');
+        expect(wrapper.text()).toContain('Program at a glance');
+        expect(wrapper.text()).toContain('Deadline / application period');
         expect(wrapper.text()).toContain('San Juan resident');
         expect(wrapper.text()).toContain('Proof of residency');
         expect(wrapper.text()).toContain(
@@ -58,5 +60,6 @@ describe('Tulong Dunong detail page', () => {
         expect(wrapper.find('a[href="/contact#inquiry-form"]').exists()).toBe(
             true,
         );
+        expect(wrapper.find('a[href="/news"]').exists()).toBe(true);
     });
 });

@@ -163,7 +163,7 @@ class PublicPageSeeder extends Seeder
                 'component' => 'Public/About',
                 'owner_label' => 'Content Administrator with Chief of Staff review',
                 'source_label' => 'House of Representatives member record K099',
-                'source_url' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                'source_url' => 'https://www.congress.gov.ph/house-members/view/K099',
                 'props' => [
                     'breadcrumbs' => [
                         ['title' => 'Home', 'href' => '/'],
@@ -188,19 +188,19 @@ class PublicPageSeeder extends Seeder
                             'label' => 'Full legal name',
                             'value' => 'Ysabel Maria Jorge Zamora',
                             'sourceLabel' => 'House of Representatives member record K099',
-                            'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                            'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/K099',
                         ],
                         [
                             'label' => 'Current office',
                             'value' => 'Representative / Congresswoman, Lone District of San Juan City',
                             'sourceLabel' => 'House of Representatives member record K099',
-                            'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                            'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/K099',
                         ],
                         [
                             'label' => 'Terms of office',
                             'value' => '19th Congress (2022-2025), 20th Congress (2025-2028)',
                             'sourceLabel' => 'House of Representatives member database',
-                            'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                            'sourceUrl' => 'https://www.congress.gov.ph/house-members/view/K099',
                         ],
                         [
                             'label' => 'Bar admission',
@@ -280,12 +280,12 @@ class PublicPageSeeder extends Seeder
                     'sourceLinks' => [
                         [
                             'label' => 'House member record',
-                            'href' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                            'href' => 'https://www.congress.gov.ph/house-members/view/K099',
                             'note' => 'Primary source for official office, district, and member profile details.',
                         ],
                         [
                             'label' => 'House committee memberships',
-                            'href' => 'https://www.congress.gov.ph/house-members/view/memberships/?member=K099',
+                            'href' => 'https://www.congress.gov.ph/house-members/view/K099',
                             'note' => 'Primary source for committee roles and membership updates.',
                         ],
                         [

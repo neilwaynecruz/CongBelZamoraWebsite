@@ -61,7 +61,7 @@ const confirmation: InquiryConfirmation = {
     contactPreferenceLabel: 'Email',
     referenceCode: 'INQ-2026-ABCD',
     retentionNotice:
-        'This Phase 6 validation-only form does not persist the inquiry yet.',
+        'Your inquiry is stored with encrypted contact details and message content.',
     submittedAt: 'July 15, 2026 9:30 AM',
 };
 
@@ -90,11 +90,14 @@ describe('Contact page', () => {
         });
 
         expect(wrapper.text()).toContain('Contact the District Office');
+        expect(wrapper.text()).toContain('Before you submit');
         expect(wrapper.text()).toContain(
             'District Office of Atty. Congresswoman Bel Zamora',
         );
+        expect(wrapper.text()).toContain('Office contact card');
         expect(wrapper.text()).toContain('info@belzamora.com');
         expect(wrapper.text()).toContain('DPA-safe inquiry form');
+        expect(wrapper.text()).toContain('Required');
         expect(wrapper.text()).toContain(
             'Do not include government ID numbers',
         );
@@ -118,6 +121,7 @@ describe('Contact page', () => {
             .setValue('I want to ask about a pending committee measure.');
 
         expect(wrapper.text()).toContain('Comments or questions about bills');
+        expect(wrapper.text()).toContain('Selected category route');
         expect(wrapper.text()).toContain('48/1000');
     });
 
@@ -129,7 +133,7 @@ describe('Contact page', () => {
             },
         });
 
-        expect(wrapper.text()).toContain('Inquiry validated');
+        expect(wrapper.text()).toContain('Inquiry received');
         expect(wrapper.text()).toContain('INQ-2026-ABCD');
         expect(wrapper.find('#inquiry-form form').classes()).toContain(
             'hidden',

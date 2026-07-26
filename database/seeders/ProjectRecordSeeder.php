@@ -179,7 +179,7 @@ class ProjectRecordSeeder extends Seeder
                 'impactNote' => 'Helps residents understand where national digital government services are available in San Juan.',
                 'imageGuidance' => 'Use only an approved local copy with source, rights, caption, and alt text review.',
                 'sourceLabel' => 'View official San Juan news page',
-                'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
+                'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
             ],
             [
                 'title' => '2025 National Women\'s Month Services',
@@ -217,7 +217,7 @@ class ProjectRecordSeeder extends Seeder
                 'impactNote' => 'Shows San Juan as a venue for national-government partnership activity without implying sole District Office operation.',
                 'imageGuidance' => 'Avoid cropping the stage title when it is necessary to identify the event.',
                 'sourceLabel' => 'View official San Juan news page',
-                'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2144/gawad-agraryo-2025',
+                'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2144/gawad-agraryo-2025',
             ],
             [
                 'title' => 'Balik Sigla, Bigay Saya Community Gift-Giving',
@@ -236,7 +236,7 @@ class ProjectRecordSeeder extends Seeder
                 'impactNote' => 'Provides residents with a public record of community support activity while preserving source attribution.',
                 'imageGuidance' => 'Request approved original image files from the District Office or City Public Information Department.',
                 'sourceLabel' => 'View official San Juan activity page',
-                'sourceUrl' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2118/balik-sigla-bigay-saya-simultaneous-christmas-gift-giving-program',
+                'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2118/balik-sigla-bigay-saya-simultaneous-christmas-gift-giving-program',
             ],
         ];
     }

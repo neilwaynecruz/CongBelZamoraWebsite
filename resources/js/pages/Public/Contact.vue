@@ -11,7 +11,7 @@ import {
     Send,
     ShieldCheck,
 } from '@lucide/vue';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import PublicPageMeta from '@/components/public/PublicPageMeta.vue';
 import PublicSiteLayout from '@/components/public/PublicSiteLayout.vue';
 import type {
@@ -78,6 +78,15 @@ const fieldClasses = (hasError: boolean) => [
 const submitInquiry = () => {
     form.post(props.inquiryAction, {
         preserveScroll: true,
+        onError: () => {
+            nextTick(() => {
+                const firstInvalidField = document.querySelector<HTMLElement>(
+                    '#inquiry-form [aria-invalid="true"], #inquiry-form input[name="privacy_consent"]',
+                );
+
+                firstInvalidField?.focus();
+            });
+        },
         onSuccess: () => {
             form.reset();
             isConfirmationDismissed.value = false;
@@ -149,6 +158,75 @@ const structuredData = {
             class="mx-auto grid max-w-7xl gap-6 px-4 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-8"
             aria-labelledby="office-info-title"
         >
+            <div class="lg:col-span-2" aria-labelledby="before-submit-title">
+                <div class="border-y border-border-default bg-brand-white py-5">
+                    <div
+                        class="grid gap-5 lg:grid-cols-[0.45fr_1fr] lg:items-start"
+                    >
+                        <div>
+                            <p
+                                class="text-sm font-semibold tracking-wide text-brand-red uppercase"
+                            >
+                                Assistance intake
+                            </p>
+                            <h2
+                                id="before-submit-title"
+                                class="mt-1 font-serif text-3xl font-semibold text-brand-navy"
+                            >
+                                Before you submit
+                            </h2>
+                            <p class="mt-3 text-sm leading-6 text-text-muted">
+                                Choose the closest category, provide one contact
+                                path, and avoid attaching or typing sensitive
+                                records into the message box.
+                            </p>
+                        </div>
+
+                        <div class="grid gap-3 md:grid-cols-3">
+                            <div class="border-l-2 border-brand-red pl-4">
+                                <p
+                                    class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                                >
+                                    1. Category
+                                </p>
+                                <p
+                                    class="mt-1 text-base font-semibold text-brand-navy"
+                                >
+                                    Match your concern to the nearest office
+                                    route.
+                                </p>
+                            </div>
+                            <div class="border-l-2 border-brand-gold pl-4">
+                                <p
+                                    class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                                >
+                                    2. Contact path
+                                </p>
+                                <p
+                                    class="mt-1 text-base font-semibold text-brand-navy"
+                                >
+                                    Email or mobile is required based on your
+                                    selected preference.
+                                </p>
+                            </div>
+                            <div class="border-l-2 border-brand-royal pl-4">
+                                <p
+                                    class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                                >
+                                    3. Expected response
+                                </p>
+                                <p
+                                    class="mt-1 text-base font-semibold text-brand-navy"
+                                >
+                                    No fixed public response-time SLA is
+                                    published yet.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid gap-5">
                 <article
                     class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
@@ -162,7 +240,7 @@ const structuredData = {
                             id="office-info-title"
                             class="font-serif text-2xl font-semibold text-brand-navy"
                         >
-                            Office information
+                            Office contact card
                         </h2>
                     </div>
 
@@ -225,7 +303,7 @@ const structuredData = {
                             id="contact-channels-title"
                             class="font-serif text-2xl font-semibold text-brand-navy"
                         >
-                            Official channels
+                            Published contact channels
                         </h2>
                     </div>
 
@@ -305,7 +383,7 @@ const structuredData = {
                             <h3
                                 class="font-serif text-2xl font-semibold text-brand-navy"
                             >
-                                Inquiry validated
+                                Inquiry received
                             </h3>
                             <p class="mt-2 text-sm leading-6 text-text-muted">
                                 Reference code:
@@ -393,10 +471,15 @@ const structuredData = {
 
                     <div>
                         <label
-                            class="block text-sm font-semibold text-text-primary"
+                            class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
                             for="citizen-name"
                         >
-                            Pangalan / Full name
+                            <span>Pangalan / Full name</span>
+                            <span
+                                class="text-xs font-semibold tracking-wide text-brand-red uppercase"
+                            >
+                                Required
+                            </span>
                         </label>
                         <input
                             id="citizen-name"
@@ -425,8 +508,15 @@ const structuredData = {
                     </div>
 
                     <fieldset>
-                        <legend class="text-sm font-semibold text-text-primary">
-                            Contact preference
+                        <legend
+                            class="flex w-full items-center justify-between gap-3 text-sm font-semibold text-text-primary"
+                        >
+                            <span>Contact preference</span>
+                            <span
+                                class="text-xs font-semibold tracking-wide text-brand-red uppercase"
+                            >
+                                Required
+                            </span>
                         </legend>
                         <div class="mt-3 grid gap-3 sm:grid-cols-2">
                             <label
@@ -465,10 +555,15 @@ const structuredData = {
                     <div class="grid gap-5 sm:grid-cols-2">
                         <div>
                             <label
-                                class="block text-sm font-semibold text-text-primary"
+                                class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
                                 for="citizen-email"
                             >
-                                Email address
+                                <span>Email address</span>
+                                <span
+                                    class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                                >
+                                    Required for email
+                                </span>
                             </label>
                             <input
                                 id="citizen-email"
@@ -501,10 +596,15 @@ const structuredData = {
 
                         <div>
                             <label
-                                class="block text-sm font-semibold text-text-primary"
+                                class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
                                 for="citizen-mobile"
                             >
-                                Mobile number
+                                <span>Mobile number</span>
+                                <span
+                                    class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                                >
+                                    Required for SMS
+                                </span>
                             </label>
                             <input
                                 id="citizen-mobile"
@@ -545,10 +645,15 @@ const structuredData = {
 
                     <div>
                         <label
-                            class="block text-sm font-semibold text-text-primary"
+                            class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
                             for="inquiry-category"
                         >
-                            Kategorya / Category
+                            <span>Kategorya / Category</span>
+                            <span
+                                class="text-xs font-semibold tracking-wide text-brand-red uppercase"
+                            >
+                                Required
+                            </span>
                         </label>
                         <select
                             id="inquiry-category"
@@ -582,8 +687,11 @@ const structuredData = {
                         <p
                             v-if="selectedCategory"
                             id="inquiry-category-help"
-                            class="mt-2 text-sm leading-6 text-text-muted"
+                            class="mt-3 rounded-md border border-brand-royal/20 bg-surface-soft p-3 text-sm leading-6 text-text-muted"
                         >
+                            <span class="block font-semibold text-brand-navy">
+                                Selected category route
+                            </span>
                             {{ selectedCategory.description }}
                         </p>
                         <p
@@ -597,10 +705,15 @@ const structuredData = {
 
                     <div>
                         <label
-                            class="block text-sm font-semibold text-text-primary"
+                            class="flex items-center justify-between gap-3 text-sm font-semibold text-text-primary"
                             for="message-body"
                         >
-                            Mensahe / Message
+                            <span>Mensahe / Message</span>
+                            <span
+                                class="text-xs font-semibold tracking-wide text-brand-red uppercase"
+                            >
+                                Required
+                            </span>
                         </label>
                         <textarea
                             id="message-body"
@@ -647,6 +760,9 @@ const structuredData = {
                             type="checkbox"
                         />
                         <span>
+                            <span class="font-semibold text-brand-red">
+                                Required:
+                            </span>
                             Pinapayagan ko ang Tanggapan ng Distrito na iproseso
                             ang aking impormasyon para sagutin o i-route ang
                             inquiry na ito ayon sa
@@ -678,6 +794,10 @@ const structuredData = {
                                 :key="expectation"
                             >
                                 {{ expectation }}
+                            </li>
+                            <li>
+                                A public response-time SLA is pending final
+                                District Office confirmation.
                             </li>
                         </ul>
                     </div>

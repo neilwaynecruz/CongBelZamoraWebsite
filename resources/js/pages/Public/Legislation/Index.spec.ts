@@ -16,7 +16,7 @@ const legislativeItems: LegislativeItem[] = [
         filedAt: 'Source-pending date',
         officialSourceLabel: 'View House member record',
         officialSourceUrl:
-            'https://www.congress.gov.ph/house-members/view/?member=K099',
+            'https://www.congress.gov.ph/house-members/view/K099',
         officialTitle: 'Act promoting solo parent welfare',
         plainLanguageSummary:
             'Plain-language summary for solo-parent welfare support.',
@@ -37,7 +37,7 @@ const legislativeItems: LegislativeItem[] = [
         filedAt: 'Source-pending date',
         officialSourceLabel: 'View House member record',
         officialSourceUrl:
-            'https://www.congress.gov.ph/house-members/view/?member=K099',
+            'https://www.congress.gov.ph/house-members/view/K099',
         officialTitle: 'Act establishing digital classrooms',
         plainLanguageSummary:
             'Plain-language summary for classroom infrastructure.',
@@ -87,7 +87,7 @@ describe('Legislation index page', () => {
         expect(
             wrapper
                 .find(
-                    'a[href="https://www.congress.gov.ph/house-members/view/?member=K099"]',
+                    'a[href="https://www.congress.gov.ph/house-members/view/K099"]',
                 )
                 .exists(),
         ).toBe(true);

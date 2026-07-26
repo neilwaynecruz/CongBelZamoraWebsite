@@ -52,7 +52,9 @@ describe('Programs index page', () => {
         });
 
         expect(wrapper.text()).toContain('Mga Programa at Serbisyo');
+        expect(wrapper.text()).toContain('Published program records');
         expect(wrapper.text()).toContain('CHED UniFAST Tulong Dunong');
+        expect(wrapper.text()).toContain('Who can apply / beneficiary group');
         expect(wrapper.text()).toContain('San Juan City Government');
         expect(wrapper.text()).toContain('Showing 2 of 2 programs.');
     });

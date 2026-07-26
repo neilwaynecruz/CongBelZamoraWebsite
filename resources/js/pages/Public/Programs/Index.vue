@@ -62,6 +62,25 @@ const filteredPrograms = computed(() => {
 const hasPrograms = computed(() => props.programs.length > 0);
 const contactInquiryHref = `${contact.url()}#inquiry-form`;
 
+const openProgramCount = computed(
+    () => props.programs.filter((program) => program.status === 'open').length,
+);
+
+const directoryStats = computed(() => [
+    {
+        label: 'Published program records',
+        value: props.programs.length.toString(),
+    },
+    {
+        label: 'Service categories',
+        value: props.sectors.length.toString(),
+    },
+    {
+        label: 'Open for applications',
+        value: openProgramCount.value.toString(),
+    },
+]);
+
 const description =
     'Mobile-first directory of Bel Zamora District Office programs, service guides, statuses, requirements, and responsible offices.';
 
@@ -132,6 +151,28 @@ const resetFilters = () => {
             class="mx-auto max-w-7xl px-4 py-10 lg:px-8"
             aria-labelledby="program-filters-title"
         >
+            <div
+                class="mb-6 grid gap-3 border-y border-border-default bg-brand-white py-4 sm:grid-cols-3"
+                aria-label="Program directory snapshot"
+            >
+                <div
+                    v-for="stat in directoryStats"
+                    :key="stat.label"
+                    class="border-border-default px-1 sm:border-r sm:last:border-r-0"
+                >
+                    <p
+                        class="font-serif text-3xl font-semibold text-brand-navy"
+                    >
+                        {{ stat.value }}
+                    </p>
+                    <p
+                        class="mt-1 text-sm font-semibold tracking-wide text-text-muted uppercase"
+                    >
+                        {{ stat.label }}
+                    </p>
+                </div>
+            </div>
+
             <div
                 class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm"
             >
@@ -300,78 +341,86 @@ const resetFilters = () => {
                 <article
                     v-for="program in filteredPrograms"
                     :key="program.title"
-                    class="flex flex-col rounded-lg border border-border-default border-t-brand-red bg-brand-white p-5 shadow-sm"
+                    class="flex flex-col rounded-lg border border-border-default bg-brand-white shadow-sm"
                 >
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span
-                            class="rounded-full bg-surface-soft px-3 py-1 text-xs font-semibold text-brand-royal"
-                        >
-                            {{ program.sector }}
-                        </span>
-                        <span
-                            class="rounded-full px-3 py-1 text-xs font-semibold"
-                            :class="statusClasses[program.status]"
-                        >
-                            {{ program.statusLabel }}
-                        </span>
-                    </div>
+                    <div class="h-1.5 bg-brand-red" aria-hidden="true" />
 
-                    <h3
-                        class="mt-5 font-serif text-2xl font-semibold text-brand-navy"
-                    >
-                        {{ program.title }}
-                    </h3>
-                    <p class="mt-3 text-sm leading-6 text-text-muted">
-                        {{ program.summary }}
-                    </p>
-
-                    <dl class="mt-5 grid gap-3 text-sm">
-                        <div>
-                            <dt class="font-semibold text-text-primary">
-                                Responsible office
-                            </dt>
-                            <dd class="mt-1 text-text-muted">
-                                {{ program.responsibleOfficeLabel }}
-                            </dd>
+                    <div class="flex flex-1 flex-col p-5">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span
+                                class="rounded-full bg-surface-soft px-3 py-1 text-xs font-semibold text-brand-royal"
+                            >
+                                {{ program.sector }}
+                            </span>
+                            <span
+                                class="rounded-full px-3 py-1 text-xs font-semibold"
+                                :class="statusClasses[program.status]"
+                            >
+                                {{ program.statusLabel }}
+                            </span>
                         </div>
-                        <div>
-                            <dt class="font-semibold text-text-primary">
-                                Beneficiary group
-                            </dt>
-                            <dd class="mt-1 text-text-muted">
-                                {{ program.beneficiaryGroup }}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="font-semibold text-text-primary">
-                                Application period
-                            </dt>
-                            <dd class="mt-1 text-text-muted">
-                                {{ program.applicationPeriod }}
-                            </dd>
-                        </div>
-                    </dl>
 
-                    <p class="mt-5 text-xs font-medium text-text-muted">
-                        Last verified: {{ program.verifiedAt }}
-                    </p>
+                        <h3
+                            class="mt-5 font-serif text-2xl font-semibold text-brand-navy"
+                        >
+                            {{ program.title }}
+                        </h3>
+                        <p class="mt-3 text-sm leading-6 text-text-muted">
+                            {{ program.summary }}
+                        </p>
 
-                    <div
-                        class="mt-auto flex flex-col gap-3 pt-6 sm:flex-row lg:flex-col"
-                    >
-                        <Link
-                            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                            :href="program.href"
+                        <dl class="mt-5 grid gap-3 text-sm">
+                            <div class="border-l-2 border-brand-gold pl-3">
+                                <dt class="font-semibold text-text-primary">
+                                    Who can apply / beneficiary group
+                                </dt>
+                                <dd class="mt-1 text-text-muted">
+                                    {{ program.beneficiaryGroup }}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="font-semibold text-text-primary">
+                                    Responsible office
+                                </dt>
+                                <dd class="mt-1 text-text-muted">
+                                    {{ program.responsibleOfficeLabel }}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="font-semibold text-text-primary">
+                                    Application period
+                                </dt>
+                                <dd class="mt-1 text-text-muted">
+                                    {{ program.applicationPeriod }}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="font-semibold text-text-primary">
+                                    Verified date
+                                </dt>
+                                <dd class="mt-1 text-text-muted">
+                                    {{ program.verifiedAt }}
+                                </dd>
+                            </div>
+                        </dl>
+
+                        <div
+                            class="mt-auto flex flex-col gap-3 pt-6 sm:flex-row lg:flex-col"
                         >
-                            Basahin ang detalye
-                            <ArrowRight class="size-4" aria-hidden="true" />
-                        </Link>
-                        <Link
-                            class="inline-flex min-h-11 items-center justify-center rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
-                            :href="contactInquiryHref"
-                        >
-                            Magtanong / Inquire
-                        </Link>
+                            <Link
+                                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                :href="program.href"
+                            >
+                                View requirements and steps
+                                <ArrowRight class="size-4" aria-hidden="true" />
+                            </Link>
+                            <Link
+                                class="inline-flex min-h-11 items-center justify-center rounded-md border border-brand-royal px-4 py-3 text-sm font-semibold text-brand-royal transition hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                                :href="contactInquiryHref"
+                            >
+                                Magtanong / Inquire
+                            </Link>
+                        </div>
                     </div>
                 </article>
             </div>

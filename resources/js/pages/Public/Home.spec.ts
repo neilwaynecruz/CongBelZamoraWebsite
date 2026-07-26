@@ -65,6 +65,8 @@ describe('Public Home page', () => {
         });
 
         expect(wrapper.text()).toContain('Atty. Congresswoman Bel Zamora');
+        expect(wrapper.text()).toContain('Official announcements');
+        expect(wrapper.text()).toContain('How can we help you?');
         expect(wrapper.text()).toContain('Check program status');
         expect(wrapper.text()).toContain('CHED UniFAST Tulong Dunong');
         expect(wrapper.text()).toContain('HB00123');

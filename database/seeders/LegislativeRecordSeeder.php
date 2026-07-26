@@ -175,7 +175,7 @@ class LegislativeRecordSeeder extends Seeder
                 'whyItMatters' => 'Solo-parent households need clear information on welfare, education, and family-support measures that may affect benefits or public-service access.',
                 'sanJuanRelevance' => 'San Juan residents can see Rep. Bel Zamora\'s documented role and follow the official House source for the full bill history.',
                 'officialSourceLabel' => 'View House member record',
-                'officialSourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                'officialSourceUrl' => 'https://www.congress.gov.ph/house-members/view/K099',
             ],
             [
                 'billNumber' => 'HB00456',
@@ -192,7 +192,7 @@ class LegislativeRecordSeeder extends Seeder
                 'whyItMatters' => 'Digital learning infrastructure affects students, teachers, and families who rely on reliable school technology.',
                 'sanJuanRelevance' => 'The tracker identifies Rep. Bel Zamora as co-author and directs residents to official House records for status changes.',
                 'officialSourceLabel' => 'View House member record',
-                'officialSourceUrl' => 'https://www.congress.gov.ph/house-members/view/?member=K099',
+                'officialSourceUrl' => 'https://www.congress.gov.ph/house-members/view/K099',
             ],
             [
                 'billNumber' => 'HB00789',

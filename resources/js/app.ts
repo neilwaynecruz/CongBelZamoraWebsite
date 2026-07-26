@@ -8,7 +8,7 @@ import { initializeScrollEffects } from '@/lib/scroll-effects';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-createInertiaApp({
+void createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     layout: (name) => {
         switch (true) {
@@ -25,13 +25,13 @@ createInertiaApp({
     progress: {
         color: '#4B5563',
     },
+}).then(() => {
+    // This will set light / dark mode on page load...
+    initializeTheme();
+
+    // This will listen for flash toast data from the server...
+    initializeFlashToast();
+
+    // This will initialize smooth scroll margin handlers and reveal-on-scroll animations...
+    initializeScrollEffects();
 });
-
-// This will set light / dark mode on page load...
-initializeTheme();
-
-// This will listen for flash toast data from the server...
-initializeFlashToast();
-
-// This will initialize smooth scroll margin handlers and reveal-on-scroll animations...
-initializeScrollEffects();

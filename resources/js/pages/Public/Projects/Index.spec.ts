@@ -24,7 +24,7 @@ const projects: ProjectItem[] = [
         slug: 'egovph-serbisyo-hub',
         sourceLabel: 'View official San Juan news page',
         sourceUrl:
-            'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
+            'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
         status: 'ongoing',
         statusLabel: 'Active / ongoing service',
         statusTone: 'ongoing',
@@ -79,15 +79,19 @@ describe('Projects index page', () => {
         });
 
         expect(wrapper.text()).toContain('Projects and Results');
+        expect(wrapper.text()).toContain('Project transparency standard');
         expect(wrapper.text()).toContain(
             'Bagong Pilipinas eGovPH Serbisyo Hub',
         );
-        expect(wrapper.text()).toContain('Evidence and impact notes');
+        expect(wrapper.text()).toContain(
+            'Progress, evidence, and impact notes',
+        );
+        expect(wrapper.text()).toContain('Partner office');
         expect(wrapper.text()).toContain('DICT / eGovPH and city partners');
         expect(
             wrapper
                 .find(
-                    'a[href="https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center"]',
+                    'a[href="https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center"]',
                 )
                 .exists(),
         ).toBe(true);

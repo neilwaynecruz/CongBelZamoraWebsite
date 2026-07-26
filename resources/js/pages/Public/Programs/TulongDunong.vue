@@ -81,7 +81,7 @@ const structuredData = (program: ProgramDetail) => ({
                     <dl class="mt-5 grid gap-4 text-sm">
                         <div>
                             <dt class="font-semibold text-text-primary">
-                                Application period
+                                Deadline / application period
                             </dt>
                             <dd class="mt-1 text-text-muted">
                                 {{ program.applicationPeriod }}
@@ -109,7 +109,14 @@ const structuredData = (program: ProgramDetail) => ({
                             class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand-red px-4 py-3 text-sm font-semibold text-brand-white transition hover:bg-brand-navy focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                             :href="program.contactHref"
                         >
-                            Ask about this program
+                            Ask about eligibility or deadline
+                            <ArrowRight class="size-4" aria-hidden="true" />
+                        </Link>
+                        <Link
+                            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-brand-gold bg-warm-soft px-4 py-3 text-sm font-semibold text-brand-navy transition hover:border-brand-royal hover:bg-brand-royal hover:text-brand-white focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            :href="program.latestAnnouncementHref"
+                        >
+                            Latest announcement
                             <ArrowRight class="size-4" aria-hidden="true" />
                         </Link>
                         <a
@@ -127,7 +134,87 @@ const structuredData = (program: ProgramDetail) => ({
         </section>
 
         <section
-            class="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[1fr_0.42fr] lg:px-8"
+            class="mx-auto max-w-7xl px-4 pt-10 lg:px-8"
+            aria-labelledby="program-glance-title"
+        >
+            <div class="border-y border-border-default bg-brand-white py-5">
+                <div
+                    class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
+                >
+                    <div>
+                        <p
+                            class="text-sm font-semibold tracking-wide text-brand-red uppercase"
+                        >
+                            Applicant quick check
+                        </p>
+                        <h2
+                            id="program-glance-title"
+                            class="mt-1 font-serif text-3xl font-semibold text-brand-navy"
+                        >
+                            Program at a glance
+                        </h2>
+                    </div>
+                    <p class="max-w-xl text-sm leading-6 text-text-muted">
+                        Use this section to confirm status, benefit, deadline,
+                        and verified date before preparing documents.
+                    </p>
+                </div>
+
+                <dl class="mt-5 grid gap-3 md:grid-cols-4">
+                    <div class="border-l-2 border-brand-red pl-4">
+                        <dt
+                            class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                        >
+                            Status
+                        </dt>
+                        <dd
+                            class="mt-1 text-base font-semibold text-brand-navy"
+                        >
+                            {{ program.statusLabel }}
+                        </dd>
+                    </div>
+                    <div class="border-l-2 border-brand-gold pl-4">
+                        <dt
+                            class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                        >
+                            Benefit
+                        </dt>
+                        <dd
+                            class="mt-1 text-base font-semibold text-brand-navy"
+                        >
+                            {{ program.benefit }}
+                        </dd>
+                    </div>
+                    <div class="border-l-2 border-brand-royal pl-4">
+                        <dt
+                            class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                        >
+                            Application period
+                        </dt>
+                        <dd
+                            class="mt-1 text-base font-semibold text-brand-navy"
+                        >
+                            {{ program.applicationPeriod }}
+                        </dd>
+                    </div>
+                    <div class="border-l-2 border-status-open pl-4">
+                        <dt
+                            class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                        >
+                            Verified date
+                        </dt>
+                        <dd
+                            class="mt-1 text-base font-semibold text-brand-navy"
+                        >
+                            {{ program.verifiedAt }}
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <section
+            class="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_0.42fr] lg:px-8"
         >
             <div class="grid gap-8">
                 <article
@@ -186,8 +273,13 @@ const structuredData = (program: ProgramDetail) => ({
                         id="eligibility-title"
                         class="font-serif text-3xl font-semibold text-brand-navy"
                     >
-                        Who may apply
+                        Eligibility / who may apply
                     </h2>
+                    <p class="mt-3 text-base leading-7 text-text-muted">
+                        Review every item before visiting the office. Staff may
+                        ask for the latest official documents for the current
+                        application cycle.
+                    </p>
                     <ul
                         v-if="program.eligibility.length > 0"
                         class="mt-5 grid gap-3"
@@ -221,7 +313,7 @@ const structuredData = (program: ProgramDetail) => ({
                         id="requirements-title"
                         class="font-serif text-3xl font-semibold text-brand-navy"
                     >
-                        Current requirements checklist
+                        Requirements by document type
                     </h2>
                     <p class="mt-3 text-base leading-7 text-text-muted">
                         Requirements may change every academic year. Follow only
@@ -296,8 +388,13 @@ const structuredData = (program: ProgramDetail) => ({
                                 {{ index + 1 }}
                             </span>
                             <span
-                                class="pt-2 text-base leading-7 text-text-muted"
+                                class="pt-1 text-base leading-7 text-text-muted"
                             >
+                                <span
+                                    class="block text-xs font-semibold tracking-wide text-brand-red uppercase"
+                                >
+                                    Step {{ index + 1 }}
+                                </span>
                                 {{ step }}
                             </span>
                         </li>

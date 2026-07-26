@@ -20,7 +20,7 @@ const newsItems: NewsRecord[] = [
         slug: 'egovph-serbisyo-hub-launch',
         sourceLabel: 'View official San Juan news page',
         sourceUrl:
-            'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
+            'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
         staleNote:
             'Recheck the service scope and responsible office before publishing new transaction guidance.',
         status: 'current',
@@ -42,7 +42,7 @@ const newsItems: NewsRecord[] = [
         slug: 'balik-sigla-bigay-saya-review',
         sourceLabel: 'View official San Juan activity page',
         sourceUrl:
-            'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2118/balik-sigla-bigay-saya-simultaneous-christmas-gift-giving-program',
+            'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2118/balik-sigla-bigay-saya-simultaneous-christmas-gift-giving-program',
         staleNote:
             'Do not display as a current assistance schedule. Mark as stale until reviewed by the content owner.',
         status: 'stale_review',
@@ -79,15 +79,19 @@ describe('News index page', () => {
         });
 
         expect(wrapper.text()).toContain('News and Media');
+        expect(wrapper.text()).toContain('Announcement register');
         expect(wrapper.text()).toContain(
             'Bagong Pilipinas eGovPH Serbisyo Hub launched in San Juan',
         );
-        expect(wrapper.text()).toContain('Official update and next step');
+        expect(wrapper.text()).toContain(
+            'Official update, source, and next step',
+        );
+        expect(wrapper.text()).toContain('Current / archive indicator');
         expect(wrapper.text()).toContain('Needs stale-content review');
         expect(
             wrapper
                 .find(
-                    'a[href="https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center"]',
+                    'a[href="https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center"]',
                 )
                 .exists(),
         ).toBe(true);

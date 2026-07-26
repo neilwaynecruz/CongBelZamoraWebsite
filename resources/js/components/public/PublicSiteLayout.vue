@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { Menu, Search, X } from '@lucide/vue';
+import { Languages, Menu, Search, X } from '@lucide/vue';
 import { computed, ref } from 'vue';
 import { useLocale } from '@/composables/useLocale';
 import { home } from '@/routes';
@@ -95,34 +95,41 @@ const isCurrent = (href: PublicNavItem['href']) => {
         </a>
 
         <header
-            class="sticky top-0 z-40 border-b border-border-default bg-brand-white/95 backdrop-blur"
+            class="sticky top-0 z-40 border-b border-border-default bg-brand-white shadow-sm"
             role="banner"
         >
-            <div
-                class="border-b border-border-default bg-brand-navy text-brand-white"
-            >
+            <div class="bg-brand-navy text-brand-white">
                 <div
-                    class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-2.5 text-sm sm:flex-row sm:items-center sm:justify-between lg:px-8"
+                    class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-2 sm:flex-row sm:items-center sm:justify-between lg:px-8"
                 >
-                    <div class="flex min-w-0 items-center gap-2.5">
-                        <span
-                            class="inline-block size-2 rounded-full bg-brand-gold"
+                    <div class="flex min-w-0 items-center gap-3.5">
+                        <img
+                            class="h-9 w-auto shrink-0 rounded-md object-contain shadow-sm ring-1 ring-brand-gold/55 sm:h-10"
+                            src="/assets/images/brand/CongBelLogo_tight.png"
+                            alt=""
                             aria-hidden="true"
                         />
-                        <p
-                            class="truncate text-xs font-medium tracking-wide text-brand-white/90 sm:text-sm"
-                        >
-                            {{
-                                t(
-                                    'Digital District Office for San Juan City',
-                                    'Digital na Tanggapan ng Distrito para sa Lungsod ng San Juan',
-                                )
-                            }}
-                        </p>
+                        <div class="min-w-0 leading-tight">
+                            <p
+                                class="truncate text-sm font-bold tracking-wide text-brand-white sm:text-base lg:text-lg"
+                            >
+                                {{
+                                    t(
+                                        'Digital District Office for San Juan City',
+                                        'Digital na Tanggapan ng Distrito para sa Lungsod ng San Juan',
+                                    )
+                                }}
+                            </p>
+                            <p
+                                class="hidden text-[10px] font-bold tracking-[0.2em] text-brand-gold uppercase sm:block"
+                            >
+                                Official constituent-services portal
+                            </p>
+                        </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
                         <button
-                            class="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-brand-gold/60 bg-brand-white/5 px-3 text-xs font-semibold text-brand-white transition hover:border-brand-gold hover:bg-brand-white/15 focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            class="inline-flex min-h-10 items-center gap-1.5 rounded-md border border-brand-gold/60 bg-brand-white/5 px-3 text-xs font-semibold text-brand-white transition hover:border-brand-gold hover:bg-brand-white/15 focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                             type="button"
                             :title="
                                 t(
@@ -132,18 +139,18 @@ const isCurrent = (href: PublicNavItem['href']) => {
                             "
                             @click="toggleLocale"
                         >
-                            <span class="text-xs">🌐</span>
+                            <Languages class="size-3.5" aria-hidden="true" />
                             <span>{{
                                 currentLocale === 'en' ? 'English' : 'Filipino'
                             }}</span>
                             <span
-                                class="rounded bg-brand-gold/30 px-1 py-0.5 text-[10px] font-bold text-brand-gold uppercase"
+                                class="rounded bg-brand-gold px-1 py-0.5 text-[10px] font-bold text-brand-navy uppercase"
                             >
                                 {{ currentLocale.toUpperCase() }}
                             </span>
                         </button>
                         <button
-                            class="inline-flex min-h-9 items-center gap-2 rounded-md border border-brand-gold/50 px-3 text-xs font-semibold text-brand-white transition hover:bg-brand-white/10 focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                            class="inline-flex min-h-10 items-center gap-2 rounded-md border border-brand-gold/50 px-3 text-xs font-semibold text-brand-white transition hover:bg-brand-white/10 focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                             type="button"
                             :aria-expanded="isSearchOpen"
                             aria-controls="site-search"
@@ -187,44 +194,54 @@ const isCurrent = (href: PublicNavItem['href']) => {
             </Transition>
 
             <div
-                class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-8"
+                class="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-3.5 lg:px-8"
             >
                 <Link
-                    class="group flex items-center gap-3.5 rounded-xl focus:outline-3 focus:outline-offset-4 focus:outline-brand-gold"
+                    class="group flex min-w-0 items-center gap-5 rounded-lg focus:outline-3 focus:outline-offset-4 focus:outline-brand-gold"
                     :href="home.url()"
                     aria-label="Atty. Bel Zamora homepage"
                 >
-                    <div class="flex shrink-0 items-center gap-3">
+                    <div class="flex shrink-0 items-center gap-4">
                         <img
-                            class="h-9 w-auto object-contain transition group-hover:scale-105 sm:h-10"
-                            src="/assets/images/brand/CongBelLogo_transparent.png"
+                            class="h-[3.25rem] w-auto shrink-0 rounded-md object-contain shadow-sm ring-1 ring-brand-navy/15 transition group-hover:scale-[1.02] sm:h-14"
+                            src="/assets/images/brand/CongBelLogo_tight.png"
                             alt="Cong. Bel Zamora official logo"
                         />
                         <div
-                            class="h-7 border-l border-border-default/80"
+                            class="hidden h-[3.25rem] border-l border-border-default/90 md:block"
                             aria-hidden="true"
                         />
-                        <div class="flex items-center gap-1.5">
-                            <img
-                                class="size-8.5 object-contain transition group-hover:scale-105 sm:size-9.5"
-                                src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
-                                alt="Official Seal of the House of Representatives"
-                            />
-                            <img
-                                class="size-8.5 object-contain transition group-hover:scale-105 sm:size-9.5"
-                                src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
-                                alt="Official Seal of San Juan City"
-                            />
+                        <div class="hidden items-center gap-2.5 md:flex">
+                            <span
+                                class="flex size-[3.75rem] items-center justify-center rounded-full border border-border-default bg-brand-white p-1 shadow-sm ring-1 ring-brand-gold/20"
+                            >
+                                <img
+                                    class="size-[3.25rem] object-contain transition group-hover:scale-105"
+                                    src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
+                                    alt="Official Seal of the House of Representatives"
+                                />
+                            </span>
+                            <span
+                                class="flex size-[3.75rem] items-center justify-center rounded-full border border-border-default bg-brand-white p-1 shadow-sm ring-1 ring-brand-gold/20"
+                            >
+                                <img
+                                    class="size-[3.25rem] object-contain transition group-hover:scale-105"
+                                    src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
+                                    alt="Official Seal of San Juan City"
+                                />
+                            </span>
                         </div>
                     </div>
-                    <div class="flex flex-col justify-center leading-tight">
+                    <div
+                        class="hidden min-w-0 flex-col justify-center leading-tight xl:flex"
+                    >
                         <span
-                            class="font-serif text-lg font-bold tracking-tight text-brand-navy transition-colors group-hover:text-brand-red sm:text-xl"
+                            class="font-serif text-xl font-bold tracking-tight text-brand-navy transition-colors group-hover:text-brand-red"
                         >
                             Atty. Bel Zamora
                         </span>
                         <span
-                            class="text-[10px] font-semibold tracking-wider text-brand-red uppercase sm:text-xs"
+                            class="text-xs font-bold tracking-[0.12em] text-brand-red uppercase"
                         >
                             Lone District of San Juan City
                         </span>
@@ -238,7 +255,7 @@ const isCurrent = (href: PublicNavItem['href']) => {
                     <Link
                         v-for="item in mainNavigation"
                         :key="item.title"
-                        class="relative min-h-10 rounded-md px-3 py-2.5 text-sm font-semibold text-text-primary transition hover:text-brand-red focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
+                        class="relative min-h-10 rounded-md px-3 py-2.5 text-sm font-semibold text-text-primary transition hover:bg-surface-soft hover:text-brand-red focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold"
                         :class="{ 'text-brand-red': isCurrent(item.href) }"
                         :href="item.href"
                         :aria-current="
@@ -256,7 +273,7 @@ const isCurrent = (href: PublicNavItem['href']) => {
 
                 <div class="flex items-center gap-2">
                     <Link
-                        class="hidden min-h-10 items-center justify-center rounded-lg bg-brand-red px-4 py-2.5 text-xs font-semibold tracking-wide whitespace-nowrap text-brand-white shadow-xs transition hover:-translate-y-0.5 hover:bg-brand-navy hover:shadow-md focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold sm:inline-flex"
+                        class="hidden min-h-11 items-center justify-center rounded-md bg-brand-red px-5 py-3 text-sm font-bold tracking-wide whitespace-nowrap text-brand-white shadow-sm transition hover:-translate-y-0.5 hover:bg-brand-navy hover:shadow-md focus:outline-3 focus:outline-offset-2 focus:outline-brand-gold sm:inline-flex"
                         :href="contactInquiryHref"
                     >
                         Magtanong / Get Assistance
@@ -353,25 +370,29 @@ const isCurrent = (href: PublicNavItem['href']) => {
             >
                 <div>
                     <div class="flex flex-wrap items-center gap-3.5">
-                        <div
-                            class="flex h-11 items-center justify-center rounded-lg bg-brand-white px-3 py-1 shadow-xs"
+                        <img
+                            class="h-12 w-auto rounded-md object-contain shadow-xs ring-1 ring-brand-gold/35"
+                            src="/assets/images/brand/CongBelLogo_tight.png"
+                            alt="Congresswoman Bel Zamora official emblem logo"
+                        />
+                        <span
+                            class="flex size-12 items-center justify-center rounded-full bg-brand-white p-1 shadow-xs ring-1 ring-brand-gold/25"
                         >
                             <img
-                                class="h-8 w-auto object-contain"
-                                src="/assets/images/brand/CongBelLogo_transparent.png"
-                                alt="Congresswoman Bel Zamora official emblem logo"
+                                class="size-10 object-contain"
+                                src="/assets/images/brand/Makabagong_San_Juan_Logo.svg"
+                                alt="Makabagong San Juan civic branding logo"
                             />
-                        </div>
-                        <img
-                            class="h-11 w-auto object-contain opacity-95"
-                            src="/assets/images/brand/Makabagong_San_Juan_Logo.svg"
-                            alt="Makabagong San Juan civic branding logo"
-                        />
-                        <img
-                            class="h-11 w-auto object-contain opacity-95"
-                            src="/assets/images/brand/Bagong_Pilipinas_logo.svg"
-                            alt="Bagong Pilipinas administration national logo"
-                        />
+                        </span>
+                        <span
+                            class="flex h-12 min-w-12 items-center justify-center rounded-md bg-brand-white px-2 py-1 shadow-xs ring-1 ring-brand-gold/25"
+                        >
+                            <img
+                                class="h-10 w-auto object-contain"
+                                src="/assets/images/brand/Bagong_Pilipinas_logo.svg"
+                                alt="Bagong Pilipinas administration national logo"
+                            />
+                        </span>
                     </div>
                     <p
                         class="mt-6 max-w-sm text-sm leading-6 text-brand-white/80"

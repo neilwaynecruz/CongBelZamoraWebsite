@@ -38,6 +38,27 @@ class Phase9QualityAssuranceTest extends TestCase
         }
     }
 
+    public function test_sitemap_uses_canonical_www_host(): void
+    {
+        $sitemap = simplexml_load_file(public_path('sitemap.xml'));
+
+        $this->assertNotFalse($sitemap);
+
+        foreach ($sitemap->url as $url) {
+            $this->assertStringStartsWith('https://www.belzamora.com', (string) $url->loc);
+        }
+    }
+
+    public function test_missing_public_page_renders_public_404(): void
+    {
+        $this->get('/missing-public-page')
+            ->assertNotFound()
+            ->assertInertia(fn ($page) => $page
+                ->component('Public/NotFound')
+                ->where('status', 404)
+            );
+    }
+
     public function test_public_responses_include_baseline_security_headers(): void
     {
         $this->get(route('home'))

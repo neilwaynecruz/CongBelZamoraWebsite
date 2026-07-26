@@ -263,20 +263,8 @@
         transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    .public-site-shell main > section {
-        animation: public-section-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    .public-site-shell main > section:nth-of-type(2) {
-        animation-delay: 70ms;
-    }
-
-    .public-site-shell main > section:nth-of-type(3) {
-        animation-delay: 120ms;
-    }
-
-    .public-site-shell main > section:nth-of-type(n + 4) {
-        animation-delay: 160ms;
+    .public-site-shell main > section:first-of-type {
+        animation: public-section-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     .public-site-shell
@@ -329,28 +317,6 @@
     }
 }
 
-@keyframes public-section-scroll {
-    from {
-        opacity: 0.18;
-        transform: translateY(14px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@supports (animation-timeline: view()) {
-    .public-site-shell main > section:not(:first-of-type) {
-        animation-delay: 0ms;
-        animation-duration: 1ms;
-        animation-name: public-section-scroll;
-        animation-range: entry 0% cover 24%;
-        animation-timeline: view();
-    }
-}
-
 @supports selector(::-webkit-scrollbar) {
     html::-webkit-scrollbar {
         width: 0.75rem;
@@ -396,58 +362,52 @@
   =========================================
 */
 @media (prefers-reduced-motion: no-preference) {
-    /* Only hide elements if JavaScript is active and loading successfully */
+    /* Content stays visible by default; JS only adds subtle movement polish. */
     html.js .reveal,
     html.js .reveal-fade-up,
     html.js .reveal-item {
-        opacity: 0;
-        transform: translateY(20px);
+        opacity: 1;
+        transform: translateY(0);
         transition:
             opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
             transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform, opacity;
     }
 
     html.js .reveal-fade-in {
-        opacity: 0;
+        opacity: 1;
         transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: opacity;
     }
 
     html.js .reveal-fade-down {
-        opacity: 0;
-        transform: translateY(-20px);
+        opacity: 1;
+        transform: translateY(0);
         transition:
             opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
             transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform, opacity;
     }
 
     html.js .reveal-slide-left {
-        opacity: 0;
-        transform: translateX(-24px);
+        opacity: 1;
+        transform: translateX(0);
         transition:
             opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
             transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform, opacity;
     }
 
     html.js .reveal-slide-right {
-        opacity: 0;
-        transform: translateX(24px);
+        opacity: 1;
+        transform: translateX(0);
         transition:
             opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
             transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform, opacity;
     }
 
     html.js .reveal-scale-up {
-        opacity: 0;
-        transform: scale(0.95);
+        opacity: 1;
+        transform: scale(1);
         transition:
             opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
             transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform, opacity;
     }
 
     /* Active visibility triggers applied by Intersection Observer */

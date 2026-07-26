@@ -29,8 +29,23 @@ describe('PublicPageMeta', () => {
             wrapper.find('meta[property="og:url"]').attributes('content'),
         ).toBe('https://www.belzamora.com/accessibility');
         expect(
+            wrapper.find('meta[property="og:image"]').attributes('content'),
+        ).toBe(
+            'https://www.belzamora.com/assets/images/brand/social-preview.png',
+        );
+        expect(
+            wrapper
+                .find('meta[property="og:image:width"]')
+                .attributes('content'),
+        ).toBe('1200');
+        expect(
             wrapper.find('meta[name="twitter:card"]').attributes('content'),
-        ).toBe('summary');
+        ).toBe('summary_large_image');
+        expect(
+            wrapper.find('meta[name="twitter:image"]').attributes('content'),
+        ).toBe(
+            'https://www.belzamora.com/assets/images/brand/social-preview.png',
+        );
         expect(
             wrapper.find('script[type="application/ld+json"]').text(),
         ).toContain('"@type":"WebPage"');

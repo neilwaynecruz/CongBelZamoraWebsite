@@ -286,7 +286,7 @@ class ProgramAndServiceGuideSeeder extends Seeder
                     'beneficiary_group' => 'San Juan residents using national digital services',
                     'application_period' => 'Ongoing service guidance',
                     'source_label' => 'View official San Juan news page',
-                    'source_url' => 'https://sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
+                    'source_url' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Selected_News/2136/inauguration-and-official-launch-of-the-bagong-pilipinas-egovph-serbisyo-hub-at-makabagong-san-juan-national-government-center',
                     'verified_at' => now()->setDate(2026, 7, 12)->startOfDay(),
                     'is_featured' => true,
                     'sort_order' => 30,

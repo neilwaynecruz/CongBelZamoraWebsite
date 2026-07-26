@@ -30,8 +30,7 @@ const facts: AboutFact[] = [
     {
         label: 'Full legal name',
         sourceLabel: 'House of Representatives member record K099',
-        sourceUrl:
-            'https://www.congress.gov.ph/house-members/view/?member=K099',
+        sourceUrl: 'https://www.congress.gov.ph/house-members/view/K099',
         value: 'Ysabel Maria Jorge Zamora',
     },
     {
@@ -72,7 +71,7 @@ const responsibilityBoundaries: AboutResponsibilityBoundary[] = [
 
 const sourceLinks: AboutSourceLink[] = [
     {
-        href: 'https://www.congress.gov.ph/house-members/view/?member=K099',
+        href: 'https://www.congress.gov.ph/house-members/view/K099',
         label: 'House member record',
         note: 'Primary source for official office, district, and member profile details.',
     },
@@ -106,7 +105,7 @@ describe('About page', () => {
         expect(
             wrapper
                 .find(
-                    'a[href="https://www.congress.gov.ph/house-members/view/?member=K099"]',
+                    'a[href="https://www.congress.gov.ph/house-members/view/K099"]',
                 )
                 .exists(),
         ).toBe(true);

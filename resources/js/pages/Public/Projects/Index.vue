@@ -81,6 +81,33 @@ const filteredProjects = computed(() => {
 
 const hasProjects = computed(() => props.projects.length > 0);
 
+const completedProjectCount = computed(
+    () =>
+        props.projects.filter((project) => project.statusTone === 'completed')
+            .length,
+);
+
+const ongoingProjectCount = computed(
+    () =>
+        props.projects.filter((project) => project.statusTone === 'ongoing')
+            .length,
+);
+
+const transparencyStats = computed(() => [
+    {
+        label: 'Published project records',
+        value: props.projects.length.toString(),
+    },
+    {
+        label: 'Ongoing services',
+        value: ongoingProjectCount.value.toString(),
+    },
+    {
+        label: 'Completed / documented',
+        value: completedProjectCount.value.toString(),
+    },
+]);
+
 const description =
     'Source-linked projects and results directory for San Juan public-service activities, government partnerships, evidence notes, status, and location filters.';
 
@@ -151,6 +178,53 @@ const resetFilters = () => {
             class="mx-auto max-w-7xl px-4 py-10 lg:px-8"
             aria-labelledby="project-filters-title"
         >
+            <div
+                class="mb-6 border-y border-border-default bg-brand-white py-5"
+                aria-labelledby="transparency-standard-title"
+            >
+                <div
+                    class="grid gap-5 lg:grid-cols-[0.55fr_1fr] lg:items-start"
+                >
+                    <div>
+                        <p
+                            class="text-sm font-semibold tracking-wide text-brand-red uppercase"
+                        >
+                            Transparency design
+                        </p>
+                        <h2
+                            id="transparency-standard-title"
+                            class="mt-1 font-serif text-3xl font-semibold text-brand-navy"
+                        >
+                            Project transparency standard
+                        </h2>
+                        <p class="mt-3 text-sm leading-6 text-text-muted">
+                            Each record is organized around status, location,
+                            partner office, evidence notes, source link, and
+                            last verified date.
+                        </p>
+                    </div>
+
+                    <dl class="grid gap-3 sm:grid-cols-3">
+                        <div
+                            v-for="stat in transparencyStats"
+                            :key="stat.label"
+                            class="border-l-2 border-brand-gold pl-4"
+                        >
+                            <dt
+                                class="text-xs font-semibold tracking-wide text-text-muted uppercase"
+                            >
+                                {{ stat.label }}
+                            </dt>
+                            <dd
+                                class="mt-1 font-serif text-3xl font-semibold text-brand-navy"
+                            >
+                                {{ stat.value }}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
             <div
                 class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm"
             >
@@ -329,23 +403,35 @@ const resetFilters = () => {
                 <article
                     v-for="project in filteredProjects"
                     :key="project.slug"
-                    class="rounded-lg border border-border-default bg-brand-white p-5 shadow-sm"
+                    class="rounded-lg border border-border-default bg-brand-white shadow-sm"
                 >
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span
-                            class="rounded-full bg-surface-soft px-3 py-1 text-xs font-semibold text-brand-royal"
-                        >
-                            {{ project.category }}
-                        </span>
-                        <span
-                            class="rounded-full px-3 py-1 text-xs font-semibold"
-                            :class="statusClasses[project.statusTone]"
-                        >
-                            {{ project.statusLabel }}
-                        </span>
+                    <div class="h-1.5 bg-brand-red" aria-hidden="true" />
+
+                    <div
+                        class="flex flex-wrap items-center justify-between gap-3 border-b border-border-default p-5"
+                    >
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span
+                                class="rounded-full bg-surface-soft px-3 py-1 text-xs font-semibold text-brand-royal"
+                            >
+                                {{ project.category }}
+                            </span>
+                            <span
+                                class="rounded-full px-3 py-1 text-xs font-semibold"
+                                :class="statusClasses[project.statusTone]"
+                            >
+                                {{ project.statusLabel }}
+                            </span>
+                        </div>
+                        <p class="text-sm font-semibold text-text-muted">
+                            Last verified:
+                            <span class="text-brand-navy">
+                                {{ project.verifiedAt }}
+                            </span>
+                        </p>
                     </div>
 
-                    <div class="mt-5 grid gap-6 lg:grid-cols-[1fr_0.42fr]">
+                    <div class="grid gap-6 p-5 lg:grid-cols-[1fr_0.42fr]">
                         <div>
                             <h3
                                 class="font-serif text-2xl font-semibold text-brand-navy"
@@ -359,7 +445,7 @@ const resetFilters = () => {
                             <dl class="mt-5 grid gap-3 text-sm sm:grid-cols-2">
                                 <div>
                                     <dt class="font-semibold text-text-primary">
-                                        Location
+                                        Project location
                                     </dt>
                                     <dd class="mt-1 flex gap-2 text-text-muted">
                                         <MapPin
@@ -379,7 +465,7 @@ const resetFilters = () => {
                                 </div>
                                 <div>
                                     <dt class="font-semibold text-text-primary">
-                                        Responsible office
+                                        Responsible / lead office
                                     </dt>
                                     <dd class="mt-1 text-text-muted">
                                         {{ project.responsibleOffice }}
@@ -387,7 +473,7 @@ const resetFilters = () => {
                                 </div>
                                 <div>
                                     <dt class="font-semibold text-text-primary">
-                                        Partner
+                                        Partner office
                                     </dt>
                                     <dd class="mt-1 text-text-muted">
                                         {{ project.partner }}
@@ -406,7 +492,7 @@ const resetFilters = () => {
                                         class="size-4"
                                         aria-hidden="true"
                                     />
-                                    Evidence and impact notes
+                                    Progress, evidence, and impact notes
                                 </summary>
                                 <div class="mt-4 grid gap-4 text-sm leading-6">
                                     <p class="text-text-muted">
