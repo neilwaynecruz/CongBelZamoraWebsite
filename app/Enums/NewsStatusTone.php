@@ -13,7 +13,7 @@ enum NewsStatusTone: string
         return match ($this) {
             self::Current => 'Current',
             self::Archived => 'Archived',
-            self::StaleReview => 'Needs stale-content review',
+            self::StaleReview => 'Review required before reuse',
         };
     }
 

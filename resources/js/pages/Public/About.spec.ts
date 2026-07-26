@@ -21,7 +21,7 @@ const profile: AboutProfile = {
     fullName: 'Ysabel Maria Jorge Zamora',
     publicName: 'Atty. Bel Zamora',
     summary:
-        'A verified public profile for Atty. Congresswoman Bel Zamora, written in plain public-service language.',
+        'A verified public profile for Atty. Congresswoman Bel Zamora, written in clear public-service language.',
     title: 'Representative, Lone District of San Juan City',
     verifiedAt: 'July 12, 2026',
 };
@@ -35,7 +35,8 @@ const facts: AboutFact[] = [
     },
     {
         label: 'Bar admission',
-        sourceLabel: 'Supreme Court law list / IBP record cited in Phase 1',
+        sourceLabel:
+            'Supreme Court law list / IBP record cited in the approved source file',
         value: 'Roll No. 59288; admitted May 3, 2011',
     },
 ];

@@ -36,7 +36,7 @@ const newsItems: NewsRecord[] = [
         nextStep:
             'Ask the communications team to verify whether a new advisory exists.',
         officialUpdate:
-            'This record should be retained only as historical evidence until current dates are reviewed.',
+            'This record is retained as historical evidence until current dates are reviewed.',
         owner: 'Communications Lead and Chief of Staff approval',
         publishedAt: 'December 2024',
         slug: 'balik-sigla-bigay-saya-review',
@@ -73,7 +73,7 @@ const baseProps = {
 };
 
 describe('News index page', () => {
-    it('renders news records with official source and stale-content warning', () => {
+    it('renders news records with official source and review notice', () => {
         const wrapper = mount(NewsIndex, {
             props: baseProps,
         });
@@ -87,7 +87,7 @@ describe('News index page', () => {
             'Official update, source, and next step',
         );
         expect(wrapper.text()).toContain('Current / archive indicator');
-        expect(wrapper.text()).toContain('Needs stale-content review');
+        expect(wrapper.text()).toContain('Review required before reuse');
         expect(
             wrapper
                 .find(

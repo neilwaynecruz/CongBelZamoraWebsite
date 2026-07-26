@@ -21,7 +21,7 @@ const office: ContactOfficeInfo = {
         'The official directory lists the District Office at the Upper Ground Floor.',
     name: 'District Office of Atty. Congresswoman Bel Zamora',
     officeHours:
-        'Office hours and visitor procedures must be reconfirmed with the District Office before launch.',
+        'Office hours and visitor procedures are displayed after District Office confirmation.',
     sourceLabel: 'View official San Juan City Government directory',
     sourceUrl: 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Directory',
     verifiedAt: 'July 12, 2026',
@@ -96,7 +96,7 @@ describe('Contact page', () => {
         );
         expect(wrapper.text()).toContain('Office contact card');
         expect(wrapper.text()).toContain('info@belzamora.com');
-        expect(wrapper.text()).toContain('DPA-safe inquiry form');
+        expect(wrapper.text()).toContain('Privacy-safe inquiry form');
         expect(wrapper.text()).toContain('Required');
         expect(wrapper.text()).toContain(
             'Do not include government ID numbers',

@@ -13,7 +13,7 @@ enum ProjectStatusTone: string
         return match ($this) {
             self::Completed => 'Completed',
             self::Ongoing => 'Ongoing',
-            self::SourcePending => 'Source pending',
+            self::SourcePending => 'Source review pending',
         };
     }
 

@@ -139,9 +139,9 @@ const resetFilters = () => {
                         Last reviewed: {{ verifiedAt }}
                     </p>
                     <p class="mt-2 text-sm leading-6 text-text-muted">
-                        Program details must be reconfirmed before each
-                        application cycle. Submission or inquiry never
-                        guarantees approval.
+                        Program details are reviewed before each application
+                        cycle. Submission or inquiry does not guarantee
+                        approval.
                     </p>
                 </aside>
             </div>
@@ -294,8 +294,8 @@ const resetFilters = () => {
                     Program records are being verified
                 </h3>
                 <p class="mt-3 max-w-2xl text-base leading-7 text-text-muted">
-                    The public directory will show only reviewed programs with
-                    source and verification dates. For urgent questions, use the
+                    The public directory publishes reviewed programs with source
+                    and verification dates. For urgent questions, use the
                     official District Office contact path.
                 </p>
                 <Link

@@ -136,8 +136,8 @@ const resetFilters = () => {
                         Last reviewed: {{ verifiedAt }}
                     </p>
                     <p class="mt-2 text-sm leading-6 text-text-muted">
-                        Legislative records must be checked against official
-                        House, committee, or Gazette sources before publication.
+                        Legislative records are published after checking
+                        official House, committee, or Gazette sources.
                     </p>
                 </aside>
             </div>
@@ -294,7 +294,7 @@ const resetFilters = () => {
                     Legislative records are being verified
                 </h3>
                 <p class="mt-3 max-w-2xl text-base leading-7 text-text-muted">
-                    The tracker will publish only official-source-linked bills,
+                    The tracker publishes official-source-linked bills,
                     resolutions, roles, and status updates after review.
                 </p>
             </div>

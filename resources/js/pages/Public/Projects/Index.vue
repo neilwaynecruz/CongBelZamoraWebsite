@@ -167,8 +167,8 @@ const resetFilters = () => {
                         Last reviewed: {{ verifiedAt }}
                     </p>
                     <p class="mt-2 text-sm leading-6 text-text-muted">
-                        Project records must include source, location, partner,
-                        caption, rights, and privacy review before launch.
+                        Project records include source, location, partner,
+                        evidence, rights, and privacy review before publication.
                     </p>
                 </aside>
             </div>
@@ -372,8 +372,8 @@ const resetFilters = () => {
                     Project records are being verified
                 </h3>
                 <p class="mt-3 max-w-2xl text-base leading-7 text-text-muted">
-                    Projects will publish only after source, location, partner,
-                    caption, rights, and privacy checks are recorded.
+                    Project records are published after source, location,
+                    partner, evidence, rights, and privacy checks are recorded.
                 </p>
             </div>
 

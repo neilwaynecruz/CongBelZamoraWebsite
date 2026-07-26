@@ -75,7 +75,7 @@ class PublicPageSeeder extends Seeder
                 'title' => 'Home',
                 'component' => 'Public/Home',
                 'owner_label' => 'Content Administrator',
-                'source_label' => 'Approved Phase 6 public home content',
+                'source_label' => 'Approved public home content',
                 'source_url' => null,
                 'props' => [
                     'breadcrumbs' => [
@@ -98,7 +98,7 @@ class PublicPageSeeder extends Seeder
                             'title' => 'Contact the District Office',
                             'eyebrow' => 'Assistance',
                             'href' => '/contact#inquiry-form',
-                            'summary' => 'Use the DPA-safe inquiry path for basic questions without sending sensitive documents.',
+                            'summary' => 'Use the privacy-safe inquiry path for basic questions without sending sensitive documents.',
                         ],
                     ],
                     'featuredPrograms' => [
@@ -135,7 +135,7 @@ class PublicPageSeeder extends Seeder
                         'title' => 'Solo Parent Welfare Extension Act',
                         'role' => 'Principal Author',
                         'status' => 'Passed House; Sent to Senate',
-                        'summary' => 'A plain-language legislative summary will help citizens understand how the measure supports solo parents and families while linking to the official House record for full details.',
+                        'summary' => 'A plain-language legislative summary explains the measure in practical terms and links residents to the official House record for full details.',
                         'sourceLabel' => 'Track on House registry',
                         'sourceUrl' => 'https://www.congress.gov.ph/',
                     ],
@@ -145,7 +145,7 @@ class PublicPageSeeder extends Seeder
                             'href' => '/news',
                             'date' => 'July 12, 2026',
                             'category' => 'Education',
-                            'summary' => 'Verified advisory content will direct students to current requirements, deadlines, and official application channels.',
+                            'summary' => 'The advisory directs eligible students to current requirements, deadlines, and official application channels.',
                         ],
                         [
                             'title' => 'Gabay San Juaneño service-routing directory prepared',
@@ -174,7 +174,7 @@ class PublicPageSeeder extends Seeder
                         'fullName' => 'Ysabel Maria Jorge Zamora',
                         'title' => 'Representative, Lone District of San Juan City',
                         'district' => 'Lone District of San Juan City',
-                        'summary' => 'A verified public profile for Atty. Congresswoman Bel Zamora, written in plain public-service language and limited to facts recorded in the Phase 1 source register.',
+                        'summary' => 'A verified public profile for Atty. Congresswoman Bel Zamora, written in clear public-service language and limited to confirmed official records.',
                         'verifiedAt' => 'July 12, 2026',
                     ],
                     'facts' => [
@@ -205,12 +205,12 @@ class PublicPageSeeder extends Seeder
                         [
                             'label' => 'Bar admission',
                             'value' => 'Roll No. 59288; admitted May 3, 2011',
-                            'sourceLabel' => 'Supreme Court law list / IBP record cited in Phase 1',
+                            'sourceLabel' => 'Supreme Court law list / IBP record cited in the approved source file',
                         ],
                         [
                             'label' => 'Education',
                             'value' => 'Juris Doctor, Ateneo Law School; AB Psychology, Ateneo de Manila University',
-                            'sourceLabel' => 'Supreme Court roll records / official biography portal cited in Phase 1',
+                            'sourceLabel' => 'Supreme Court roll records / official biography source file',
                         ],
                     ],
                     'timeline' => [
@@ -229,8 +229,8 @@ class PublicPageSeeder extends Seeder
                         [
                             'period' => 'May 3, 2011',
                             'title' => 'Philippine Bar admission',
-                            'description' => 'Admitted to the Philippine Bar under Roll No. 59288, as cited in the Phase 1 biography verification worksheet.',
-                            'sourceLabel' => 'Supreme Court law list / IBP record cited in Phase 1',
+                            'description' => 'Admitted to the Philippine Bar under Roll No. 59288, as cited in the approved biography verification file.',
+                            'sourceLabel' => 'Supreme Court law list / IBP record cited in the approved source file',
                         ],
                     ],
                     'committeeMemberships' => [
@@ -258,7 +258,7 @@ class PublicPageSeeder extends Seeder
                         [
                             'title' => 'Congressional and legislative work',
                             'office' => 'District Office / Legislative staff',
-                            'summary' => 'Bills, resolutions, committee work, and policy feedback belong to the congressional role and should be checked against official House records.',
+                            'summary' => 'Bills, resolutions, committee work, and policy feedback belong to the congressional role and are checked against official House records.',
                             'nextStepLabel' => 'View legislative tracker',
                             'nextStepHref' => '/legislation',
                         ],
@@ -272,7 +272,7 @@ class PublicPageSeeder extends Seeder
                         [
                             'title' => 'City, barangay, and national-agency services',
                             'office' => 'Proper city, barangay, or national office',
-                            'summary' => 'Local permits, barangay certificates, city services, and agency-managed benefits should start with the correct responsible office.',
+                            'summary' => 'Local permits, barangay certificates, city services, and agency-managed benefits start with the correct responsible office.',
                             'nextStepLabel' => 'Use Gabay San Juaneño',
                             'nextStepHref' => '/programs/gabay',
                         ],
@@ -291,7 +291,7 @@ class PublicPageSeeder extends Seeder
                         [
                             'label' => 'Official website archive',
                             'href' => 'https://belzamora.com/',
-                            'note' => 'Reference for existing public identity and contact registry, subject to Phase 1 cleanup rules.',
+                            'note' => 'Reference for existing public identity and contact information, subject to District Office confirmation.',
                         ],
                         [
                             'label' => 'San Juan City Government directory',
@@ -318,7 +318,7 @@ class PublicPageSeeder extends Seeder
                         'name' => 'District Office of Atty. Congresswoman Bel Zamora',
                         'address' => 'Upper Ground Floor, Makabagong San Juan National Government Center, Pinaglabanan St, San Juan City',
                         'locationNote' => 'The official San Juan City Government directory lists the District Office of the Congresswoman at the Upper Ground Floor with extensions 264 to 265.',
-                        'officeHours' => 'Office hours and visitor procedures must be reconfirmed with the District Office before launch.',
+                        'officeHours' => 'Office hours and visitor procedures are displayed after District Office confirmation.',
                         'verifiedAt' => 'July 12, 2026',
                         'sourceLabel' => 'View official San Juan City Government directory',
                         'sourceUrl' => 'https://www.sanjuancity.gov.ph/Makabagong_SJ_Directory',
@@ -328,24 +328,24 @@ class PublicPageSeeder extends Seeder
                             'label' => 'Official email',
                             'value' => 'info@belzamora.com',
                             'href' => 'mailto:info@belzamora.com',
-                            'note' => 'Use for non-urgent public inquiries after the custom-domain email is activated.',
+                            'note' => 'Use for non-urgent public inquiries after District Office activation and monitoring are confirmed.',
                         ],
                         [
                             'label' => 'Published legacy email',
                             'value' => 'atty.belzamora@gmail.com',
                             'href' => 'mailto:atty.belzamora@gmail.com',
-                            'note' => 'Listed in the Phase 1 contact registry; confirm final long-term channel before launch.',
+                            'note' => 'Previously published public channel; retained while the District Office confirms the long-term email process.',
                         ],
                         [
                             'label' => 'Office directory extensions',
                             'value' => 'Extensions 264 to 265',
-                            'note' => 'Directory listing only; direct phone number and visitor process require District Office confirmation.',
+                            'note' => 'Directory listing only; direct phone number and visitor process depend on District Office confirmation.',
                         ],
                     ],
                     'privacyHighlights' => [
                         'The form asks only for name, one contact channel, inquiry category, and a short message.',
                         'Do not include government ID numbers, birth certificates, income records, grades, medical records, prescriptions, diagnosis, or photos of documents.',
-                        'Document uploads are not part of the MVP and require a separate privacy, legal, security, retention, and access review.',
+                        'Document uploads are not accepted through this public inquiry form. Any future upload process goes through separate privacy, legal, security, retention, and access review.',
                     ],
                     'responseExpectations' => [
                         'This form is for non-emergency routing and basic questions only.',
@@ -360,7 +360,7 @@ class PublicPageSeeder extends Seeder
                 'title' => 'Privacy Notice',
                 'component' => 'Public/Privacy',
                 'owner_label' => 'Privacy lead with Content Administrator',
-                'source_label' => 'Approved Phase 7 privacy requirements',
+                'source_label' => 'Approved privacy requirements',
                 'source_url' => null,
                 'props' => [
                     'breadcrumbs' => [
@@ -375,7 +375,7 @@ class PublicPageSeeder extends Seeder
                             'items' => [
                                 'No government ID numbers are requested.',
                                 'No medical, income, school, or civil-registry documents are requested.',
-                                'No file uploads are accepted in the Phase 6 public form.',
+                                'No file uploads are accepted in the public inquiry form.',
                             ],
                         ],
                         [
@@ -393,13 +393,13 @@ class PublicPageSeeder extends Seeder
                         ],
                         [
                             'title' => 'Privacy rights',
-                            'body' => 'Residents may ask how their inquiry information is handled and may request correction, deletion, or clarification through the privacy contact after production intake is enabled.',
+                            'body' => 'Residents may ask how their inquiry information is handled and may request correction, deletion, or clarification through the privacy contact pathway.',
                         ],
                     ],
                     'privacyContact' => [
                         'label' => 'Contact the District Office',
                         'href' => '/contact#inquiry-form',
-                        'note' => 'For privacy questions, use the Contact page and choose General inquiry until the final Data Protection Officer mailbox is confirmed.',
+                        'note' => 'For privacy questions, use the Contact page and choose General inquiry while the dedicated privacy mailbox is being confirmed.',
                     ],
                 ],
             ],
@@ -408,7 +408,7 @@ class PublicPageSeeder extends Seeder
                 'title' => 'Accessibility',
                 'component' => 'Public/Accessibility',
                 'owner_label' => 'Content Administrator',
-                'source_label' => 'Approved Phase 6 accessibility requirements',
+                'source_label' => 'Approved accessibility requirements',
                 'source_url' => null,
                 'props' => [
                     'breadcrumbs' => [
@@ -419,16 +419,16 @@ class PublicPageSeeder extends Seeder
                     'sections' => [
                         [
                             'title' => 'Target standard',
-                            'body' => 'The public website targets WCAG 2.2 Level AA for priority citizen journeys, including program discovery, service routing, legislative lookup, and Contact form use.',
+                            'body' => 'The public website targets WCAG 2.2 Level AA for priority citizen journeys, including program discovery, service routing, legislative lookup, and contact form use.',
                             'items' => [
                                 'Semantic headings and landmarks are required.',
-                                'Interactive controls must show visible focus states.',
-                                'Important status information must not rely on color alone.',
+                                'Interactive controls show visible focus states.',
+                                'Important status information does not rely on color alone.',
                             ],
                         ],
                         [
-                            'title' => 'Known verification gap',
-                            'body' => 'Automated unit and build checks pass for Phase 6 slices, but browser-level screen reader, keyboard, hydration, and responsive checks must still be completed before launch approval.',
+                            'title' => 'Ongoing accessibility review',
+                            'body' => 'Automated checks, keyboard behavior, responsive layouts, and screen-reader-oriented reviews are part of the continuing launch and maintenance process.',
                         ],
                         [
                             'title' => 'Low-bandwidth and mobile support',
@@ -464,8 +464,8 @@ class PublicPageSeeder extends Seeder
                             'title' => 'Responsible-office boundaries',
                             'body' => 'Some concerns belong to San Juan City Government, barangays, national agencies, schools, hospitals, or courts. The District Office may guide or route the concern without replacing the responsible office.',
                             'items' => [
-                                'Emergency concerns should use official emergency channels.',
-                                'Legal, medical, and financial decisions should come from qualified offices or professionals.',
+                                'Emergency concerns use official emergency channels.',
+                                'Legal, medical, and financial decisions come from qualified offices or professionals.',
                                 'National-agency requirements may change without notice to the District Office.',
                             ],
                         ],
@@ -475,7 +475,7 @@ class PublicPageSeeder extends Seeder
                         ],
                         [
                             'title' => 'Current information',
-                            'body' => 'Dates, program status, requirements, contacts, and source links must be rechecked before launch and reviewed on the cadence approved in the content governance plan.',
+                            'body' => 'Dates, program status, requirements, contacts, and source links are reviewed on the cadence approved in the content governance plan.',
                         ],
                     ],
                     'contact' => [
@@ -496,7 +496,7 @@ class PublicPageSeeder extends Seeder
                 'url' => $page->source_url,
                 'source_type' => SourceType::PrimaryOfficial,
                 'source_tier' => 'tier_1',
-                'description' => 'Phase 7 backend-owned static page source record migrated from approved public route props.',
+                'description' => 'Backend-owned static page source record for public verification and review.',
                 'content_owner_id' => $owner->id,
                 'verified_by_id' => $approver->id,
                 'verified_at' => $page->verified_at,
@@ -517,7 +517,7 @@ class PublicPageSeeder extends Seeder
                 'reviewed_at' => now()->subDay(),
                 'approved_at' => now()->subDay(),
                 'published_at' => now()->subDay(),
-                'review_notes' => 'Approved static public content moved into backend-owned Phase 7 records.',
+                'review_notes' => 'Approved static public content moved into backend-owned review records.',
                 'is_fast_track' => false,
                 'metadata' => ['phase_7_static_page_slice' => true],
             ],

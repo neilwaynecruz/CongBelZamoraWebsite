@@ -93,8 +93,9 @@ const structuredData = {
                                 Last reviewed: {{ verifiedAt }}
                             </p>
                             <p class="mt-2 text-sm leading-6 text-text-muted">
-                                Biography and title claims must match the Phase
-                                1 source register before publication.
+                                Profile details are limited to verified official
+                                records, approved source materials, and District
+                                Office confirmation.
                             </p>
                         </div>
                     </div>
@@ -137,12 +138,12 @@ const structuredData = {
                     class="mt-6 rounded-md border border-dashed border-brand-gold bg-warm-soft p-4"
                 >
                     <p class="text-sm font-semibold text-brand-navy">
-                        Formal portrait pending approval
+                        Verified media standard
                     </p>
                     <p class="mt-2 text-sm leading-6 text-text-muted">
-                        The final About page should use an approved local
-                        portrait from the District Office, not a hotlinked
-                        external image.
+                        Any portrait or profile image shown on this page comes
+                        from an approved local District Office asset, with
+                        proper caption, rights, and alt text.
                     </p>
                 </div>
             </aside>
@@ -159,8 +160,8 @@ const structuredData = {
                         Biography facts are being verified
                     </h2>
                     <p class="mt-3 text-base leading-7 text-text-muted">
-                        Public biography claims will appear only after they are
-                        matched to approved source records.
+                        Additional biography details are published after
+                        source verification and District Office review.
                     </p>
                 </div>
 
@@ -219,7 +220,7 @@ const structuredData = {
                         class="mt-4 max-w-3xl text-base leading-7 text-brand-white/82"
                     >
                         The About page separates official congressional work
-                        from city-government, barangay, and national-agency
+                        from city government, barangay, and national-agency
                         services so residents know where to ask next.
                     </p>
                 </div>
@@ -276,8 +277,8 @@ const structuredData = {
                 </h2>
                 <p class="mt-4 text-base leading-7 text-text-muted">
                     Timeline entries use conservative wording and cite the
-                    source worksheet instead of adding unsupported personal
-                    narrative.
+                    approved source records instead of adding unsupported
+                    personal narrative.
                 </p>
             </div>
 
@@ -313,7 +314,7 @@ const structuredData = {
                     Timeline is being verified
                 </h3>
                 <p class="mt-3 text-base leading-7 text-text-muted">
-                    Dates and roles will appear after source review.
+                    Additional dates and roles are added after verification.
                 </p>
             </div>
         </section>

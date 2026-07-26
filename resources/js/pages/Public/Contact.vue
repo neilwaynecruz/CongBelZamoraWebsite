@@ -95,7 +95,7 @@ const submitInquiry = () => {
 };
 
 const description =
-    "District Office contact information and DPA-safe public inquiry form for Atty. Congresswoman Bel Zamora's San Juan public-service website.";
+    "District Office contact information and privacy-safe public inquiry form for Atty. Congresswoman Bel Zamora's San Juan public-service website.";
 
 const structuredData = {
     '@context': 'https://schema.org',
@@ -146,9 +146,8 @@ const structuredData = {
                         Last reviewed: {{ verifiedAt }}
                     </p>
                     <p class="mt-2 text-sm leading-6 text-text-muted">
-                        Direct phone number, office hours, and visitor
-                        procedures must be confirmed by the District Office
-                        before launch.
+                        Phone, office-hour, and visitor details are displayed
+                        only after District Office confirmation.
                     </p>
                 </aside>
             </div>
@@ -218,8 +217,8 @@ const structuredData = {
                                 <p
                                     class="mt-1 text-base font-semibold text-brand-navy"
                                 >
-                                    No fixed public response-time SLA is
-                                    published yet.
+                                    Response time depends on the category,
+                                    completeness, and responsible office.
                                 </p>
                             </div>
                         </div>
@@ -352,7 +351,7 @@ const structuredData = {
                         <p
                             class="text-sm font-semibold tracking-wide text-brand-red uppercase"
                         >
-                            DPA-safe inquiry form
+                            Privacy-safe inquiry form
                         </p>
                         <h2
                             id="inquiry-form-title"
@@ -796,8 +795,8 @@ const structuredData = {
                                 {{ expectation }}
                             </li>
                             <li>
-                                A public response-time SLA is pending final
-                                District Office confirmation.
+                                Response times may vary based on review,
+                                routing, and office availability.
                             </li>
                         </ul>
                     </div>

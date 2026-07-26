@@ -13,7 +13,7 @@ enum ProjectStatusValue: string
         return match ($this) {
             self::Completed => 'Completed / documented',
             self::Ongoing => 'Active / ongoing service',
-            self::SourcePending => 'Source pending',
+            self::SourcePending => 'Source review pending',
         };
     }
 

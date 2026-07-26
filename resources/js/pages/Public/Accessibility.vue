@@ -87,7 +87,8 @@ const structuredData = {
                     </h2>
                     <p class="mt-3 text-sm leading-6 text-text-muted">
                         Skip links, focus rings, semantic landmarks, and natural
-                        tab order are part of the Phase 6 acceptance criteria.
+                        tab order are part of the website accessibility
+                        standard.
                     </p>
                 </article>
                 <article
@@ -100,7 +101,7 @@ const structuredData = {
                         Clear Reading
                     </h2>
                     <p class="mt-3 text-sm leading-6 text-text-muted">
-                        Text, status labels, errors, and source notes must not
+                        Text, status labels, errors, and source notes do not
                         depend on color alone.
                     </p>
                 </article>
@@ -117,8 +118,8 @@ const structuredData = {
                         Mobile Ready
                     </h2>
                     <p class="mt-3 text-sm leading-6 text-text-muted">
-                        Priority public-service tasks should work on common
-                        phones and typical mobile data connections.
+                        Priority public-service tasks are designed to work on
+                        common phones and typical mobile data connections.
                     </p>
                 </article>
             </div>

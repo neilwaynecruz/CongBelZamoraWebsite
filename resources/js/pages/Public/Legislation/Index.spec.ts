@@ -13,7 +13,7 @@ const legislativeItems: LegislativeItem[] = [
         billNumber: 'HB00123',
         committee: 'House Bill Tracker (K099)',
         congress: '20th Congress',
-        filedAt: 'Source-pending date',
+        filedAt: 'Official date pending verification',
         officialSourceLabel: 'View House member record',
         officialSourceUrl:
             'https://www.congress.gov.ph/house-members/view/K099',
@@ -34,7 +34,7 @@ const legislativeItems: LegislativeItem[] = [
         billNumber: 'HB00456',
         committee: 'Pending committee review',
         congress: '20th Congress',
-        filedAt: 'Source-pending date',
+        filedAt: 'Official date pending verification',
         officialSourceLabel: 'View House member record',
         officialSourceUrl:
             'https://www.congress.gov.ph/house-members/view/K099',

@@ -62,7 +62,7 @@ class Phase8ContentMigrationTest extends TestCase
 
         expect($tulongDunong->status)->toBe(ProgramStatus::Open)
             ->and($tulongDunong->benefit)->toContain('Historical reference')
-            ->and($tulongDunong->application_period)->toContain('reconfirmed')
+            ->and($tulongDunong->application_period)->toContain('District Office confirmation')
             ->and($staleNews->status->value)->toBe(NewsStatusValue::StaleReview)
             ->and($staleNews->stale_note)->toContain('Do not display as a current assistance schedule');
     }

@@ -117,7 +117,7 @@ const announcementStats = computed(() => [
 ]);
 
 const description =
-    'Official-source news, announcements, media updates, stale-content warnings, and verified public-service advisories from the Bel Zamora District Office.';
+    'Official-source news, announcements, media updates, review notices, and verified public-service advisories from the Bel Zamora District Office.';
 
 const structuredData = {
     '@context': 'https://schema.org',
@@ -163,7 +163,7 @@ const resetFilters = () => {
                     <p class="mt-5 max-w-3xl text-lg leading-8 text-text-muted">
                         Read announcements, event records, and public-service
                         advisories with source links, content owners, and
-                        stale-content notes before relying on details.
+                        review notes before relying on details.
                     </p>
                 </div>
 
@@ -175,16 +175,15 @@ const resetFilters = () => {
                         Last reviewed: {{ verifiedAt }}
                     </p>
                     <p class="mt-2 text-sm leading-6 text-text-muted">
-                        News records must carry a source, owner, publication
-                        date, and review status before staff publish or reuse
-                        them.
+                        News records carry a source, owner, publication date,
+                        and review status before staff publish or reuse them.
                     </p>
                     <p
                         v-if="staleReviewCount > 0"
                         class="mt-3 rounded-md border border-status-warning/40 bg-warm-soft px-3 py-2 text-sm font-semibold text-status-warning"
                     >
-                        {{ staleReviewCount }} record requires stale-content
-                        review.
+                        {{ staleReviewCount }} record is marked for review
+                        before reuse.
                     </p>
                 </aside>
             </div>
@@ -384,8 +383,8 @@ const resetFilters = () => {
                     Updates are being verified
                 </h3>
                 <p class="mt-3 max-w-2xl text-base leading-7 text-text-muted">
-                    Announcements will publish only after source, owner,
-                    publication date, review status, and approval are recorded.
+                    Announcements are published after source, owner, publication
+                    date, review status, and approval are recorded.
                 </p>
             </div>
 
@@ -527,7 +526,7 @@ const resetFilters = () => {
                                         <p
                                             class="text-sm font-semibold text-brand-navy"
                                         >
-                                            Needs stale-content review
+                                            Review required before reuse
                                         </p>
                                         <p
                                             class="mt-2 text-sm leading-6 text-text-muted"

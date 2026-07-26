@@ -77,7 +77,7 @@ class PublicProjectReadService
         return match ($request->query('status')) {
             'completed' => 'Completed / documented',
             'ongoing' => 'Active / ongoing service',
-            'source-pending' => 'Source pending',
+            'source-pending' => 'Source review pending',
             default => 'All statuses',
         };
     }

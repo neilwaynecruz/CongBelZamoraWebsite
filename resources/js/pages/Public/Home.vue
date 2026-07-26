@@ -115,9 +115,10 @@ const structuredData = {
                     <p
                         class="mt-5 max-w-2xl text-lg leading-8 font-medium text-brand-white/92"
                     >
-                        Serbisyong legal, makatao, at malapit sa San Juaneño:
-                        verified programs, public-service guidance, legislative
-                        updates, and official District Office contact pathways.
+                        Serbisyong publiko, makatao, at malinaw para sa San
+                        Juaneño: official program guidance, legislative updates,
+                        project records, and secure District Office assistance
+                        pathways.
                     </p>
                     <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                         <Link
@@ -301,9 +302,10 @@ const structuredData = {
                             </p>
                         </div>
                         <p class="mt-5 text-base leading-7 text-brand-white/92">
-                            Official digital district office portal of Rep.
-                            Atty. Bel Zamora providing verified assistance,
-                            legislative updates, and community programs.
+                            The official digital District Office portal provides
+                            residents with verified guidance on assistance
+                            pathways, legislative work, public-service updates,
+                            and community programs.
                         </p>
                         <p
                             class="mt-5 flex gap-3 rounded-lg border border-brand-white/15 bg-brand-navy/30 p-4 text-sm leading-6 font-bold text-brand-white/95"

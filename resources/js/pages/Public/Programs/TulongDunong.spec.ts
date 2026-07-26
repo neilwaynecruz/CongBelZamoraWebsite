@@ -11,7 +11,7 @@ const breadcrumbs: PublicBreadcrumb[] = [
 ];
 
 const program: ProgramDetail = {
-    applicationPeriod: 'Current round must be reconfirmed',
+    applicationPeriod: 'For District Office confirmation before each cycle',
     benefit: 'Historical reference: PHP 7,500 per qualified scholar.',
     contactHref: '/contact#inquiry-form',
     description: 'Financial assistance guidance for qualified students.',
@@ -20,7 +20,9 @@ const program: ProgramDetail = {
     latestAnnouncementHref: '/news',
     officeRole: 'Triage, orientation, and public guidance.',
     partnerAgencies: ['CHED / UniFAST', 'District Office'],
-    privacyNotes: ['Do not upload sensitive documents through the MVP form.'],
+    privacyNotes: [
+        'Do not upload sensitive documents through the public inquiry form.',
+    ],
     processSteps: ['Review official announcement', 'Prepare current documents'],
     reminders: ['Submission does not guarantee approval.'],
     requirementGroups: [
