@@ -108,6 +108,18 @@ describe('About page', () => {
                 .find('img[src="/assets/images/brand/CongBelPortrait.jpg"]')
                 .attributes('alt'),
         ).toBe('Official portrait of Atty. Congresswoman Bel Zamora');
+        expect(wrapper.find('figcaption').text()).toBe(
+            'Official District Office Portrait',
+        );
+        expect(wrapper.find('figcaption').attributes('class')).toContain(
+            'justify-center',
+        );
+        expect(wrapper.find('figcaption').attributes('class')).toContain(
+            'items-center',
+        );
+        expect(wrapper.find('figcaption').attributes('class')).toContain(
+            'text-center',
+        );
         expect(
             wrapper
                 .find(

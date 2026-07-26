@@ -125,9 +125,9 @@ const structuredData = {
                         alt="Official portrait of Atty. Congresswoman Bel Zamora"
                     />
                     <figcaption
-                        class="absolute inset-x-0 bottom-0 border-t border-brand-white/15 bg-brand-navy/88 px-5 py-3 text-sm font-semibold text-brand-white backdrop-blur-sm"
+                        class="absolute inset-x-0 bottom-0 flex min-h-12 items-center justify-center border-t border-brand-white/15 bg-brand-navy/88 px-5 py-3 text-center text-sm font-semibold text-brand-white backdrop-blur-sm"
                     >
-                        Official District Office portrait
+                        Official District Office Portrait
                     </figcaption>
                 </figure>
 

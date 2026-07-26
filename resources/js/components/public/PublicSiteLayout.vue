@@ -362,30 +362,30 @@ onBeforeUnmount(() => {
             </Transition>
 
             <div
-                class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3 lg:px-8"
+                class="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2 min-[360px]:px-4 sm:gap-4 sm:py-3 lg:px-8"
             >
                 <Link
-                    class="group flex min-w-0 items-center gap-4 rounded-lg focus:outline-3 focus:outline-offset-4 focus:outline-brand-gold"
+                    class="group flex min-w-0 flex-1 items-center gap-2 rounded-lg focus:outline-3 focus:outline-offset-4 focus:outline-brand-gold min-[360px]:gap-2.5 sm:gap-4"
                     :href="home.url()"
                     aria-label="Atty. Bel Zamora homepage"
                 >
                     <div class="flex shrink-0 items-center">
                         <img
-                            class="h-14 max-w-[58vw] shrink-0 object-contain transition group-hover:scale-[1.02] min-[360px]:h-16 sm:h-19"
+                            class="h-9 max-w-[34vw] shrink-0 object-contain transition group-hover:scale-[1.02] min-[360px]:h-10 min-[390px]:h-11 min-[480px]:h-12 sm:h-19 sm:max-w-none"
                             src="/assets/images/brand/CongBelLogo_tight.png"
                             alt="Cong. Bel Zamora official logo"
                         />
                     </div>
                     <div
-                        class="hidden min-w-0 flex-col justify-center leading-tight md:flex"
+                        class="flex min-w-0 flex-col justify-center leading-tight"
                     >
                         <span
-                            class="font-serif text-lg font-bold tracking-tight text-brand-navy transition-colors group-hover:text-brand-red lg:text-xl"
+                            class="wrap-break-words font-serif text-base font-bold tracking-tight text-brand-navy transition-colors group-hover:text-brand-red min-[360px]:text-lg lg:text-xl"
                         >
                             Atty. Bel Zamora
                         </span>
                         <span
-                            class="text-xs leading-snug font-bold tracking-[0.12em] text-brand-red uppercase"
+                            class="wrap-break-words text-[0.62rem] leading-tight font-bold tracking-[0.04em] text-brand-red uppercase min-[360px]:text-[0.68rem] sm:text-xs sm:tracking-[0.12em]"
                         >
                             Lone District of San Juan City
                         </span>

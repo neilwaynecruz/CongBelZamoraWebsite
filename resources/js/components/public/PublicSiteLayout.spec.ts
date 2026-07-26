@@ -36,6 +36,20 @@ describe('Public site layout branding', () => {
         );
     });
 
+    it('shows compact mobile office identity text beside the logo', () => {
+        const wrapper = mount(PublicSiteLayout);
+        const identityLink = wrapper.find(
+            'a[aria-label="Atty. Bel Zamora homepage"]',
+        );
+        const logoClasses = identityLink.find('img').attributes('class');
+
+        expect(identityLink.text()).toContain('Atty. Bel Zamora');
+        expect(identityLink.text()).toContain('Lone District of San Juan City');
+        expect(identityLink.find('.flex.min-w-0.flex-col').exists()).toBe(true);
+        expect(logoClasses).toContain('h-9');
+        expect(logoClasses).toContain('sm:h-19');
+    });
+
     it('renders footer logos without added boxes, borders, or rings', () => {
         const wrapper = mount(PublicSiteLayout);
         const footerImages = wrapper.find('footer').findAll('img');
