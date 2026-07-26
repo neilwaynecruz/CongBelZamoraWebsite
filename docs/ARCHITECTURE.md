@@ -163,7 +163,7 @@ Legacy URL support lives in `routes/web.php` as permanent redirects for approved
 - `/programs-services` to `/programs`
 - `/tulong-dunong-slots` to `/programs/education/tulong-dunong`
 
-`/about/biography` is an SSR About alias so the approved biography redirect lands on a live route. Search-index artifacts are static for the MVP: `public/robots.txt` points to `https://belzamora.com/sitemap.xml`, and `public/sitemap.xml` lists the public SSR MVP routes.
+`/about/biography` is an SSR About alias so the approved biography redirect lands on a live route. Search-index artifacts are static for the MVP: `public/robots.txt` points to `https://www.belzamora.com/sitemap.xml`, and `public/sitemap.xml` lists the public SSR MVP routes.
 
 Non-brand news/media assets are recorded in `news_media_assets` with source, caption, alt-text, rights, and verification metadata, but `media_path` remains `null` until approved local derivatives, rights, consent, and caption review are provided. Production personal data, applicant lists, document scans, and resident/student photos without documented consent are not migrated.
 

@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Enums\AdminRole;
 use App\Enums\ContactPreference;
 use App\Enums\InquiryStatus;
 use App\Models\Inquiry;
+use App\Models\User;
 use App\Notifications\InquiryReceivedNotification;
+use App\Notifications\StaffInquiryReceivedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -66,7 +69,28 @@ class SubmitInquiry
                 ->notify(new InquiryReceivedNotification($inquiry));
         }
 
+        $this->notifyInquiryStaff($inquiry);
+
         return $inquiry;
+    }
+
+    private function notifyInquiryStaff(Inquiry $inquiry): void
+    {
+        $staff = User::query()
+            ->whereIn('admin_role', [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::InquiryOfficer->value,
+            ])
+            ->get();
+
+        Notification::send($staff, new StaffInquiryReceivedNotification($inquiry));
+
+        $fallbackEmail = config('belzamora.inquiries.staff_notification_email');
+
+        if (is_string($fallbackEmail) && $fallbackEmail !== '') {
+            Notification::route('mail', $fallbackEmail)
+                ->notify(new StaffInquiryReceivedNotification($inquiry));
+        }
     }
 
     protected function generateReferenceCode(): string

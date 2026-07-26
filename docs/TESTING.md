@@ -31,7 +31,7 @@ The test verifies:
 - Tulong Dunong historical-value wording and stale-review handling for historical news.
 - News media register placeholders include caption, alt text, rights notes, and verification metadata while keeping `media_path` empty until approved local media derivatives are provided.
 - Approved legacy redirects return `301` and land on live SSR destinations.
-- `robots.txt` references `https://belzamora.com/sitemap.xml`, and `sitemap.xml` lists the MVP public routes.
+- `robots.txt` references `https://www.belzamora.com/sitemap.xml`, and `sitemap.xml` lists the MVP public routes.
 
 ## Phase 9 QA Checks
 

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\ContentApprovalStatus;
 use App\Enums\InquiryStatus;
 use App\Enums\ProgramStatus;
+use App\Filament\Resources\ContentApprovalResource;
 use App\Filament\Resources\InquiryResource;
 use App\Filament\Resources\LegislativeRecordResource;
 use App\Filament\Resources\NewsRecordResource;
@@ -166,7 +167,9 @@ class AdminDashboardMetricsService
                     'status' => 'Pending Review',
                     'date' => $this->recordDate($approval, 'submitted_at'),
                     'severity' => 'danger',
-                    'url' => $this->recordUrl($resource, $approval->approvable, $user),
+                    'url' => data_get($approval->metadata, 'launch_gate') === true
+                        ? $this->recordUrl(ContentApprovalResource::class, $approval, $user)
+                        : $this->recordUrl($resource, $approval->approvable, $user),
                 ];
             }
         }

@@ -3,17 +3,22 @@
 namespace Tests\Feature;
 
 use App\Enums\AdminRole;
+use App\Enums\ContentApprovalStatus;
 use App\Filament\Resources\AuditLogResource;
+use App\Filament\Resources\ContentApprovalResource;
 use App\Filament\Resources\PublicPageResource;
 use App\Filament\Widgets\Phase7ContentHealthOverview;
 use App\Filament\Widgets\RecentAuditActivity;
 use App\Jobs\FlagStaleContent;
 use App\Models\AuditLog;
+use App\Models\ContentApproval;
 use App\Models\PublicPage;
 use App\Models\SourceRecord;
 use App\Models\User;
 use App\Notifications\StaleContentDigestNotification;
 use App\Support\PublicPageProps;
+use Database\Seeders\LaunchApprovalChecklistSeeder;
+use Database\Seeders\ProgramAndServiceGuideSeeder;
 use Database\Seeders\PublicPageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
@@ -155,7 +160,7 @@ class Phase7StaticContentWorkflowTest extends TestCase
                 ->component('Public/About')
                 ->where('profile.publicName', 'Atty. Bel Zamora')
                 ->has('facts', 6)
-                ->where('sourceLinks.1.href', 'https://www.congress.gov.ph/house-members/view/memberships/?member=K099')
+                ->where('sourceLinks.1.href', 'https://www.congress.gov.ph/house-members/view/K099')
                 ->where('verifiedAt', 'July 12, 2026')
                 ->where('contentReview.owner', 'Content Administrator with Chief of Staff review'));
 
@@ -209,5 +214,56 @@ class Phase7StaticContentWorkflowTest extends TestCase
         Artisan::call('public-pages:check-required');
 
         expect(Artisan::output())->toContain('All required backend-owned public pages are published.');
+    }
+
+    public function test_launch_approval_checklist_creates_human_review_gates(): void
+    {
+        $this->seed(ProgramAndServiceGuideSeeder::class);
+        $this->seed(PublicPageSeeder::class);
+        $this->seed(LaunchApprovalChecklistSeeder::class);
+        $this->seed(LaunchApprovalChecklistSeeder::class);
+
+        $launchApprovals = ContentApproval::query()
+            ->where('metadata->launch_gate', true)
+            ->get();
+
+        expect($launchApprovals)->toHaveCount(4)
+            ->and($launchApprovals->pluck('status')->every(fn (ContentApprovalStatus $status): bool => $status === ContentApprovalStatus::ForReview))->toBeTrue()
+            ->and($launchApprovals->pluck('metadata')->pluck('checklist')->filter()->count())->toBe(4);
+    }
+
+    public function test_content_approval_resource_and_launch_readiness_gate_are_role_gated(): void
+    {
+        $reviewer = User::factory()->adminRole(AdminRole::ReviewerApprover)->create();
+        $inquiryOfficer = User::factory()->adminRole(AdminRole::InquiryOfficer)->create();
+
+        $this->seed(ProgramAndServiceGuideSeeder::class);
+        $this->seed(PublicPageSeeder::class);
+        $this->seed(LaunchApprovalChecklistSeeder::class);
+
+        $this->actingAs($reviewer)
+            ->get(ContentApprovalResource::getUrl('index'))
+            ->assertOk();
+
+        $this->actingAs($inquiryOfficer)
+            ->get(ContentApprovalResource::getUrl('index'))
+            ->assertOk();
+
+        $this->artisan('launch:readiness')
+            ->expectsOutputToContain('Human content approvals still pending:')
+            ->assertExitCode(1);
+
+        ContentApproval::query()
+            ->where('metadata->launch_gate', true)
+            ->update([
+                'status' => ContentApprovalStatus::Approved->value,
+                'reviewed_by_id' => $reviewer->id,
+                'reviewed_at' => now(),
+                'approved_at' => now(),
+            ]);
+
+        $this->artisan('launch:readiness')
+            ->expectsOutputToContain('Launch readiness checks passed.')
+            ->assertExitCode(0);
     }
 }

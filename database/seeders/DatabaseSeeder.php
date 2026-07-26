@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProjectRecordSeeder::class);
         $this->call(NewsRecordSeeder::class);
         $this->call(PublicPageSeeder::class);
+        $this->call(LaunchApprovalChecklistSeeder::class);
     }
 }

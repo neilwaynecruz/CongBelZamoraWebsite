@@ -163,8 +163,38 @@ class InquiryResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options(InquiryStatus::options()),
+                Tables\Filters\Filter::make('unassigned')
+                    ->label('Unassigned')
+                    ->query(fn (Builder $query): Builder => $query->whereNull('assigned_officer_id')),
+                Tables\Filters\Filter::make('my_inquiries')
+                    ->label('Assigned to me')
+                    ->query(fn (Builder $query): Builder => $query->where('assigned_officer_id', Auth::id())),
             ])
             ->actions([
+                Tables\Actions\Action::make('assign_to_me')
+                    ->label('Assign to me')
+                    ->icon('heroicon-o-user-plus')
+                    ->color('primary')
+                    ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record)
+                        && Auth::id() !== null
+                        && $record->assigned_officer_id !== Auth::id())
+                    ->requiresConfirmation()
+                    ->action(function (Inquiry $record): void {
+                        $notes = $record->routing_notes ?? [];
+                        $notes['assignment'] = [
+                            'assigned_to_user_id' => Auth::id(),
+                            'assigned_at' => now('Asia/Manila')->toIso8601String(),
+                            'source' => 'admin_assign_to_me_action',
+                        ];
+
+                        $record->forceFill([
+                            'assigned_officer_id' => Auth::id(),
+                            'status' => $record->status === InquiryStatus::Pending
+                                ? InquiryStatus::UnderReview
+                                : $record->status,
+                            'routing_notes' => $notes,
+                        ])->save();
+                    }),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
                     ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record)),

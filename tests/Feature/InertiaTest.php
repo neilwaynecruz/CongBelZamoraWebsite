@@ -50,7 +50,7 @@ class InertiaTest extends TestCase
                 ->has('valuePillars', 3)
                 ->has('responsibilityBoundaries', 3)
                 ->has('sourceLinks', 4)
-                ->where('sourceLinks.1.href', 'https://www.congress.gov.ph/house-members/view/memberships/?member=K099')
+                ->where('sourceLinks.1.href', 'https://www.congress.gov.ph/house-members/view/K099')
                 ->where('sourceLinks.2.href', 'https://belzamora.com/')
                 ->where('verifiedAt', 'July 12, 2026'));
     }

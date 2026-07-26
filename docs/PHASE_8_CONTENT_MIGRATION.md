@@ -80,7 +80,7 @@ Automated validation:
 - `composer lint:check` passed.
 - Targeted PHPStan over the changed Phase 8 test and program seeder passed with 0 errors.
 - The test reconciles public pages, programs, service guides, projects, news records, source records, approval records, media register placeholders, legacy redirects, and search-index files.
-- `public/robots.txt` references `https://belzamora.com/sitemap.xml`.
+- `public/robots.txt` references `https://www.belzamora.com/sitemap.xml`.
 - `public/sitemap.xml` lists the MVP public SSR routes.
 
 Validation limitation:

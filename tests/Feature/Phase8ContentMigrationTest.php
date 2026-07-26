@@ -110,18 +110,18 @@ class Phase8ContentMigrationTest extends TestCase
         $robots = File::get(public_path('robots.txt'));
         $sitemap = File::get(public_path('sitemap.xml'));
 
-        expect($robots)->toContain('Sitemap: https://belzamora.com/sitemap.xml')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/about</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/programs</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/programs/gabay</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/programs/education/tulong-dunong</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/legislation</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/projects</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/news</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/contact</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/privacy</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/accessibility</loc>')
-            ->and($sitemap)->toContain('<loc>https://belzamora.com/disclaimer</loc>');
+        expect($robots)->toContain('Sitemap: https://www.belzamora.com/sitemap.xml')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/about</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/programs</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/programs/gabay</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/programs/education/tulong-dunong</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/legislation</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/projects</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/news</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/contact</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/privacy</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/accessibility</loc>')
+            ->and($sitemap)->toContain('<loc>https://www.belzamora.com/disclaimer</loc>');
     }
 }

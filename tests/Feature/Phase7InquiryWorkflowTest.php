@@ -9,6 +9,7 @@ use App\Models\AuditLog;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Notifications\InquiryReceivedNotification;
+use App\Notifications\StaffInquiryReceivedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -21,6 +22,9 @@ class Phase7InquiryWorkflowTest extends TestCase
     public function test_public_inquiry_is_encrypted_audited_and_confirmed(): void
     {
         Notification::fake();
+
+        $inquiryOfficer = User::factory()->adminRole(AdminRole::InquiryOfficer)->create();
+        $contentAdmin = User::factory()->adminRole(AdminRole::ContentAdministrator)->create();
 
         $this->from(route('public.contact'))
             ->post(route('public.contact.inquiries.store'), [
@@ -60,6 +64,9 @@ class Phase7InquiryWorkflowTest extends TestCase
             InquiryReceivedNotification::class,
             fn (InquiryReceivedNotification $notification, array $channels, object $notifiable): bool => $notifiable->routeNotificationFor('mail') === 'juan@example.com',
         );
+
+        Notification::assertSentTo($inquiryOfficer, StaffInquiryReceivedNotification::class);
+        Notification::assertNotSentTo($contentAdmin, StaffInquiryReceivedNotification::class);
     }
 
     public function test_admin_policies_separate_content_staff_from_inquiry_data(): void

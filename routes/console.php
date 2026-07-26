@@ -10,3 +10,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command('inquiries:anonymize-expired')->dailyAt('02:30');
 Schedule::command('content:flag-stale')->dailyAt('03:00');
+Schedule::command('launch:readiness --allow-pending-approval')->dailyAt('03:30');
