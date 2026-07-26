@@ -105,6 +105,11 @@ describe('About page', () => {
         expect(wrapper.text()).toContain('Last reviewed: July 12, 2026');
         expect(
             wrapper
+                .find('img[src="/assets/images/brand/CongBelPortrait.jpg"]')
+                .attributes('alt'),
+        ).toBe('Official portrait of Atty. Congresswoman Bel Zamora');
+        expect(
+            wrapper
                 .find(
                     'a[href="https://www.congress.gov.ph/house-members/view/K099"]',
                 )

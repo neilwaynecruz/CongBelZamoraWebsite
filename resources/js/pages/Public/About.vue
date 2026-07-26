@@ -27,6 +27,8 @@ type Props = {
 
 defineProps<Props>();
 
+const portraitSrc = '/assets/images/brand/CongBelPortrait.jpg';
+
 const description =
     'Verified public biography, congressional role, committee memberships, values, and responsibility boundaries for Atty. Congresswoman Bel Zamora.';
 
@@ -41,6 +43,7 @@ const structuredData = {
         name: 'Ysabel Maria Jorge Zamora',
         alternateName: 'Atty. Bel Zamora',
         jobTitle: 'Representative, Lone District of San Juan City',
+        image: `https://www.belzamora.com${portraitSrc}`,
     },
 };
 </script>
@@ -108,42 +111,54 @@ const structuredData = {
             aria-labelledby="identity-title"
         >
             <aside
-                class="rounded-lg border border-border-default bg-brand-white p-6 shadow-sm"
+                class="overflow-hidden rounded-lg border border-border-default bg-brand-white shadow-sm"
                 aria-label="Official identity summary"
             >
-                <div class="flex items-center gap-4">
-                    <img
-                        class="size-16 rounded-full bg-surface-soft p-2"
-                        src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
-                        alt="Official Seal of the House of Representatives"
-                    />
-                    <img
-                        class="size-16 rounded-full bg-surface-soft p-2"
-                        src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
-                        alt="Official Seal of San Juan City"
-                    />
-                </div>
-
-                <h2
-                    id="identity-title"
-                    class="mt-6 font-serif text-3xl font-semibold text-brand-navy"
+                <figure
+                    class="relative aspect-[5/6] overflow-hidden bg-brand-white"
                 >
-                    {{ profile.fullName }}
-                </h2>
-                <p class="mt-3 text-base leading-7 text-text-muted">
-                    {{ profile.district }}
-                </p>
+                    <img
+                        class="block h-full w-full -translate-y-3 scale-[1.16] object-cover object-[50%_40%]"
+                        :src="portraitSrc"
+                        alt="Official portrait of Atty. Congresswoman Bel Zamora"
+                    />
+                    <figcaption
+                        class="absolute inset-x-0 bottom-0 border-t border-brand-white/15 bg-brand-navy/88 px-5 py-3 text-sm font-semibold text-brand-white backdrop-blur-sm"
+                    >
+                        Official District Office portrait
+                    </figcaption>
+                </figure>
 
-                <div
-                    class="mt-6 rounded-md border border-dashed border-brand-gold bg-warm-soft p-4"
-                >
-                    <p class="text-sm font-semibold text-brand-navy">
-                        Verified media standard
+                <div class="p-6">
+                    <div class="flex items-center gap-4">
+                        <img
+                            class="size-16 rounded-full bg-surface-soft p-2"
+                            src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
+                            alt="Official Seal of the House of Representatives"
+                        />
+                        <img
+                            class="size-16 rounded-full bg-surface-soft p-2"
+                            src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
+                            alt="Official Seal of San Juan City"
+                        />
+                    </div>
+
+                    <h2
+                        id="identity-title"
+                        class="mt-6 font-serif text-3xl font-semibold text-brand-navy"
+                    >
+                        {{ profile.fullName }}
+                    </h2>
+                    <p class="mt-3 text-base leading-7 text-text-muted">
+                        {{ profile.district }}
                     </p>
-                    <p class="mt-2 text-sm leading-6 text-text-muted">
-                        Any portrait or profile image shown on this page comes
-                        from an approved local District Office asset, with
-                        proper caption, rights, and alt text.
+
+                    <p
+                        class="mt-6 border-t border-border-default pt-4 text-sm leading-6 text-text-muted"
+                    >
+                        Portrait, seals, and profile details are presented from
+                        local website assets and verified source records for a
+                        consistent official identity.
                     </p>
                 </div>
             </aside>
