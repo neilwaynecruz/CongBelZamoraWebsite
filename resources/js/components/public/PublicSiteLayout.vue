@@ -103,12 +103,21 @@ const isCurrent = (href: PublicNavItem['href']) => {
                     class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-2 sm:flex-row sm:items-center sm:justify-between lg:px-8"
                 >
                     <div class="flex min-w-0 items-center gap-3.5">
-                        <img
-                            class="h-9 w-auto shrink-0 rounded-md object-contain shadow-sm ring-1 ring-brand-gold/55 sm:h-10"
-                            src="/assets/images/brand/CongBelLogo_tight.png"
-                            alt=""
+                        <div
+                            class="flex shrink-0 items-center gap-2.5"
                             aria-hidden="true"
-                        />
+                        >
+                            <img
+                                class="size-9 object-contain sm:size-10"
+                                src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
+                                alt=""
+                            />
+                            <img
+                                class="size-9 object-contain sm:size-10"
+                                src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
+                                alt=""
+                            />
+                        </div>
                         <div class="min-w-0 leading-tight">
                             <p
                                 class="truncate text-sm font-bold tracking-wide text-brand-white sm:text-base lg:text-lg"
@@ -201,36 +210,12 @@ const isCurrent = (href: PublicNavItem['href']) => {
                     :href="home.url()"
                     aria-label="Atty. Bel Zamora homepage"
                 >
-                    <div class="flex shrink-0 items-center gap-4">
+                    <div class="flex shrink-0 items-center">
                         <img
-                            class="h-[3.25rem] w-auto shrink-0 rounded-md object-contain shadow-sm ring-1 ring-brand-navy/15 transition group-hover:scale-[1.02] sm:h-14"
+                            class="h-16 w-auto shrink-0 object-contain transition group-hover:scale-[1.02] sm:h-19"
                             src="/assets/images/brand/CongBelLogo_tight.png"
                             alt="Cong. Bel Zamora official logo"
                         />
-                        <div
-                            class="hidden h-[3.25rem] border-l border-border-default/90 md:block"
-                            aria-hidden="true"
-                        />
-                        <div class="hidden items-center gap-2.5 md:flex">
-                            <span
-                                class="flex size-[3.75rem] items-center justify-center rounded-full border border-border-default bg-brand-white p-1 shadow-sm ring-1 ring-brand-gold/20"
-                            >
-                                <img
-                                    class="size-[3.25rem] object-contain transition group-hover:scale-105"
-                                    src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
-                                    alt="Official Seal of the House of Representatives"
-                                />
-                            </span>
-                            <span
-                                class="flex size-[3.75rem] items-center justify-center rounded-full border border-border-default bg-brand-white p-1 shadow-sm ring-1 ring-brand-gold/20"
-                            >
-                                <img
-                                    class="size-[3.25rem] object-contain transition group-hover:scale-105"
-                                    src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
-                                    alt="Official Seal of San Juan City"
-                                />
-                            </span>
-                        </div>
                     </div>
                     <div
                         class="hidden min-w-0 flex-col justify-center leading-tight xl:flex"
@@ -369,30 +354,22 @@ const isCurrent = (href: PublicNavItem['href']) => {
                 class="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-[1.15fr_2fr] lg:px-8"
             >
                 <div>
-                    <div class="flex flex-wrap items-center gap-3.5">
+                    <div class="flex flex-wrap items-center gap-5">
                         <img
-                            class="h-12 w-auto rounded-md object-contain shadow-xs ring-1 ring-brand-gold/35"
+                            class="h-14 w-auto object-contain"
                             src="/assets/images/brand/CongBelLogo_tight.png"
                             alt="Congresswoman Bel Zamora official emblem logo"
                         />
-                        <span
-                            class="flex size-12 items-center justify-center rounded-full bg-brand-white p-1 shadow-xs ring-1 ring-brand-gold/25"
-                        >
-                            <img
-                                class="size-10 object-contain"
-                                src="/assets/images/brand/Makabagong_San_Juan_Logo.svg"
-                                alt="Makabagong San Juan civic branding logo"
-                            />
-                        </span>
-                        <span
-                            class="flex h-12 min-w-12 items-center justify-center rounded-md bg-brand-white px-2 py-1 shadow-xs ring-1 ring-brand-gold/25"
-                        >
-                            <img
-                                class="h-10 w-auto object-contain"
-                                src="/assets/images/brand/Bagong_Pilipinas_logo.svg"
-                                alt="Bagong Pilipinas administration national logo"
-                            />
-                        </span>
+                        <img
+                            class="size-14 object-contain"
+                            src="/assets/images/brand/Makabagong_San_Juan_Logo.svg"
+                            alt="Makabagong San Juan civic branding logo"
+                        />
+                        <img
+                            class="h-14 w-auto object-contain"
+                            src="/assets/images/brand/Bagong_Pilipinas_logo.svg"
+                            alt="Bagong Pilipinas administration national logo"
+                        />
                     </div>
                     <p
                         class="mt-6 max-w-sm text-sm leading-6 text-brand-white/80"
