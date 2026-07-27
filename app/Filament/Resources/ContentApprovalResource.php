@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ContentApprovalStatus;
+use App\Events\ContentApprovalDecided;
+use App\Events\ContentApprovalSubmitted;
 use App\Filament\Resources\ContentApprovalResource\Pages;
 use App\Models\ContentApproval;
 use App\Models\User;
@@ -202,12 +204,19 @@ class ContentApprovalResource extends Resource
                         ], true))
                     ->requiresConfirmation()
                     ->action(function (ContentApproval $record): void {
+                        $actor = Auth::user();
+
                         $record->forceFill([
                             'status' => ContentApprovalStatus::ForReview,
                             'submitted_by_id' => $record->submitted_by_id ?? Auth::id(),
                             'submitted_at' => $record->submitted_at ?? now(),
                             'rejection_reason' => null,
                         ])->save();
+
+                        ContentApprovalSubmitted::dispatch(
+                            $record->fresh() ?? $record,
+                            $actor instanceof User ? $actor : null,
+                        );
                     }),
                 Tables\Actions\Action::make('approve')
                     ->label('Approve')
@@ -220,6 +229,8 @@ class ContentApprovalResource extends Resource
                         ], true))
                     ->requiresConfirmation()
                     ->action(function (ContentApproval $record): void {
+                        $actor = Auth::user();
+
                         $record->forceFill([
                             'status' => ContentApprovalStatus::Approved,
                             'reviewed_by_id' => Auth::id(),
@@ -227,6 +238,12 @@ class ContentApprovalResource extends Resource
                             'approved_at' => now(),
                             'rejection_reason' => null,
                         ])->save();
+
+                        ContentApprovalDecided::dispatch(
+                            $record->fresh() ?? $record,
+                            ContentApprovalStatus::Approved,
+                            $actor instanceof User ? $actor : null,
+                        );
                     }),
                 Tables\Actions\Action::make('schedule')
                     ->label('Schedule')
@@ -282,12 +299,20 @@ class ContentApprovalResource extends Resource
                             ->rows(4),
                     ])
                     ->action(function (ContentApproval $record, array $data): void {
+                        $actor = Auth::user();
+
                         $record->forceFill([
                             'status' => ContentApprovalStatus::NeedsRevision,
                             'reviewed_by_id' => Auth::id(),
                             'reviewed_at' => now(),
                             'review_notes' => $data['review_notes'],
                         ])->save();
+
+                        ContentApprovalDecided::dispatch(
+                            $record->fresh() ?? $record,
+                            ContentApprovalStatus::NeedsRevision,
+                            $actor instanceof User ? $actor : null,
+                        );
                     }),
                 Tables\Actions\Action::make('reject')
                     ->label('Reject')
@@ -302,12 +327,20 @@ class ContentApprovalResource extends Resource
                             ->rows(4),
                     ])
                     ->action(function (ContentApproval $record, array $data): void {
+                        $actor = Auth::user();
+
                         $record->forceFill([
                             'status' => ContentApprovalStatus::Rejected,
                             'reviewed_by_id' => Auth::id(),
                             'reviewed_at' => now(),
                             'rejection_reason' => $data['rejection_reason'],
                         ])->save();
+
+                        ContentApprovalDecided::dispatch(
+                            $record->fresh() ?? $record,
+                            ContentApprovalStatus::Rejected,
+                            $actor instanceof User ? $actor : null,
+                        );
                     }),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()

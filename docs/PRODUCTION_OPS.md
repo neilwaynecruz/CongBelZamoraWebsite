@@ -199,13 +199,41 @@ Do **not** upgrade Filament in production without a dedicated sprint that covers
 1. Compatibility matrix for Laravel 13 + Filament 5
 2. Resource/page/relation-manager API diffs
 3. Theme/widget redesign for the District Operations Dashboard
-4. Full admin regression (Tier 1–3 flows + Phase 7–8 content ops)
+4. Full admin regression (Tier 1–4 flows + Phase 7–8 content ops)
 
 Until that sprint is scheduled, remain on Filament 3.x.
 
 ---
 
-## 9. Pre-launch ops gate
+## 9. Staff notifications and 2FA
+
+Production defaults:
+
+```env
+STAFF_DATABASE_NOTIFICATIONS=true
+STAFF_2FA_REQUIRED=true
+ADMIN_REPORTS_CACHE_TTL=60
+```
+
+- Filament database notifications power the admin bell for inquiry assignment, approval workflow, and stale digests.
+- Keep notification payloads non-PII (reference codes/status only).
+- Active staff without confirmed 2FA are redirected from `/admin` to `/settings/security`.
+- `php artisan launch:readiness --production` fails when any active staff account lacks confirmed 2FA.
+
+---
+
+## 10. Deferred Phase 12+ items
+
+Do not implement these until product/legal need is real:
+
+- Content versioning/drafts (start with published-vs-draft snapshot/diff for legal-comms review)
+- Sanctum API for mobile/partner integrations
+- Spatie Permission migration away from `AdminRole`
+- Sensitive citizen document uploads
+
+---
+
+## 11. Pre-launch ops gate
 
 ```bash
 php artisan launch:readiness --production --smoke-url=https://www.belzamora.com

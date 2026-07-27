@@ -36,6 +36,9 @@
         <env name="QUEUE_JOB_TRIES" value="3"/>
         <env name="QUEUE_JOB_BACKOFF" value="60"/>
         <env name="QUEUE_JOB_TIMEOUT" value="120"/>
+        <env name="STAFF_DATABASE_NOTIFICATIONS" value="true"/>
+        <env name="STAFF_2FA_REQUIRED" value="false"/>
+        <env name="ADMIN_REPORTS_CACHE_TTL" value="60"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>

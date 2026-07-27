@@ -66,6 +66,16 @@ class User extends Authenticatable implements FilamentUser, PasskeyUser
         return $this->admin_role instanceof AdminRole;
     }
 
+    public function requiresTwoFactor(): bool
+    {
+        return $this->isStaff() && (bool) config('belzamora.staff.require_2fa', false);
+    }
+
+    public function hasConfirmedStaffTwoFactor(): bool
+    {
+        return $this->hasEnabledTwoFactorAuthentication();
+    }
+
     public function canManageStaffUsers(): bool
     {
         return $this->hasAdminRole(AdminRole::SuperAdministrator);

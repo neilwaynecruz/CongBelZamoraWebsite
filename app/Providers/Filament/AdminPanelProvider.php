@@ -4,9 +4,14 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
 use App\Filament\Widgets\DashboardHeaderWidget;
+use App\Filament\Widgets\InquiryVolumeByCategoryChart;
 use App\Filament\Widgets\NeedsAttentionWidget;
 use App\Filament\Widgets\Phase7ContentHealthOverview;
+use App\Filament\Widgets\ProjectBarangayStatsWidget;
+use App\Filament\Widgets\PublishLatencyOverview;
 use App\Filament\Widgets\RecentAuditActivity;
+use App\Filament\Widgets\StaleContentBreakdownWidget;
+use App\Http\Middleware\EnsureStaffTwoFactorIsEnabled;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -72,11 +77,16 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Governance & Audit'),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->databaseNotifications()
             ->widgets([
                 DashboardHeaderWidget::class,
                 Widgets\AccountWidget::class,
                 Phase7ContentHealthOverview::class,
                 NeedsAttentionWidget::class,
+                InquiryVolumeByCategoryChart::class,
+                PublishLatencyOverview::class,
+                StaleContentBreakdownWidget::class,
+                ProjectBarangayStatsWidget::class,
                 RecentAuditActivity::class,
             ])
             ->middleware([
@@ -92,6 +102,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                EnsureStaffTwoFactorIsEnabled::class,
             ]);
     }
 }

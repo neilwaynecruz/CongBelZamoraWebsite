@@ -16,7 +16,7 @@ Current state:
 
 - Approval packages A–J and the master register exist in docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md.
 - Four Filament launch gates remain For Review.
-- Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, and Tier 3 backend optimizations are implemented and covered by targeted tests.
+- Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations, and Tier 4 launch-safe admin enhancements (in-app notifications, reports dashboard, staff 2FA enforcement) are implemented and covered by targeted tests.
 - Launch-critical open issues include legislative placeholder bill/RA IDs, unconfirmed office hours/channels, unconfirmed Tulong Dunong current-cycle facts, portrait rights confirmation, and incomplete Phase 9 browser/real-device/screen-reader evidence.
 - Launch authorization is Not granted. Phase 11 remains Blocked.
 

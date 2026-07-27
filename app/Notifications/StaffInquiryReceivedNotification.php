@@ -5,8 +5,10 @@ namespace App\Notifications;
 use App\Filament\Resources\InquiryResource;
 use App\Models\Inquiry;
 use App\Support\ReliableQueuedWork;
+use App\Support\StaffNotificationChannels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +28,12 @@ class StaffInquiryReceivedNotification extends Notification implements ShouldQue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        // Anonymous mail routes only support the mail channel.
+        if ($notifiable instanceof AnonymousNotifiable) {
+            return ['mail'];
+        }
+
+        return StaffNotificationChannels::forStaff();
     }
 
     public function toMail(object $notifiable): MailMessage
@@ -39,6 +46,20 @@ class StaffInquiryReceivedNotification extends Notification implements ShouldQue
             ->line('Status: '.$this->inquiry->status->label())
             ->line('For privacy, this email does not include the citizen name, contact details, or message body.')
             ->action('Open inquiry in admin', InquiryResource::getUrl('view', ['record' => $this->inquiry]));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(object $notifiable): array
+    {
+        return [
+            'title' => 'New public inquiry: '.$this->inquiry->reference_code,
+            'body' => 'Category: '.$this->inquiry->inquiry_category->label().'. Citizen details are withheld for privacy.',
+            'reference_code' => $this->inquiry->reference_code,
+            'inquiry_id' => $this->inquiry->id,
+            'url' => InquiryResource::getUrl('view', ['record' => $this->inquiry]),
+        ];
     }
 
     public function failed(?Throwable $exception): void

@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 27, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, and Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes). Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 browser automation, real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), and Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement). Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 browser automation, real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
 
 ---
 
@@ -163,6 +163,28 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 - Filament 3 → 5 remains a documented upgrade path only (not executed in this pack).
 
 **Validation:** `php artisan test --filter=Tier3BackendOptimizations` passed (9 tests, 23 assertions).
+
+**Next:** Continue Phase 10 package circulation; Phase 11 remains blocked until launch authorization.
+
+### Project Update: 2026-07-27 (Tier 4 Launch-Safe Admin Pack)
+
+**Task:** Implement launch-safe admin productivity/security enhancements without changing public claims or launch authorization.
+
+**Completed:**
+
+- Laravel `notifications` table + Filament database notification bell (`STAFF_DATABASE_NOTIFICATIONS`).
+- Privacy-safe staff database/mail notifications for inquiry received/assignment, content approval submit/decision, and stale-content digests via domain events/listeners.
+- Reports dashboard aggregates: inquiry volume by category, publish latency, stale rates, and project barangay/status stats (`ADMIN_REPORTS_CACHE_TTL`).
+- Staff 2FA enforcement for active `AdminRole` users (`STAFF_2FA_REQUIRED`) with enrollment path at `/settings/security`, Staff Users 2FA status column, and production readiness checks.
+
+**Deferred (Phase 12+ / when pain is real):**
+
+- Content versioning/drafts: preferred first step is JSON snapshot + diff of previous published vs draft for legal/comms review; full draft workflow only if needed.
+- API (Sanctum): only if a mobile app or partner integration is approved.
+- Spatie Permission: only if the `AdminRole` enum matrix outgrows current needs.
+- Sensitive document uploads: explicitly out of scope until a separate privacy/legal workflow is approved.
+
+**Validation:** `php artisan test --filter=Tier4AdminEnhancements` passed (8 tests, 31 assertions).
 
 **Next:** Continue Phase 10 package circulation; Phase 11 remains blocked until launch authorization.
 

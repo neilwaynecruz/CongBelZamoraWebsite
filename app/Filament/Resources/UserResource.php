@@ -101,6 +101,14 @@ class UserResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean(),
+                Tables\Columns\IconColumn::make('two_factor_confirmed_at')
+                    ->label('2FA')
+                    ->boolean()
+                    ->getStateUsing(fn (User $record): bool => $record->hasEnabledTwoFactorAuthentication())
+                    ->trueIcon('heroicon-o-shield-check')
+                    ->falseIcon('heroicon-o-shield-exclamation')
+                    ->trueColor('success')
+                    ->falseColor('warning'),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label('Verified')
                     ->dateTime(timezone: 'Asia/Manila')
@@ -122,6 +130,17 @@ class UserResource extends Resource
                     ->trueLabel('Active only')
                     ->falseLabel('Deactivated only')
                     ->native(false),
+                Tables\Filters\TernaryFilter::make('two_factor_confirmed_at')
+                    ->label('2FA status')
+                    ->nullable()
+                    ->trueLabel('2FA enabled')
+                    ->falseLabel('2FA missing')
+                    ->queries(
+                        true: fn (Builder $query): Builder => $query->whereNotNull('two_factor_confirmed_at')->whereNotNull('two_factor_secret'),
+                        false: fn (Builder $query): Builder => $query->where(function (Builder $inner): void {
+                            $inner->whereNull('two_factor_confirmed_at')->orWhereNull('two_factor_secret');
+                        }),
+                    ),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

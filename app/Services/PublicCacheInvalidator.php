@@ -9,6 +9,14 @@ class PublicCacheInvalidator
 {
     public const ADMIN_DASHBOARD_COUNTS = 'admin_dashboard_counts';
 
+    public const ADMIN_REPORTS_INQUIRY_VOLUME = 'admin_reports_inquiry_volume';
+
+    public const ADMIN_REPORTS_PUBLISH_LATENCY = 'admin_reports_publish_latency';
+
+    public const ADMIN_REPORTS_STALE_BREAKDOWN = 'admin_reports_stale_breakdown';
+
+    public const ADMIN_REPORTS_PROJECT_BARANGAY = 'admin_reports_project_barangay';
+
     public const PROGRAMS_INDEX = 'public.programs.index';
 
     public const PROGRAMS_GABAY = 'public.programs.gabay';
@@ -24,6 +32,18 @@ class PublicCacheInvalidator
     public function forgetAdminDashboardCounts(): void
     {
         Cache::forget(self::ADMIN_DASHBOARD_COUNTS);
+        $this->forgetAdminReports();
+    }
+
+    public function forgetAdminReports(): void
+    {
+        Cache::forget(self::ADMIN_REPORTS_PUBLISH_LATENCY);
+        Cache::forget(self::ADMIN_REPORTS_STALE_BREAKDOWN);
+        Cache::forget(self::ADMIN_REPORTS_PROJECT_BARANGAY);
+
+        foreach ([7, 30, 90] as $days) {
+            Cache::forget(self::ADMIN_REPORTS_INQUIRY_VOLUME.':'.$days);
+        }
     }
 
     public function forgetStaticPage(string $slug): void

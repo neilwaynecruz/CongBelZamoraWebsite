@@ -2,12 +2,18 @@
 
 namespace App\Providers;
 
+use App\Events\ContentApprovalDecided;
+use App\Events\ContentApprovalSubmitted;
 use App\Events\ContentPublished;
 use App\Events\ContentScheduled;
+use App\Events\InquiryAssigned;
 use App\Events\InquirySubmitted;
 use App\Events\SourceReviewDue;
 use App\Listeners\InvalidateAdminDashboardOnInquiry;
 use App\Listeners\InvalidatePublicContentCache;
+use App\Listeners\NotifyContentApprovalDecided;
+use App\Listeners\NotifyContentApprovalSubmitted;
+use App\Listeners\NotifyInquiryAssigned;
 use App\Listeners\RecordSourceReviewDue;
 use App\Models\LegislativeRecord;
 use App\Models\LegislativeSourceHistory;
@@ -56,6 +62,9 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(ContentScheduled::class, InvalidatePublicContentCache::class);
         Event::listen(InquirySubmitted::class, InvalidateAdminDashboardOnInquiry::class);
         Event::listen(SourceReviewDue::class, RecordSourceReviewDue::class);
+        Event::listen(InquiryAssigned::class, NotifyInquiryAssigned::class);
+        Event::listen(ContentApprovalSubmitted::class, NotifyContentApprovalSubmitted::class);
+        Event::listen(ContentApprovalDecided::class, NotifyContentApprovalDecided::class);
     }
 
     protected function configureCivicContentObservers(): void

@@ -29,6 +29,7 @@ The public inquiry form:
 - stores citizen name, contact details, and message body using encrypted casts,
 - sends a citizen receipt when email is selected,
 - sends a non-PII staff notification to Inquiry Officers, Super Administrators, and `INQUIRY_STAFF_NOTIFICATION_EMAIL` when configured,
+- writes matching in-app Filament bell notifications when `STAFF_DATABASE_NOTIFICATIONS=true`,
 - keeps assignment, status, response, and retention tracking inside Admin > Inquiries.
 
 Operational decision implemented: save securely, email staff, and assign/manage in admin.
@@ -47,6 +48,8 @@ Minimum required production values:
 - real SMTP mailer credentials
 - `INQUIRY_STAFF_NOTIFICATION_EMAIL`
 - HTTPS and secure session cookie settings
+- `STAFF_2FA_REQUIRED=true` with every active staff account confirmed for 2FA
+- `STAFF_DATABASE_NOTIFICATIONS=true` unless temporarily disabled for incident response
 
 Scheduled publishing uses the Laravel scheduler:
 
@@ -99,10 +102,14 @@ Use admin resources instead of code edits:
 - Reference Data for categories, statuses, topics, partners, and inquiry-category maintenance
 - Soft-deleted civic content is recoverable by Super Administrators via Restore on edit screens (Trashed filter on lists)
 - Inquiries > Inquiries for assignment, SLA overdue filter, status actions, canned replies, internal notes, and redacted CSV export
-- Governance & Audit > Staff Users for Super Administrator staff create/deactivate/role/password reset
+- Operations Command Center dashboard for report aggregates (inquiry volume, publish latency, stale rates, barangay/project stats)
+- Filament notification bell for assignment, approval, and stale-digest alerts
+- Governance & Audit > Staff Users for Super Administrator staff create/deactivate/role/password reset and 2FA status
 - Governance & Audit > Audit Logs for append-only review, filters, and redacted summary export
 
 Use Filament global search for programs, legislation, projects, news, and sources. Keep `verified_at`, `review_due_at`, source labels, and source URLs current before publishing.
+
+Staff accounts must enroll Fortify 2FA at `/settings/security` before production `/admin` access when `STAFF_2FA_REQUIRED=true`.
 
 ## 5. Release Smoke Test
 

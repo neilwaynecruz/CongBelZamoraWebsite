@@ -44,4 +44,20 @@ return [
         'default_backoff_seconds' => max(1, (int) env('QUEUE_JOB_BACKOFF', 60)),
         'default_timeout_seconds' => max(30, (int) env('QUEUE_JOB_TIMEOUT', 120)),
     ],
+
+    'staff' => [
+        /*
+         | When true, active AdminRole users must confirm Fortify 2FA before using /admin.
+         | Enrollment remains available at /settings/security.
+         */
+        'require_2fa' => filter_var(env('STAFF_2FA_REQUIRED', false), FILTER_VALIDATE_BOOLEAN),
+        /*
+         | When true, staff notifications also write Laravel database notifications for the Filament bell.
+         */
+        'database_notifications' => filter_var(env('STAFF_DATABASE_NOTIFICATIONS', true), FILTER_VALIDATE_BOOLEAN),
+    ],
+
+    'reports' => [
+        'cache_ttl_seconds' => max(5, (int) env('ADMIN_REPORTS_CACHE_TTL', 60)),
+    ],
 ];

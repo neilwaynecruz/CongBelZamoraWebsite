@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Support\ReliableQueuedWork;
+use App\Support\StaffNotificationChannels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -27,7 +28,7 @@ class StaleContentDigestNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return StaffNotificationChannels::forStaff();
     }
 
     public function toMail(object $notifiable): MailMessage
@@ -42,11 +43,18 @@ class StaleContentDigestNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * @return array<string, int>
+     * @return array<string, mixed>
      */
     public function toArray(object $notifiable): array
     {
-        return $this->counts;
+        $total = array_sum($this->counts);
+
+        return [
+            'title' => 'Content review needed',
+            'body' => "{$total} record(s) require freshness review.",
+            'counts' => $this->counts,
+            'url' => url('/admin'),
+        ];
     }
 
     public function failed(?Throwable $exception): void

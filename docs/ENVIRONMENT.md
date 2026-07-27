@@ -114,6 +114,9 @@ php artisan public-pages:check-required
 | `QUEUE_JOB_TRIES` | Default tries for FlagStaleContent and queued notifications | `3` |
 | `QUEUE_JOB_BACKOFF` | Default backoff seconds between retries | `60` |
 | `QUEUE_JOB_TIMEOUT` | Default job/notification timeout seconds | `120` |
+| `STAFF_DATABASE_NOTIFICATIONS` | Enable Laravel database notifications for Filament bell | `true` |
+| `STAFF_2FA_REQUIRED` | Require confirmed Fortify 2FA for active AdminRole users on `/admin` | `false` local / `true` production |
+| `ADMIN_REPORTS_CACHE_TTL` | Admin reports aggregate cache TTL in seconds | `60` |
 | `APP_PREVIOUS_KEYS` | Previous `APP_KEY` values during an approved rotation only | empty |
 
 Approved media uploads use the `public` disk under `storage/app/public/approved-media/`. After deploy run:

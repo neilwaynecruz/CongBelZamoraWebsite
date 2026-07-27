@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Enums\ContentApprovalStatus;
 use App\Models\ContentApproval;
 use App\Models\PublicPage;
+use App\Models\User;
 use App\Support\PublicPageProps;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -28,6 +29,7 @@ class CheckLaunchReadiness extends Command
 
         if ($this->option('production')) {
             $failed = $this->checkProductionEnvironment() || $failed;
+            $failed = $this->checkStaffTwoFactor() || $failed;
         }
 
         $smokeUrl = $this->option('smoke-url');
@@ -117,6 +119,7 @@ class CheckLaunchReadiness extends Command
             'CACHE_STORE must not be array' => (string) config('cache.default') !== 'array',
             'INQUIRY_STAFF_NOTIFICATION_EMAIL should be configured' => is_string(config('belzamora.inquiries.staff_notification_email'))
                 && config('belzamora.inquiries.staff_notification_email') !== '',
+            'STAFF_2FA_REQUIRED should be enabled' => (bool) config('belzamora.staff.require_2fa') === true,
         ];
 
         foreach ($checks as $label => $passes) {
@@ -131,6 +134,39 @@ class CheckLaunchReadiness extends Command
         }
 
         return $failed;
+    }
+
+    private function checkStaffTwoFactor(): bool
+    {
+        if (! (bool) config('belzamora.staff.require_2fa')) {
+            $this->error('Staff 2FA enforcement is disabled while production checks are running.');
+
+            return true;
+        }
+
+        $missing = User::query()
+            ->whereNotNull('admin_role')
+            ->where('is_active', true)
+            ->where(function ($query): void {
+                $query->whereNull('two_factor_confirmed_at')
+                    ->orWhereNull('two_factor_secret');
+            })
+            ->orderBy('email')
+            ->get(['id', 'name', 'email']);
+
+        if ($missing->isEmpty()) {
+            $this->info('Active staff 2FA: all confirmed.');
+
+            return false;
+        }
+
+        $this->error('Active staff missing confirmed 2FA:');
+
+        foreach ($missing as $user) {
+            $this->line('- '.$user->email.' ('.$user->name.')');
+        }
+
+        return true;
     }
 
     private function checkSmokeUrls(string $baseUrl): bool
