@@ -2,11 +2,10 @@
 
 namespace App\Policies;
 
-use App\Policies\Concerns\RestoresCivicContent;
-
 use App\Enums\AdminRole;
 use App\Models\NewsRecord;
 use App\Models\User;
+use App\Policies\Concerns\RestoresCivicContent;
 
 class NewsRecordPolicy
 {

@@ -27,11 +27,16 @@ trait SoftDeleteHeaderActions
 
         return [
             Actions\DeleteAction::make()
-                ->visible(fn (): bool => ! $record->trashed() && $user->can('delete', $record)),
+                ->visible(fn (): bool => ! $this->isSoftDeleted($record) && $user->can('delete', $record)),
             Actions\RestoreAction::make()
-                ->visible(fn (): bool => $record->trashed() && $user->can('restore', $record)),
+                ->visible(fn (): bool => $this->isSoftDeleted($record) && $user->can('restore', $record)),
             Actions\ForceDeleteAction::make()
-                ->visible(fn (): bool => $record->trashed() && $user->can('forceDelete', $record)),
+                ->visible(fn (): bool => $this->isSoftDeleted($record) && $user->can('forceDelete', $record)),
         ];
+    }
+
+    private function isSoftDeleted(Model $record): bool
+    {
+        return method_exists($record, 'trashed') && $record->trashed();
     }
 }

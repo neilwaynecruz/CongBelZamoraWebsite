@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ContactPreference;
 use App\Enums\InquiryCategory;
 use App\Enums\InquiryStatus;
+use Carbon\CarbonImmutable;
 use Database\Factories\InquiryFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +22,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property InquiryCategory $inquiry_category
  * @property string $message_body
  * @property InquiryStatus $status
+ * @property int|null $assigned_officer_id
+ * @property CarbonImmutable|null $privacy_consent_at
+ * @property CarbonImmutable|null $responded_at
+ * @property CarbonImmutable|null $resolved_at
+ * @property CarbonImmutable|null $retention_expires_at
+ * @property CarbonImmutable|null $anonymized_at
+ * @property array<string, mixed>|null $routing_notes
  * @property string|null $internal_notes
+ * @property array<string, mixed>|null $metadata
+ * @property CarbonImmutable|null $created_at
  */
 class Inquiry extends Model
 {

@@ -16,7 +16,7 @@ class CivicContentLifecycleObserver
     public function deleted(Model $model): void
     {
         $this->auditLog->record(
-            event: $model->isForceDeleting() ? 'force_deleted' : 'deleted',
+            event: $this->isForceDeleting($model) ? 'force_deleted' : 'deleted',
             auditable: $model,
             newValues: [
                 'id' => $model->getKey(),
@@ -39,5 +39,10 @@ class CivicContentLifecycleObserver
         );
 
         $this->cacheInvalidator->forgetForModel($model);
+    }
+
+    private function isForceDeleting(Model $model): bool
+    {
+        return method_exists($model, 'isForceDeleting') && $model->isForceDeleting();
     }
 }

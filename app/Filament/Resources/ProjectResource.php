@@ -2,14 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Support\SoftDeletableResource;
-
 use App\Enums\ProjectStatusTone;
 use App\Enums\ProjectStatusValue;
-use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\RelationManagers\ContentApprovalsRelationManager;
 use App\Filament\RelationManagers\ProjectEvidencesRelationManager;
 use App\Filament\RelationManagers\SourceRecordsRelationManager;
+use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\Support\SoftDeletableResource;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;

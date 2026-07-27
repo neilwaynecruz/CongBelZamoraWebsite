@@ -5,14 +5,18 @@ namespace App\Filament\Resources\ServiceGuideResource\Pages;
 use App\Filament\Resources\ServiceGuideResource;
 use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\ServiceGuide;
+use App\Models\User;
 use App\Services\AuditLogService;
+use App\Services\PublicCacheInvalidator;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
 
 class EditServiceGuide extends EditRecord
 {
     use SoftDeleteHeaderActions;
 
-    /** @return array<int, \\Filament\\Actions\\Action> */
+    /** @return array<int, Action> */
     protected function getHeaderActions(): array
     {
         return $this->softDeleteHeaderActions();
@@ -24,11 +28,12 @@ class EditServiceGuide extends EditRecord
     {
         /** @var ServiceGuide $record */
         $record = $this->record;
+        $actor = Auth::user();
 
         app(AuditLogService::class)->record(
             event: 'service_guide.updated',
             auditable: $record,
-            actor: auth()->user(),
+            actor: $actor instanceof User ? $actor : null,
             request: request(),
             newValues: [
                 'label' => $record->label,
@@ -39,6 +44,6 @@ class EditServiceGuide extends EditRecord
             ],
         );
 
-        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
+        app(PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

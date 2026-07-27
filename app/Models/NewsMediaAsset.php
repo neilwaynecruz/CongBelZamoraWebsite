@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Database\Factories\NewsMediaAssetFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class NewsMediaAsset extends Model
 {
     /** @use HasFactory<NewsMediaAssetFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected $fillable = [

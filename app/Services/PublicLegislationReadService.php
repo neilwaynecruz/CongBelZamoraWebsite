@@ -22,7 +22,6 @@ class PublicLegislationReadService
      */
     public function indexProps(Request $request): array
     {
-        /** @var array<string, mixed> $base */
         $base = Cache::remember(
             PublicCacheInvalidator::LEGISLATION_INDEX,
             (int) config('belzamora.cache.public_ttl_seconds', 60),
@@ -40,7 +39,14 @@ class PublicLegislationReadService
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     breadcrumbs: array<int, array<string, string>>,
+     *     legislativeItems: array<int, array<string, mixed>>,
+     *     roleOptions: array<int, string>,
+     *     statusOptions: array<int, string>,
+     *     topicOptions: array<int, string>,
+     *     verifiedAt: string
+     * }
      */
     private function baseIndexPayload(): array
     {

@@ -210,8 +210,9 @@ class AdminReportsMetricsService
             PublicCacheInvalidator::ADMIN_REPORTS_PROJECT_BARANGAY,
             $ttl,
             function (): array {
-                return Project::query()
+                return DB::table('projects')
                     ->leftJoin('project_statuses', 'projects.project_status_id', '=', 'project_statuses.id')
+                    ->whereNull('projects.deleted_at')
                     ->select([
                         DB::raw("COALESCE(NULLIF(projects.barangay, ''), 'Unspecified') as barangay"),
                         DB::raw("COALESCE(project_statuses.label, 'Unknown') as status"),

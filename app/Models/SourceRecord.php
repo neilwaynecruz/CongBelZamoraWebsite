@@ -3,18 +3,34 @@
 namespace App\Models;
 
 use App\Enums\SourceType;
+use Carbon\CarbonImmutable;
 use Database\Factories\SourceRecordFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $url
+ * @property SourceType $source_type
+ * @property string $source_tier
+ * @property string $public_status
+ * @property CarbonImmutable|null $verified_at
+ * @property CarbonImmutable|null $last_reviewed_at
+ * @property CarbonImmutable|null $next_review_at
+ * @property CarbonImmutable|null $effective_at
+ * @property CarbonImmutable|null $expires_at
+ * @property array<string, mixed>|null $metadata
+ */
 class SourceRecord extends Model
 {
     /** @use HasFactory<SourceRecordFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected $fillable = [

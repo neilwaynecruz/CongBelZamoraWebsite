@@ -5,11 +5,11 @@ namespace App\Models;
 use Database\Factories\LegislativeRecordFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property array<string, mixed>|null $metadata
@@ -18,6 +18,7 @@ class LegislativeRecord extends Model
 {
     /** @use HasFactory<LegislativeRecordFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
     protected $fillable = [

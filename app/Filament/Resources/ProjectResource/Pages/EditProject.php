@@ -6,6 +6,7 @@ use App\Filament\Resources\ProjectResource;
 use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\Project;
 use App\Services\AuditLogService;
+use App\Services\PublicCacheInvalidator;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
@@ -42,6 +43,6 @@ class EditProject extends EditRecord
             ],
         );
 
-        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
+        app(PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

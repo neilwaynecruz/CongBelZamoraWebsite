@@ -5,14 +5,18 @@ namespace App\Filament\Resources\LegislativeRecordResource\Pages;
 use App\Filament\Resources\LegislativeRecordResource;
 use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\LegislativeRecord;
+use App\Models\User;
 use App\Services\AuditLogService;
+use App\Services\PublicCacheInvalidator;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
 
 class EditLegislativeRecord extends EditRecord
 {
     use SoftDeleteHeaderActions;
 
-    /** @return array<int, \\Filament\\Actions\\Action> */
+    /** @return array<int, Action> */
     protected function getHeaderActions(): array
     {
         return $this->softDeleteHeaderActions();
@@ -24,11 +28,12 @@ class EditLegislativeRecord extends EditRecord
     {
         /** @var LegislativeRecord $record */
         $record = $this->record;
+        $actor = Auth::user();
 
         app(AuditLogService::class)->record(
             event: 'legislative_record.updated',
             auditable: $record,
-            actor: auth()->user(),
+            actor: $actor instanceof User ? $actor : null,
             request: request(),
             newValues: [
                 'bill_number' => $record->bill_number,
@@ -38,6 +43,6 @@ class EditLegislativeRecord extends EditRecord
             ],
         );
 
-        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
+        app(PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

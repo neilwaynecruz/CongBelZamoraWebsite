@@ -2,10 +2,9 @@
 
 namespace App\Policies;
 
-use App\Policies\Concerns\RestoresCivicContent;
-
 use App\Models\ProgramRequirement;
 use App\Models\User;
+use App\Policies\Concerns\RestoresCivicContent;
 
 class ProgramRequirementPolicy
 {

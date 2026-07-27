@@ -24,18 +24,30 @@ class CheckLaunchReadiness extends Command
     {
         $failed = false;
 
-        $failed = $this->checkHumanApprovals() || $failed;
-        $failed = $this->checkRequiredPublicPages() || $failed;
+        if ($this->checkHumanApprovals()) {
+            $failed = true;
+        }
+
+        if ($this->checkRequiredPublicPages()) {
+            $failed = true;
+        }
 
         if ($this->option('production')) {
-            $failed = $this->checkProductionEnvironment() || $failed;
-            $failed = $this->checkStaffTwoFactor() || $failed;
+            if ($this->checkProductionEnvironment()) {
+                $failed = true;
+            }
+
+            if ($this->checkStaffTwoFactor()) {
+                $failed = true;
+            }
         }
 
         $smokeUrl = $this->option('smoke-url');
 
         if (is_string($smokeUrl) && $smokeUrl !== '') {
-            $failed = $this->checkSmokeUrls($smokeUrl) || $failed;
+            if ($this->checkSmokeUrls($smokeUrl)) {
+                $failed = true;
+            }
         }
 
         if ($failed) {

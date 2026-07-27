@@ -21,7 +21,9 @@ use App\Notifications\InquiryAssignedNotification;
 use App\Notifications\StaffInquiryReceivedNotification;
 use App\Notifications\StaleContentDigestNotification;
 use App\Services\AdminReportsMetricsService;
+use App\Services\AuditLogService;
 use App\Services\SubmitInquiry;
+use App\Support\PublicPageProps;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -121,7 +123,7 @@ class Tier4AdminEnhancementsTest extends TestCase
             'review_due_at' => now()->subDay(),
         ]);
 
-        (new FlagStaleContent)->handle(app(\App\Services\AuditLogService::class));
+        (new FlagStaleContent)->handle(app(AuditLogService::class));
 
         Notification::assertSentTo(
             $admin,
@@ -218,7 +220,7 @@ class Tier4AdminEnhancementsTest extends TestCase
         Config::set('belzamora.inquiries.staff_notification_email', 'staff@example.com');
         Config::set('belzamora.staff.require_2fa', true);
 
-        foreach (\App\Support\PublicPageProps::requiredSlugs() as $slug) {
+        foreach (PublicPageProps::requiredSlugs() as $slug) {
             PublicPage::factory()->create([
                 'slug' => $slug,
                 'published_at' => now(),

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AuditLogResource\Pages;
 use App\Models\AuditLog;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\PageRegistration;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AuditLogResource extends Resource
 {
@@ -152,7 +154,7 @@ class AuditLogResource extends Resource
     /**
      * @param  Builder<AuditLog>  $query
      */
-    public static function exportAuditSummaryCsv(Builder $query): \Symfony\Component\HttpFoundation\StreamedResponse
+    public static function exportAuditSummaryCsv(Builder $query): StreamedResponse
     {
         $filename = 'audit-summary-'.now('Asia/Manila')->format('Ymd-His').'.csv';
 
@@ -168,12 +170,14 @@ class AuditLogResource extends Resource
             $query->orderByDesc('occurred_at')->chunk(200, function ($logs) use ($handle): void {
                 foreach ($logs as $log) {
                     /** @var AuditLog $log */
+                    $actor = $log->getRelationValue('actor');
+
                     fputcsv($handle, [
                         $log->event,
-                        $log->actor?->name ?? 'System',
+                        $actor instanceof User ? $actor->name : 'System',
                         $log->auditable_type !== null ? str(class_basename($log->auditable_type))->headline()->toString() : '',
                         $log->auditable_id,
-                        $log->occurred_at?->timezone('Asia/Manila')->toDateTimeString(),
+                        $log->occurred_at->timezone('Asia/Manila')->toDateTimeString(),
                     ]);
                 }
             });

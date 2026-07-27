@@ -6,6 +6,7 @@ use App\Filament\Resources\PublicPageResource;
 use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\PublicPage;
 use App\Services\AuditLogService;
+use App\Services\PublicCacheInvalidator;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
@@ -40,6 +41,6 @@ class EditPublicPage extends EditRecord
             ],
         );
 
-        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
+        app(PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

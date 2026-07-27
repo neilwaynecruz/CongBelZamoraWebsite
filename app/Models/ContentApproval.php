@@ -3,12 +3,27 @@
 namespace App\Models;
 
 use App\Enums\ContentApprovalStatus;
+use Carbon\CarbonImmutable;
 use Database\Factories\ContentApprovalFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * @property int $id
+ * @property ContentApprovalStatus $status
+ * @property int $revision_number
+ * @property int|null $submitted_by_id
+ * @property int|null $reviewed_by_id
+ * @property CarbonImmutable|null $submitted_at
+ * @property CarbonImmutable|null $reviewed_at
+ * @property CarbonImmutable|null $approved_at
+ * @property CarbonImmutable|null $scheduled_for
+ * @property CarbonImmutable|null $published_at
+ * @property CarbonImmutable|null $archived_at
+ * @property array<string, mixed>|null $metadata
+ */
 class ContentApproval extends Model
 {
     /** @use HasFactory<ContentApprovalFactory> */

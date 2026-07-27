@@ -6,6 +6,7 @@ use App\Filament\Resources\NewsRecordResource;
 use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\NewsRecord;
 use App\Services\AuditLogService;
+use App\Services\PublicCacheInvalidator;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
@@ -41,6 +42,6 @@ class EditNewsRecord extends EditRecord
             ],
         );
 
-        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
+        app(PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

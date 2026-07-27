@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SourceRecordResource extends Resource
 {
@@ -146,7 +147,7 @@ class SourceRecordResource extends Resource
                 Tables\Columns\TextColumn::make('next_review_at')
                     ->dateTime(timezone: 'Asia/Manila')
                     ->sortable()
-                    ->color(fn (?string $state, SourceRecord $record): string => $record->next_review_at !== null && $record->next_review_at->isPast() ? 'danger' : 'gray'),
+                    ->color(fn (SourceRecord $record): string => $record->next_review_at !== null && $record->next_review_at->isPast() ? 'danger' : 'gray'),
                 Tables\Columns\TextColumn::make('expires_at')
                     ->dateTime(timezone: 'Asia/Manila')
                     ->sortable()
@@ -156,7 +157,9 @@ class SourceRecordResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('needs_review')
                     ->label('Due for review')
-                    ->query(fn (Builder $query): Builder => $query->needsReview()),
+                    ->query(fn (Builder $query): Builder => $query
+                        ->whereNotNull('next_review_at')
+                        ->where('next_review_at', '<=', now())),
                 Tables\Filters\Filter::make('expired')
                     ->query(fn (Builder $query): Builder => $query
                         ->whereNotNull('expires_at')
@@ -228,7 +231,7 @@ class SourceRecordResource extends Resource
     /**
      * @param  Builder<SourceRecord>  $query
      */
-    private static function exportSourcesCsv(Builder $query): \Symfony\Component\HttpFoundation\StreamedResponse
+    private static function exportSourcesCsv(Builder $query): StreamedResponse
     {
         $filename = 'source-records-'.now('Asia/Manila')->format('Ymd-His').'.csv';
 
@@ -247,7 +250,7 @@ class SourceRecordResource extends Resource
                     fputcsv($handle, [
                         $source->title,
                         $source->url,
-                        $source->source_type?->value,
+                        $source->source_type->value,
                         $source->source_tier,
                         $source->public_status,
                         $source->contentOwner?->name,

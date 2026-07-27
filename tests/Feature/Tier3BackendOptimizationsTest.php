@@ -123,7 +123,7 @@ class Tier3BackendOptimizationsTest extends TestCase
 
         $results = app(AdminContentSearchService::class)->search('Scholarship');
 
-        $this->assertTrue($results->contains(fn (array $row): bool => str_contains($row['title'], 'Scholarship')));
+        $this->assertTrue(collect($results)->contains(fn (array $row): bool => str_contains($row['title'], 'Scholarship')));
     }
 
     public function test_governance_indexes_migration_adds_soft_deletes_column(): void

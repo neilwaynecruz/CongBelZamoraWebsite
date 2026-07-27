@@ -2,19 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\ContentApprovalDecided;
-use App\Events\ContentApprovalSubmitted;
-use App\Events\ContentPublished;
-use App\Events\ContentScheduled;
-use App\Events\InquiryAssigned;
-use App\Events\InquirySubmitted;
-use App\Events\SourceReviewDue;
-use App\Listeners\InvalidateAdminDashboardOnInquiry;
-use App\Listeners\InvalidatePublicContentCache;
-use App\Listeners\NotifyContentApprovalDecided;
-use App\Listeners\NotifyContentApprovalSubmitted;
-use App\Listeners\NotifyInquiryAssigned;
-use App\Listeners\RecordSourceReviewDue;
 use App\Models\LegislativeRecord;
 use App\Models\LegislativeSourceHistory;
 use App\Models\NewsMediaAsset;
@@ -32,7 +19,6 @@ use App\Observers\CivicContentLifecycleObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -52,19 +38,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
-        $this->configureDomainEvents();
         $this->configureCivicContentObservers();
-    }
-
-    protected function configureDomainEvents(): void
-    {
-        Event::listen(ContentPublished::class, InvalidatePublicContentCache::class);
-        Event::listen(ContentScheduled::class, InvalidatePublicContentCache::class);
-        Event::listen(InquirySubmitted::class, InvalidateAdminDashboardOnInquiry::class);
-        Event::listen(SourceReviewDue::class, RecordSourceReviewDue::class);
-        Event::listen(InquiryAssigned::class, NotifyInquiryAssigned::class);
-        Event::listen(ContentApprovalSubmitted::class, NotifyContentApprovalSubmitted::class);
-        Event::listen(ContentApprovalDecided::class, NotifyContentApprovalDecided::class);
     }
 
     protected function configureCivicContentObservers(): void

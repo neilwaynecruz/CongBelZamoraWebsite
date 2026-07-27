@@ -22,7 +22,6 @@ class PublicNewsReadService
      */
     public function indexProps(Request $request): array
     {
-        /** @var array<string, mixed> $base */
         $base = Cache::remember(
             PublicCacheInvalidator::NEWS_INDEX,
             (int) config('belzamora.cache.public_ttl_seconds', 60),
@@ -40,7 +39,14 @@ class PublicNewsReadService
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     breadcrumbs: array<int, array<string, string>>,
+     *     newsItems: array<int, array<string, mixed>>,
+     *     categoryOptions: array<int, string>,
+     *     statusOptions: array<int, string>,
+     *     yearOptions: array<int, string>,
+     *     verifiedAt: string
+     * }
      */
     private function baseIndexPayload(): array
     {

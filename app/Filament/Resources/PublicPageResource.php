@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Support\SoftDeletableResource;
-
-use App\Filament\Resources\PublicPageResource\Pages;
 use App\Filament\RelationManagers\ContentApprovalsRelationManager;
 use App\Filament\RelationManagers\SourceRecordsRelationManager;
+use App\Filament\Resources\PublicPageResource\Pages;
+use App\Filament\Support\SoftDeletableResource;
 use App\Models\PublicPage;
 use App\Support\PublicPageProps;
 use Closure;

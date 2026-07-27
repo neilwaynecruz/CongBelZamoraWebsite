@@ -2,11 +2,10 @@
 
 namespace App\Policies;
 
-use App\Policies\Concerns\RestoresCivicContent;
-
 use App\Enums\AdminRole;
 use App\Models\ServiceGuide;
 use App\Models\User;
+use App\Policies\Concerns\RestoresCivicContent;
 
 class ServiceGuidePolicy
 {

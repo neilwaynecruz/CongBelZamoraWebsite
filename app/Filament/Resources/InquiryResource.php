@@ -45,7 +45,7 @@ class InquiryResource extends Resource
         $user = Auth::user();
 
         if (! $user instanceof User) {
-            return $query->whereRaw('1 = 0');
+            return $query->whereKey([]);
         }
 
         if ($user->hasAdminRole(AdminRole::SuperAdministrator, AdminRole::ReadOnlyAuditor)) {
@@ -60,7 +60,7 @@ class InquiryResource extends Resource
             });
         }
 
-        return $query->whereRaw('1 = 0');
+        return $query->whereKey([]);
     }
 
     public static function form(Form $form): Form
@@ -246,7 +246,7 @@ class InquiryResource extends Resource
                         && $record->assigned_officer_id !== Auth::id())
                     ->requiresConfirmation()
                     ->action(function (Inquiry $record): void {
-                        $notes = $record->routing_notes ?? [];
+                        $notes = is_array($record->routing_notes) ? $record->routing_notes : [];
                         $notes['assignment'] = [
                             'assigned_to_user_id' => Auth::id(),
                             'assigned_at' => now('Asia/Manila')->toIso8601String(),
@@ -310,6 +310,9 @@ class InquiryResource extends Resource
             ->bulkActions([]);
     }
 
+    /**
+     * @param  Builder<Inquiry>  $query
+     */
     public static function exportRedactedCsv(Builder $query): StreamedResponse
     {
         $filename = 'inquiries-redacted-'.now('Asia/Manila')->format('Ymd-His').'.csv';
@@ -338,12 +341,8 @@ class InquiryResource extends Resource
                     /** @var Inquiry $inquiry */
                     fputcsv($handle, [
                         $inquiry->reference_code,
-                        $inquiry->inquiry_category instanceof InquiryCategoryEnum
-                            ? $inquiry->inquiry_category->value
-                            : (string) $inquiry->inquiry_category,
-                        $inquiry->status instanceof InquiryStatus
-                            ? $inquiry->status->value
-                            : (string) $inquiry->status,
+                        $inquiry->inquiry_category->value,
+                        $inquiry->status->value,
                         $inquiry->assignedOfficer?->name,
                         self::isOverdue($inquiry) ? 'yes' : 'no',
                         $inquiry->created_at?->timezone('Asia/Manila')->toDateTimeString(),

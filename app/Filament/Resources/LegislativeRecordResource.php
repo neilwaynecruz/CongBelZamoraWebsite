@@ -2,14 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Support\SoftDeletableResource;
-
 use App\Enums\LegislativeRoleValue;
 use App\Enums\LegislativeStatusTone;
-use App\Filament\Resources\LegislativeRecordResource\Pages;
 use App\Filament\RelationManagers\ContentApprovalsRelationManager;
 use App\Filament\RelationManagers\LegislativeSourceHistoriesRelationManager;
 use App\Filament\RelationManagers\SourceRecordsRelationManager;
+use App\Filament\Resources\LegislativeRecordResource\Pages;
+use App\Filament\Support\SoftDeletableResource;
 use App\Models\LegislativeRecord;
 use Filament\Forms;
 use Filament\Forms\Form;

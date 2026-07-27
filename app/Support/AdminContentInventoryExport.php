@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\PublicPage;
 use App\Models\ServiceGuide;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminContentInventoryExport
@@ -39,7 +40,10 @@ class AdminContentInventoryExport
 
     /**
      * @param  resource  $handle
-     * @param  Collection<int, object>  $records
+     *
+     * @template TRecord of Model
+     *
+     * @param  Collection<int, TRecord>  $records
      */
     private function writeRows($handle, Collection $records, string $type, string $referenceField, string $titleField, ?string $sourceLabelField, ?string $sourceUrlField): void
     {

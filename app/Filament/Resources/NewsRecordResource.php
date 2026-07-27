@@ -2,14 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Support\SoftDeletableResource;
-
 use App\Enums\NewsStatusTone;
 use App\Enums\NewsStatusValue;
-use App\Filament\Resources\NewsRecordResource\Pages;
 use App\Filament\RelationManagers\ContentApprovalsRelationManager;
 use App\Filament\RelationManagers\NewsMediaAssetsRelationManager;
 use App\Filament\RelationManagers\SourceRecordsRelationManager;
+use App\Filament\Resources\NewsRecordResource\Pages;
+use App\Filament\Support\SoftDeletableResource;
 use App\Models\NewsRecord;
 use Filament\Forms;
 use Filament\Forms\Form;

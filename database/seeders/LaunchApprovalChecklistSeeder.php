@@ -7,7 +7,6 @@ use App\Enums\ContentApprovalStatus;
 use App\Models\Program;
 use App\Models\PublicPage;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
 class LaunchApprovalChecklistSeeder extends Seeder
@@ -91,7 +90,7 @@ class LaunchApprovalChecklistSeeder extends Seeder
      * @param  list<string>  $checklist
      */
     private function createLaunchGate(
-        Model $record,
+        Program|PublicPage $record,
         int $revision,
         User $submitter,
         User $reviewer,

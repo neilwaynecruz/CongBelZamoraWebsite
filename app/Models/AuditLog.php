@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonImmutable;
 use Database\Factories\AuditLogFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property int $id
+ * @property string $event
+ * @property string|null $auditable_type
+ * @property int|null $auditable_id
+ * @property CarbonImmutable $occurred_at
+ * @property User|null $actor
  */
 class AuditLog extends Model
 {

@@ -191,7 +191,12 @@ class Phase7StaticContentWorkflowTest extends TestCase
         expect(AuditLog::query()->where('event', 'content.review_overdue')->count())->toBe(1)
             ->and(AuditLog::query()->where('event', 'source_record.review_overdue')->count())->toBe(1);
 
-        Notification::assertSentTo($reviewer, StaleContentDigestNotification::class);
+        Notification::assertSentTo(
+            $reviewer,
+            StaleContentDigestNotification::class,
+            fn (StaleContentDigestNotification $notification, array $channels): bool => in_array('mail', $channels, true)
+                && in_array('database', $channels, true),
+        );
         Notification::assertNotSentTo($inquiryOfficer, StaleContentDigestNotification::class);
         expect(Notification::sent($reviewer, StaleContentDigestNotification::class))->toHaveCount(1);
     }

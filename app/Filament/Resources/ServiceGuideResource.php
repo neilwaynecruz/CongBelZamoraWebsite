@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Support\SoftDeletableResource;
-
 use App\Enums\ResponsibleOfficeType;
-use App\Filament\Resources\ServiceGuideResource\Pages;
 use App\Filament\RelationManagers\ContentApprovalsRelationManager;
 use App\Filament\RelationManagers\SourceRecordsRelationManager;
+use App\Filament\Resources\ServiceGuideResource\Pages;
+use App\Filament\Support\SoftDeletableResource;
 use App\Models\ServiceGuide;
 use Filament\Forms;
 use Filament\Forms\Form;

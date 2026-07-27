@@ -22,7 +22,6 @@ class PublicProjectReadService
      */
     public function indexProps(Request $request): array
     {
-        /** @var array<string, mixed> $base */
         $base = Cache::remember(
             PublicCacheInvalidator::PROJECTS_INDEX,
             (int) config('belzamora.cache.public_ttl_seconds', 60),
@@ -40,7 +39,14 @@ class PublicProjectReadService
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     breadcrumbs: array<int, array<string, string>>,
+     *     projects: array<int, array<string, mixed>>,
+     *     barangayOptions: array<int, string>,
+     *     statusOptions: array<int, string>,
+     *     categoryOptions: array<int, string>,
+     *     verifiedAt: string
+     * }
      */
     private function baseIndexPayload(): array
     {
