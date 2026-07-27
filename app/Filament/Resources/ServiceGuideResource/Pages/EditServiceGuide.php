@@ -3,12 +3,21 @@
 namespace App\Filament\Resources\ServiceGuideResource\Pages;
 
 use App\Filament\Resources\ServiceGuideResource;
+use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\ServiceGuide;
 use App\Services\AuditLogService;
 use Filament\Resources\Pages\EditRecord;
 
 class EditServiceGuide extends EditRecord
 {
+    use SoftDeleteHeaderActions;
+
+    /** @return array<int, \\Filament\\Actions\\Action> */
+    protected function getHeaderActions(): array
+    {
+        return $this->softDeleteHeaderActions();
+    }
+
     protected static string $resource = ServiceGuideResource::class;
 
     protected function afterSave(): void
@@ -29,5 +38,7 @@ class EditServiceGuide extends EditRecord
                 'review_due_at' => (string) $record->review_due_at,
             ],
         );
+
+        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

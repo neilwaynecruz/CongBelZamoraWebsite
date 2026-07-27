@@ -29,6 +29,13 @@
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <env name="INQUIRY_RETENTION_DAYS" value="180"/>
+        <env name="INQUIRY_UNANSWERED_SLA_HOURS" value="48"/>
+        <env name="APPROVED_MEDIA_MAX_KB" value="5120"/>
+        <env name="PUBLIC_CONTENT_CACHE_TTL" value="60"/>
+        <env name="QUEUE_JOB_TRIES" value="3"/>
+        <env name="QUEUE_JOB_BACKOFF" value="60"/>
+        <env name="QUEUE_JOB_TIMEOUT" value="120"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>

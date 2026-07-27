@@ -2,12 +2,16 @@
 
 namespace App\Policies;
 
+use App\Policies\Concerns\RestoresCivicContent;
+
 use App\Enums\AdminRole;
 use App\Models\Program;
 use App\Models\User;
 
 class ProgramPolicy
 {
+    use RestoresCivicContent;
+
     public function viewAny(User $user): bool
     {
         return $this->canViewProgramContent($user);

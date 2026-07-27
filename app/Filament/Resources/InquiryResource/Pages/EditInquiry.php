@@ -27,9 +27,11 @@ class EditInquiry extends EditRecord
                 'assigned_officer_id' => $record->assigned_officer_id,
                 'responded_at' => (string) $record->responded_at,
                 'resolved_at' => (string) $record->resolved_at,
+                'has_internal_notes' => filled($record->internal_notes),
             ],
             metadata: [
                 'pii_values_redacted' => true,
+                'internal_notes_omitted' => true,
             ],
         );
     }

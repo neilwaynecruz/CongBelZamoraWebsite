@@ -3,12 +3,21 @@
 namespace App\Filament\Resources\ProjectEvidenceResource\Pages;
 
 use App\Filament\Resources\ProjectEvidenceResource;
+use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\ProjectEvidence;
 use App\Services\AuditLogService;
 use Filament\Resources\Pages\EditRecord;
 
 class EditProjectEvidence extends EditRecord
 {
+    use SoftDeleteHeaderActions;
+
+    /** @return array<int, \\Filament\\Actions\\Action> */
+    protected function getHeaderActions(): array
+    {
+        return $this->softDeleteHeaderActions();
+    }
+
     protected static string $resource = ProjectEvidenceResource::class;
 
     protected function afterSave(): void
@@ -27,5 +36,7 @@ class EditProjectEvidence extends EditRecord
                 'verified_at' => (string) $record->verified_at,
             ],
         );
+
+        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

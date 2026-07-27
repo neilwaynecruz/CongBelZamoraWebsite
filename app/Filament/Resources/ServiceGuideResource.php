@@ -2,8 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Support\SoftDeletableResource;
+
 use App\Enums\ResponsibleOfficeType;
 use App\Filament\Resources\ServiceGuideResource\Pages;
+use App\Filament\RelationManagers\ContentApprovalsRelationManager;
+use App\Filament\RelationManagers\SourceRecordsRelationManager;
 use App\Models\ServiceGuide;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,6 +18,8 @@ use Filament\Tables\Table;
 
 class ServiceGuideResource extends Resource
 {
+    use SoftDeletableResource;
+
     protected static ?string $model = ServiceGuide::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
@@ -142,12 +148,24 @@ class ServiceGuideResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('responsible_office_type')
                     ->options(ResponsibleOfficeType::options()),
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([]);
+    }
+
+    /**
+     * @return array<int, class-string>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            SourceRecordsRelationManager::class,
+            ContentApprovalsRelationManager::class,
+        ];
     }
 
     /**

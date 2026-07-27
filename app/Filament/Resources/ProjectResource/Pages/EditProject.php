@@ -3,13 +3,25 @@
 namespace App\Filament\Resources\ProjectResource\Pages;
 
 use App\Filament\Resources\ProjectResource;
+use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\Project;
 use App\Services\AuditLogService;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
 class EditProject extends EditRecord
 {
+    use SoftDeleteHeaderActions;
+
     protected static string $resource = ProjectResource::class;
+
+    /**
+     * @return array<int, Action>
+     */
+    protected function getHeaderActions(): array
+    {
+        return $this->softDeleteHeaderActions();
+    }
 
     protected function afterSave(): void
     {
@@ -29,5 +41,7 @@ class EditProject extends EditRecord
                 'review_due_at' => (string) $record->review_due_at,
             ],
         );
+
+        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

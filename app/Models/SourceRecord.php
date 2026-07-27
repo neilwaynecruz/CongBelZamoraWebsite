@@ -6,6 +6,7 @@ use App\Enums\SourceType;
 use Database\Factories\SourceRecordFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -14,6 +15,7 @@ class SourceRecord extends Model
 {
     /** @use HasFactory<SourceRecordFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'sourceable_type',

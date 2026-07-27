@@ -11,8 +11,8 @@
 **Final architecture and implementation audit:** July 12, 2026  
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
-**Latest project-state audit:** July 20, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, and Phase 9 automated/HTTP/SSR/security/source-link QA. Phase 9 fixed PHPStan type issues, added baseline security headers, hardened external source links, and added a Phase 9 QA regression test. Current-session browser automation, real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
+**Latest project-state audit:** July 27, 2026
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, and Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes). Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 browser automation, real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
 
 ---
 
@@ -103,17 +103,68 @@ Use only the following status labels:
 | Phase 7: Backend and Admin Development           | `Implemented` | Shared backend/admin foundations implemented: typed staff roles, `source_records`, `content_approvals`, `audit_logs`, `inquiry_categories`, encrypted `inquiries`, public inquiry validation/persistence, reference generation, queued email confirmation, retention anonymization command, policies, tests, and Filament inquiry resource. Programs/Gabay, Legislation, Projects, News/media, and static public pages are backend-owned with source/approval attachments, least-privilege policies, Filament resources, seed records, public read services, and preserved Phase 6 Inertia contracts. Audit logs are exposed through a read-only Filament resource. The custom District Operations Dashboard adds a Vite-backed Filament civic theme, branded command header, role-aware content/inquiry/audit widgets, privacy-redacted needs-attention items, and audited required-page health checks. Queued stale-content automation and reviewer digest notification are scheduled daily. | None for Phase 7 MVP. Proceed to Phase 8 content migration/upload and stakeholder content acceptance. |
 | Phase 8: Content Migration and Upload            | `Implemented` | MVP staging content is seeded through backend-owned records for public pages, Programs/Gabay, Legislation, Projects, News, and media-register placeholders. Source records, approval records, content owners, review dates, historical/stale labels, redirect routes, `robots.txt`, `sitemap.xml`, and [PHASE_8_CONTENT_MIGRATION.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_8_CONTENT_MIGRATION.md) are in place and covered by `Phase8ContentMigrationTest`. | Formal stakeholder, legal/privacy, final contact-channel, and non-brand media-rights approval remain Phase 10 launch-approval work. |
 | Phase 9: Testing and Quality Assurance           | `Implemented but Not Verified` | `docs/PHASE_9_QA_REPORT.md`, `Phase9QualityAssuranceTest`, full `composer test`, frontend lint/type/test/build checks, SSR runtime check, HTTP smoke, redirect/sitemap/robots checks, dependency audits, source-link review, security-header middleware, and external-link hardening are complete. | Current-session browser automation failed on this Windows host (`CDP response channel closed`), and real-device, screen-reader, staff usability, and production backup/restore evidence remain required before marking Phase 9 `Implemented`. |
-| Phase 10: Content and Legal Approval             | `Blocked`               | Formal District Office, privacy, legal, communications, and executive approval evidence was not provided.                                                                                                                               | Complete content and implementation review, then obtain documented approval.                                                  |
-| Phase 11: Deployment and Launch                  | `Blocked`               | No application, canonical-domain decision, hosting environment, deployment pipeline, or launch approval exists.                                                                                                                         | Complete prior phases and approve hosting, domain, security, backup, monitoring, and rollback.                                |
+| Phase 10: Content and Legal Approval             | `In Progress`           | Approval packages A–J, master approval register, open-issue log, accepted-risk register, and launch-authorization hold are documented in [PHASE_10_CONTENT_LEGAL_APPROVAL.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md). Staging inspection confirms four Filament launch gates still `For Review`, legislative placeholder bill/RA IDs, unconfirmed office hours/channels, and pending privacy/legal/media sign-off. | Obtain signed packages for District Office, Communications, Legislative, Programs, Projects, Privacy/DPO, Legal, Accessibility, Security/IT, and Executive; implement only approved corrections; then mark Implemented. |
+| Phase 11: Deployment and Launch                  | `Blocked`               | No production hosting configuration, launch authorization, or completed Phase 10 sign-off exists.                                                                                                                                       | Complete Phase 10 launch-critical approvals and approve hosting, domain, security, backup, monitoring, and rollback.          |
 | Phase 12: Maintenance and Continuous Improvement | `Not Started`           | The website is not deployed.                                                                                                                                                                                                            | Begin only after launch; prepare ownership and schedules before deployment.                                                   |
 
 ## 0.5 Recommended Next Phase
 
 The next work is:
 
-> **Complete Phase 9 browser and real-device verification.**
+> **Complete Phase 10 stakeholder sign-off using the prepared approval packages, while finishing remaining Phase 9 browser/real-device verification in parallel.**
 
-Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated, HTTP, SSR, privacy, security, source-link, redirect, sitemap, and content QA is complete and documented, but Phase 9 must not be marked fully `Implemented` until browser automation or documented manual browser QA, real-device mobile review, screen-reader-oriented review, staff usability review, and production backup/restore evidence are recorded.
+Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated QA is documented but still `Implemented but Not Verified`. Phase 10 packages are ready for circulation; production launch remains unauthorized until launch-critical approvals and required corrections are complete. Do not begin Phase 11 deployment until Package J (executive launch authorization) is signed.
+
+### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
+
+**Task:** Implement launch-critical backend/admin enhancements for staff operations before/with Phases 10–11
+
+**Completed:**
+
+- Filament `UserResource` + `UserPolicy` for Super Administrator staff create/edit/deactivate/reactivate and password reset (`users.is_active`).
+- Approved media FileUpload workflow on News Media Assets and Project Evidence with required caption/alt/rights when a file is present; `project_evidences.alt_text` added.
+- Content Approvals UX: registered `Content Governance` nav group; submit-for-review / approve / publish / needs-revision / reject actions; My review queue and Submitted by me filters.
+- Inquiry officer tooling: SLA overdue filter/column, status actions, canned replies, `internal_notes`, redacted CSV export (no citizen PII columns).
+- Production ops guide: `docs/PRODUCTION_OPS.md` plus runbook/env production reminders for Redis workers, cron scheduler, failed jobs, backup drills, and APP_KEY stability.
+
+**Validation:** `php artisan test --filter="FilamentDashboard|Phase7Inquiry|Phase7Governance|Phase8ContentMigration|Tier1Admin"` passed (27 tests).
+
+**Next:** Continue Phase 10 package circulation; keep Phase 11 blocked until launch authorization.
+
+### Project Update: 2026-07-27 (Tier 2 Admin Productivity Pack)
+
+**Task:** Implement first post-launch sprint admin productivity enhancements without changing public claims or launch authorization.
+
+**Completed:**
+
+- Dedicated `SourceRecordResource` in Content Governance with owner, tier/type, due/overdue review, expiry filters, and source CSV export.
+- Reference Data CRUD resources for program/news/project categories and statuses, legislative roles/statuses/topics, project partners, and inquiry categories, with enum-safe fields and active filters.
+- CSV reporting exports for redacted content inventory and audit summaries, complementing the existing inquiry redacted export.
+- Relation managers for parent content resources: program updates, source records, approval records, project evidence, news media assets, and legislative source history.
+- Audit Log filters for event, record type, actor/me, system events, and date range.
+- Scheduled publish workflow: approval `scheduled_for` field/action plus `content:publish-scheduled`, scheduled every 15 minutes, promotes due approvals and the related content `published_at` gate.
+
+**Validation:** `php artisan test --filter="Tier1AdminOperations|Tier2AdminProductivity"` passed (17 tests).
+
+**Next:** Continue Phase 10 package circulation; Phase 11 remains blocked until launch authorization.
+
+### Project Update: 2026-07-27 (Tier 3 Backend Optimizations Pack)
+
+**Task:** Implement backend optimizations and architecture hardening without changing public claims or launch authorization.
+
+**Completed:**
+
+- Centralized `ContentPublicationService` for schedule/publish with `ContentPublished` / `ContentScheduled` events and public cache invalidation.
+- Public read-service caching (`PUBLIC_CONTENT_CACHE_TTL`) for pages, programs, legislation, projects, and news; invalidated on publish and content edits.
+- Domain events `InquirySubmitted` and `SourceReviewDue` with listeners for dashboard cache and audit.
+- SoftDeletes + Super Admin restore/force-delete for main civic content; audited delete/restore via lifecycle observer.
+- MySQL FULLTEXT indexes + `AdminContentSearchService` (LIKE fallback) and Filament global search attributes for programs, bills, projects, news, sources.
+- Governance/inquiry/source composite indexes; job retry defaults; `queue:check-failed`; Redis `after_commit`; Horizon documented as optional upgrade path.
+- Filament 3 → 5 remains a documented upgrade path only (not executed in this pack).
+
+**Validation:** `php artisan test --filter=Tier3BackendOptimizations` passed (9 tests, 23 assertions).
+
+**Next:** Continue Phase 10 package circulation; Phase 11 remains blocked until launch authorization.
 
 ## 0.6 How to Use This Plan as a Living Roadmap
 
@@ -5746,11 +5797,11 @@ Can a user find:
 
 ### Current Status
 
-**Status:** `Blocked`
+**Status:** `In Progress`
 
-**Evidence:** No completed implementation or formal approval records were provided.
+**Evidence:** Phase 10 review packages, master approval register, open issues, deferred items, accepted risks, and launch-authorization hold are documented in [PHASE_10_CONTENT_LEGAL_APPROVAL.md](file:///c:/laragon/www/CongBellProject/docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md). Staging inspection on July 27, 2026 confirmed published required public pages, pending Filament launch gates, and unresolved launch-critical content decisions. No stakeholder signatures were recorded in-repo.
 
-**Remaining work:** Complete staging content and QA, then obtain District Office, communications, legal, privacy, and executive approval.
+**Remaining work:** Circulate and obtain signed Packages A–J; resolve legislative placeholder attribution; confirm office channels/hours; confirm program current-cycle facts; complete privacy/legal/accessibility/media approvals; apply only approved corrections; then grant executive launch authorization.
 
 **Phase exit condition:** All launch-critical approvals are recorded and unresolved objections are closed.
 
@@ -5760,7 +5811,11 @@ Can a user find:
 - Communications approval
 - Legislative-content verification
 - Program-officer approval
+- Project-owner approval
 - Privacy/DPO review
+- Legal review
+- Accessibility review
+- Security/IT staging acceptance
 - Final executive approval
 
 ### Outputs
@@ -5770,6 +5825,34 @@ Can a user find:
 - Approved policy pages
 - Launch authorization
 
+### Project Update: 2026-07-27 (Phase 10 Approval Package Preparation)
+
+**Phase:** Phase 10: Content and Legal Approval  
+**Task:** Inspect staging content, QA/security findings, and governance requirements; prepare separate stakeholder approval packages; document approval completeness without inventing signatures or launching the site
+
+**Completed:**
+
+- Applied the Master Operating Prompt and inspected Phase 1–2 governance, Phase 8 migration ledger, Phase 9 QA report, launch runbook, seeders, launch readiness command output, and About portrait asset presence.
+- Created `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md` with Packages A–J, master approval register, open-issue/correction log, approved-content list, deferred items, accepted-risk register, and launch-authorization status **Not granted**.
+- Confirmed `php artisan launch:readiness --allow-pending-approval` still reports four human launch gates `For Review`, while required public pages are published.
+- Recorded launch-critical findings: legislative placeholder bill/RA identifiers, unconfirmed office hours/channels, unconfirmed Tulong Dunong current-cycle facts, portrait rights confirmation pending, Phase 9 browser/real-device evidence still incomplete.
+
+**Not completed (by design / blocked on humans):**
+
+- No District Office, Communications, Legislative, Program, Project, Privacy/DPO, Legal, Accessibility, Security/IT, or Executive signature was available to record.
+- No approved content/code corrections were implemented because no approved change requests were received.
+- Phase 10 was **not** marked `Implemented`.
+
+**Validation:**
+
+| Command | Result |
+| --- | --- |
+| `php artisan launch:readiness --allow-pending-approval` | Pending human approvals listed; required pages published. |
+| `php artisan public-pages:check-required` | Passed. |
+| Portrait file presence | `public/assets/images/brand/CongBelPortrait.jpg` present. |
+
+**Next task:** Circulate Phase 10 packages for signature; prioritize legislative attribution and office-contact confirmation; apply only approved corrections; keep Phase 11 blocked until executive launch authorization.
+
 ---
 
 ## Phase 11: Deployment and Launch
@@ -5778,9 +5861,9 @@ Can a user find:
 
 **Status:** `Blocked`
 
-**Evidence:** No deployable application, hosting, canonical-domain decision, production configuration, or launch approval exists.
+**Evidence:** The application codebase is deployable in principle, but no hosting environment, canonical-domain production cutover, completed Phase 10 launch authorization, or production ops verification exists.
 
-**Remaining work:** Complete preceding phases and approve production infrastructure, migration, monitoring, backup, and rollback.
+**Remaining work:** Complete Phase 10 launch-critical approvals and approve production infrastructure, migration, monitoring, backup, and rollback.
 
 **Phase exit condition:** Production deployment succeeds, smoke tests pass, monitoring is active, and launch is authorized.
 

@@ -2,9 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Support\SoftDeletableResource;
+
 use App\Enums\NewsStatusTone;
 use App\Enums\NewsStatusValue;
 use App\Filament\Resources\NewsRecordResource\Pages;
+use App\Filament\RelationManagers\ContentApprovalsRelationManager;
+use App\Filament\RelationManagers\NewsMediaAssetsRelationManager;
+use App\Filament\RelationManagers\SourceRecordsRelationManager;
 use App\Models\NewsRecord;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +20,8 @@ use Filament\Tables\Table;
 
 class NewsRecordResource extends Resource
 {
+    use SoftDeletableResource;
+
     protected static ?string $model = NewsRecord::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
@@ -22,6 +29,16 @@ class NewsRecordResource extends Resource
     protected static ?string $navigationGroup = 'News & Media';
 
     protected static ?int $navigationSort = 60;
+
+    protected static ?string $recordTitleAttribute = 'title';
+
+    /**
+     * @return list<string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'summary', 'official_update', 'slug'];
+    }
 
     public static function form(Form $form): Form
     {
@@ -196,12 +213,25 @@ class NewsRecordResource extends Resource
                 Tables\Filters\SelectFilter::make('news_status_id')
                     ->label('Status')
                     ->relationship('status', 'label'),
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([]);
+    }
+
+    /**
+     * @return array<int, class-string>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            NewsMediaAssetsRelationManager::class,
+            SourceRecordsRelationManager::class,
+            ContentApprovalsRelationManager::class,
+        ];
     }
 
     /**

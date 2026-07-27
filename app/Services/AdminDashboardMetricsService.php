@@ -204,13 +204,16 @@ class AdminDashboardMetricsService
         }
 
         if ($user->canManageInquiries() || $user->canAuditRecords()) {
+            $slaHours = max(1, (int) config('belzamora.inquiries.unanswered_sla_hours', 48));
+
             $inquiries = Inquiry::query()
                 ->whereIn('status', [
                     InquiryStatus::Pending->value,
                     InquiryStatus::UnderReview->value,
                 ])
                 ->whereNull('responded_at')
-                ->where('created_at', '<=', now()->subHours(48))
+                ->whereNull('resolved_at')
+                ->where('created_at', '<=', now()->subHours($slaHours))
                 ->orderBy('created_at', 'asc')
                 ->limit(5)
                 ->get();
@@ -223,7 +226,7 @@ class AdminDashboardMetricsService
                 $items[] = [
                     'type' => 'Inquiry',
                     'title' => "Inquiry {$inquiry->reference_code} awaiting response",
-                    'status' => 'Overdue Answer (>48h)',
+                    'status' => 'Overdue Answer (>'.$slaHours.'h)',
                     'date' => $this->recordDate($inquiry, 'created_at'),
                     'severity' => 'danger',
                     'url' => $this->recordUrl(InquiryResource::class, $inquiry, $user),

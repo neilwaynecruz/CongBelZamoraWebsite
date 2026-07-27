@@ -4,12 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectEvidenceResource\Pages;
 use App\Models\ProjectEvidence;
+use App\Support\ApprovedMediaForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProjectEvidenceResource extends Resource
 {
@@ -43,10 +45,9 @@ class ProjectEvidenceResource extends Resource
                             ->required()
                             ->url()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('media_path')
-                            ->maxLength(255),
                         Forms\Components\DateTimePicker::make('verified_at')
-                            ->timezone('Asia/Manila'),
+                            ->timezone('Asia/Manila')
+                            ->helperText('Set only after rights, caption, and alt text are confirmed.'),
                         Forms\Components\Select::make('verified_by_id')
                             ->relationship('verifier', 'name')
                             ->searchable()
@@ -54,11 +55,11 @@ class ProjectEvidenceResource extends Resource
                         Forms\Components\TextInput::make('sort_order')
                             ->numeric()
                             ->default(0),
-                        Forms\Components\Textarea::make('caption')
-                            ->columnSpanFull(),
-                        Forms\Components\Textarea::make('rights_note')
-                            ->columnSpanFull(),
                     ]),
+                ...ApprovedMediaForm::uploadFields(
+                    directoryConfigKey: 'project_evidence_directory',
+                    sectionDescription: 'Upload only rights-cleared official activity images. Do not upload citizen ID scans or other sensitive documents.',
+                ),
             ]);
     }
 
@@ -66,6 +67,10 @@ class ProjectEvidenceResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('media_path')
+                    ->label('Preview')
+                    ->disk('public')
+                    ->square(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
@@ -73,6 +78,10 @@ class ProjectEvidenceResource extends Resource
                     ->label('Project')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\IconColumn::make('rights_ready')
+                    ->label('Rights ready')
+                    ->boolean()
+                    ->getStateUsing(fn (ProjectEvidence $record): bool => self::isRightsReady($record)),
                 Tables\Columns\TextColumn::make('source_label')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('verified_at')
@@ -84,6 +93,12 @@ class ProjectEvidenceResource extends Resource
                 Tables\Filters\SelectFilter::make('project_id')
                     ->label('Project')
                     ->relationship('project', 'title'),
+                Tables\Filters\Filter::make('unverified')
+                    ->label('Needs verification')
+                    ->query(fn (Builder $query): Builder => $query->whereNull('verified_at')),
+                Tables\Filters\Filter::make('missing_file')
+                    ->label('Missing uploaded file')
+                    ->query(fn (Builder $query): Builder => $query->whereNull('media_path')->orWhere('media_path', '')),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -103,5 +118,14 @@ class ProjectEvidenceResource extends Resource
             'view' => Pages\ViewProjectEvidence::route('/{record}'),
             'edit' => Pages\EditProjectEvidence::route('/{record}/edit'),
         ];
+    }
+
+    private static function isRightsReady(ProjectEvidence $record): bool
+    {
+        return filled($record->media_path)
+            && filled($record->caption)
+            && filled($record->alt_text)
+            && filled($record->rights_note)
+            && $record->verified_at !== null;
     }
 }

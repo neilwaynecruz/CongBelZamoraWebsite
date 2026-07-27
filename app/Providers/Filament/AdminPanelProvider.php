@@ -65,6 +65,10 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Inquiries'),
                 NavigationGroup::make()
+                    ->label('Content Governance'),
+                NavigationGroup::make()
+                    ->label('Reference Data'),
+                NavigationGroup::make()
                     ->label('Governance & Audit'),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')

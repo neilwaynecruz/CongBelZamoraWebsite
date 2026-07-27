@@ -2,11 +2,15 @@
 
 namespace App\Policies;
 
+use App\Policies\Concerns\RestoresCivicContent;
+
 use App\Models\LegislativeSourceHistory;
 use App\Models\User;
 
 class LegislativeSourceHistoryPolicy
 {
+    use RestoresCivicContent;
+
     public function viewAny(User $user): bool
     {
         return $user->canManageLegislation()

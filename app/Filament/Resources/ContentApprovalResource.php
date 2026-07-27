@@ -6,6 +6,7 @@ use App\Enums\ContentApprovalStatus;
 use App\Filament\Resources\ContentApprovalResource\Pages;
 use App\Models\ContentApproval;
 use App\Models\User;
+use App\Services\ContentPublicationService;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\PageRegistration;
@@ -23,6 +24,8 @@ class ContentApprovalResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
     protected static ?string $navigationGroup = 'Content Governance';
+
+    protected static ?string $navigationLabel = 'Content Approvals';
 
     protected static ?int $navigationSort = 5;
 
@@ -45,6 +48,13 @@ class ContentApprovalResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Section::make('Workflow')
+                    ->description('Recommended path: Draft → For review → Approved → Published. Use Needs revision or Rejected when content must change.')
+                    ->schema([
+                        Forms\Components\Placeholder::make('workflow_hint')
+                            ->label('Current stage')
+                            ->content(fn (?ContentApproval $record): string => $record?->status?->label() ?? 'Unknown'),
+                    ]),
                 Forms\Components\Section::make('Approval decision')
                     ->columns(2)
                     ->schema([
@@ -71,6 +81,10 @@ class ContentApprovalResource extends Resource
                             ->disabled(fn (?ContentApproval $record): bool => ! self::canUpdateApproval($record)),
                         Forms\Components\DateTimePicker::make('approved_at')
                             ->timezone('Asia/Manila')
+                            ->disabled(fn (?ContentApproval $record): bool => ! self::canUpdateApproval($record)),
+                        Forms\Components\DateTimePicker::make('scheduled_for')
+                            ->timezone('Asia/Manila')
+                            ->helperText('Used when status is Scheduled. The scheduler publishes due records every 15 minutes.')
                             ->disabled(fn (?ContentApproval $record): bool => ! self::canUpdateApproval($record)),
                         Forms\Components\DateTimePicker::make('published_at')
                             ->timezone('Asia/Manila')
@@ -163,17 +177,47 @@ class ContentApprovalResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options(ContentApprovalStatus::options()),
+                Tables\Filters\Filter::make('my_queue')
+                    ->label('Open review queue')
+                    ->query(fn (Builder $query): Builder => $query->whereIn('status', [
+                        ContentApprovalStatus::ForReview->value,
+                        ContentApprovalStatus::NeedsRevision->value,
+                    ])),
+                Tables\Filters\Filter::make('submitted_by_me')
+                    ->label('Submitted by me')
+                    ->query(fn (Builder $query): Builder => $query->where('submitted_by_id', Auth::id())),
                 Tables\Filters\Filter::make('launch_gate')
                     ->label('Launch gates only')
                     ->query(fn (Builder $query): Builder => $query->where('metadata->launch_gate', true)),
             ])
             ->actions([
+                Tables\Actions\Action::make('submit_for_review')
+                    ->label('Submit for review')
+                    ->icon('heroicon-o-paper-airplane')
+                    ->color('info')
+                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                        && in_array($record->status, [
+                            ContentApprovalStatus::Draft,
+                            ContentApprovalStatus::NeedsRevision,
+                        ], true))
+                    ->requiresConfirmation()
+                    ->action(function (ContentApproval $record): void {
+                        $record->forceFill([
+                            'status' => ContentApprovalStatus::ForReview,
+                            'submitted_by_id' => $record->submitted_by_id ?? Auth::id(),
+                            'submitted_at' => $record->submitted_at ?? now(),
+                            'rejection_reason' => null,
+                        ])->save();
+                    }),
                 Tables\Actions\Action::make('approve')
                     ->label('Approve')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
-                        && ! in_array($record->status, [ContentApprovalStatus::Approved, ContentApprovalStatus::Published], true))
+                        && ! in_array($record->status, [
+                            ContentApprovalStatus::Approved,
+                            ContentApprovalStatus::Published,
+                        ], true))
                     ->requiresConfirmation()
                     ->action(function (ContentApproval $record): void {
                         $record->forceFill([
@@ -181,7 +225,49 @@ class ContentApprovalResource extends Resource
                             'reviewed_by_id' => Auth::id(),
                             'reviewed_at' => now(),
                             'approved_at' => now(),
+                            'rejection_reason' => null,
                         ])->save();
+                    }),
+                Tables\Actions\Action::make('schedule')
+                    ->label('Schedule')
+                    ->icon('heroicon-o-calendar-days')
+                    ->color('info')
+                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                        && in_array($record->status, [
+                            ContentApprovalStatus::ForReview,
+                            ContentApprovalStatus::Approved,
+                            ContentApprovalStatus::Scheduled,
+                        ], true))
+                    ->form([
+                        Forms\Components\DateTimePicker::make('scheduled_for')
+                            ->label('Publish at')
+                            ->timezone('Asia/Manila')
+                            ->required()
+                            ->after(now()->subMinute()),
+                    ])
+                    ->action(function (ContentApproval $record, array $data): void {
+                        $actor = Auth::user();
+
+                        app(ContentPublicationService::class)->schedule(
+                            $record,
+                            $data['scheduled_for'],
+                            $actor instanceof User ? $actor : null,
+                        );
+                    }),
+                Tables\Actions\Action::make('publish')
+                    ->label('Mark published')
+                    ->icon('heroicon-o-globe-alt')
+                    ->color('success')
+                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                        && $record->status === ContentApprovalStatus::Approved)
+                    ->requiresConfirmation()
+                    ->action(function (ContentApproval $record): void {
+                        $actor = Auth::user();
+
+                        app(ContentPublicationService::class)->publish(
+                            $record,
+                            $actor instanceof User ? $actor : null,
+                        );
                     }),
                 Tables\Actions\Action::make('needs_revision')
                     ->label('Needs revision')
@@ -189,12 +275,38 @@ class ContentApprovalResource extends Resource
                     ->color('warning')
                     ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
                         && $record->status !== ContentApprovalStatus::NeedsRevision)
-                    ->requiresConfirmation()
-                    ->action(function (ContentApproval $record): void {
+                    ->form([
+                        Forms\Components\Textarea::make('review_notes')
+                            ->label('Revision notes')
+                            ->required()
+                            ->rows(4),
+                    ])
+                    ->action(function (ContentApproval $record, array $data): void {
                         $record->forceFill([
                             'status' => ContentApprovalStatus::NeedsRevision,
                             'reviewed_by_id' => Auth::id(),
                             'reviewed_at' => now(),
+                            'review_notes' => $data['review_notes'],
+                        ])->save();
+                    }),
+                Tables\Actions\Action::make('reject')
+                    ->label('Reject')
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                        && $record->status !== ContentApprovalStatus::Rejected)
+                    ->form([
+                        Forms\Components\Textarea::make('rejection_reason')
+                            ->label('Rejection reason')
+                            ->required()
+                            ->rows(4),
+                    ])
+                    ->action(function (ContentApproval $record, array $data): void {
+                        $record->forceFill([
+                            'status' => ContentApprovalStatus::Rejected,
+                            'reviewed_by_id' => Auth::id(),
+                            'reviewed_at' => now(),
+                            'rejection_reason' => $data['rejection_reason'],
                         ])->save();
                     }),
                 Tables\Actions\ViewAction::make(),

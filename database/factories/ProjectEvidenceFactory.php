@@ -22,6 +22,7 @@ class ProjectEvidenceFactory extends Factory
             'source_label' => 'Official source',
             'source_url' => fake()->url(),
             'caption' => fake()->sentence(),
+            'alt_text' => fake()->sentence(6),
             'rights_note' => fake()->sentence(),
             'media_path' => null,
             'verified_at' => now(),

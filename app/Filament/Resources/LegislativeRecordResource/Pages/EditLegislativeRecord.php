@@ -3,12 +3,21 @@
 namespace App\Filament\Resources\LegislativeRecordResource\Pages;
 
 use App\Filament\Resources\LegislativeRecordResource;
+use App\Filament\Support\SoftDeleteHeaderActions;
 use App\Models\LegislativeRecord;
 use App\Services\AuditLogService;
 use Filament\Resources\Pages\EditRecord;
 
 class EditLegislativeRecord extends EditRecord
 {
+    use SoftDeleteHeaderActions;
+
+    /** @return array<int, \\Filament\\Actions\\Action> */
+    protected function getHeaderActions(): array
+    {
+        return $this->softDeleteHeaderActions();
+    }
+
     protected static string $resource = LegislativeRecordResource::class;
 
     protected function afterSave(): void
@@ -28,5 +37,7 @@ class EditLegislativeRecord extends EditRecord
                 'review_due_at' => (string) $record->review_due_at,
             ],
         );
+
+        app(\App\Services\PublicCacheInvalidator::class)->forgetForModel($record);
     }
 }

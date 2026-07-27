@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\LegislativeRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class PublicLegislationReadService
 {
@@ -20,6 +21,28 @@ class PublicLegislationReadService
      * }
      */
     public function indexProps(Request $request): array
+    {
+        /** @var array<string, mixed> $base */
+        $base = Cache::remember(
+            PublicCacheInvalidator::LEGISLATION_INDEX,
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            fn (): array => $this->baseIndexPayload(),
+        );
+
+        return [
+            ...$base,
+            'initialFilters' => [
+                'role' => $this->roleFromQuery($request),
+                'status' => $request->query('status', 'All statuses'),
+                'topic' => $request->query('topic', 'All topics'),
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function baseIndexPayload(): array
     {
         $items = LegislativeRecord::query()
             ->published()
@@ -37,11 +60,6 @@ class PublicLegislationReadService
             'roleOptions' => $items->pluck('roleLabel')->unique()->values()->all(),
             'statusOptions' => $items->pluck('status')->unique()->values()->all(),
             'topicOptions' => $items->pluck('topic')->unique()->values()->all(),
-            'initialFilters' => [
-                'role' => $this->roleFromQuery($request),
-                'status' => $request->query('status', 'All statuses'),
-                'topic' => $request->query('topic', 'All topics'),
-            ],
             'verifiedAt' => $this->latestVerifiedAt($items),
         ];
     }

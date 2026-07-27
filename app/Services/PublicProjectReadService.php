@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class PublicProjectReadService
 {
@@ -20,6 +21,28 @@ class PublicProjectReadService
      * }
      */
     public function indexProps(Request $request): array
+    {
+        /** @var array<string, mixed> $base */
+        $base = Cache::remember(
+            PublicCacheInvalidator::PROJECTS_INDEX,
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            fn (): array => $this->baseIndexPayload(),
+        );
+
+        return [
+            ...$base,
+            'initialFilters' => [
+                'barangay' => $request->query('barangay', 'All barangays'),
+                'status' => $this->statusFromQuery($request),
+                'category' => $request->query('category', 'All categories'),
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function baseIndexPayload(): array
     {
         $items = Project::query()
             ->published()
@@ -37,11 +60,6 @@ class PublicProjectReadService
             'barangayOptions' => $items->pluck('barangay')->unique()->values()->all(),
             'statusOptions' => $items->pluck('statusLabel')->unique()->values()->all(),
             'categoryOptions' => $items->pluck('category')->unique()->values()->all(),
-            'initialFilters' => [
-                'barangay' => $request->query('barangay', 'All barangays'),
-                'status' => $this->statusFromQuery($request),
-                'category' => $request->query('category', 'All categories'),
-            ],
             'verifiedAt' => $this->latestVerifiedAt($items),
         ];
     }

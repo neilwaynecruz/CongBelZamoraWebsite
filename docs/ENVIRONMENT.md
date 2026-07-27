@@ -102,6 +102,28 @@ Before deployment or Phase 8 content-migration sign-off, verify the backend-owne
 php artisan public-pages:check-required
 ```
 
+## Bel Zamora application environment variables
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `INQUIRY_RETENTION_DAYS` | Days before inquiry PII is anonymized | `180` |
+| `INQUIRY_STAFF_NOTIFICATION_EMAIL` | Optional extra mailbox for non-PII staff inquiry alerts | empty |
+| `INQUIRY_UNANSWERED_SLA_HOURS` | Hours before unanswered inquiries are marked SLA-overdue in admin/dashboard | `48` |
+| `APPROVED_MEDIA_MAX_KB` | Max Filament approved-media upload size in kilobytes | `5120` (5 MB) |
+| `PUBLIC_CONTENT_CACHE_TTL` | Public read-service cache TTL in seconds | `60` |
+| `QUEUE_JOB_TRIES` | Default tries for FlagStaleContent and queued notifications | `3` |
+| `QUEUE_JOB_BACKOFF` | Default backoff seconds between retries | `60` |
+| `QUEUE_JOB_TIMEOUT` | Default job/notification timeout seconds | `120` |
+| `APP_PREVIOUS_KEYS` | Previous `APP_KEY` values during an approved rotation only | empty |
+
+Approved media uploads use the `public` disk under `storage/app/public/approved-media/`. After deploy run:
+
+```powershell
+php artisan storage:link
+```
+
+Production queue/scheduler/backup/`APP_KEY` procedures: [`PRODUCTION_OPS.md`](PRODUCTION_OPS.md).
+
 ## Filament admin theme
 
 The staff admin panel uses a custom District Operations Dashboard theme registered through the normal Vite pipeline:

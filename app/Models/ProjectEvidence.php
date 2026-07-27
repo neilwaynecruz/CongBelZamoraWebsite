@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\ProjectEvidenceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,6 +12,7 @@ class ProjectEvidence extends Model
 {
     /** @use HasFactory<ProjectEvidenceFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'project_evidences';
 
@@ -20,6 +22,7 @@ class ProjectEvidence extends Model
         'source_label',
         'source_url',
         'caption',
+        'alt_text',
         'rights_note',
         'media_path',
         'verified_at',

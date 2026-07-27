@@ -122,6 +122,8 @@ Generated local ignored QA evidence:
 
 ## 6. Recommended Next Task
 
+In parallel with finishing the Phase 9 verification blockers below, circulate Phase 10 approval packages in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`.
+
 Complete the missing Phase 9 launch-verification pass on a host with working browser automation or by documented human QA:
 
 1. Run Agent Browser, Playwright, or Chrome CDP against `/`, `/about`, `/programs`, `/programs/gabay`, `/programs/education/tulong-dunong`, `/legislation`, `/projects`, `/news`, `/contact`, `/privacy`, `/accessibility`, and `/disclaimer`.

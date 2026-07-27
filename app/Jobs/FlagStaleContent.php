@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\AdminRole;
+use App\Events\SourceReviewDue;
 use App\Models\AuditLog;
 use App\Models\LegislativeRecord;
 use App\Models\NewsRecord;
@@ -14,6 +15,7 @@ use App\Models\SourceRecord;
 use App\Models\User;
 use App\Notifications\StaleContentDigestNotification;
 use App\Services\AuditLogService;
+use App\Support\ReliableQueuedWork;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
@@ -21,11 +23,18 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Throwable;
 
 class FlagStaleContent implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, ReliableQueuedWork, SerializesModels;
+
+    public function __construct()
+    {
+        $this->configureReliableQueue();
+    }
 
     public function handle(AuditLogService $auditLog): void
     {
@@ -64,26 +73,25 @@ class FlagStaleContent implements ShouldQueue
 
         $counts['source_records'] = 0;
 
-        $sourceRecords->each(function (SourceRecord $record) use (&$counts, $auditLog): void {
+        $sourceRecords->each(function (SourceRecord $record) use (&$counts): void {
             if ($this->alreadyLoggedToday('source_record.review_overdue', $record)) {
                 return;
             }
 
-            $auditLog->record(
-                event: 'source_record.review_overdue',
-                auditable: $record,
-                metadata: [
-                    'source_title' => $record->title,
-                    'next_review_at' => (string) $record->next_review_at,
-                ],
-            );
-
+            SourceReviewDue::dispatch($record);
             $counts['source_records']++;
         });
 
         if (array_sum($counts) > 0) {
             Notification::send($this->recipients(), new StaleContentDigestNotification($counts));
         }
+    }
+
+    public function failed(?Throwable $exception): void
+    {
+        Log::error('FlagStaleContent job failed permanently.', [
+            'exception' => $exception?->getMessage(),
+        ]);
     }
 
     private function alreadyLoggedToday(string $event, Model $record): bool
@@ -117,6 +125,7 @@ class FlagStaleContent implements ShouldQueue
     private function recipients(): Collection
     {
         return User::query()
+            ->where('is_active', true)
             ->whereIn('admin_role', [
                 AdminRole::SuperAdministrator->value,
                 AdminRole::ContentAdministrator->value,

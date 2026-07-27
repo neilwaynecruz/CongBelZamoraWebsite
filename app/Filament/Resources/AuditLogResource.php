@@ -10,6 +10,8 @@ use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class AuditLogResource extends Resource
 {
@@ -88,6 +90,48 @@ class AuditLogResource extends Resource
                     ->sortable(),
             ])
             ->defaultSort('occurred_at', 'desc')
+            ->filters([
+                Tables\Filters\SelectFilter::make('event')
+                    ->options(fn (): array => AuditLog::query()
+                        ->select('event')
+                        ->distinct()
+                        ->orderBy('event')
+                        ->pluck('event', 'event')
+                        ->all()),
+                Tables\Filters\SelectFilter::make('auditable_type')
+                    ->label('Record type')
+                    ->options(fn (): array => AuditLog::query()
+                        ->select('auditable_type')
+                        ->whereNotNull('auditable_type')
+                        ->distinct()
+                        ->orderBy('auditable_type')
+                        ->pluck('auditable_type', 'auditable_type')
+                        ->mapWithKeys(fn (string $type): array => [$type => str(class_basename($type))->headline()->toString()])
+                        ->all()),
+                Tables\Filters\Filter::make('actor_is_me')
+                    ->label('Actor is me')
+                    ->query(fn (Builder $query): Builder => $query->where('actor_user_id', Auth::id())),
+                Tables\Filters\Filter::make('system_events')
+                    ->label('System events')
+                    ->query(fn (Builder $query): Builder => $query->whereNull('actor_user_id')),
+                Tables\Filters\Filter::make('occurred_between')
+                    ->form([
+                        Forms\Components\DatePicker::make('from')->label('From'),
+                        Forms\Components\DatePicker::make('until')->label('Until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when($data['from'] ?? null, fn (Builder $query, string $date): Builder => $query->whereDate('occurred_at', '>=', $date))
+                            ->when($data['until'] ?? null, fn (Builder $query, string $date): Builder => $query->whereDate('occurred_at', '<=', $date));
+                    }),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('export_audit_summary')
+                    ->label('Export audit summary CSV')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('gray')
+                    ->action(fn () => self::exportAuditSummaryCsv(AuditLog::query()->with('actor'))),
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
             ])
@@ -103,5 +147,38 @@ class AuditLogResource extends Resource
             'index' => Pages\ListAuditLogs::route('/'),
             'view' => Pages\ViewAuditLog::route('/{record}'),
         ];
+    }
+
+    /**
+     * @param  Builder<AuditLog>  $query
+     */
+    public static function exportAuditSummaryCsv(Builder $query): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $filename = 'audit-summary-'.now('Asia/Manila')->format('Ymd-His').'.csv';
+
+        return response()->streamDownload(function () use ($query): void {
+            $handle = fopen('php://output', 'w');
+
+            if ($handle === false) {
+                return;
+            }
+
+            fputcsv($handle, ['event', 'actor', 'record_type', 'record_id', 'occurred_at']);
+
+            $query->orderByDesc('occurred_at')->chunk(200, function ($logs) use ($handle): void {
+                foreach ($logs as $log) {
+                    /** @var AuditLog $log */
+                    fputcsv($handle, [
+                        $log->event,
+                        $log->actor?->name ?? 'System',
+                        $log->auditable_type !== null ? str(class_basename($log->auditable_type))->headline()->toString() : '',
+                        $log->auditable_id,
+                        $log->occurred_at?->timezone('Asia/Manila')->toDateTimeString(),
+                    ]);
+                }
+            });
+
+            fclose($handle);
+        }, $filename, ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 }

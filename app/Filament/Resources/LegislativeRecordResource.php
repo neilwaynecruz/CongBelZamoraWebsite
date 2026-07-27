@@ -2,9 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Support\SoftDeletableResource;
+
 use App\Enums\LegislativeRoleValue;
 use App\Enums\LegislativeStatusTone;
 use App\Filament\Resources\LegislativeRecordResource\Pages;
+use App\Filament\RelationManagers\ContentApprovalsRelationManager;
+use App\Filament\RelationManagers\LegislativeSourceHistoriesRelationManager;
+use App\Filament\RelationManagers\SourceRecordsRelationManager;
 use App\Models\LegislativeRecord;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +20,8 @@ use Filament\Tables\Table;
 
 class LegislativeRecordResource extends Resource
 {
+    use SoftDeletableResource;
+
     protected static ?string $model = LegislativeRecord::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
@@ -22,6 +29,16 @@ class LegislativeRecordResource extends Resource
     protected static ?string $navigationGroup = 'Legislative Records';
 
     protected static ?int $navigationSort = 40;
+
+    protected static ?string $recordTitleAttribute = 'public_title';
+
+    /**
+     * @return list<string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['bill_number', 'public_title', 'official_title', 'plain_language_summary'];
+    }
 
     public static function form(Form $form): Form
     {
@@ -197,12 +214,25 @@ class LegislativeRecordResource extends Resource
                 Tables\Filters\SelectFilter::make('legislative_topic_id')
                     ->label('Topic')
                     ->relationship('topic', 'name'),
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([]);
+    }
+
+    /**
+     * @return array<int, class-string>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            LegislativeSourceHistoriesRelationManager::class,
+            SourceRecordsRelationManager::class,
+            ContentApprovalsRelationManager::class,
+        ];
     }
 
     /**

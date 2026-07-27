@@ -130,6 +130,6 @@ Rejected for MVP migration:
 
 ## 7. Recommended Next Task
 
-Proceed to Phase 9: Testing and Quality Assurance.
+Proceed to Phase 10 stakeholder circulation using `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`.
 
-Phase 9 should run full backend, frontend, browser, accessibility, privacy, security, performance, redirect, sitemap, and mobile QA against the migrated MVP content before Phase 10 formal approval.
+Phase 9 automated QA is documented; finish remaining Phase 9 browser/real-device verification in parallel with Phase 10 signatures. Do not begin Phase 11 until launch authorization is granted.

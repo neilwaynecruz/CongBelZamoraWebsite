@@ -2,12 +2,16 @@
 
 namespace App\Policies;
 
+use App\Policies\Concerns\RestoresCivicContent;
+
 use App\Enums\AdminRole;
 use App\Models\NewsMediaAsset;
 use App\Models\User;
 
 class NewsMediaAssetPolicy
 {
+    use RestoresCivicContent;
+
     public function viewAny(User $user): bool
     {
         return $this->canViewNewsContent($user);

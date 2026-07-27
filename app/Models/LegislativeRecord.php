@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\LegislativeRecordFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,6 +18,7 @@ class LegislativeRecord extends Model
 {
     /** @use HasFactory<LegislativeRecordFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'legislative_role_id',

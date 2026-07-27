@@ -2,11 +2,15 @@
 
 namespace App\Policies;
 
+use App\Policies\Concerns\RestoresCivicContent;
+
 use App\Models\ServiceGuideStep;
 use App\Models\User;
 
 class ServiceGuideStepPolicy
 {
+    use RestoresCivicContent;
+
     public function viewAny(User $user): bool
     {
         return $user->canManagePrograms() || $user->canReviewPublicContent() || $user->canAuditRecords();

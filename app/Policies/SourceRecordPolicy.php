@@ -2,12 +2,16 @@
 
 namespace App\Policies;
 
+use App\Policies\Concerns\RestoresCivicContent;
+
 use App\Enums\AdminRole;
 use App\Models\SourceRecord;
 use App\Models\User;
 
 class SourceRecordPolicy
 {
+    use RestoresCivicContent;
+
     public function viewAny(User $user): bool
     {
         return $user->isStaff();

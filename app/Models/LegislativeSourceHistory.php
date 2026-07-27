@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\LegislativeSourceHistoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,6 +12,7 @@ class LegislativeSourceHistory extends Model
 {
     /** @use HasFactory<LegislativeSourceHistoryFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'legislative_record_id',

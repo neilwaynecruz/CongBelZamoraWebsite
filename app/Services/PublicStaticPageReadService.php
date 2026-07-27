@@ -7,17 +7,29 @@ use Carbon\CarbonImmutable;
 use DateTimeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 
 class PublicStaticPageReadService
 {
+    public function __construct(private readonly PublicCacheInvalidator $cacheInvalidator) {}
+
     /**
      * @return array<string, mixed>
      */
     public function props(string $slug): array
     {
-        $page = $this->page($slug);
+        /** @var array<string, mixed> $props */
+        $props = Cache::remember(
+            $this->cacheInvalidator->staticPageKey($slug),
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            function () use ($slug): array {
+                $page = $this->page($slug);
 
-        return $this->withReviewMetadata($page, $page->props);
+                return $this->withReviewMetadata($page, $page->props);
+            },
+        );
+
+        return $props;
     }
 
     /**
@@ -36,7 +48,14 @@ class PublicStaticPageReadService
 
     public function component(string $slug): string
     {
-        return $this->page($slug)->component;
+        /** @var string $component */
+        $component = Cache::remember(
+            $this->cacheInvalidator->staticPageComponentKey($slug),
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            fn (): string => $this->page($slug)->component,
+        );
+
+        return $component;
     }
 
     private function page(string $slug): PublicPage

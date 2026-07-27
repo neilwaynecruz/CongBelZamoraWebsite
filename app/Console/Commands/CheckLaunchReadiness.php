@@ -110,6 +110,7 @@ class CheckLaunchReadiness extends Command
         $checks = [
             'APP_ENV must be production' => app()->environment('production'),
             'APP_DEBUG must be false' => config('app.debug') === false,
+            'APP_KEY must be set' => filled(config('app.key')),
             'APP_URL must use HTTPS' => Str::startsWith((string) config('app.url'), 'https://'),
             'MAIL_MAILER must not be log or array' => ! in_array((string) config('mail.default'), ['log', 'array'], true),
             'QUEUE_CONNECTION must not be sync' => (string) config('queue.default') !== 'sync',

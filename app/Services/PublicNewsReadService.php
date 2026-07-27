@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\NewsRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class PublicNewsReadService
 {
@@ -20,6 +21,28 @@ class PublicNewsReadService
      * }
      */
     public function indexProps(Request $request): array
+    {
+        /** @var array<string, mixed> $base */
+        $base = Cache::remember(
+            PublicCacheInvalidator::NEWS_INDEX,
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            fn (): array => $this->baseIndexPayload(),
+        );
+
+        return [
+            ...$base,
+            'initialFilters' => [
+                'category' => $request->query('category', 'All categories'),
+                'status' => $this->statusFromQuery($request),
+                'year' => $request->query('year', 'All years'),
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function baseIndexPayload(): array
     {
         $items = NewsRecord::query()
             ->published()
@@ -42,11 +65,6 @@ class PublicNewsReadService
                 ->unique()
                 ->values()
                 ->all(),
-            'initialFilters' => [
-                'category' => $request->query('category', 'All categories'),
-                'status' => $this->statusFromQuery($request),
-                'year' => $request->query('year', 'All years'),
-            ],
             'verifiedAt' => $this->latestVerifiedAt($items),
         ];
     }

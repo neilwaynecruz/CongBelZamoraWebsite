@@ -2,11 +2,15 @@
 
 namespace App\Policies;
 
+use App\Policies\Concerns\RestoresCivicContent;
+
 use App\Models\ProgramRequirement;
 use App\Models\User;
 
 class ProgramRequirementPolicy
 {
+    use RestoresCivicContent;
+
     public function viewAny(User $user): bool
     {
         return $user->canManagePrograms() || $user->canReviewPublicContent() || $user->canAuditRecords();

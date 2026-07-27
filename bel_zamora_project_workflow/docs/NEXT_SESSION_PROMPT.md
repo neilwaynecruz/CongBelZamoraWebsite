@@ -1,39 +1,30 @@
-You are continuing the Atty. Congresswoman Bel Zamora public-service website project.
+# Next Session Prompt
 
-The canonical source of truth is `docs/bel_zamora_website_plan.md`. Read it completely before changing any file.
+**Prepared:** July 27, 2026  
+**Active phase:** Phase 10: Content and Legal Approval (`In Progress`)  
+**Canonical plan:** `docs/bel_zamora_website_plan.md`  
+**Phase 10 register:** `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`
 
-Current audited state:
+```text
+You are continuing Phase 10: Content and Legal Approval for the Bel Zamora website.
 
-- Active work: Phase 1 source verification and Phase 2 user research approval
-- Phase 0 status: Implemented
-- Repository: `c:\laragon\www\CongBellProject`
-- Stack: Laravel 13.19.0, Vue 3.5.39, TypeScript, Inertia 3, Tailwind 4, Filament 3.3.54, MySQL 8.4, Redis
-- Package manager: npm
-- Public baseline page: `resources/js/pages/Welcome.vue`
-- Staff admin: `/admin` (Filament; no content modules yet)
-- CI: `.github/workflows/ci.yml`
+First, apply the Master Operating Prompt from docs/bel_zamora_phase_by_phase_ai_prompts.md.
+
+Do not invent stakeholder signatures. Do not launch the website. Implement only changes that are explicitly approved in the Phase 10 register or by a documented reviewer decision.
+
+Current state:
+
+- Approval packages A–J and the master register exist in docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md.
+- Four Filament launch gates remain For Review.
+- Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, and Tier 3 backend optimizations are implemented and covered by targeted tests.
+- Launch-critical open issues include legislative placeholder bill/RA IDs, unconfirmed office hours/channels, unconfirmed Tulong Dunong current-cycle facts, portrait rights confirmation, and incomplete Phase 9 browser/real-device/screen-reader evidence.
+- Launch authorization is Not granted. Phase 11 remains Blocked.
 
 Exact next task:
 
-1. Obtain District Office authorization for content audit and Phase 2 research work.
-2. Produce the verified source register from approved official sources.
-3. Collect approved anonymized evidence for Phase 2: inquiry categories, FAQs, search terms, analytics, program questions, complaint patterns, workflows, forms, and accessibility barriers.
-4. Conduct staff and citizen research using `docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md`.
-5. Confirm official biography facts, office contacts, program statuses, user needs, service-routing requirements, privacy requirements, and MVP scope with assigned owners.
-6. Do not implement public content modules, screens, or admin features until verification, requirements, and ownership are approved.
-7. Update `docs/bel_zamora_website_plan.md` and `docs/PHASE_2_USER_RESEARCH_REQUIREMENTS.md` with progress and evidence.
-
-Do not begin program, legislative, project, inquiry, screen-design, or admin feature implementation until Phase 1 verification and Phase 2 requirements approval are complete.
-
-Required response sections:
-
-1. Project Understanding
-2. Current Project Status
-3. Inspection Results
-4. Detailed Plan
-5. Implementation (documentation and audit artifacts only in Phase 1)
-6. Validation Results
-7. Documentation Updates
-8. Remaining Work
-9. Updated Phase Status
-10. Recommended Next Prompt
+1. If the user provides signed package decisions or approved replacement content, record them in the Phase 10 register.
+2. Implement only approved corrections (content/seed/admin), rerun affected validation, and return packages for countersignature.
+3. If no signatures are provided, help the user circulate packages or produce reviewer-ready checklists without changing public claims.
+4. Mark Phase 10 Implemented only when all launch-critical approvals and required corrections are complete.
+5. End with the required ten response sections. Provide a Phase 11 prompt only if launch authorization is granted; otherwise provide a continued Phase 10 prompt.
+```

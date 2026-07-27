@@ -25,6 +25,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property AdminRole|null $admin_role
+ * @property bool $is_active
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at
@@ -32,7 +33,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password', 'admin_role'])]
+#[Fillable(['name', 'email', 'password', 'admin_role', 'is_active'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser, PasskeyUser
 {
@@ -48,6 +49,7 @@ class User extends Authenticatable implements FilamentUser, PasskeyUser
     {
         return [
             'admin_role' => AdminRole::class,
+            'is_active' => 'boolean',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
@@ -56,12 +58,17 @@ class User extends Authenticatable implements FilamentUser, PasskeyUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isStaff();
+        return $this->isStaff() && $this->is_active === true;
     }
 
     public function isStaff(): bool
     {
         return $this->admin_role instanceof AdminRole;
+    }
+
+    public function canManageStaffUsers(): bool
+    {
+        return $this->hasAdminRole(AdminRole::SuperAdministrator);
     }
 
     public function hasAdminRole(AdminRole ...$roles): bool

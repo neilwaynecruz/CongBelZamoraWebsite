@@ -9,6 +9,7 @@ use App\Models\ProgramRequirement;
 use App\Models\ServiceGuide;
 use App\Models\ServiceGuideStep;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class PublicProgramReadService
 {
@@ -23,23 +24,32 @@ class PublicProgramReadService
      */
     public function indexProps(): array
     {
-        $programs = Program::query()
-            ->published()
-            ->with('sourceRecords')
-            ->ordered()
-            ->get()
-            ->map(fn (Program $program): array => $this->programCard($program));
+        /** @var array{breadcrumbs: array<int, array<string, string>>, programs: array<int, array<string, mixed>>, sectors: array<int, string>, statuses: array<int, string>, verifiedAt: string} $payload */
+        $payload = Cache::remember(
+            PublicCacheInvalidator::PROGRAMS_INDEX,
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            function (): array {
+                $programs = Program::query()
+                    ->published()
+                    ->with('sourceRecords')
+                    ->ordered()
+                    ->get()
+                    ->map(fn (Program $program): array => $this->programCard($program));
 
-        return [
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Programs'],
-            ],
-            'programs' => $programs->values()->all(),
-            'sectors' => $programs->pluck('sector')->unique()->values()->all(),
-            'statuses' => $programs->pluck('statusLabel')->unique()->values()->all(),
-            'verifiedAt' => $this->latestVerifiedAt($programs),
-        ];
+                return [
+                    'breadcrumbs' => [
+                        ['title' => 'Home', 'href' => '/'],
+                        ['title' => 'Programs'],
+                    ],
+                    'programs' => $programs->values()->all(),
+                    'sectors' => $programs->pluck('sector')->unique()->values()->all(),
+                    'statuses' => $programs->pluck('statusLabel')->unique()->values()->all(),
+                    'verifiedAt' => $this->latestVerifiedAt($programs),
+                ];
+            },
+        );
+
+        return $payload;
     }
 
     /**
@@ -51,22 +61,31 @@ class PublicProgramReadService
      */
     public function gabayProps(): array
     {
-        $serviceOptions = ServiceGuide::query()
-            ->published()
-            ->with('steps')
-            ->ordered()
-            ->get()
-            ->map(fn (ServiceGuide $serviceGuide): array => $this->serviceOption($serviceGuide));
+        /** @var array{breadcrumbs: array<int, array<string, string>>, serviceOptions: array<int, array<string, mixed>>, verifiedAt: string} $payload */
+        $payload = Cache::remember(
+            PublicCacheInvalidator::PROGRAMS_GABAY,
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            function (): array {
+                $serviceOptions = ServiceGuide::query()
+                    ->published()
+                    ->with('steps')
+                    ->ordered()
+                    ->get()
+                    ->map(fn (ServiceGuide $serviceGuide): array => $this->serviceOption($serviceGuide));
 
-        return [
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Programs', 'href' => '/programs'],
-                ['title' => 'Gabay San Juaneño'],
-            ],
-            'serviceOptions' => $serviceOptions->values()->all(),
-            'verifiedAt' => $this->latestVerifiedAt($serviceOptions),
-        ];
+                return [
+                    'breadcrumbs' => [
+                        ['title' => 'Home', 'href' => '/'],
+                        ['title' => 'Programs', 'href' => '/programs'],
+                        ['title' => 'Gabay San Juaneño'],
+                    ],
+                    'serviceOptions' => $serviceOptions->values()->all(),
+                    'verifiedAt' => $this->latestVerifiedAt($serviceOptions),
+                ];
+            },
+        );
+
+        return $payload;
     }
 
     /**
@@ -77,21 +96,30 @@ class PublicProgramReadService
      */
     public function tulongDunongProps(): array
     {
-        $program = Program::query()
-            ->published()
-            ->with(['requirements', 'sourceRecords'])
-            ->where('slug', 'ched-unifast-tulong-dunong')
-            ->firstOrFail();
+        /** @var array{breadcrumbs: array<int, array<string, string>>, program: array<string, mixed>} $payload */
+        $payload = Cache::remember(
+            PublicCacheInvalidator::PROGRAMS_TULONG_DUNONG,
+            (int) config('belzamora.cache.public_ttl_seconds', 60),
+            function (): array {
+                $program = Program::query()
+                    ->published()
+                    ->with(['requirements', 'sourceRecords'])
+                    ->where('slug', 'ched-unifast-tulong-dunong')
+                    ->firstOrFail();
 
-        return [
-            'breadcrumbs' => [
-                ['title' => 'Home', 'href' => '/'],
-                ['title' => 'Programs', 'href' => '/programs'],
-                ['title' => 'Education'],
-                ['title' => 'Tulong Dunong'],
-            ],
-            'program' => $this->programDetail($program),
-        ];
+                return [
+                    'breadcrumbs' => [
+                        ['title' => 'Home', 'href' => '/'],
+                        ['title' => 'Programs', 'href' => '/programs'],
+                        ['title' => 'Education'],
+                        ['title' => 'Tulong Dunong'],
+                    ],
+                    'program' => $this->programDetail($program),
+                ];
+            },
+        );
+
+        return $payload;
     }
 
     /**

@@ -2,9 +2,31 @@
 
 namespace App\Providers;
 
+use App\Events\ContentPublished;
+use App\Events\ContentScheduled;
+use App\Events\InquirySubmitted;
+use App\Events\SourceReviewDue;
+use App\Listeners\InvalidateAdminDashboardOnInquiry;
+use App\Listeners\InvalidatePublicContentCache;
+use App\Listeners\RecordSourceReviewDue;
+use App\Models\LegislativeRecord;
+use App\Models\LegislativeSourceHistory;
+use App\Models\NewsMediaAsset;
+use App\Models\NewsRecord;
+use App\Models\Program;
+use App\Models\ProgramRequirement;
+use App\Models\ProgramUpdate;
+use App\Models\Project;
+use App\Models\ProjectEvidence;
+use App\Models\PublicPage;
+use App\Models\ServiceGuide;
+use App\Models\ServiceGuideStep;
+use App\Models\SourceRecord;
+use App\Observers\CivicContentLifecycleObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -24,6 +46,37 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureDomainEvents();
+        $this->configureCivicContentObservers();
+    }
+
+    protected function configureDomainEvents(): void
+    {
+        Event::listen(ContentPublished::class, InvalidatePublicContentCache::class);
+        Event::listen(ContentScheduled::class, InvalidatePublicContentCache::class);
+        Event::listen(InquirySubmitted::class, InvalidateAdminDashboardOnInquiry::class);
+        Event::listen(SourceReviewDue::class, RecordSourceReviewDue::class);
+    }
+
+    protected function configureCivicContentObservers(): void
+    {
+        foreach ([
+            PublicPage::class,
+            Program::class,
+            ProgramRequirement::class,
+            ProgramUpdate::class,
+            ServiceGuide::class,
+            ServiceGuideStep::class,
+            LegislativeRecord::class,
+            LegislativeSourceHistory::class,
+            Project::class,
+            ProjectEvidence::class,
+            NewsRecord::class,
+            NewsMediaAsset::class,
+            SourceRecord::class,
+        ] as $model) {
+            $model::observe(CivicContentLifecycleObserver::class);
+        }
     }
 
     /**

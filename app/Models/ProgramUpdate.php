@@ -6,6 +6,7 @@ use App\Enums\ProgramStatus;
 use Database\Factories\ProgramUpdateFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -14,6 +15,7 @@ class ProgramUpdate extends Model
 {
     /** @use HasFactory<ProgramUpdateFactory> */
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'program_id',

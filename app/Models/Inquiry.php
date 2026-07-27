@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property InquiryCategory $inquiry_category
  * @property string $message_body
  * @property InquiryStatus $status
+ * @property string|null $internal_notes
  */
 class Inquiry extends Model
 {
@@ -43,6 +44,7 @@ class Inquiry extends Model
         'retention_expires_at',
         'anonymized_at',
         'routing_notes',
+        'internal_notes',
         'metadata',
     ];
 

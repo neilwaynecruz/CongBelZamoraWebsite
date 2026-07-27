@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\AdminRole;
 use App\Enums\ContactPreference;
 use App\Enums\InquiryStatus;
+use App\Events\InquirySubmitted;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Notifications\InquiryReceivedNotification;
@@ -61,6 +62,8 @@ class SubmitInquiry
             return $inquiry;
         });
 
+        InquirySubmitted::dispatch($inquiry);
+
         if (
             $inquiry->contact_preference === ContactPreference::Email
             && $inquiry->citizen_email !== null
@@ -77,6 +80,7 @@ class SubmitInquiry
     private function notifyInquiryStaff(Inquiry $inquiry): void
     {
         $staff = User::query()
+            ->where('is_active', true)
             ->whereIn('admin_role', [
                 AdminRole::SuperAdministrator->value,
                 AdminRole::InquiryOfficer->value,

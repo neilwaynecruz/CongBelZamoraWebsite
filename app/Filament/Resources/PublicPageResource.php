@@ -2,7 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Support\SoftDeletableResource;
+
 use App\Filament\Resources\PublicPageResource\Pages;
+use App\Filament\RelationManagers\ContentApprovalsRelationManager;
+use App\Filament\RelationManagers\SourceRecordsRelationManager;
 use App\Models\PublicPage;
 use App\Support\PublicPageProps;
 use Closure;
@@ -16,6 +20,8 @@ use Filament\Tables\Table;
 
 class PublicPageResource extends Resource
 {
+    use SoftDeletableResource;
+
     protected static ?string $model = PublicPage::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
@@ -117,11 +123,25 @@ class PublicPageResource extends Resource
                     ->sortable(),
             ])
             ->defaultSort('slug')
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([]);
+    }
+
+    /**
+     * @return array<int, class-string>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            SourceRecordsRelationManager::class,
+            ContentApprovalsRelationManager::class,
+        ];
     }
 
     /**

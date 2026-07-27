@@ -2,19 +2,25 @@
 
 namespace App\Notifications;
 
+use App\Support\ReliableQueuedWork;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class StaleContentDigestNotification extends Notification implements ShouldQueue
 {
-    use Queueable;
+    use Queueable, ReliableQueuedWork;
 
     /**
      * @param  array<string, int>  $counts
      */
-    public function __construct(private readonly array $counts) {}
+    public function __construct(private readonly array $counts)
+    {
+        $this->configureReliableQueue();
+    }
 
     /**
      * @return array<int, string>
@@ -41,5 +47,13 @@ class StaleContentDigestNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return $this->counts;
+    }
+
+    public function failed(?Throwable $exception): void
+    {
+        Log::error('StaleContentDigestNotification failed.', [
+            'counts' => $this->counts,
+            'exception' => $exception?->getMessage(),
+        ]);
     }
 }

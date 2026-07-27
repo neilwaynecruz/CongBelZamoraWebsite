@@ -2,9 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Support\SoftDeletableResource;
+
 use App\Enums\ProjectStatusTone;
 use App\Enums\ProjectStatusValue;
 use App\Filament\Resources\ProjectResource\Pages;
+use App\Filament\RelationManagers\ContentApprovalsRelationManager;
+use App\Filament\RelationManagers\ProjectEvidencesRelationManager;
+use App\Filament\RelationManagers\SourceRecordsRelationManager;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +20,8 @@ use Filament\Tables\Table;
 
 class ProjectResource extends Resource
 {
+    use SoftDeletableResource;
+
     protected static ?string $model = Project::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
@@ -22,6 +29,16 @@ class ProjectResource extends Resource
     protected static ?string $navigationGroup = 'Projects';
 
     protected static ?int $navigationSort = 50;
+
+    protected static ?string $recordTitleAttribute = 'title';
+
+    /**
+     * @return list<string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'summary', 'barangay', 'location', 'slug'];
+    }
 
     public static function form(Form $form): Form
     {
@@ -203,12 +220,25 @@ class ProjectResource extends Resource
                         ->orderBy('barangay')
                         ->pluck('barangay', 'barangay')
                         ->all()),
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([]);
+    }
+
+    /**
+     * @return array<int, class-string>
+     */
+    public static function getRelations(): array
+    {
+        return [
+            ProjectEvidencesRelationManager::class,
+            SourceRecordsRelationManager::class,
+            ContentApprovalsRelationManager::class,
+        ];
     }
 
     /**
