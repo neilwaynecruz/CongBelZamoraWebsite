@@ -8,9 +8,12 @@ use App\Events\ContentApprovalSubmitted;
 use App\Filament\Resources\ContentApprovalResource\Pages;
 use App\Models\ContentApproval;
 use App\Models\User;
+use App\Services\ContentGovernanceService;
 use App\Services\ContentPublicationService;
+use App\Support\ContentGovernanceException;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -18,6 +21,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
 class ContentApprovalResource extends Resource
 {
@@ -56,6 +60,13 @@ class ContentApprovalResource extends Resource
                         Forms\Components\Placeholder::make('workflow_hint')
                             ->label('Current stage')
                             ->content(fn (?ContentApproval $record): string => $record?->status?->label() ?? 'Unknown'),
+                    ]),
+                Forms\Components\Section::make('Governance baseline')
+                    ->description(fn (): string => (string) config('belzamora.governance.content_approval.policy_note'))
+                    ->schema([
+                        Forms\Components\Placeholder::make('governance_readiness')
+                            ->label('Publish readiness')
+                            ->content(fn (?ContentApproval $record): HtmlString => new HtmlString(self::governanceChecklistHtml($record))),
                     ]),
                 Forms\Components\Section::make('Approval decision')
                     ->columns(2)
@@ -265,11 +276,15 @@ class ContentApprovalResource extends Resource
                     ->action(function (ContentApproval $record, array $data): void {
                         $actor = Auth::user();
 
-                        app(ContentPublicationService::class)->schedule(
-                            $record,
-                            $data['scheduled_for'],
-                            $actor instanceof User ? $actor : null,
-                        );
+                        try {
+                            app(ContentPublicationService::class)->schedule(
+                                $record,
+                                $data['scheduled_for'],
+                                $actor instanceof User ? $actor : null,
+                            );
+                        } catch (ContentGovernanceException $exception) {
+                            self::notifyGovernanceIssues($exception);
+                        }
                     }),
                 Tables\Actions\Action::make('publish')
                     ->label('Mark published')
@@ -281,10 +296,14 @@ class ContentApprovalResource extends Resource
                     ->action(function (ContentApproval $record): void {
                         $actor = Auth::user();
 
-                        app(ContentPublicationService::class)->publish(
-                            $record,
-                            $actor instanceof User ? $actor : null,
-                        );
+                        try {
+                            app(ContentPublicationService::class)->publish(
+                                $record,
+                                $actor instanceof User ? $actor : null,
+                            );
+                        } catch (ContentGovernanceException $exception) {
+                            self::notifyGovernanceIssues($exception);
+                        }
                     }),
                 Tables\Actions\Action::make('needs_revision')
                     ->label('Needs revision')
@@ -399,6 +418,29 @@ class ContentApprovalResource extends Resource
             ->values()
             ->map(fn (mixed $item, int $index): string => ($index + 1).'. '.(string) $item)
             ->implode(PHP_EOL);
+    }
+
+    private static function governanceChecklistHtml(?ContentApproval $record): string
+    {
+        if (! $record instanceof ContentApproval) {
+            return '';
+        }
+
+        $items = app(ContentGovernanceService::class)->readinessChecklist($record);
+
+        return collect($items)
+            ->map(fn (string $item): string => '<div class="py-0.5">'.e($item).'</div>')
+            ->implode('');
+    }
+
+    private static function notifyGovernanceIssues(ContentGovernanceException $exception): void
+    {
+        Notification::make()
+            ->title('Governance checklist incomplete')
+            ->body(collect($exception->issues())->map(fn (string $issue): string => '- '.$issue)->implode(PHP_EOL))
+            ->danger()
+            ->persistent()
+            ->send();
     }
 
     private static function relatedRecordLabel(ContentApproval $record): string

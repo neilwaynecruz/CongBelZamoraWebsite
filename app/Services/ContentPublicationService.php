@@ -14,10 +14,15 @@ class ContentPublicationService
 {
     public function __construct(
         private readonly AuditLogService $auditLog,
+        private readonly ContentGovernanceService $governance,
     ) {}
 
     public function schedule(ContentApproval $approval, Carbon|string $scheduledFor, ?User $actor = null): ContentApproval
     {
+        if ((bool) config('belzamora.governance.content_approval.pre_publish_validation', true)) {
+            $this->governance->assertPublishable($approval);
+        }
+
         $approval->forceFill([
             'status' => ContentApprovalStatus::Scheduled,
             'reviewed_by_id' => $approval->reviewed_by_id ?? $actor?->id,
@@ -46,6 +51,10 @@ class ContentPublicationService
 
     public function publish(ContentApproval $approval, ?User $actor = null, string $event = 'content.published'): ContentApproval
     {
+        if ((bool) config('belzamora.governance.content_approval.pre_publish_validation', true)) {
+            $this->governance->assertPublishable($approval);
+        }
+
         $publishedAt = now();
 
         $approval->forceFill([

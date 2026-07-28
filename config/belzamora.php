@@ -1,6 +1,30 @@
 <?php
 
+use App\Enums\AdminRole;
+use App\Models\LegislativeRecord;
+use App\Models\NewsRecord;
+use App\Models\Program;
+use App\Models\Project;
+use App\Models\PublicPage;
+
 return [
+    'office' => [
+        'representative_name' => 'Atty. Congresswoman Bel Zamora',
+        'office_name' => 'District Office of Congresswoman Ysabel "Atty. Bel" Zamora',
+        'district' => 'Lone District of San Juan City',
+        'portal_name' => 'Digital District Office for San Juan City',
+        'portal_subtitle' => 'Official Constituent-Services Portal',
+        'public_service_statement' => 'The District Office provides verified public-service guidance, legislative updates, program information, and official contact pathways for San Juaneños.',
+        'response_time_policy' => env('DISTRICT_OFFICE_RESPONSE_TIME_POLICY', 'Inquiries are reviewed by authorized staff. The target first-response window is within 2 working days, subject to category, verification needs, holidays, and office workload.'),
+        'contact_channels' => [
+            'phone' => env('DISTRICT_OFFICE_PHONE', '0976-062-3339'),
+            'email' => env('DISTRICT_OFFICE_EMAIL'),
+            'contact_form_path' => '/contact',
+            'office_location' => env('DISTRICT_OFFICE_LOCATION', '3rd Floor, E-GovPH Serbisyo Hub, Makabagong San Juan National Government Center, Pinaglabanan St., San Juan City'),
+            'office_hours' => env('DISTRICT_OFFICE_HOURS', 'Office hours and service-specific schedules must be confirmed with the District Office before publication.'),
+        ],
+    ],
+
     'inquiries' => [
         'staff_notification_email' => env('INQUIRY_STAFF_NOTIFICATION_EMAIL'),
         /*
@@ -55,6 +79,163 @@ return [
          | When true, staff notifications also write Laravel database notifications for the Filament bell.
          */
         'database_notifications' => filter_var(env('STAFF_DATABASE_NOTIFICATIONS', true), FILTER_VALIDATE_BOOLEAN),
+    ],
+
+    'governance' => [
+        'content_approval' => [
+            'workflow' => 'Draft or Needs revision -> For review -> Approved -> Scheduled or Published -> Archived.',
+            'fast_track_requires_review_note' => true,
+            'pre_publish_validation' => true,
+            'policy_note' => 'Public content must be owned, sourced, verified, and reviewable before publication. Uncertain public statements must be tied to an official source or explicitly flagged for reviewer attention.',
+        ],
+
+        'workflow_roles' => [
+            'draft' => [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::ContentAdministrator->value,
+                AdminRole::CommunicationsEditor->value,
+                AdminRole::ProgramOfficer->value,
+                AdminRole::LegislativeEditor->value,
+                AdminRole::ProjectEditor->value,
+                AdminRole::MediaManager->value,
+            ],
+            'review' => [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::ContentAdministrator->value,
+                AdminRole::ReviewerApprover->value,
+            ],
+            'approve' => [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::ContentAdministrator->value,
+                AdminRole::ReviewerApprover->value,
+            ],
+            'schedule' => [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::ContentAdministrator->value,
+                AdminRole::ReviewerApprover->value,
+            ],
+            'publish' => [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::ContentAdministrator->value,
+                AdminRole::ReviewerApprover->value,
+            ],
+            'archive' => [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::ContentAdministrator->value,
+            ],
+        ],
+
+        'modules' => [
+            'programs' => [
+                'label' => 'Programs',
+                'model' => Program::class,
+                'review_cadence_days' => 30,
+                'required_publish_fields' => [
+                    'program_category_id',
+                    'title',
+                    'slug',
+                    'status',
+                    'summary',
+                    'responsible_office_label',
+                    'source_label',
+                    'source_url',
+                    'verified_at',
+                    'review_due_at',
+                    'content_owner_id',
+                ],
+                'source_policy' => 'Program status, requirements, deadlines, and benefits must point to an official agency or District Office-approved source.',
+                'uncertain_statement_metadata_flag' => 'contains_uncertain_public_statement',
+                'uncertain_statement_metadata_note' => 'uncertain_public_statement_note',
+            ],
+            'projects' => [
+                'label' => 'Projects',
+                'model' => Project::class,
+                'review_cadence_days' => 45,
+                'required_publish_fields' => [
+                    'project_category_id',
+                    'project_status_id',
+                    'title',
+                    'slug',
+                    'barangay',
+                    'location',
+                    'responsible_office',
+                    'summary',
+                    'evidence_summary',
+                    'source_label',
+                    'source_url',
+                    'verified_at',
+                    'review_due_at',
+                    'content_owner_id',
+                ],
+                'source_policy' => 'Project status, location, partner office, evidence notes, and impact statements must be source-linked or reviewed by the responsible content owner.',
+                'uncertain_statement_metadata_flag' => 'contains_uncertain_public_statement',
+                'uncertain_statement_metadata_note' => 'uncertain_public_statement_note',
+            ],
+            'news' => [
+                'label' => 'News and Advisories',
+                'model' => NewsRecord::class,
+                'review_cadence_days' => 30,
+                'required_publish_fields' => [
+                    'news_category_id',
+                    'news_status_id',
+                    'title',
+                    'slug',
+                    'published_at_label',
+                    'summary',
+                    'official_update',
+                    'owner_label',
+                    'source_label',
+                    'source_url',
+                    'source_verified_at',
+                    'review_due_at',
+                    'content_owner_id',
+                ],
+                'source_policy' => 'Announcements must clearly identify whether they are current, archived, or stale-review content, with source labels and review notes for reuse-sensitive advisories.',
+                'uncertain_statement_metadata_flag' => 'contains_uncertain_public_statement',
+                'uncertain_statement_metadata_note' => 'uncertain_public_statement_note',
+            ],
+            'legislation' => [
+                'label' => 'Legislation',
+                'model' => LegislativeRecord::class,
+                'review_cadence_days' => 30,
+                'required_publish_fields' => [
+                    'legislative_role_id',
+                    'legislative_status_id',
+                    'legislative_topic_id',
+                    'bill_number',
+                    'slug',
+                    'official_title',
+                    'public_title',
+                    'plain_language_summary',
+                    'official_source_label',
+                    'official_source_url',
+                    'verified_at',
+                    'review_due_at',
+                    'content_owner_id',
+                ],
+                'source_policy' => 'Legislative status, bill metadata, and plain-language summaries must link to official House or source-register records.',
+                'uncertain_statement_metadata_flag' => 'contains_uncertain_public_statement',
+                'uncertain_statement_metadata_note' => 'uncertain_public_statement_note',
+            ],
+            'public_pages' => [
+                'label' => 'Public Pages',
+                'model' => PublicPage::class,
+                'review_cadence_days' => 60,
+                'required_publish_fields' => [
+                    'slug',
+                    'title',
+                    'component',
+                    'props',
+                    'owner_label',
+                    'verified_at',
+                    'review_due_at',
+                    'content_owner_id',
+                ],
+                'source_policy' => 'Static pages must use approved office wording. Pages containing service claims, deadlines, or external facts must include a source URL or an uncertainty review note.',
+                'uncertain_statement_metadata_flag' => 'contains_uncertain_public_statement',
+                'uncertain_statement_metadata_note' => 'uncertain_public_statement_note',
+            ],
+        ],
     ],
 
     'reports' => [
