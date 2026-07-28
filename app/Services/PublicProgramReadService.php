@@ -140,6 +140,9 @@ class PublicProgramReadService
             'beneficiaryGroup' => $program->beneficiary_group ?? '',
             'applicationPeriod' => $program->application_period ?? '',
             'verifiedAt' => $this->formatDate($program->verified_at),
+            'reviewDueAt' => $this->formatDate($program->review_due_at),
+            'trustStatus' => $this->trustStatus($program->review_due_at),
+            'trustStatusLabel' => $this->trustStatusLabel($program->review_due_at),
             'sourceLabel' => $program->source_label,
             'sourceUrl' => $program->source_url,
         ];
@@ -164,11 +167,14 @@ class PublicProgramReadService
             'benefit' => $program->benefit ?? '',
             'applicationPeriod' => $program->application_period ?? '',
             'verifiedAt' => $this->formatDate($program->verified_at),
+            'reviewDueAt' => $this->formatDate($program->review_due_at),
+            'trustStatus' => $this->trustStatus($program->review_due_at),
+            'trustStatusLabel' => $this->trustStatusLabel($program->review_due_at),
             'sourceLabel' => $program->source_label ?? 'Official source pending review',
             'sourceUrl' => $program->source_url ?? '#',
             'officeRole' => (string) ($metadata['office_role'] ?? ''),
             'eligibility' => $this->arrayOfStrings($metadata['eligibility'] ?? []),
-            'requirementGroups' => $this->requirementGroups($program->requirements),
+            'requirementGroups' => $this->requirementGroups(collect($program->requirements ?? [])),
             'processSteps' => $this->arrayOfStrings($metadata['process_steps'] ?? []),
             'reminders' => $this->arrayOfStrings($metadata['reminders'] ?? []),
             'privacyNotes' => $this->arrayOfStrings($metadata['privacy_notes'] ?? []),
@@ -291,5 +297,34 @@ class PublicProgramReadService
         return \DateTimeImmutable::createFromInterface($date)
             ->setTimezone(new \DateTimeZone('Asia/Manila'))
             ->format('F j, Y');
+    }
+
+    private function trustStatus(mixed $reviewDueAt): string
+    {
+        if (! $reviewDueAt instanceof \DateTimeInterface) {
+            return 'source-review-pending';
+        }
+
+        $date = \DateTimeImmutable::createFromInterface($reviewDueAt);
+
+        if ($date <= now()) {
+            return 'stale-review';
+        }
+
+        if ($date <= now()->addDays((int) config('belzamora.governance.content_approval.stale_warning_days_before_review_due', 7))) {
+            return 'review-soon';
+        }
+
+        return 'current';
+    }
+
+    private function trustStatusLabel(mixed $reviewDueAt): string
+    {
+        return match ($this->trustStatus($reviewDueAt)) {
+            'stale-review' => 'Needs source review before reuse',
+            'review-soon' => 'Review due soon',
+            'source-review-pending' => 'Source review pending',
+            default => 'Current verified information',
+        };
     }
 }

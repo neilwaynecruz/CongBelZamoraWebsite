@@ -20,6 +20,7 @@ class ContentApprovalFactory extends Factory
             'status' => ContentApprovalStatus::Draft,
             'revision_number' => 1,
             'submitted_by_id' => User::factory(),
+            'change_summary' => 'Factory approval change summary.',
             'metadata' => ['factory' => true],
         ];
     }

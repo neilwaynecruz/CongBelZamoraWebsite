@@ -93,6 +93,9 @@ class PublicProjectReadService
             'sourceLabel' => $project->source_label,
             'sourceUrl' => $project->source_url,
             'verifiedAt' => $this->formatDate($project->verified_at),
+            'reviewDueAt' => $this->formatDate($project->review_due_at),
+            'trustStatus' => $this->trustStatus($project->review_due_at),
+            'trustStatusLabel' => $this->trustStatusLabel($project->review_due_at),
         ];
     }
 
@@ -129,5 +132,34 @@ class PublicProjectReadService
         return \DateTimeImmutable::createFromInterface($date)
             ->setTimezone(new \DateTimeZone('Asia/Manila'))
             ->format('F j, Y');
+    }
+
+    private function trustStatus(mixed $reviewDueAt): string
+    {
+        if (! $reviewDueAt instanceof \DateTimeInterface) {
+            return 'source-review-pending';
+        }
+
+        $date = \DateTimeImmutable::createFromInterface($reviewDueAt);
+
+        if ($date <= now()) {
+            return 'stale-review';
+        }
+
+        if ($date <= now()->addDays((int) config('belzamora.governance.content_approval.stale_warning_days_before_review_due', 7))) {
+            return 'review-soon';
+        }
+
+        return 'current';
+    }
+
+    private function trustStatusLabel(mixed $reviewDueAt): string
+    {
+        return match ($this->trustStatus($reviewDueAt)) {
+            'stale-review' => 'Needs source review before reuse',
+            'review-soon' => 'Review due soon',
+            'source-review-pending' => 'Source review pending',
+            default => 'Current verified information',
+        };
     }
 }

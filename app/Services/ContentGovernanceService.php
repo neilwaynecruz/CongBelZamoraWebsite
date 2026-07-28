@@ -38,8 +38,9 @@ class ContentGovernanceService
         $issues = [
             ...$issues,
             ...$this->dateIssues($approvable, $policy),
-            ...$this->urlIssues($approvable, $policy),
+            ...$this->sourceIssues($approvable, $policy),
             ...$this->uncertainStatementIssues($approvable, $policy),
+            ...$this->approvalIssues($approval),
         ];
 
         if (
@@ -89,6 +90,7 @@ class ContentGovernanceService
             'Required publish fields: '.$required.'.',
             'Source policy: '.(string) data_get($policy, 'source_policy', 'Source policy not configured.'),
             'Workflow roles: '.$roles,
+            'Editorial snapshot: capture a change summary and compare with the last published version before publishing.',
             $issues === []
                 ? 'Publish readiness: Passed automated governance checks.'
                 : 'Publish readiness: '.count($issues).' issue(s) must be resolved.',
@@ -143,7 +145,6 @@ class ContentGovernanceService
     }
 
     /**
-     * @param  array<string, mixed>  $policy
      */
     private function isBlankField(Model $model, string $field): bool
     {
@@ -185,9 +186,26 @@ class ContentGovernanceService
     /**
      * @return list<string>
      */
-    private function urlIssues(Model $model, array $policy): array
+    private function sourceIssues(Model $model, array $policy): array
     {
         $issues = [];
+        $requiresSource = (bool) data_get($policy, 'requires_source', false)
+            || data_get($model->getAttribute('metadata'), 'source_required') === true;
+
+        if ($requiresSource) {
+            $hasSourceLabel = filled($model->getAttribute('source_label'))
+                || filled($model->getAttribute('official_source_label'));
+            $hasSourceUrl = filled($model->getAttribute('source_url'))
+                || filled($model->getAttribute('official_source_url'));
+
+            if (! $hasSourceLabel) {
+                $issues[] = $this->labelFor($policy).' requires an official source label before publication.';
+            }
+
+            if (! $hasSourceUrl) {
+                $issues[] = $this->labelFor($policy).' requires an official source URL before publication.';
+            }
+        }
 
         foreach (['source_url', 'official_source_url'] as $field) {
             $value = $model->getAttribute($field);
@@ -195,6 +213,29 @@ class ContentGovernanceService
             if (is_string($value) && $value !== '' && filter_var($value, FILTER_VALIDATE_URL) === false) {
                 $issues[] = $this->labelFor($policy).' has an invalid URL in '.$field.'.';
             }
+        }
+
+        return $issues;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function approvalIssues(ContentApproval $approval): array
+    {
+        $issues = [];
+
+        if (
+            (bool) config('belzamora.governance.content_approval.change_summary_required', true)
+            && blank($approval->change_summary)
+        ) {
+            $issues[] = 'A clear change summary is required before schedule or publish.';
+        }
+
+        $validUntil = $this->dateValue($approval->valid_until);
+
+        if ($validUntil instanceof Carbon && $validUntil->lte(now())) {
+            $issues[] = 'Approval end-of-validity date has already passed.';
         }
 
         return $issues;

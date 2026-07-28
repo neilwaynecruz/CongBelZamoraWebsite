@@ -88,6 +88,9 @@ class PublicLegislationReadService
             'committee' => $record->committee,
             'filedAt' => $record->filed_at_label,
             'verifiedAt' => $this->formatDate($record->verified_at),
+            'reviewDueAt' => $this->formatDate($record->review_due_at),
+            'trustStatus' => $this->trustStatus($record->review_due_at),
+            'trustStatusLabel' => $this->trustStatusLabel($record->review_due_at),
             'plainLanguageSummary' => $record->plain_language_summary,
             'whyItMatters' => $record->why_it_matters,
             'sanJuanRelevance' => $record->san_juan_relevance,
@@ -129,5 +132,34 @@ class PublicLegislationReadService
         return \DateTimeImmutable::createFromInterface($date)
             ->setTimezone(new \DateTimeZone('Asia/Manila'))
             ->format('F j, Y');
+    }
+
+    private function trustStatus(mixed $reviewDueAt): string
+    {
+        if (! $reviewDueAt instanceof \DateTimeInterface) {
+            return 'source-review-pending';
+        }
+
+        $date = \DateTimeImmutable::createFromInterface($reviewDueAt);
+
+        if ($date <= now()) {
+            return 'stale-review';
+        }
+
+        if ($date <= now()->addDays((int) config('belzamora.governance.content_approval.stale_warning_days_before_review_due', 7))) {
+            return 'review-soon';
+        }
+
+        return 'current';
+    }
+
+    private function trustStatusLabel(mixed $reviewDueAt): string
+    {
+        return match ($this->trustStatus($reviewDueAt)) {
+            'stale-review' => 'Needs source review before reuse',
+            'review-soon' => 'Review due soon',
+            'source-review-pending' => 'Source review pending',
+            default => 'Current verified information',
+        };
     }
 }
