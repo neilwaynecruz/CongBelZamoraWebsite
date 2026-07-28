@@ -38,11 +38,17 @@ class PublicStaticPageReadService
     public function contactProps(Request $request): array
     {
         $props = $this->props('contact');
+        $afterSubmission = config('belzamora.inquiries.public_workflow.after_submission', []);
 
         return [
             ...$props,
             'inquiryAction' => route('public.contact.inquiries.store'),
             'confirmation' => $request->session()->get('inquiryConfirmation'),
+            'caseWorkflow' => [
+                'expectedResponse' => (string) config('belzamora.inquiries.public_workflow.expected_response'),
+                'privacyNotice' => (string) config('belzamora.inquiries.public_workflow.privacy_notice'),
+                'afterSubmission' => is_array($afterSubmission) ? array_values($afterSubmission) : [],
+            ],
         ];
     }
 

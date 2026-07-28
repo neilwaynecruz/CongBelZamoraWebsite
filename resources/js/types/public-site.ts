@@ -210,6 +210,12 @@ export type InquiryConfirmation = {
     retentionNotice: string;
 };
 
+export type InquiryCaseWorkflow = {
+    expectedResponse: string;
+    privacyNotice: string;
+    afterSubmission: string[];
+};
+
 export type ResponsibleOfficeType =
     | 'district_office'
     | 'city_government'

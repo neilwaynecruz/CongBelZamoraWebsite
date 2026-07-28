@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\InquiryResource\Pages;
 
+use App\Enums\InquiryActivityType;
+use App\Enums\InquiryStatus;
 use App\Events\InquiryAssigned;
 use App\Filament\Resources\InquiryResource;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Services\AuditLogService;
+use App\Services\InquiryCaseManagementService;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,11 +19,14 @@ class EditInquiry extends EditRecord
 
     private ?int $previousAssignedOfficerId = null;
 
+    private ?InquiryStatus $previousStatus = null;
+
     protected function beforeSave(): void
     {
         /** @var Inquiry $record */
         $record = $this->record;
         $this->previousAssignedOfficerId = $record->assigned_officer_id;
+        $this->previousStatus = $record->status;
     }
 
     protected function afterSave(): void
@@ -56,12 +62,41 @@ class EditInquiry extends EditRecord
             $assignee = User::query()->find($record->assigned_officer_id);
 
             if ($assignee instanceof User) {
+                app(InquiryCaseManagementService::class)->recordActivity(
+                    inquiry: $record,
+                    type: InquiryActivityType::Assigned,
+                    actor: $actorUser,
+                    body: 'Inquiry assignment updated from the edit form.',
+                    oldStatus: $this->previousStatus,
+                    newStatus: $record->status,
+                    metadata: [
+                        'assigned_to_user_id' => $assignee->id,
+                        'source' => 'filament_edit_form',
+                        'pii_values_redacted' => true,
+                    ],
+                );
+
                 InquiryAssigned::dispatch(
                     $record,
                     $assignee,
                     $actorUser,
                 );
             }
+        }
+
+        if ($this->previousStatus !== null && $record->status !== $this->previousStatus) {
+            app(InquiryCaseManagementService::class)->recordActivity(
+                inquiry: $record,
+                type: InquiryActivityType::StatusChanged,
+                actor: $actorUser,
+                body: 'Inquiry status updated from the edit form.',
+                oldStatus: $this->previousStatus,
+                newStatus: $record->status,
+                metadata: [
+                    'source' => 'filament_edit_form',
+                    'pii_values_redacted' => true,
+                ],
+            );
         }
     }
 }

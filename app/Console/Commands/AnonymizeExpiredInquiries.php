@@ -34,9 +34,24 @@ class AnonymizeExpiredInquiries extends Command
                     'message_body' => 'Anonymized after retention period.',
                     'status' => InquiryStatus::Anonymized,
                     'assigned_officer_id' => null,
+                    'assigned_at' => null,
+                    'first_response_due_at' => null,
+                    'first_responded_at' => null,
+                    'last_internal_activity_at' => null,
+                    'closed_reason' => null,
+                    'overdue_reminder_sent_at' => null,
                     'routing_notes' => null,
+                    'internal_notes' => null,
                     'anonymized_at' => now(),
                 ])->save();
+
+                $inquiry->activities()->each(function ($activity): void {
+                    $activity->forceFill([
+                        'actor_id' => null,
+                        'body' => 'Activity anonymized after retention period.',
+                        'metadata' => ['anonymized_after_retention' => true],
+                    ])->save();
+                });
 
                 $auditLog->record(
                     event: 'inquiry.anonymized',

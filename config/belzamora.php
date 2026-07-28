@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\AdminRole;
+use App\Enums\InquiryCategory;
+use App\Enums\InquiryPriority;
 use App\Models\LegislativeRecord;
 use App\Models\NewsRecord;
 use App\Models\Program;
@@ -32,12 +34,70 @@ return [
          | in the admin list, export, and Operations dashboard.
          */
         'unanswered_sla_hours' => max(1, (int) env('INQUIRY_UNANSWERED_SLA_HOURS', 48)),
+        'case_management' => [
+            'default_priority' => InquiryPriority::Normal->value,
+            'default_office_unit' => 'Constituent Services Desk',
+            'overdue_reminder_grace_hours' => max(1, (int) env('INQUIRY_OVERDUE_REMINDER_GRACE_HOURS', 2)),
+            'closure_reasons' => [
+                'resolved_guidance_given' => 'Resolved - guidance given',
+                'routed_to_responsible_office' => 'Routed to responsible office',
+                'duplicate_or_follow_up' => 'Duplicate or follow-up logged',
+                'insufficient_contact_information' => 'Insufficient contact information',
+                'outside_district_office_scope' => 'Outside District Office scope',
+            ],
+        ],
+        'category_routing' => [
+            InquiryCategory::EducationalAssistance->value => [
+                'office_unit' => 'Education and Scholarship Assistance Desk',
+                'priority' => InquiryPriority::High->value,
+                'target_first_response_hours' => 24,
+                'acknowledgment_variant' => 'education_program',
+                'routing_note' => 'Route to education assistance staff for program-status, requirements, and application-channel guidance.',
+            ],
+            InquiryCategory::MedicalSocialServices->value => [
+                'office_unit' => 'Constituent Services and Agency Routing Desk',
+                'priority' => InquiryPriority::High->value,
+                'target_first_response_hours' => 24,
+                'acknowledgment_variant' => 'service_routing',
+                'routing_note' => 'Route for privacy-safe guidance and referral to the appropriate city, barangay, or national-agency service channel.',
+            ],
+            InquiryCategory::LegislativeFeedback->value => [
+                'office_unit' => 'Legislative Affairs Desk',
+                'priority' => InquiryPriority::Normal->value,
+                'target_first_response_hours' => 48,
+                'acknowledgment_variant' => 'legislative_feedback',
+                'routing_note' => 'Route to legislative staff for bill, policy, committee, and public-consultation feedback review.',
+            ],
+            InquiryCategory::GeneralInquiry->value => [
+                'office_unit' => 'Constituent Services Desk',
+                'priority' => InquiryPriority::Normal->value,
+                'target_first_response_hours' => 48,
+                'acknowledgment_variant' => 'standard',
+                'routing_note' => 'Route for general District Office information and next-step guidance.',
+            ],
+        ],
         'canned_replies' => [
             'ack_received' => 'Salamat sa inyong inquiry. Natanggap na ng District Office ang inyong mensahe at sinusuri ito ng assigned officer.',
             'need_more_info' => 'Salamat sa inyong inquiry. Para matulungan kayo nang tama, mangyaring magbigay ng karagdagang detalye tungkol sa inyong concern nang hindi nagpapadala ng ID, medical, o confidential documents.',
             'routed_city' => 'Salamat sa inyong inquiry. Batay sa inyong concern, ito ay karaniwang hinahawakan ng San Juan City Government o barangay office. Matutulungan kayo naming i-route sa tamang tanggapan.',
             'program_guidance' => 'Salamat sa inyong inquiry tungkol sa programa. Pakitingnan ang Programs page para sa kasalukuyang status, requirements, at opisyal na source. Ang District Office ay maaaring magbigay ng guidance, ngunit ang final eligibility ay sumusunod sa official agency rules.',
             'closed_resolved' => 'Salamat sa inyong inquiry. Naitala na ang aming tugon o routing guidance. Kung may bago kayong concern, maaari kayong magsumite ng bagong inquiry.',
+        ],
+        'acknowledgment_variants' => [
+            'standard' => 'Your inquiry has been received and routed for District Office review.',
+            'education_program' => 'Your education-program inquiry has been received. Staff will review the program category, published requirements, and official application guidance.',
+            'service_routing' => 'Your service-routing inquiry has been received. Staff will review the concern and may direct you to the responsible city, barangay, or national-agency office.',
+            'legislative_feedback' => 'Your legislative feedback has been received for staff review and routing to the appropriate legislative desk.',
+        ],
+        'public_workflow' => [
+            'expected_response' => 'Target first response: within 2 working days for most inquiries, with faster routing targets for education and urgent service-routing categories when staffing allows.',
+            'privacy_notice' => 'Do not submit IDs, certificates, medical records, student records, financial documents, or images of private documents through the public inquiry form.',
+            'after_submission' => [
+                'A reference code is generated immediately after successful submission.',
+                'The inquiry is routed by category to the appropriate District Office desk.',
+                'Authorized staff review the message inside the admin case workflow; citizen details remain encrypted at rest.',
+                'If the concern belongs to another office, staff may provide routing guidance rather than final approval or case acceptance.',
+            ],
         ],
     ],
 

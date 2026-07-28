@@ -82,7 +82,7 @@
         aspect-ratio: 1;
         pointer-events: none;
         content: '';
-        background-image: url('/assets/images/brand/House_of_Representative_Logo_Seal.svg');
+        background-image: url('../../../../public/assets/images/brand/House_of_Representative_Logo_Seal.svg');
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
@@ -169,7 +169,7 @@
         aspect-ratio: 1;
         pointer-events: none;
         content: '';
-        background-image: url('/assets/images/brand/Logo_of_San_Juan_Seal.svg');
+        background-image: url('../../../../public/assets/images/brand/Logo_of_San_Juan_Seal.svg');
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
@@ -205,7 +205,7 @@
             linear-gradient(#ffffff, #ffffff) padding-box,
             linear-gradient(135deg, #d62828, #c9a227, #1746a2) border-box;
         background-image:
-            url('/assets/images/brand/House_of_Representative_Logo_Seal.svg'),
+            url('../../../../public/assets/images/brand/House_of_Representative_Logo_Seal.svg'),
             linear-gradient(#ffffff, #ffffff),
             linear-gradient(135deg, #d62828, #c9a227, #1746a2);
         background-origin: content-box, padding-box, border-box;

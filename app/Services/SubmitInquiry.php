@@ -17,7 +17,10 @@ use Illuminate\Support\Str;
 
 class SubmitInquiry
 {
-    public function __construct(private readonly AuditLogService $auditLog) {}
+    public function __construct(
+        private readonly AuditLogService $auditLog,
+        private readonly InquiryCaseManagementService $caseManagement,
+    ) {}
 
     /**
      * @param  array<string, mixed>  $validated
@@ -41,6 +44,8 @@ class SubmitInquiry
                     'privacy_notice_version' => '2026-07-15',
                 ],
             ]);
+
+            $inquiry = $this->caseManagement->applyInitialRouting($inquiry);
 
             $this->auditLog->record(
                 event: 'inquiry.submitted',

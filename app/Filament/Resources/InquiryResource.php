@@ -5,10 +5,12 @@ namespace App\Filament\Resources;
 use App\Enums\AdminRole;
 use App\Enums\ContactPreference;
 use App\Enums\InquiryCategory as InquiryCategoryEnum;
+use App\Enums\InquiryPriority;
 use App\Enums\InquiryStatus;
 use App\Filament\Resources\InquiryResource\Pages;
 use App\Models\Inquiry;
 use App\Models\User;
+use App\Services\InquiryCaseManagementService;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -19,6 +21,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class InquiryResource extends Resource
@@ -41,7 +44,7 @@ class InquiryResource extends Resource
      */
     public static function getEloquentQuery(): Builder
     {
-        $query = Inquiry::query()->with('assignedOfficer');
+        $query = Inquiry::query()->with(['assignedOfficer', 'activities.actor']);
         $user = Auth::user();
 
         if (! $user instanceof User) {
@@ -73,6 +76,10 @@ class InquiryResource extends Resource
                         Forms\Components\TextInput::make('reference_code')
                             ->label('Reference code')
                             ->disabled(),
+                        Forms\Components\Select::make('priority')
+                            ->options(InquiryPriority::options())
+                            ->required()
+                            ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
                         Forms\Components\Select::make('status')
                             ->options(InquiryStatus::options())
                             ->required()
@@ -87,6 +94,7 @@ class InquiryResource extends Resource
 
                                     if (blank($get('responded_at'))) {
                                         $set('responded_at', $now);
+                                        $set('first_responded_at', $now);
                                     }
                                 }
                             }),
@@ -102,9 +110,18 @@ class InquiryResource extends Resource
                             ->searchable()
                             ->preload()
                             ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
+                        Forms\Components\DateTimePicker::make('assigned_at')
+                            ->timezone('Asia/Manila')
+                            ->disabled(),
                         Forms\Components\TextInput::make('inquiry_category')
                             ->label('Category')
                             ->formatStateUsing(fn (mixed $state): string => self::formatInquiryCategory($state))
+                            ->disabled(),
+                        Forms\Components\TextInput::make('office_unit')
+                            ->label('Office unit / routing owner')
+                            ->disabled(),
+                        Forms\Components\DateTimePicker::make('first_response_due_at')
+                            ->timezone('Asia/Manila')
                             ->disabled(),
                     ]),
                 Forms\Components\Section::make('Citizen-provided details')
@@ -170,14 +187,36 @@ class InquiryResource extends Resource
                         Forms\Components\DateTimePicker::make('responded_at')
                             ->timezone('Asia/Manila')
                             ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
+                        Forms\Components\DateTimePicker::make('first_responded_at')
+                            ->timezone('Asia/Manila')
+                            ->disabled(),
                         Forms\Components\DateTimePicker::make('resolved_at')
                             ->timezone('Asia/Manila')
                             ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
+                        Forms\Components\DateTimePicker::make('last_internal_activity_at')
+                            ->timezone('Asia/Manila')
+                            ->disabled(),
+                        Forms\Components\DateTimePicker::make('closed_at')
+                            ->timezone('Asia/Manila')
+                            ->disabled(),
+                        Forms\Components\TextInput::make('closed_reason')
+                            ->formatStateUsing(fn (?string $state): string => self::closureReasonLabel($state))
+                            ->disabled(),
+                        Forms\Components\DateTimePicker::make('overdue_reminder_sent_at')
+                            ->timezone('Asia/Manila')
+                            ->disabled(),
                         Forms\Components\DateTimePicker::make('anonymized_at')
                             ->disabled(),
                         Forms\Components\KeyValue::make('routing_notes')
                             ->columnSpanFull()
                             ->disabled(fn (?Inquiry $record): bool => ! self::canUpdateInquiry($record)),
+                    ]),
+                Forms\Components\Section::make('Activity history')
+                    ->description('Timeline entries are internal and redact citizen details from audit/notification channels.')
+                    ->schema([
+                        Forms\Components\Placeholder::make('activity_timeline')
+                            ->label('Case timeline')
+                            ->content(fn (?Inquiry $record): HtmlString => new HtmlString(self::activityTimelineHtml($record))),
                     ]),
             ]);
     }
@@ -199,6 +238,11 @@ class InquiryResource extends Resource
                     ->badge()
                     ->color(fn (mixed $state): string => self::inquiryStatusColor($state))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('priority')
+                    ->formatStateUsing(fn (mixed $state): string => self::formatInquiryPriority($state))
+                    ->badge()
+                    ->color(fn (mixed $state): string => self::inquiryPriorityColor($state))
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('sla_overdue')
                     ->label('SLA')
                     ->boolean()
@@ -214,6 +258,15 @@ class InquiryResource extends Resource
                     ->label('Assigned officer')
                     ->placeholder('Unassigned')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('office_unit')
+                    ->label('Office unit')
+                    ->placeholder('Unrouted')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('first_response_due_at')
+                    ->label('First response due')
+                    ->dateTime(timezone: 'Asia/Manila')
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('retention_expires_at')
                     ->dateTime(timezone: 'Asia/Manila')
                     ->sortable()
@@ -226,17 +279,58 @@ class InquiryResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options(InquiryStatus::options()),
+                Tables\Filters\SelectFilter::make('priority')
+                    ->options(InquiryPriority::options()),
                 Tables\Filters\Filter::make('unassigned')
                     ->label('Unassigned')
                     ->query(fn (Builder $query): Builder => $query->whereNull('assigned_officer_id')),
                 Tables\Filters\Filter::make('my_inquiries')
                     ->label('Assigned to me')
                     ->query(fn (Builder $query): Builder => $query->where('assigned_officer_id', Auth::id())),
+                Tables\Filters\Filter::make('my_needs_attention')
+                    ->label('Needs my attention')
+                    ->query(fn (Builder $query): Builder => $query
+                        ->where('assigned_officer_id', Auth::id())
+                        ->openCase()
+                        ->where(function (Builder $builder): void {
+                            $builder
+                                ->whereNull('last_internal_activity_at')
+                                ->orWhere('last_internal_activity_at', '<=', now()->subDay())
+                                ->orWhere('first_response_due_at', '<=', now());
+                        })),
                 Tables\Filters\Filter::make('overdue_sla')
                     ->label('SLA overdue (>'.self::slaHours().'h)')
                     ->query(fn (Builder $query): Builder => self::applyOverdueConstraint($query)),
             ])
             ->actions([
+                Tables\Actions\Action::make('assign')
+                    ->label('Assign')
+                    ->icon('heroicon-o-user-plus')
+                    ->color('primary')
+                    ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record))
+                    ->form([
+                        Forms\Components\Select::make('assigned_officer_id')
+                            ->label('Assigned officer')
+                            ->options(self::activeInquiryOfficerOptions())
+                            ->searchable()
+                            ->required(),
+                        Forms\Components\Textarea::make('note')
+                            ->label('Assignment note')
+                            ->rows(3),
+                    ])
+                    ->action(function (Inquiry $record, array $data): void {
+                        $assignee = User::query()->find($data['assigned_officer_id']);
+                        $actor = Auth::user();
+
+                        if ($assignee instanceof User) {
+                            app(InquiryCaseManagementService::class)->assign(
+                                inquiry: $record,
+                                assignee: $assignee,
+                                actor: $actor instanceof User ? $actor : null,
+                                note: filled($data['note'] ?? null) ? (string) $data['note'] : null,
+                            );
+                        }
+                    }),
                 Tables\Actions\Action::make('assign_to_me')
                     ->label('Assign to me')
                     ->icon('heroicon-o-user-plus')
@@ -246,20 +340,16 @@ class InquiryResource extends Resource
                         && $record->assigned_officer_id !== Auth::id())
                     ->requiresConfirmation()
                     ->action(function (Inquiry $record): void {
-                        $notes = is_array($record->routing_notes) ? $record->routing_notes : [];
-                        $notes['assignment'] = [
-                            'assigned_to_user_id' => Auth::id(),
-                            'assigned_at' => now('Asia/Manila')->toIso8601String(),
-                            'source' => 'admin_assign_to_me_action',
-                        ];
+                        $actor = Auth::user();
 
-                        $record->forceFill([
-                            'assigned_officer_id' => Auth::id(),
-                            'status' => $record->status === InquiryStatus::Pending
-                                ? InquiryStatus::UnderReview
-                                : $record->status,
-                            'routing_notes' => $notes,
-                        ])->save();
+                        if ($actor instanceof User) {
+                            app(InquiryCaseManagementService::class)->assign(
+                                inquiry: $record,
+                                assignee: $actor,
+                                actor: $actor,
+                                note: 'Assigned through Assign to me action.',
+                            );
+                        }
                     }),
                 Tables\Actions\Action::make('mark_under_review')
                     ->label('Under review')
@@ -268,10 +358,76 @@ class InquiryResource extends Resource
                     ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record)
                         && $record->status === InquiryStatus::Pending)
                     ->action(function (Inquiry $record): void {
-                        $record->forceFill([
-                            'status' => InquiryStatus::UnderReview,
-                            'assigned_officer_id' => $record->assigned_officer_id ?? Auth::id(),
-                        ])->save();
+                        $actor = Auth::user();
+                        app(InquiryCaseManagementService::class)->markUnderReview(
+                            inquiry: $record,
+                            actor: $actor instanceof User ? $actor : null,
+                        );
+                    }),
+                Tables\Actions\Action::make('add_internal_note')
+                    ->label('Add note')
+                    ->icon('heroicon-o-chat-bubble-left-right')
+                    ->color('gray')
+                    ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record))
+                    ->form([
+                        Forms\Components\Select::make('template_key')
+                            ->label('Template')
+                            ->options(self::cannedReplyOptions())
+                            ->live()
+                            ->afterStateUpdated(function (?string $state, Set $set): void {
+                                if (! filled($state)) {
+                                    return;
+                                }
+
+                                $replies = config('belzamora.inquiries.canned_replies', []);
+                                $reply = is_array($replies) ? (string) ($replies[$state] ?? '') : '';
+
+                                if ($reply !== '') {
+                                    $set('note', $reply);
+                                }
+                            }),
+                        Forms\Components\Textarea::make('note')
+                            ->label('Internal note / response draft')
+                            ->required()
+                            ->rows(5),
+                    ])
+                    ->action(function (Inquiry $record, array $data): void {
+                        $actor = Auth::user();
+
+                        if ($actor instanceof User) {
+                            app(InquiryCaseManagementService::class)->addInternalNote(
+                                inquiry: $record,
+                                actor: $actor,
+                                note: (string) $data['note'],
+                                templateKey: filled($data['template_key'] ?? null) ? (string) $data['template_key'] : null,
+                            );
+                        }
+                    }),
+                Tables\Actions\Action::make('mark_responded')
+                    ->label('Record response')
+                    ->icon('heroicon-o-envelope-open')
+                    ->color('info')
+                    ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record)
+                        && $record->responded_at === null
+                        && ! in_array($record->status, [
+                            InquiryStatus::Closed,
+                            InquiryStatus::Anonymized,
+                        ], true))
+                    ->form([
+                        Forms\Components\Textarea::make('note')
+                            ->label('Response milestone note')
+                            ->rows(4),
+                    ])
+                    ->action(function (Inquiry $record, array $data): void {
+                        $actor = Auth::user();
+
+                        if ($actor instanceof User) {
+                            app(InquiryCaseManagementService::class)->markResponded(
+                                inquiry: $record,
+                                actor: $actor,
+                                note: filled($data['note'] ?? null) ? (string) $data['note'] : null,
+                            );
+                        }
                     }),
                 Tables\Actions\Action::make('mark_resolved')
                     ->label('Resolve')
@@ -284,12 +440,21 @@ class InquiryResource extends Resource
                             InquiryStatus::Anonymized,
                         ], true))
                     ->requiresConfirmation()
-                    ->action(function (Inquiry $record): void {
-                        $record->forceFill([
-                            'status' => InquiryStatus::Resolved,
-                            'responded_at' => $record->responded_at ?? now(),
-                            'resolved_at' => now(),
-                        ])->save();
+                    ->form([
+                        Forms\Components\Textarea::make('note')
+                            ->label('Resolution note')
+                            ->rows(4),
+                    ])
+                    ->action(function (Inquiry $record, array $data): void {
+                        $actor = Auth::user();
+
+                        if ($actor instanceof User) {
+                            app(InquiryCaseManagementService::class)->resolve(
+                                inquiry: $record,
+                                actor: $actor,
+                                note: filled($data['note'] ?? null) ? (string) $data['note'] : null,
+                            );
+                        }
                     }),
                 Tables\Actions\Action::make('mark_closed')
                     ->label('Close')
@@ -298,10 +463,52 @@ class InquiryResource extends Resource
                     ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record)
                         && $record->status === InquiryStatus::Resolved)
                     ->requiresConfirmation()
-                    ->action(function (Inquiry $record): void {
-                        $record->forceFill([
-                            'status' => InquiryStatus::Closed,
-                        ])->save();
+                    ->form([
+                        Forms\Components\Select::make('closed_reason')
+                            ->label('Closure reason')
+                            ->options(self::closureReasonOptions())
+                            ->required(),
+                        Forms\Components\Textarea::make('note')
+                            ->label('Closure note')
+                            ->rows(4),
+                    ])
+                    ->action(function (Inquiry $record, array $data): void {
+                        $actor = Auth::user();
+
+                        if ($actor instanceof User) {
+                            app(InquiryCaseManagementService::class)->close(
+                                inquiry: $record,
+                                actor: $actor,
+                                reason: (string) $data['closed_reason'],
+                                note: filled($data['note'] ?? null) ? (string) $data['note'] : null,
+                            );
+                        }
+                    }),
+                Tables\Actions\Action::make('reopen')
+                    ->label('Reopen')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('warning')
+                    ->visible(fn (Inquiry $record): bool => self::canUpdateInquiry($record)
+                        && in_array($record->status, [
+                            InquiryStatus::Resolved,
+                            InquiryStatus::Closed,
+                        ], true))
+                    ->form([
+                        Forms\Components\Textarea::make('note')
+                            ->label('Reopen reason')
+                            ->required()
+                            ->rows(4),
+                    ])
+                    ->action(function (Inquiry $record, array $data): void {
+                        $actor = Auth::user();
+
+                        if ($actor instanceof User) {
+                            app(InquiryCaseManagementService::class)->reopen(
+                                inquiry: $record,
+                                actor: $actor,
+                                note: (string) $data['note'],
+                            );
+                        }
                     }),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
@@ -328,11 +535,17 @@ class InquiryResource extends Resource
                 'reference_code',
                 'inquiry_category',
                 'status',
+                'priority',
+                'office_unit',
                 'assigned_officer',
                 'sla_overdue',
+                'first_response_due_at',
                 'created_at',
                 'responded_at',
+                'first_responded_at',
                 'resolved_at',
+                'closed_at',
+                'closed_reason',
                 'retention_expires_at',
             ]);
 
@@ -343,11 +556,17 @@ class InquiryResource extends Resource
                         $inquiry->reference_code,
                         $inquiry->inquiry_category->value,
                         $inquiry->status->value,
+                        $inquiry->priority->value,
+                        $inquiry->office_unit,
                         $inquiry->assignedOfficer?->name,
                         self::isOverdue($inquiry) ? 'yes' : 'no',
+                        $inquiry->first_response_due_at?->timezone('Asia/Manila')->toDateTimeString(),
                         $inquiry->created_at?->timezone('Asia/Manila')->toDateTimeString(),
                         $inquiry->responded_at?->timezone('Asia/Manila')->toDateTimeString(),
+                        $inquiry->first_responded_at?->timezone('Asia/Manila')->toDateTimeString(),
                         $inquiry->resolved_at?->timezone('Asia/Manila')->toDateTimeString(),
+                        $inquiry->closed_at?->timezone('Asia/Manila')->toDateTimeString(),
+                        $inquiry->closed_reason,
                         $inquiry->retention_expires_at?->timezone('Asia/Manila')->toDateTimeString(),
                     ]);
                 }
@@ -400,7 +619,7 @@ class InquiryResource extends Resource
 
     private static function isOverdue(Inquiry $record): bool
     {
-        if ($record->responded_at !== null || $record->resolved_at !== null) {
+        if ($record->first_responded_at !== null || $record->responded_at !== null || $record->resolved_at !== null) {
             return false;
         }
 
@@ -408,8 +627,8 @@ class InquiryResource extends Resource
             return false;
         }
 
-        return $record->created_at !== null
-            && $record->created_at->lte(now()->subHours(self::slaHours()));
+        return ($record->first_response_due_at !== null && $record->first_response_due_at->lte(now()))
+            || ($record->created_at !== null && $record->created_at->lte(now()->subHours(self::slaHours())));
     }
 
     /**
@@ -420,12 +639,17 @@ class InquiryResource extends Resource
     {
         return $query
             ->whereNull('responded_at')
+            ->whereNull('first_responded_at')
             ->whereNull('resolved_at')
             ->whereIn('status', [
                 InquiryStatus::Pending->value,
                 InquiryStatus::UnderReview->value,
             ])
-            ->where('created_at', '<=', now()->subHours(self::slaHours()));
+            ->where(function (Builder $builder): void {
+                $builder
+                    ->where('first_response_due_at', '<=', now())
+                    ->orWhere('created_at', '<=', now()->subHours(self::slaHours()));
+            });
     }
 
     private static function slaHours(): int
@@ -456,6 +680,96 @@ class InquiryResource extends Resource
         $status = self::inquiryStatusFrom($state);
 
         return $status?->label() ?? '';
+    }
+
+    private static function formatInquiryPriority(mixed $state): string
+    {
+        $priority = $state instanceof InquiryPriority
+            ? $state
+            : InquiryPriority::tryFrom((string) $state);
+
+        return $priority?->label() ?? '';
+    }
+
+    private static function inquiryPriorityColor(mixed $state): string
+    {
+        return match ($state instanceof InquiryPriority ? $state : InquiryPriority::tryFrom((string) $state)) {
+            InquiryPriority::Urgent => 'danger',
+            InquiryPriority::High => 'warning',
+            InquiryPriority::Normal => 'info',
+            InquiryPriority::Low => 'gray',
+            null => 'gray',
+        };
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private static function activeInquiryOfficerOptions(): array
+    {
+        return User::query()
+            ->where('is_active', true)
+            ->whereIn('admin_role', [
+                AdminRole::SuperAdministrator->value,
+                AdminRole::InquiryOfficer->value,
+            ])
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->all();
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function closureReasonOptions(): array
+    {
+        $reasons = config('belzamora.inquiries.case_management.closure_reasons', []);
+
+        return is_array($reasons)
+            ? collect($reasons)->mapWithKeys(fn (mixed $label, mixed $key): array => [(string) $key => (string) $label])->all()
+            : [];
+    }
+
+    private static function closureReasonLabel(?string $state): string
+    {
+        if (! filled($state)) {
+            return '';
+        }
+
+        return self::closureReasonOptions()[$state] ?? $state;
+    }
+
+    private static function activityTimelineHtml(?Inquiry $record): string
+    {
+        if (! $record instanceof Inquiry) {
+            return '';
+        }
+
+        $activities = $record->activities()->with('actor')->limit(12)->get();
+
+        if ($activities->isEmpty()) {
+            return '<p class="text-sm text-gray-500">No activity recorded yet.</p>';
+        }
+
+        return $activities
+            ->map(function ($activity): string {
+                $actor = $activity->actor?->name ?? 'System';
+                $date = $activity->created_at?->timezone('Asia/Manila')->format('M j, Y g:i A') ?? 'Unknown time';
+                $status = $activity->old_status !== null || $activity->new_status !== null
+                    ? '<div class="text-xs text-gray-500">Status: '.e((string) $activity->old_status ?: 'none').' -> '.e((string) $activity->new_status ?: 'none').'</div>'
+                    : '';
+
+                return '<div class="border-b border-gray-200 py-3 last:border-b-0">'
+                    .'<div class="flex flex-wrap items-center justify-between gap-2">'
+                    .'<span class="font-semibold text-gray-900">'.e($activity->type->label()).'</span>'
+                    .'<span class="text-xs text-gray-500">'.e($date).'</span>'
+                    .'</div>'
+                    .'<div class="mt-1 text-sm text-gray-600">'.e($actor).'</div>'
+                    .($activity->body !== null ? '<div class="mt-2 text-sm text-gray-700">'.nl2br(e($activity->body)).'</div>' : '')
+                    .$status
+                    .'</div>';
+            })
+            ->implode('');
     }
 
     private static function inquiryStatusColor(mixed $state): string

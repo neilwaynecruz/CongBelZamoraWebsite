@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\AdminRole;
 use App\Enums\ContentApprovalStatus;
 use App\Enums\InquiryStatus;
 use App\Enums\ProgramStatus;
@@ -86,8 +87,53 @@ class AdminDashboardMetricsService
                 InquiryStatus::Pending->value,
                 InquiryStatus::UnderReview->value,
             ])
+            ->whereNull('first_responded_at')
             ->whereNull('responded_at')
             ->count();
+    }
+
+    /**
+     * @return array{assigned_open: int, assigned_overdue: int, unassigned_open: int, resolved_today: int}
+     */
+    public function getInquiryQueueCounts(User $user): array
+    {
+        if (! $user->canManageInquiries() && ! $user->canAuditRecords()) {
+            return [
+                'assigned_open' => 0,
+                'assigned_overdue' => 0,
+                'unassigned_open' => 0,
+                'resolved_today' => 0,
+            ];
+        }
+
+        $base = Inquiry::query();
+
+        if ($user->hasAdminRole(AdminRole::InquiryOfficer)) {
+            $base->where(function ($query) use ($user): void {
+                $query
+                    ->whereNull('assigned_officer_id')
+                    ->orWhere('assigned_officer_id', $user->id);
+            });
+        }
+
+        return [
+            'assigned_open' => (clone $base)
+                ->openCase()
+                ->where('assigned_officer_id', $user->id)
+                ->count(),
+            'assigned_overdue' => (clone $base)
+                ->overdueFirstResponse()
+                ->where('assigned_officer_id', $user->id)
+                ->count(),
+            'unassigned_open' => (clone $base)
+                ->openCase()
+                ->whereNull('assigned_officer_id')
+                ->count(),
+            'resolved_today' => (clone $base)
+                ->where('status', InquiryStatus::Resolved->value)
+                ->whereDate('resolved_at', now('Asia/Manila')->toDateString())
+                ->count(),
+        ];
     }
 
     public function canViewNeedsAttention(User $user): bool
@@ -151,7 +197,7 @@ class AdminDashboardMetricsService
                 ->get();
 
             foreach ($approvals as $approval) {
-                if (! $approval->approvable instanceof Model || ! $user->can('view', $approval->approvable)) {
+                if (! $approval instanceof Model || ! $approval->approvable instanceof Model || ! $user->can('view', $approval->approvable)) {
                     continue;
                 }
 
@@ -168,7 +214,7 @@ class AdminDashboardMetricsService
                     'date' => $this->recordDate($approval, 'submitted_at'),
                     'severity' => 'danger',
                     'url' => data_get($approval->metadata, 'launch_gate') === true
-                        ? $this->recordUrl(ContentApprovalResource::class, $approval, $user)
+                        ? $this->recordUrl(ContentApprovalResource::class, $approval->approvable, $user)
                         : $this->recordUrl($resource, $approval->approvable, $user),
                 ];
             }
@@ -207,13 +253,7 @@ class AdminDashboardMetricsService
             $slaHours = max(1, (int) config('belzamora.inquiries.unanswered_sla_hours', 48));
 
             $inquiries = Inquiry::query()
-                ->whereIn('status', [
-                    InquiryStatus::Pending->value,
-                    InquiryStatus::UnderReview->value,
-                ])
-                ->whereNull('responded_at')
-                ->whereNull('resolved_at')
-                ->where('created_at', '<=', now()->subHours($slaHours))
+                ->overdueFirstResponse()
                 ->orderBy('created_at', 'asc')
                 ->limit(5)
                 ->get();
@@ -226,8 +266,8 @@ class AdminDashboardMetricsService
                 $items[] = [
                     'type' => 'Inquiry',
                     'title' => "Inquiry {$inquiry->reference_code} awaiting response",
-                    'status' => 'Overdue Answer (>'.$slaHours.'h)',
-                    'date' => $this->recordDate($inquiry, 'created_at'),
+                    'status' => 'Overdue first response (>'.$slaHours.'h target)',
+                    'date' => $this->recordDate($inquiry, 'first_response_due_at'),
                     'severity' => 'danger',
                     'url' => $this->recordUrl(InquiryResource::class, $inquiry, $user),
                 ];
@@ -322,9 +362,11 @@ class AdminDashboardMetricsService
         return $this->readableRecordType($record).' #'.$record->getKey();
     }
 
-    private function recordDate(Model $record, string $attribute): DateTimeInterface
+    private function recordDate(object $record, string $attribute): DateTimeInterface
     {
-        $value = $record->getAttribute($attribute);
+        $value = $record instanceof Model
+            ? $record->getAttribute($attribute)
+            : (property_exists($record, $attribute) ? $record->{$attribute} : null);
 
         if ($value instanceof DateTimeInterface) {
             return $value;

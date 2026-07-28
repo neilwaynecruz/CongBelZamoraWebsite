@@ -22,10 +22,10 @@ enum InquiryCategory: string
     public function description(): string
     {
         return match ($this) {
-            self::EducationalAssistance => 'Questions about Tulong Dunong, student orientation, or education-program routing.',
-            self::MedicalSocialServices => 'General routing questions for medical, welfare, burial, or city/national-agency services.',
-            self::LegislativeFeedback => 'Comments or questions about bills, policy work, committee concerns, or public consultations.',
-            self::GeneralInquiry => 'Basic District Office questions that do not fit the other categories.',
+            self::EducationalAssistance => 'For questions about Tulong Dunong, published student-assistance requirements, schedules, and official application-channel guidance.',
+            self::MedicalSocialServices => 'For privacy-safe routing questions involving medical, welfare, burial, or other city/barangay/national-agency services.',
+            self::LegislativeFeedback => 'For comments or questions about bills, policy work, committee concerns, public consultations, or legislative source records.',
+            self::GeneralInquiry => 'For basic District Office questions that do not fit the other service categories.',
         };
     }
 

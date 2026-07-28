@@ -18,6 +18,7 @@ import type {
     ContactChannel,
     ContactOfficeInfo,
     ContactPreference,
+    InquiryCaseWorkflow,
     InquiryCategory,
     InquiryCategoryOption,
     InquiryConfirmation,
@@ -41,6 +42,7 @@ type Props = {
     inquiryCategories: InquiryCategoryOption[];
     privacyHighlights: string[];
     responseExpectations: string[];
+    caseWorkflow: InquiryCaseWorkflow;
     inquiryAction: string;
     confirmation?: InquiryConfirmation | null;
     verifiedAt: string;
@@ -219,8 +221,7 @@ const structuredData = {
                                 <p
                                     class="mt-1 text-base font-semibold text-brand-navy"
                                 >
-                                    Response time depends on the category,
-                                    completeness, and responsible office.
+                                    {{ caseWorkflow.expectedResponse }}
                                 </p>
                             </div>
                         </div>
@@ -459,6 +460,9 @@ const structuredData = {
                                 <ul
                                     class="mt-2 grid gap-2 text-sm leading-6 text-text-muted"
                                 >
+                                    <li>
+                                        {{ caseWorkflow.privacyNotice }}
+                                    </li>
                                     <li
                                         v-for="item in privacyHighlights"
                                         :key="item"
@@ -790,6 +794,12 @@ const structuredData = {
                             What happens after submission
                         </p>
                         <ul class="mt-2 grid gap-2 text-sm text-text-muted">
+                            <li
+                                v-for="step in caseWorkflow.afterSubmission"
+                                :key="step"
+                            >
+                                {{ step }}
+                            </li>
                             <li
                                 v-for="expectation in responseExpectations"
                                 :key="expectation"

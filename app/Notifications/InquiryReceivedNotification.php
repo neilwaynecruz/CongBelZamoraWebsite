@@ -35,6 +35,8 @@ class InquiryReceivedNotification extends Notification implements ShouldQueue
             ->greeting('Salamat po.')
             ->line('We received your inquiry and generated this reference number:')
             ->line($this->inquiry->reference_code)
+            ->line($this->acknowledgmentLine())
+            ->line((string) config('belzamora.inquiries.public_workflow.expected_response'))
             ->line('Please do not reply with IDs, medical records, income records, student records, or other sensitive documents unless the District Office provides an approved secure process.')
             ->line('Submission does not guarantee program approval, assistance, appointment confirmation, or case acceptance.');
     }
@@ -45,5 +47,15 @@ class InquiryReceivedNotification extends Notification implements ShouldQueue
             'reference_code' => $this->inquiry->reference_code,
             'exception' => $exception?->getMessage(),
         ]);
+    }
+
+    private function acknowledgmentLine(): string
+    {
+        $variant = data_get($this->inquiry->metadata, 'acknowledgment_variant', 'standard');
+        $variants = config('belzamora.inquiries.acknowledgment_variants', []);
+
+        return is_array($variants)
+            ? (string) ($variants[$variant] ?? $variants['standard'] ?? 'Your inquiry has been received and routed for review.')
+            : 'Your inquiry has been received and routed for review.';
     }
 }

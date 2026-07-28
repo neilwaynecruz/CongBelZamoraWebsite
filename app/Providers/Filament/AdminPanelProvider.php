@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
 use App\Filament\Widgets\DashboardHeaderWidget;
+use App\Filament\Widgets\InquiryAssigneeQueueOverview;
 use App\Filament\Widgets\InquiryVolumeByCategoryChart;
 use App\Filament\Widgets\NeedsAttentionWidget;
 use App\Filament\Widgets\Phase7ContentHealthOverview;
@@ -82,6 +83,7 @@ class AdminPanelProvider extends PanelProvider
                 DashboardHeaderWidget::class,
                 Widgets\AccountWidget::class,
                 Phase7ContentHealthOverview::class,
+                InquiryAssigneeQueueOverview::class,
                 NeedsAttentionWidget::class,
                 InquiryVolumeByCategoryChart::class,
                 PublishLatencyOverview::class,

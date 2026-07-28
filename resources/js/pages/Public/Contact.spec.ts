@@ -69,6 +69,16 @@ const baseProps = {
     breadcrumbs,
     channels,
     confirmation: null,
+    caseWorkflow: {
+        afterSubmission: [
+            'A reference code is generated immediately after successful submission.',
+            'The inquiry is routed by category to the appropriate District Office desk.',
+        ],
+        expectedResponse:
+            'Target first response: within 2 working days for most inquiries.',
+        privacyNotice:
+            'Do not submit IDs, certificates, medical records, or images of private documents.',
+    },
     inquiryAction: '/contact/inquiries',
     inquiryCategories,
     office,
@@ -97,6 +107,8 @@ describe('Contact page', () => {
         expect(wrapper.text()).toContain('Office contact card');
         expect(wrapper.text()).toContain('info@belzamora.com');
         expect(wrapper.text()).toContain('Privacy-safe inquiry form');
+        expect(wrapper.text()).toContain('Target first response');
+        expect(wrapper.text()).toContain('A reference code is generated');
         expect(wrapper.text()).toContain('Required');
         expect(wrapper.text()).toContain(
             'Do not include government ID numbers',

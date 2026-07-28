@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\ContentApprovalStatus;
 use App\Enums\InquiryCategory;
+use App\Enums\InquiryStatus;
 use App\Models\ContentApproval;
 use App\Models\Inquiry;
 use App\Models\LegislativeRecord;
@@ -78,6 +79,67 @@ class AdminReportsMetricsService
         );
 
         return $rows;
+    }
+
+    /**
+     * @return array{
+     *     by_status: list<array{status: string, label: string, total: int}>,
+     *     by_assignee: list<array{assignee: string, total: int}>,
+     *     response_bands: list<array{band: string, label: string, total: int}>
+     * }
+     */
+    public function getInquiryCaseMetrics(User $user, int $days = 30): array
+    {
+        if (! $this->canViewInquiryReports($user)) {
+            return [
+                'by_status' => [],
+                'by_assignee' => [],
+                'response_bands' => [],
+            ];
+        }
+
+        $ttl = (int) config('belzamora.reports.cache_ttl_seconds', 60);
+
+        return Cache::remember(
+            'admin_reports_inquiry_case_metrics:'.$days,
+            $ttl,
+            function () use ($days): array {
+                $since = now()->subDays($days);
+
+                $statusCounts = Inquiry::query()
+                    ->selectRaw('status, COUNT(*) as total')
+                    ->where('created_at', '>=', $since)
+                    ->groupBy('status')
+                    ->pluck('total', 'status');
+
+                $assigneeRows = Inquiry::query()
+                    ->leftJoin('users', 'inquiries.assigned_officer_id', '=', 'users.id')
+                    ->where('inquiries.created_at', '>=', $since)
+                    ->selectRaw("COALESCE(users.name, 'Unassigned') as assignee, COUNT(*) as total")
+                    ->groupBy('assignee')
+                    ->orderByDesc('total')
+                    ->limit(10)
+                    ->get()
+                    ->map(fn ($row): array => [
+                        'assignee' => (string) $row->assignee,
+                        'total' => (int) $row->total,
+                    ])
+                    ->all();
+
+                return [
+                    'by_status' => collect(InquiryStatus::cases())
+                        ->map(fn (InquiryStatus $status): array => [
+                            'status' => $status->value,
+                            'label' => $status->label(),
+                            'total' => (int) ($statusCounts[$status->value] ?? 0),
+                        ])
+                        ->values()
+                        ->all(),
+                    'by_assignee' => $assigneeRows,
+                    'response_bands' => $this->responseBands($since),
+                ];
+            },
+        );
     }
 
     /**
@@ -252,5 +314,56 @@ class AdminReportsMetricsService
         }
 
         return ((float) $values[$middle] + (float) $values[$middle + 1]) / 2;
+    }
+
+    /**
+     * @return list<array{band: string, label: string, total: int}>
+     */
+    private function responseBands(mixed $since): array
+    {
+        $bands = [
+            'under_24h' => ['label' => 'Under 24h', 'total' => 0],
+            '24_48h' => ['label' => '24-48h', 'total' => 0],
+            'over_48h' => ['label' => 'Over 48h', 'total' => 0],
+            'pending' => ['label' => 'No first response yet', 'total' => 0],
+        ];
+
+        Inquiry::query()
+            ->where('created_at', '>=', $since)
+            ->get(['created_at', 'first_responded_at', 'responded_at'])
+            ->each(function (Inquiry $inquiry) use (&$bands): void {
+                $respondedAt = $inquiry->first_responded_at ?? $inquiry->responded_at;
+
+                if ($respondedAt === null || $inquiry->created_at === null) {
+                    $bands['pending']['total']++;
+
+                    return;
+                }
+
+                $hours = abs($respondedAt->diffInSeconds($inquiry->created_at)) / 3600;
+
+                if ($hours < 24) {
+                    $bands['under_24h']['total']++;
+
+                    return;
+                }
+
+                if ($hours <= 48) {
+                    $bands['24_48h']['total']++;
+
+                    return;
+                }
+
+                $bands['over_48h']['total']++;
+            });
+
+        return collect($bands)
+            ->map(fn (array $row, string $band): array => [
+                'band' => $band,
+                'label' => $row['label'],
+                'total' => $row['total'],
+            ])
+            ->values()
+            ->all();
     }
 }
