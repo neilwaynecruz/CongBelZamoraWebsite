@@ -65,9 +65,7 @@ defineProps<{
                         }}
                     </p>
                     <small>
-                        {{
-                            snapshot.capturedAt ?? 'Capture time unavailable'
-                        }}
+                        {{ snapshot.capturedAt ?? 'Capture time unavailable' }}
                         · {{ snapshot.capturedBy }} ·
                         {{ snapshot.diffCount }} field change{{
                             snapshot.diffCount === 1 ? '' : 's'

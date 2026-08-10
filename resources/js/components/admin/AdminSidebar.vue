@@ -6,11 +6,12 @@ import {
     ExternalLink,
     Gauge,
     Inbox,
+    Landmark,
     Palette,
 } from '@lucide/vue';
-import { computed  } from 'vue';
+import { computed } from 'vue';
 import type { AdminConsoleContext } from '@/types/admin-console';
-import type {Component} from 'vue';
+import type { Component } from 'vue';
 
 withDefaults(
     defineProps<{
@@ -33,6 +34,7 @@ const iconMap: Record<string, Component> = {
     gauge: Gauge,
     inbox: Inbox,
     approval: ClipboardCheck,
+    programs: Landmark,
     palette: Palette,
     legacy: ArchiveRestore,
 };
@@ -44,7 +46,9 @@ const isActive = (href: string) => {
         return currentPath.value === path;
     }
 
-    return currentPath.value === path || currentPath.value.startsWith(`${path}/`);
+    return (
+        currentPath.value === path || currentPath.value.startsWith(`${path}/`)
+    );
 };
 </script>
 
@@ -86,7 +90,9 @@ const isActive = (href: string) => {
                         :key="item.href"
                         :href="item.href"
                         class="admin-nav-item"
-                        :class="{ 'admin-nav-item--active': isActive(item.href) }"
+                        :class="{
+                            'admin-nav-item--active': isActive(item.href),
+                        }"
                         :aria-current="isActive(item.href) ? 'page' : undefined"
                         :title="collapsed && !mobile ? item.label : undefined"
                         @click="$emit('navigate')"
@@ -96,10 +102,16 @@ const isActive = (href: string) => {
                             class="admin-nav-item__icon"
                             aria-hidden="true"
                         />
-                        <span v-if="!collapsed || mobile" class="admin-nav-item__body">
+                        <span
+                            v-if="!collapsed || mobile"
+                            class="admin-nav-item__body"
+                        >
                             <span class="admin-nav-item__line">
                                 <span>{{ item.label }}</span>
-                                <span v-if="item.badge" class="admin-nav-item__badge">
+                                <span
+                                    v-if="item.badge"
+                                    class="admin-nav-item__badge"
+                                >
                                     {{ item.badge }}
                                 </span>
                                 <ExternalLink

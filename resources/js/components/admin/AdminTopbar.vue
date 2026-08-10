@@ -60,8 +60,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     if (clock) {
-window.clearInterval(clock);
-}
+        window.clearInterval(clock);
+    }
 
     document.removeEventListener('click', onDocumentClick);
 });
@@ -81,7 +81,9 @@ window.clearInterval(clock);
             <button
                 type="button"
                 class="admin-icon-button admin-topbar__collapse"
-                :aria-label="sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+                :aria-label="
+                    sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+                "
                 @click="$emit('toggleSidebar')"
             >
                 <PanelLeftOpen v-if="sidebarCollapsed" aria-hidden="true" />
@@ -92,7 +94,9 @@ window.clearInterval(clock);
                 type="button"
                 class="admin-search-trigger"
                 aria-label="Open command search"
-                @click="$emit('openPalette', $event.currentTarget as HTMLElement)"
+                @click="
+                    $emit('openPalette', $event.currentTarget as HTMLElement)
+                "
             >
                 <Search aria-hidden="true" />
                 <span>Search records or run a command</span>
@@ -129,7 +133,9 @@ window.clearInterval(clock);
                     aria-haspopup="menu"
                     @click.stop="profileOpen = !profileOpen"
                 >
-                    <span class="admin-profile-menu__avatar">{{ context.user.initials }}</span>
+                    <span class="admin-profile-menu__avatar">{{
+                        context.user.initials
+                    }}</span>
                     <span class="admin-profile-menu__identity">
                         <strong>{{ context.user.name }}</strong>
                         <small>{{ context.user.roleLabel }}</small>
@@ -137,7 +143,11 @@ window.clearInterval(clock);
                     <ChevronDown aria-hidden="true" />
                 </button>
 
-                <div v-if="profileOpen" class="admin-profile-menu__popover" role="menu">
+                <div
+                    v-if="profileOpen"
+                    class="admin-profile-menu__popover"
+                    role="menu"
+                >
                     <div class="admin-profile-menu__summary">
                         <strong>{{ context.user.name }}</strong>
                         <span>{{ context.user.email }}</span>

@@ -43,8 +43,8 @@ const filteredCommands = computed(() => {
     const term = query.value.trim().toLowerCase();
 
     if (!term) {
-return commands.value;
-}
+        return commands.value;
+    }
 
     return commands.value.filter((item) =>
         `${item.label} ${item.description} ${item.group}`
@@ -55,8 +55,8 @@ return commands.value;
 
 const navigate = (item: AdminNavigationItem | SearchResult) => {
     if (!item.href) {
-return;
-}
+        return;
+    }
 
     emit('close');
 
@@ -75,8 +75,8 @@ const runSearch = async () => {
     searchError.value = false;
 
     if (term.length < 2) {
-return;
-}
+        return;
+    }
 
     abortController?.abort();
     abortController = new AbortController();
@@ -92,15 +92,15 @@ return;
         });
 
         if (!response.ok) {
-throw new Error(`Search failed with ${response.status}`);
-}
+            throw new Error(`Search failed with ${response.status}`);
+        }
 
         const payload = (await response.json()) as { data: SearchResult[] };
         remoteResults.value = payload.data;
     } catch (error) {
         if ((error as Error).name !== 'AbortError') {
-searchError.value = true;
-}
+            searchError.value = true;
+        }
     } finally {
         loading.value = false;
     }
@@ -108,8 +108,8 @@ searchError.value = true;
 
 watch(query, () => {
     if (searchTimer) {
-window.clearTimeout(searchTimer);
-}
+        window.clearTimeout(searchTimer);
+    }
 
     searchTimer = window.setTimeout(runSearch, 280);
 });
@@ -119,8 +119,8 @@ const focusableSelector =
 
 const onKeydown = (event: KeyboardEvent) => {
     if (!props.open) {
-return;
-}
+        return;
+    }
 
     if (event.key === 'Escape') {
         event.preventDefault();
@@ -130,8 +130,8 @@ return;
     }
 
     if (event.key !== 'Tab' || !dialog.value) {
-return;
-}
+        return;
+    }
 
     const focusable = Array.from(
         dialog.value.querySelectorAll<HTMLElement>(focusableSelector),
@@ -140,8 +140,8 @@ return;
     const last = focusable[focusable.length - 1];
 
     if (!first || !last) {
-return;
-}
+        return;
+    }
 
     if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
@@ -173,8 +173,8 @@ watch(
 
 onBeforeUnmount(() => {
     if (searchTimer) {
-window.clearTimeout(searchTimer);
-}
+        window.clearTimeout(searchTimer);
+    }
 
     abortController?.abort();
     document.body.style.overflow = '';
@@ -202,7 +202,9 @@ window.clearTimeout(searchTimer);
                     <header class="admin-command-palette__header">
                         <div>
                             <p class="admin-kicker">District switchboard</p>
-                            <h2 id="admin-command-title">Find work and move quickly</h2>
+                            <h2 id="admin-command-title">
+                                Find work and move quickly
+                            </h2>
                         </div>
                         <button
                             type="button"
@@ -239,7 +241,10 @@ window.clearTimeout(searchTimer);
                             >
                                 <span>
                                     <strong>{{ item.label }}</strong>
-                                    <small>{{ item.group }} · {{ item.description }}</small>
+                                    <small
+                                        >{{ item.group }} ·
+                                        {{ item.description }}</small
+                                    >
                                 </span>
                                 <ExternalLink
                                     v-if="item.external"
@@ -251,11 +256,19 @@ window.clearTimeout(searchTimer);
 
                         <section v-if="query.trim().length >= 2">
                             <h3>Authorized records</h3>
-                            <p v-if="loading" class="admin-command-palette__state" role="status">
+                            <p
+                                v-if="loading"
+                                class="admin-command-palette__state"
+                                role="status"
+                            >
                                 Searching authorized records...
                             </p>
-                            <p v-else-if="searchError" class="admin-command-palette__state admin-command-palette__state--error">
-                                Search is temporarily unavailable. Commands remain available.
+                            <p
+                                v-else-if="searchError"
+                                class="admin-command-palette__state admin-command-palette__state--error"
+                            >
+                                Search is temporarily unavailable. Commands
+                                remain available.
                             </p>
                             <button
                                 v-for="result in remoteResults"
@@ -269,14 +282,27 @@ window.clearTimeout(searchTimer);
                                     <strong>{{ result.title }}</strong>
                                     <small>
                                         {{ result.type }}
-                                        <template v-if="result.subtitle"> · {{ result.subtitle }}</template>
-                                        <template v-if="result.usesLegacyFallback"> · Opens fallback</template>
+                                        <template v-if="result.subtitle">
+                                            · {{ result.subtitle }}</template
+                                        >
+                                        <template
+                                            v-if="result.usesLegacyFallback"
+                                        >
+                                            · Opens fallback</template
+                                        >
                                     </small>
                                 </span>
-                                <ExternalLink v-if="result.href" aria-hidden="true" />
+                                <ExternalLink
+                                    v-if="result.href"
+                                    aria-hidden="true"
+                                />
                             </button>
                             <p
-                                v-if="!loading && !searchError && remoteResults.length === 0"
+                                v-if="
+                                    !loading &&
+                                    !searchError &&
+                                    remoteResults.length === 0
+                                "
                                 class="admin-command-palette__state"
                             >
                                 No authorized records match this search.

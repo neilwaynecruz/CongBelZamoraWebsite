@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\AdminRole;
 use App\Models\ContentApproval;
 use App\Models\Inquiry;
+use App\Models\Program;
 use App\Models\User;
 
 class AdminConsoleNavigationService
@@ -72,6 +73,15 @@ class AdminConsoleNavigationService
                 'Approval queue and governance status',
                 route('admin-console.content-approvals.index'),
                 'approval',
+            );
+        }
+
+        if ($user->can('viewAny', Program::class)) {
+            $operations[] = $this->item(
+                'Programs',
+                'Program records, sources, and approval readiness',
+                route('admin-console.programs.index'),
+                'programs',
             );
         }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminConsole\DashboardController;
 use App\Http\Controllers\AdminConsole\DesignSystemController;
 use App\Http\Controllers\AdminConsole\InquiryController;
 use App\Http\Controllers\AdminConsole\InquiryWorkflowController;
+use App\Http\Controllers\AdminConsole\ProgramController;
 use App\Http\Controllers\AdminConsole\SearchController;
 use App\Http\Middleware\EnsureAdminConsoleAccess;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,9 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
                 Route::post('/close', [InquiryWorkflowController::class, 'close'])->name('close');
                 Route::post('/reopen', [InquiryWorkflowController::class, 'reopen'])->name('reopen');
             });
+
+        Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
+        Route::get('/programs/{program}', [ProgramController::class, 'show'])->name('programs.show');
 
         Route::get('/content-approvals', [ContentApprovalController::class, 'index'])
             ->name('content-approvals.index');

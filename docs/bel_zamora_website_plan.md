@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 27, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), and Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement). Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 browser automation, real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement), verified Custom Admin Command System Wave 1 at `/admin-console`, and the first custom Programs command module with index/detail pages, role-filtered navigation, source/approval readiness, visual smoke coverage, and restricted Filament editing fallback. Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
 
 ---
 
@@ -114,6 +114,34 @@ The next work is:
 > **Complete Phase 10 stakeholder sign-off using the prepared approval packages, while finishing remaining Phase 9 browser/real-device verification in parallel.**
 
 Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated QA is documented but still `Implemented but Not Verified`. Phase 10 packages are ready for circulation; production launch remains unauthorized until launch-critical approvals and required corrections are complete. Do not begin Phase 11 deployment until Package J (executive launch authorization) is signed.
+
+### Project Update: 2026-08-10 (Custom Admin Command System Wave 1)
+
+**Task:** Verify and harden the first implementation wave for the custom `/admin-console` District Office Command System.
+
+**Scope completed:** Custom staff login, command-center dashboard, `AdminConsoleLayout`, desktop/sidebar/mobile shell, role-aware navigation service, command palette contract, real dashboard metrics, attention queue, read-only inquiry list/detail entry points, read-only content-approval list/detail entry points, super-administrator design-system preview, and Filament fallback link retained as a restricted transition tool.
+
+**Validation evidence:** Focused admin-console tests passed with 27 tests and 330 assertions. Full `php artisan test` passed with 196 tests and 1751 assertions. `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed. The temporary SQLite visual-QA database migrated and seeded successfully. `node tests\e2e\admin-console-visual-smoke.mjs` passed for `/admin-console/login`, `/admin-console`, `/admin-console/inquiries`, `/admin-console/content-approvals`, and `/admin-console/design-system` at 320, 390, 768, 1024, 1440, and 1920 px widths.
+
+**Visual evidence:** Screenshots were generated in `storage/app/admin-console-visual-smoke`; representative screenshots reviewed were `login-390.png`, `dashboard-1440.png`, `dashboard-320.png`, and `content-approvals-390.png`. No horizontal overflow, major clipping, or contrast failure was found in the checked evidence.
+
+**Decision:** Keep Filament as restricted fallback. Do not remove Filament until Programs, Projects, News/media, public pages, users/settings, audit, and reporting have custom parity and the Filament removal parity matrix is complete.
+
+**Recommended next custom-admin slice:** Build the custom Programs editor parity layer so authorized staff can create and edit program records, requirements, updates, and approval submissions without relying on Filament.
+
+### Project Update: 2026-08-10 (Custom Admin Programs Command Module)
+
+**Task:** Build the next custom-admin module at `/admin-console/programs`.
+
+**Scope completed:** Added custom Programs routes, thin controller, admin resource, role-aware navigation item, custom command-palette search routing, Programs command ledger, Program dossier, server-side filters/pagination/sorting, source verification panel, source-register display, approval workflow links, governance readiness blockers, and Filament fallback editor link for authorized updating roles.
+
+**Security and workflow decision:** Program record mutation remains in the restricted Filament fallback until custom create/edit, requirements, updates, approval submission, archive/restore, and unsaved-change workflows reach parity. The custom Programs slice is currently read-oriented and policy-protected.
+
+**Validation evidence:** `php artisan test tests\Feature\AdminConsoleProgramsTest.php` passed with 4 tests and 62 assertions. `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleProgramsTest.php` passed with 15 tests and 194 assertions. Full `php artisan test` passed with 200 tests and 1813 assertions. `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed. `php artisan route:list --path=admin-console` listed the new Programs routes.
+
+**Visual evidence:** The admin-console visual smoke script now covers `/admin-console/programs` and optional `/admin-console/programs/{id}`. Latest run passed with `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`; reviewed screenshots were `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, and `program-detail-390.png`.
+
+**Recommended next custom-admin slice:** Build the custom Programs editor parity layer: create/edit form, requirements editor, updates editor, approval-submission controls, sticky save bar, unsaved-change warning, and archive/restore controls.
 
 ### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
 

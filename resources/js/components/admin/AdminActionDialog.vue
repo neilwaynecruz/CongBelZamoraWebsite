@@ -112,7 +112,9 @@ onBeforeUnmount(() => {
                 <button
                     type="button"
                     class="admin-action-dialog__backdrop"
-                    :aria-label="closeOnBackdrop ? `Cancel ${title}` : undefined"
+                    :aria-label="
+                        closeOnBackdrop ? `Cancel ${title}` : undefined
+                    "
                     :tabindex="closeOnBackdrop ? 0 : -1"
                     @click="onBackdrop"
                 ></button>
@@ -130,7 +132,9 @@ onBeforeUnmount(() => {
                         <div>
                             <p class="admin-kicker">{{ kicker }}</p>
                             <h2 id="admin-action-dialog-title">{{ title }}</h2>
-                            <p id="admin-action-dialog-description">{{ description }}</p>
+                            <p id="admin-action-dialog-description">
+                                {{ description }}
+                            </p>
                         </div>
                         <button
                             type="button"
@@ -143,7 +147,11 @@ onBeforeUnmount(() => {
                         </button>
                     </header>
 
-                    <form class="admin-action-dialog__form" novalidate @submit.prevent="emit('confirm')">
+                    <form
+                        class="admin-action-dialog__form"
+                        novalidate
+                        @submit.prevent="emit('confirm')"
+                    >
                         <div class="admin-action-dialog__body">
                             <slot />
                         </div>
@@ -162,7 +170,11 @@ onBeforeUnmount(() => {
                                 :class="`admin-button--${tone}`"
                                 :disabled="busy"
                             >
-                                <LoaderCircle v-if="busy" class="admin-spin" aria-hidden="true" />
+                                <LoaderCircle
+                                    v-if="busy"
+                                    class="admin-spin"
+                                    aria-hidden="true"
+                                />
                                 {{ busy ? 'Saving securely...' : confirmLabel }}
                             </button>
                         </footer>

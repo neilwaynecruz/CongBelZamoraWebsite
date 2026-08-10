@@ -57,7 +57,10 @@ defineProps<{
     <Head title="Command Center" />
 
     <div class="admin-page admin-dashboard">
-        <section class="admin-command-strip" aria-labelledby="command-center-title">
+        <section
+            class="admin-command-strip"
+            aria-labelledby="command-center-title"
+        >
             <div class="admin-command-strip__main">
                 <div class="admin-command-strip__seal-line">
                     <img
@@ -68,17 +71,30 @@ defineProps<{
                     />
                     <span>Bel Zamora District Office</span>
                 </div>
-                <p class="admin-kicker admin-kicker--gold">Operations briefing</p>
+                <p class="admin-kicker admin-kicker--gold">
+                    Operations briefing
+                </p>
                 <h1 id="command-center-title">
                     Good day, {{ adminConsole.user.name.split(' ')[0] }}.
                 </h1>
                 <p>
-                    Review the highest-priority constituent and governance work before
-                    moving into module queues.
+                    Review the highest-priority constituent and governance work
+                    before moving into module queues.
                 </p>
                 <div class="admin-command-strip__trust">
-                    <span><ShieldCheck aria-hidden="true" />Governance controls active</span>
-                    <span><Clock3 aria-hidden="true" />Manila time · {{ new Date(serverTime).toLocaleTimeString('en-PH', { hour: 'numeric', minute: '2-digit' }) }}</span>
+                    <span
+                        ><ShieldCheck aria-hidden="true" />Governance controls
+                        active</span
+                    >
+                    <span
+                        ><Clock3 aria-hidden="true" />Manila time ·
+                        {{
+                            new Date(serverTime).toLocaleTimeString('en-PH', {
+                                hour: 'numeric',
+                                minute: '2-digit',
+                            })
+                        }}</span
+                    >
                     <span>{{ adminConsole.user.roleLabel }}</span>
                 </div>
             </div>
@@ -86,21 +102,38 @@ defineProps<{
             <aside class="admin-command-strip__brief">
                 <p class="admin-kicker">Immediate readout</p>
                 <div>
-                    <strong>{{ inquiryQueue.assigned_overdue + metrics.pending_approvals }}</strong>
+                    <strong>{{
+                        inquiryQueue.assigned_overdue +
+                        metrics.pending_approvals
+                    }}</strong>
                     <span>priority items require review</span>
                 </div>
                 <nav aria-label="Priority actions">
                     <Link
-                        v-if="adminConsole.navigation.some((group) => group.items.some((item) => item.href.includes('/inquiries')))"
+                        v-if="
+                            adminConsole.navigation.some((group) =>
+                                group.items.some((item) =>
+                                    item.href.includes('/inquiries'),
+                                ),
+                            )
+                        "
                         href="/admin-console/inquiries"
                     >
-                        <Inbox aria-hidden="true" />Open inquiry queue<ArrowRight aria-hidden="true" />
+                        <Inbox aria-hidden="true" />Open inquiry
+                        queue<ArrowRight aria-hidden="true" />
                     </Link>
                     <Link
-                        v-if="adminConsole.navigation.some((group) => group.items.some((item) => item.href.includes('/content-approvals')))"
+                        v-if="
+                            adminConsole.navigation.some((group) =>
+                                group.items.some((item) =>
+                                    item.href.includes('/content-approvals'),
+                                ),
+                            )
+                        "
                         href="/admin-console/content-approvals"
                     >
-                        <ClipboardCheck aria-hidden="true" />Open review queue<ArrowRight aria-hidden="true" />
+                        <ClipboardCheck aria-hidden="true" />Open review
+                        queue<ArrowRight aria-hidden="true" />
                     </Link>
                 </nav>
             </aside>
@@ -134,7 +167,10 @@ defineProps<{
         </section>
 
         <div class="admin-dashboard-grid">
-            <section id="attention-queue" class="admin-panel admin-panel--priority">
+            <section
+                id="attention-queue"
+                class="admin-panel admin-panel--priority"
+            >
                 <header class="admin-panel__header">
                     <div>
                         <p class="admin-kicker">Priority ledger</p>
@@ -152,16 +188,26 @@ defineProps<{
                         class="admin-work-item"
                         :data-severity="item.severity"
                     >
-                        <span class="admin-work-item__rail" aria-hidden="true"></span>
+                        <span
+                            class="admin-work-item__rail"
+                            aria-hidden="true"
+                        ></span>
                         <span class="admin-work-item__content">
                             <span class="admin-work-item__meta">
-                                <AdminStatusBadge :value="item.severity" :label="item.type" />
-                                <span>{{ item.dateLabel ?? 'Date not recorded' }}</span>
+                                <AdminStatusBadge
+                                    :value="item.severity"
+                                    :label="item.type"
+                                />
+                                <span>{{
+                                    item.dateLabel ?? 'Date not recorded'
+                                }}</span>
                             </span>
                             <strong>{{ item.title }}</strong>
                             <small>
                                 {{ item.status }}
-                                <template v-if="item.usesLegacyFallback"> · Opens temporary fallback</template>
+                                <template v-if="item.usesLegacyFallback">
+                                    · Opens temporary fallback</template
+                                >
                             </small>
                         </span>
                         <ArrowRight aria-hidden="true" />
@@ -235,7 +281,10 @@ defineProps<{
                     <div>
                         <p class="admin-kicker">Traceability</p>
                         <h2>Recent governed activity</h2>
-                        <p>Non-sensitive system events for authorized audit roles.</p>
+                        <p>
+                            Non-sensitive system events for authorized audit
+                            roles.
+                        </p>
                     </div>
                     <Activity aria-hidden="true" />
                 </header>
@@ -245,7 +294,10 @@ defineProps<{
                         <span aria-hidden="true"></span>
                         <div>
                             <strong>{{ activity.event }}</strong>
-                            <small>{{ activity.actor }} · {{ activity.occurredAt }}</small>
+                            <small
+                                >{{ activity.actor }} ·
+                                {{ activity.occurredAt }}</small
+                            >
                         </div>
                     </li>
                 </ol>

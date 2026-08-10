@@ -7,25 +7,38 @@ const props = defineProps<{
 }>();
 
 const tone = computed(() => {
-    if (['resolved', 'approved', 'published', 'open', 'healthy'].includes(props.value)) {
+    if (
+        ['resolved', 'approved', 'published', 'open', 'healthy'].includes(
+            props.value,
+        )
+    ) {
         return 'success';
     }
 
-    if (['urgent', 'overdue', 'rejected', 'danger', 'blocked'].includes(props.value)) {
+    if (
+        ['urgent', 'overdue', 'rejected', 'danger', 'blocked'].includes(
+            props.value,
+        )
+    ) {
         return 'danger';
     }
 
     if (
-        ['for_review', 'needs_revision', 'high', 'warning', 'stale', 'scheduled'].includes(
-            props.value,
-        )
+        [
+            'for_review',
+            'needs_revision',
+            'high',
+            'warning',
+            'stale',
+            'scheduled',
+        ].includes(props.value)
     ) {
         return 'warning';
     }
 
     if (['closed', 'archived', 'anonymized'].includes(props.value)) {
-return 'neutral';
-}
+        return 'neutral';
+    }
 
     return 'info';
 });

@@ -19,8 +19,8 @@ const focusableSelector =
 
 const onKeydown = (event: KeyboardEvent) => {
     if (!props.open) {
-return;
-}
+        return;
+    }
 
     if (event.key === 'Escape') {
         event.preventDefault();
@@ -30,8 +30,8 @@ return;
     }
 
     if (event.key !== 'Tab' || !panel.value) {
-return;
-}
+        return;
+    }
 
     const focusable = Array.from(
         panel.value.querySelectorAll<HTMLElement>(focusableSelector),
@@ -40,8 +40,8 @@ return;
     const last = focusable[focusable.length - 1];
 
     if (!first || !last) {
-return;
-}
+        return;
+    }
 
     if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();

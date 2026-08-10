@@ -29,17 +29,33 @@ class SearchController extends Controller
 
         $results = collect($search->searchFor($user, $validated['term']))
             ->map(function (array $result) use ($user): array {
-                $href = $this->legacyRecordUrl($result, $user);
+                $href = $this->recordUrl($result, $user);
 
                 return [
                     ...$result,
                     'href' => $href,
-                    'usesLegacyFallback' => $href !== null,
+                    'usesLegacyFallback' => $this->usesLegacyFallback($result, $href),
                 ];
             })
             ->values();
 
         return response()->json(['data' => $results]);
+    }
+
+    /**
+     * @param  array<string, mixed>  $result
+     */
+    private function recordUrl(array $result, User $user): ?string
+    {
+        if (($result['type'] ?? null) === 'Program') {
+            $record = Program::query()->find($result['id'] ?? null);
+
+            return $record !== null && $user->can('view', $record)
+                ? route('admin-console.programs.show', $record)
+                : null;
+        }
+
+        return $this->legacyRecordUrl($result, $user);
     }
 
     /**
@@ -70,5 +86,13 @@ class SearchController extends Controller
         }
 
         return $resource::getUrl($user->can('update', $record) ? 'edit' : 'view', ['record' => $record]);
+    }
+
+    /**
+     * @param  array<string, mixed>  $result
+     */
+    private function usesLegacyFallback(array $result, ?string $href): bool
+    {
+        return $href !== null && ($result['type'] ?? null) !== 'Program';
     }
 }

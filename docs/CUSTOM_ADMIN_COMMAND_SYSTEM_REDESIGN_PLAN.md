@@ -1053,6 +1053,81 @@ Build the custom `/admin-console` shell completely before migrating modules. The
 
 After that, migrate inquiries first because it is the highest operational value module.
 
+### 20.1 Wave 1 Implementation Evidence
+
+**Latest verification date:** August 10, 2026
+
+Wave 1 is implemented and verified as a custom Laravel/Inertia admin-console foundation while Filament remains available as a restricted fallback.
+
+Implemented evidence:
+
+- `/admin-console/login` renders the custom Civic Ledger Command staff login.
+- `/admin-console` renders the custom command-center dashboard with real backend metrics, Manila time, priority work, inquiry queue counts, content-health signals, and recent activity for authorized audit roles.
+- `AdminConsoleLayout` provides the dedicated admin shell with persistent desktop sidebar, mobile drawer navigation, topbar search trigger, task indicator, command palette, skip link, and toast region.
+- `AdminConsoleNavigationService` filters navigation by existing staff roles and policies.
+- `/admin-console/inquiries` and `/admin-console/inquiries/{id}` provide custom inquiry queue and dossier entry points with role-safe redaction.
+- `/admin-console/content-approvals` and `/admin-console/content-approvals/{id}` provide custom approval queue and dossier entry points.
+- `/admin-console/design-system` provides a restricted component/design-system preview for super administrators.
+- Filament remains linked only as "Legacy Admin Fallback" while custom parity work continues.
+
+Verification evidence:
+
+- `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleInquiryWorkflowTest.php tests\Feature\AdminConsoleContentGovernanceWorkflowTest.php` passed: 27 tests, 330 assertions.
+- `vendor\bin\pint --test` passed.
+- `php artisan test` passed: 196 tests, 1751 assertions.
+- `npm run format:check` passed after formatting the admin Vue/CSS files.
+- `npm run lint:check` passed.
+- `npm run typecheck` passed.
+- `npm run build` passed.
+- Temporary SQLite visual-QA database `database/admin_console_visual.sqlite` migrated and seeded successfully.
+- `node tests\e2e\admin-console-visual-smoke.mjs` passed and generated screenshots in `storage/app/admin-console-visual-smoke`.
+- Generated visual smoke screenshots covered `/admin-console/login`, `/admin-console`, `/admin-console/inquiries`, `/admin-console/content-approvals`, and `/admin-console/design-system` at 320, 390, 768, 1024, 1440, and 1920 px widths.
+- Representative screenshots reviewed: `login-390.png`, `dashboard-1440.png`, `dashboard-320.png`, and `content-approvals-390.png`; no readability, contrast, clipping, or horizontal-overflow issue was found in the reviewed evidence.
+
+Remaining custom-admin migration work:
+
+- Build custom parity for the Programs editor, Projects, News/media, public pages, users/settings, audit, and reporting modules before removing Filament.
+- Complete the Filament removal parity matrix before redirecting `/admin` or uninstalling Filament packages.
+
+### 20.2 Programs Command Module Evidence
+
+**Latest verification date:** August 10, 2026
+
+The next custom-admin slice is implemented for Programs as a read-oriented command module while record mutation remains in the restricted Filament fallback until custom editor parity is built.
+
+Implemented evidence:
+
+- `/admin-console/programs` renders a custom Programs command ledger with server-side search, status, category, review-state, sorting, and pagination.
+- `/admin-console/programs/{program}` renders a custom Program dossier with program facts, requirements, updates, source verification, source-register records, governance readiness, approval workflow links, and fallback edit status.
+- Programs navigation is role-filtered through `AdminConsoleNavigationService` and uses the existing `ProgramPolicy`.
+- Command palette search now routes Program results to the custom Program dossier instead of the Filament fallback.
+- Program list/detail props are shaped by `App\Http\Resources\AdminConsole\ProgramResource`; raw Eloquent records are not exposed to Vue.
+- The module reuses existing source records, content approvals, governance readiness checks, and the custom content-approval dossier.
+- Filament Program editing remains available only as a restricted fallback for roles that can update Programs.
+
+Verification evidence:
+
+- `php -l` passed for the new Program controller/resource and test file.
+- `php artisan test tests\Feature\AdminConsoleProgramsTest.php` passed: 4 tests, 62 assertions.
+- `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleProgramsTest.php` passed: 15 tests, 194 assertions.
+- Full `php artisan test` passed: 200 tests, 1813 assertions.
+- Targeted `vendor\bin\pint --test` passed for changed PHP files.
+- `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed.
+- `php artisan route:list --path=admin-console` listed the new `admin-console.programs.index` and `admin-console.programs.show` routes.
+- The temporary SQLite visual-QA database migrated and seeded successfully.
+- `node tests\e2e\admin-console-visual-smoke.mjs` passed with Programs index and Program detail included.
+- Visual screenshots generated in `storage/app/admin-console-visual-smoke` include `programs-320.png`, `programs-390.png`, `programs-768.png`, `programs-1024.png`, `programs-1440.png`, `programs-1920.png`, and matching `program-detail-*` images when `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`.
+- Reviewed screenshots: `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, and `program-detail-390.png`; no horizontal overflow, major clipping, or contrast issue was found.
+
+Deferred for Programs parity:
+
+- Custom create/edit form.
+- Requirements editor.
+- Program updates editor.
+- Approval submission controls from the Program editor.
+- Unsaved-change protection and sticky save bar for long editing forms.
+- Custom deletion/archive/restore controls.
+
 ## 21. Second Review Upgrade Summary
 
 The first plan is a safe and solid migration plan. This second review raises it into a stricter product, design, and engineering standard. The upgraded direction is not only "replace Filament"; it is to build an internal operating system with a consistent visual language, better staff productivity, stronger governance, and a more resilient technical foundation.

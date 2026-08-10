@@ -9,6 +9,7 @@ const password = process.env.ADMIN_CONSOLE_VISUAL_PASSWORD;
 const outputDir = path.resolve('storage/app/admin-console-visual-smoke');
 const inquiryId = process.env.ADMIN_CONSOLE_VISUAL_INQUIRY_ID;
 const approvalId = process.env.ADMIN_CONSOLE_VISUAL_APPROVAL_ID;
+const programId = process.env.ADMIN_CONSOLE_VISUAL_PROGRAM_ID;
 const executeWorkflow =
     process.env.ADMIN_CONSOLE_VISUAL_EXECUTE_WORKFLOW === '1';
 const executeGovernance =
@@ -32,6 +33,7 @@ const viewports = [
 const pages = [
     { name: 'dashboard', url: '/admin-console' },
     { name: 'inquiries', url: '/admin-console/inquiries' },
+    { name: 'programs', url: '/admin-console/programs' },
     { name: 'content-approvals', url: '/admin-console/content-approvals' },
     { name: 'design-system', url: '/admin-console/design-system' },
 ];
@@ -47,6 +49,13 @@ if (approvalId) {
     pages.splice(pages.length - 1, 0, {
         name: 'approval-detail',
         url: `/admin-console/content-approvals/${approvalId}`,
+    });
+}
+
+if (programId) {
+    pages.splice(3, 0, {
+        name: 'program-detail',
+        url: `/admin-console/programs/${programId}`,
     });
 }
 

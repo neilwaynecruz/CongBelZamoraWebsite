@@ -33,7 +33,11 @@ defineProps<{
             >
                 <ChevronLeft aria-hidden="true" />Previous
             </Link>
-            <span v-else class="admin-button admin-button--quiet" aria-disabled="true">
+            <span
+                v-else
+                class="admin-button admin-button--quiet"
+                aria-disabled="true"
+            >
                 <ChevronLeft aria-hidden="true" />Previous
             </span>
             <span>Page {{ meta.current_page }} of {{ meta.last_page }}</span>
@@ -46,7 +50,11 @@ defineProps<{
             >
                 Next<ChevronRight aria-hidden="true" />
             </Link>
-            <span v-else class="admin-button admin-button--quiet" aria-disabled="true">
+            <span
+                v-else
+                class="admin-button admin-button--quiet"
+                aria-disabled="true"
+            >
                 Next<ChevronRight aria-hidden="true" />
             </span>
         </div>

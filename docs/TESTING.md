@@ -84,6 +84,42 @@ $env:NODE_OPTIONS='--max-old-space-size=4096'
 npm run test
 ```
 
+## Custom Admin Console Wave 1 Checks
+
+Run these checks after changing `/admin-console` routes, controllers, resources, services, policies, admin Vue pages, admin components, or `resources/css/admin-console.css`:
+
+```powershell
+php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleInquiryWorkflowTest.php tests\Feature\AdminConsoleContentGovernanceWorkflowTest.php
+vendor\bin\pint --test
+php artisan test
+npm run format:check
+npm run lint:check
+npm run typecheck
+npm run build
+```
+
+Latest August 10, 2026 results:
+
+- Focused admin-console tests passed: 27 tests, 330 assertions.
+- `vendor\bin\pint --test` passed.
+- Full `php artisan test` passed: 196 tests, 1751 assertions.
+- `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed.
+- A temporary SQLite QA database at `database/admin_console_visual.sqlite` was migrated and seeded for isolated visual testing, without touching the local MySQL database.
+- `node tests\e2e\admin-console-visual-smoke.mjs` passed with `ADMIN_CONSOLE_VISUAL_BASE_URL=http://127.0.0.1:8018`, `ADMIN_CONSOLE_VISUAL_EMAIL=test@example.com`, and the seeded local test password.
+- Screenshots were written to `storage/app/admin-console-visual-smoke` for `/admin-console/login`, `/admin-console`, `/admin-console/inquiries`, `/admin-console/content-approvals`, and `/admin-console/design-system` at 320, 390, 768, 1024, 1440, and 1920 px widths.
+- Reviewed screenshots: `login-390.png`, `dashboard-1440.png`, `dashboard-320.png`, and `content-approvals-390.png`.
+- The visual smoke script detected no browser console errors and no horizontal overflow.
+
+Programs module update on August 10, 2026:
+
+- `php artisan test tests\Feature\AdminConsoleProgramsTest.php` passed: 4 tests, 62 assertions.
+- `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleProgramsTest.php` passed: 15 tests, 194 assertions.
+- Full `php artisan test` passed after the Programs slice: 200 tests, 1813 assertions.
+- `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed after adding `Admin/Programs/Index.vue` and `Admin/Programs/Show.vue`.
+- `tests\e2e\admin-console-visual-smoke.mjs` now includes `/admin-console/programs` and optionally `/admin-console/programs/{id}` when `ADMIN_CONSOLE_VISUAL_PROGRAM_ID` is set.
+- Latest visual smoke run passed with `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`, generating and checking Programs screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths.
+- Reviewed screenshots: `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, and `program-detail-390.png`.
+
 ## Current Phase 6 Coverage
 
 - `tests/Feature/InertiaTest.php` verifies that `/` renders the `Public/Home` Inertia component and required homepage props.

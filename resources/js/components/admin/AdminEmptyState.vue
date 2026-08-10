@@ -9,7 +9,9 @@ defineProps<{
 
 <template>
     <div class="admin-empty-state">
-        <span class="admin-empty-state__icon"><CheckCircle2 aria-hidden="true" /></span>
+        <span class="admin-empty-state__icon"
+            ><CheckCircle2 aria-hidden="true"
+        /></span>
         <div>
             <h3>{{ title }}</h3>
             <p>{{ description }}</p>

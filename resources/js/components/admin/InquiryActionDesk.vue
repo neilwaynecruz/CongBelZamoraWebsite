@@ -87,9 +87,14 @@ const definitions = computed<ActionDefinition[]>(() => [
         name: 'assign',
         label: props.inquiry.assignee ? 'Reassign owner' : 'Assign owner',
         helper: 'Set accountable case ownership',
-        title: props.inquiry.assignee ? 'Reassign case ownership' : 'Assign case ownership',
-        description: 'Select an active authorized officer. The assignment and any operational note will be added to the audited case timeline.',
-        confirmLabel: props.inquiry.assignee ? 'Reassign inquiry' : 'Assign inquiry',
+        title: props.inquiry.assignee
+            ? 'Reassign case ownership'
+            : 'Assign case ownership',
+        description:
+            'Select an active authorized officer. The assignment and any operational note will be added to the audited case timeline.',
+        confirmLabel: props.inquiry.assignee
+            ? 'Reassign inquiry'
+            : 'Assign inquiry',
         tone: 'primary',
         icon: UserRoundPlus,
         endpoint: props.workflow.actions.assign,
@@ -100,7 +105,8 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: 'Assign to me',
         helper: 'Accept ownership of this case',
         title: 'Accept case ownership',
-        description: 'You will become the accountable officer and the case will move into active review. This assignment is recorded in the audit trail.',
+        description:
+            'You will become the accountable officer and the case will move into active review. This assignment is recorded in the audit trail.',
         confirmLabel: 'Assign to me',
         tone: 'primary',
         icon: ShieldCheck,
@@ -112,7 +118,8 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: 'Start review',
         helper: 'Begin active case handling',
         title: 'Start active review',
-        description: 'The inquiry will move from Pending to Under review. If it is unassigned, you will become its accountable owner.',
+        description:
+            'The inquiry will move from Pending to Under review. If it is unassigned, you will become its accountable owner.',
         confirmLabel: 'Start review',
         tone: 'warning',
         icon: Eye,
@@ -124,7 +131,8 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: 'Add internal note',
         helper: 'Document handling context',
         title: 'Add an internal case note',
-        description: 'This encrypted note is visible only to authorized inquiry staff and becomes part of the permanent handling timeline.',
+        description:
+            'This encrypted note is visible only to authorized inquiry staff and becomes part of the permanent handling timeline.',
         confirmLabel: 'Add note',
         tone: 'primary',
         icon: MessageSquareText,
@@ -136,7 +144,8 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: 'Record response',
         helper: 'Log an approved-channel reply',
         title: 'Record a delivered response',
-        description: 'Document what was already communicated through an approved office channel. This action records a milestone; it does not send a new message.',
+        description:
+            'Document what was already communicated through an approved office channel. This action records a milestone; it does not send a new message.',
         confirmLabel: 'Record response',
         tone: 'primary',
         icon: Send,
@@ -148,7 +157,8 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: 'Resolve inquiry',
         helper: 'Record the service outcome',
         title: 'Resolve this inquiry',
-        description: 'Confirm that guidance, routing, or another documented outcome has been completed. A clear resolution summary is required.',
+        description:
+            'Confirm that guidance, routing, or another documented outcome has been completed. A clear resolution summary is required.',
         confirmLabel: 'Mark resolved',
         tone: 'success',
         icon: CheckCircle2,
@@ -160,7 +170,8 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: 'Close case',
         helper: 'Complete the case lifecycle',
         title: 'Close this resolved inquiry',
-        description: 'Closing removes the inquiry from active work queues. Select the official closure reason and confirm only after the outcome is complete.',
+        description:
+            'Closing removes the inquiry from active work queues. Select the official closure reason and confirm only after the outcome is complete.',
         confirmLabel: 'Close inquiry',
         tone: 'danger',
         icon: Archive,
@@ -172,7 +183,8 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: 'Reopen inquiry',
         helper: 'Return the case to active review',
         title: 'Reopen this inquiry',
-        description: 'The inquiry will return to Under review and re-enter operational queues. Record the follow-up reason before continuing.',
+        description:
+            'The inquiry will return to Under review and re-enter operational queues. Record the follow-up reason before continuing.',
         confirmLabel: 'Reopen inquiry',
         tone: 'warning',
         icon: RotateCcw,
@@ -196,17 +208,27 @@ const availableActions = computed(() =>
 );
 
 const activeDefinition = computed(
-    () => definitions.value.find((action) => action.name === activeAction.value) ?? null,
+    () =>
+        definitions.value.find(
+            (action) => action.name === activeAction.value,
+        ) ?? null,
 );
 
 const showsAssignment = computed(() => activeAction.value === 'assign');
-const showsTemplate = computed(() =>
-    activeAction.value === 'addInternalNote' || activeAction.value === 'recordResponse',
+const showsTemplate = computed(
+    () =>
+        activeAction.value === 'addInternalNote' ||
+        activeAction.value === 'recordResponse',
 );
 const showsClosureReason = computed(() => activeAction.value === 'close');
-const showsNote = computed(() => activeAction.value !== null && !['claim'].includes(activeAction.value));
+const showsNote = computed(
+    () =>
+        activeAction.value !== null && !['claim'].includes(activeAction.value),
+);
 const noteRequired = computed(() =>
-    ['addInternalNote', 'recordResponse', 'resolve', 'reopen'].includes(activeAction.value ?? ''),
+    ['addInternalNote', 'recordResponse', 'resolve', 'reopen'].includes(
+        activeAction.value ?? '',
+    ),
 );
 
 const openAction = (name: ActionName) => {
@@ -237,7 +259,9 @@ const closeDialog = () => {
 watch(
     () => fields.value.template_key,
     (key) => {
-        const template = props.workflow.templates.find((item) => item.key === key);
+        const template = props.workflow.templates.find(
+            (item) => item.key === key,
+        );
 
         if (template) {
             fields.value.note = template.text;
@@ -245,7 +269,9 @@ watch(
     },
 );
 
-const payloadFor = (action: ActionName): Record<string, string | number | null> => {
+const payloadFor = (
+    action: ActionName,
+): Record<string, string | number | null> => {
     switch (action) {
         case 'assign':
         case 'claim':
@@ -297,7 +323,10 @@ const submit = () => {
 </script>
 
 <template>
-    <section class="admin-panel admin-case-actions" aria-labelledby="case-actions-title">
+    <section
+        class="admin-panel admin-case-actions"
+        aria-labelledby="case-actions-title"
+    >
         <header>
             <div>
                 <p class="admin-kicker">Case command desk</p>
@@ -310,16 +339,25 @@ const submit = () => {
             <ShieldCheck aria-hidden="true" />
             <div>
                 <strong>Read-only oversight</strong>
-                <p>Your role can inspect handling evidence but cannot change this inquiry.</p>
+                <p>
+                    Your role can inspect handling evidence but cannot change
+                    this inquiry.
+                </p>
             </div>
         </div>
 
         <template v-else>
-            <div v-if="workflow.ownershipRequired" class="admin-case-actions__notice">
+            <div
+                v-if="workflow.ownershipRequired"
+                class="admin-case-actions__notice"
+            >
                 <UserRoundPlus aria-hidden="true" />
                 <div>
                     <strong>Ownership required</strong>
-                    <p>Assign or start review before recording a response or resolution.</p>
+                    <p>
+                        Assign or start review before recording a response or
+                        resolution.
+                    </p>
                 </div>
             </div>
 
@@ -341,13 +379,18 @@ const submit = () => {
                 </button>
             </div>
 
-            <p v-if="availableActions.length === 0" class="admin-case-actions__complete">
-                No transition is currently available for this case state. Internal notes remain available only while policy permits.
+            <p
+                v-if="availableActions.length === 0"
+                class="admin-case-actions__complete"
+            >
+                No transition is currently available for this case state.
+                Internal notes remain available only while policy permits.
             </p>
         </template>
 
         <p class="admin-case-actions__audit">
-            Every command records the actor, timestamp, state change, and privacy-safe audit metadata.
+            Every command records the actor, timestamp, state change, and
+            privacy-safe audit metadata.
         </p>
     </section>
 
@@ -372,7 +415,12 @@ const submit = () => {
             tabindex="-1"
         >
             <strong>This command needs attention.</strong>
-            <p>{{ errors.action ?? 'Review the highlighted fields and try again.' }}</p>
+            <p>
+                {{
+                    errors.action ??
+                    'Review the highlighted fields and try again.'
+                }}
+            </p>
         </div>
 
         <label v-if="showsAssignment" class="admin-field">
@@ -381,29 +429,56 @@ const submit = () => {
                 v-model="fields.assigned_officer_id"
                 data-autofocus
                 :aria-invalid="Boolean(errors.assigned_officer_id)"
-                :aria-describedby="errors.assigned_officer_id ? 'assignment-error' : 'assignment-help'"
+                :aria-describedby="
+                    errors.assigned_officer_id
+                        ? 'assignment-error'
+                        : 'assignment-help'
+                "
             >
                 <option value="" disabled>Select an authorized officer</option>
-                <option v-for="officer in workflow.assignees" :key="officer.id" :value="String(officer.id)">
+                <option
+                    v-for="officer in workflow.assignees"
+                    :key="officer.id"
+                    :value="String(officer.id)"
+                >
                     {{ officer.name }} · {{ officer.role }}
                 </option>
             </select>
-            <small id="assignment-help">Only active Inquiry Officers and Super Administrators are listed.</small>
-            <small v-if="errors.assigned_officer_id" id="assignment-error" class="admin-field__error">
+            <small id="assignment-help"
+                >Only active Inquiry Officers and Super Administrators are
+                listed.</small
+            >
+            <small
+                v-if="errors.assigned_officer_id"
+                id="assignment-error"
+                class="admin-field__error"
+            >
                 {{ errors.assigned_officer_id }}
             </small>
         </label>
 
         <label v-if="showsTemplate" class="admin-field">
             <span>Approved template <em>Optional</em></span>
-            <select v-model="fields.template_key" :data-autofocus="!showsAssignment || undefined">
+            <select
+                v-model="fields.template_key"
+                :data-autofocus="!showsAssignment || undefined"
+            >
                 <option value="">Write without a template</option>
-                <option v-for="template in workflow.templates" :key="template.key" :value="template.key">
+                <option
+                    v-for="template in workflow.templates"
+                    :key="template.key"
+                    :value="template.key"
+                >
                     {{ template.label }}
                 </option>
             </select>
-            <small>Selecting a template fills the note. Review and adapt it before recording.</small>
-            <small v-if="errors.template_key" class="admin-field__error">{{ errors.template_key }}</small>
+            <small
+                >Selecting a template fills the note. Review and adapt it before
+                recording.</small
+            >
+            <small v-if="errors.template_key" class="admin-field__error">{{
+                errors.template_key
+            }}</small>
         </label>
 
         <label v-if="showsClosureReason" class="admin-field">
@@ -414,37 +489,72 @@ const submit = () => {
                 :aria-invalid="Boolean(errors.closed_reason)"
             >
                 <option value="" disabled>Select a closure reason</option>
-                <option v-for="reason in workflow.closureReasons" :key="reason.value" :value="reason.value">
+                <option
+                    v-for="reason in workflow.closureReasons"
+                    :key="reason.value"
+                    :value="reason.value"
+                >
                     {{ reason.label }}
                 </option>
             </select>
-            <small v-if="errors.closed_reason" class="admin-field__error">{{ errors.closed_reason }}</small>
+            <small v-if="errors.closed_reason" class="admin-field__error">{{
+                errors.closed_reason
+            }}</small>
         </label>
 
         <label v-if="showsNote" class="admin-field">
             <span>
-                {{ activeAction === 'recordResponse' ? 'Response summary' : activeAction === 'resolve' ? 'Resolution summary' : activeAction === 'reopen' ? 'Reason for reopening' : activeAction === 'close' ? 'Closure note' : activeAction === 'assign' ? 'Assignment note' : activeAction === 'markUnderReview' ? 'Review note' : 'Internal note' }}
+                {{
+                    activeAction === 'recordResponse'
+                        ? 'Response summary'
+                        : activeAction === 'resolve'
+                          ? 'Resolution summary'
+                          : activeAction === 'reopen'
+                            ? 'Reason for reopening'
+                            : activeAction === 'close'
+                              ? 'Closure note'
+                              : activeAction === 'assign'
+                                ? 'Assignment note'
+                                : activeAction === 'markUnderReview'
+                                  ? 'Review note'
+                                  : 'Internal note'
+                }}
                 <b v-if="noteRequired" aria-hidden="true">*</b>
                 <em v-else>Optional</em>
             </span>
             <textarea
                 v-model="fields.note"
-                :data-autofocus="!showsAssignment && !showsTemplate && !showsClosureReason ? true : undefined"
+                :data-autofocus="
+                    !showsAssignment && !showsTemplate && !showsClosureReason
+                        ? true
+                        : undefined
+                "
                 rows="6"
                 maxlength="5000"
                 :aria-invalid="Boolean(errors.note)"
-                :aria-describedby="errors.note ? 'action-note-error' : 'action-note-help'"
+                :aria-describedby="
+                    errors.note ? 'action-note-error' : 'action-note-help'
+                "
             ></textarea>
             <small id="action-note-help">
-                Do not paste IDs, medical records, passwords, or private attachments into staff notes.
+                Do not paste IDs, medical records, passwords, or private
+                attachments into staff notes.
                 {{ fields.note.length.toLocaleString() }} / 5,000
             </small>
-            <small v-if="errors.note" id="action-note-error" class="admin-field__error">{{ errors.note }}</small>
+            <small
+                v-if="errors.note"
+                id="action-note-error"
+                class="admin-field__error"
+                >{{ errors.note }}</small
+            >
         </label>
 
         <div v-if="activeAction === 'claim'" class="admin-command-confirmation">
             <ShieldCheck aria-hidden="true" />
-            <p>You are accepting accountable ownership of {{ inquiry.referenceCode }}.</p>
+            <p>
+                You are accepting accountable ownership of
+                {{ inquiry.referenceCode }}.
+            </p>
         </div>
     </AdminActionDialog>
 </template>
