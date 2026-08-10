@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminConsole\AdminConsoleAuthController;
 use App\Http\Controllers\AdminConsole\ContentApprovalController;
 use App\Http\Controllers\AdminConsole\ContentApprovalWorkflowController;
+use App\Http\Controllers\AdminConsole\ContentLifecycleController;
 use App\Http\Controllers\AdminConsole\DashboardController;
 use App\Http\Controllers\AdminConsole\DesignSystemController;
 use App\Http\Controllers\AdminConsole\InquiryController;
@@ -48,6 +49,15 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
         Route::put('/programs/{program}', [ProgramController::class, 'update'])
             ->middleware('throttle:30,1')
             ->name('programs.update');
+        Route::post('/programs/{program}/archive', [ContentLifecycleController::class, 'archiveProgram'])
+            ->middleware('throttle:20,1')
+            ->name('programs.archive');
+        Route::post('/programs/{program}/restore', [ContentLifecycleController::class, 'restoreProgram'])
+            ->middleware('throttle:20,1')
+            ->name('programs.restore');
+        Route::delete('/programs/{program}', [ContentLifecycleController::class, 'deleteProgram'])
+            ->middleware('throttle:10,1')
+            ->name('programs.delete');
         Route::get('/programs/{program}', [ProgramController::class, 'show'])->name('programs.show');
 
         Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
@@ -59,6 +69,15 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
         Route::put('/projects/{project}', [ProjectController::class, 'update'])
             ->middleware('throttle:30,1')
             ->name('projects.update');
+        Route::post('/projects/{project}/archive', [ContentLifecycleController::class, 'archiveProject'])
+            ->middleware('throttle:20,1')
+            ->name('projects.archive');
+        Route::post('/projects/{project}/restore', [ContentLifecycleController::class, 'restoreProject'])
+            ->middleware('throttle:20,1')
+            ->name('projects.restore');
+        Route::delete('/projects/{project}', [ContentLifecycleController::class, 'deleteProject'])
+            ->middleware('throttle:10,1')
+            ->name('projects.delete');
         Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 
         Route::get('/news', [NewsRecordController::class, 'index'])->name('news.index');
@@ -70,6 +89,15 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
         Route::put('/news/{newsRecord}', [NewsRecordController::class, 'update'])
             ->middleware('throttle:30,1')
             ->name('news.update');
+        Route::post('/news/{newsRecord}/archive', [ContentLifecycleController::class, 'archiveNews'])
+            ->middleware('throttle:20,1')
+            ->name('news.archive');
+        Route::post('/news/{newsRecord}/restore', [ContentLifecycleController::class, 'restoreNews'])
+            ->middleware('throttle:20,1')
+            ->name('news.restore');
+        Route::delete('/news/{newsRecord}', [ContentLifecycleController::class, 'deleteNews'])
+            ->middleware('throttle:10,1')
+            ->name('news.delete');
         Route::get('/news/{newsRecord}', [NewsRecordController::class, 'show'])->name('news.show');
 
         Route::get('/content-approvals', [ContentApprovalController::class, 'index'])

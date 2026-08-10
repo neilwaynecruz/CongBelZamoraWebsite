@@ -121,9 +121,11 @@ class NewsRecordController extends Controller
 
     public function show(
         Request $request,
-        NewsRecord $newsRecord,
+        string $newsRecord,
         AdminConsoleNavigationService $navigation,
     ): Response {
+        $newsRecord = NewsRecord::withTrashed()->findOrFail($newsRecord);
+
         Gate::authorize('view', $newsRecord);
 
         $newsRecord->load([

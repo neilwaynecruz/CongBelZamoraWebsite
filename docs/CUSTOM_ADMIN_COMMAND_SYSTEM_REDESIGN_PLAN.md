@@ -1127,7 +1127,7 @@ Editor parity update:
 - `AdminProgramEditorService` saves Program edits through policies and a database transaction, replaces nested requirements and updates safely, synchronizes the linked source-register record, records an audit event, and submits approval requests through `ContentApprovalWorkflowService`.
 - The Vue editor includes visible labels, nested requirements and program-updates editors, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and a desktop/tablet sticky save bar with mobile-safe static save controls.
 - Program list and dossier pages now expose custom create/edit entry points for roles authorized by `ProgramPolicy`.
-- Filament Programs remains available only as a restricted fallback while custom archive/restore/delete parity and remaining module parity are completed.
+- Filament Programs remains available only as a restricted fallback while remaining module parity is completed.
 
 Verification evidence for editor parity:
 
@@ -1142,7 +1142,6 @@ Verification evidence for editor parity:
 
 Deferred for Programs parity:
 
-- Custom deletion/archive/restore controls.
 - Optional richer diff preview before approval submission.
 
 Projects parity update:
@@ -1154,7 +1153,7 @@ Projects parity update:
 - `AdminProjectEditorService` saves project edits through policies and a database transaction, replaces nested evidence records safely, synchronizes the linked source-register record, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
 - The Vue Projects editor includes visible labels, evidence/source/rights editors, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and the established admin sticky save bar pattern.
 - Command-palette search now routes authorized Project results to the custom Project dossier instead of legacy Filament.
-- Filament Projects and Project Evidence remain available only as restricted fallback for custom upload, archive/restore/delete, and remaining parity gaps.
+- Filament Projects and Project Evidence remain available only as restricted fallback for custom upload and remaining parity gaps.
 
 Verification evidence for Projects parity:
 
@@ -1170,7 +1169,6 @@ Verification evidence for Projects parity:
 Deferred for Projects parity:
 
 - Custom media file upload parity.
-- Custom deletion/archive/restore controls.
 - Optional richer diff preview before approval submission.
 
 News/media parity update:
@@ -1182,7 +1180,7 @@ News/media parity update:
 - `AdminNewsRecordEditorService` saves news/media edits through policies and a database transaction, replaces nested media metadata safely, synchronizes the linked source-register record, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
 - The Vue News/media editor includes visible labels, official update fields, stale-content note, media source/caption/alt-text/rights fields, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and the established admin sticky save bar pattern.
 - Command-palette search now routes authorized News results to the custom News dossier instead of legacy Filament.
-- Filament News Records and News Media Assets remain available only as restricted fallback for custom upload, archive/restore/delete, and remaining parity gaps.
+- Filament News Records and News Media Assets remain available only as restricted fallback for custom upload and remaining parity gaps.
 
 Verification evidence for News/media parity:
 
@@ -1196,8 +1194,23 @@ Verification evidence for News/media parity:
 Deferred for News/media parity:
 
 - Custom media file upload parity.
-- Custom deletion/archive/restore controls.
 - Optional richer diff preview before approval submission.
+
+Shared lifecycle parity update:
+
+- `/admin-console/programs/{program}/archive`, `/admin-console/projects/{project}/archive`, and `/admin-console/news/{newsRecord}/archive` now provide custom archive actions using Form Requests, existing delete policies, `AdminCivicContentLifecycleService`, database transactions, and audit logging.
+- `/admin-console/programs/{program}/restore`, `/admin-console/projects/{project}/restore`, and `/admin-console/news/{newsRecord}/restore` now provide custom restore actions using existing restore policies. Archived dossiers remain inspectable to authorized users so restore controls are reachable without Filament.
+- Custom permanent delete actions are available only where `forceDelete` policy allows them. The Vue confirmation requires a reason and the exact record title before the server performs irreversible deletion.
+- `AdminLifecycleActions.vue` is shared by Program, Project, and News/media dossiers and uses the existing accessible `AdminActionDialog` for focus-trapped archive, restore, and destructive confirmations.
+- `ProgramResource`, `ProjectResource`, and `NewsRecordResource` now expose lifecycle URLs, trashed state, and policy-derived action flags to Vue.
+- Filament remains available as a restricted fallback, but Programs, Projects, and News/media no longer rely on Filament for archive, restore, or permanent delete parity.
+
+Verification evidence for shared lifecycle parity:
+
+- `php -l` passed for `ContentLifecycleController`, `AdminCivicContentLifecycleService`, `ArchiveContentRecordRequest`, and `AdminConsoleLifecycleActionsTest`.
+- `php artisan test tests\Feature\AdminConsoleLifecycleActionsTest.php` passed: 5 tests, 58 assertions.
+- `vendor\bin\pint --test app\Http\Controllers\AdminConsole\ContentLifecycleController.php app\Http\Requests\AdminConsole\ContentLifecycle app\Services\AdminCivicContentLifecycleService.php tests\Feature\AdminConsoleLifecycleActionsTest.php` passed.
+- `npm run typecheck`, `npm run lint:check`, and `npm run build` passed after the shared Vue lifecycle component was added.
 
 ## 21. Second Review Upgrade Summary
 

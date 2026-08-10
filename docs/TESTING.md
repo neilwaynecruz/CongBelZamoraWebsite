@@ -143,6 +143,22 @@ News/media module update on August 10, 2026:
 - The targeted News visual-smoke run generated News index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted.
 - Reviewed screenshots: `news-390.png`, `news-create-390.png`, `news-detail-1440.png`, and `news-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
 
+Shared custom-admin lifecycle actions update on August 10, 2026:
+
+- Programs, Projects, and News/media custom dossiers now include policy-derived archive, restore, and permanent-delete controls through `AdminLifecycleActions.vue`.
+- Archive, restore, and permanent-delete requests use dedicated Form Requests, `ContentLifecycleController`, `AdminCivicContentLifecycleService`, database transactions, existing policies, and audit logging.
+- Archived records remain accessible through authorized custom dossier routes so restore and permanent-delete controls do not require Filament.
+- `php -l app\Http\Controllers\AdminConsole\ContentLifecycleController.php` passed.
+- `php -l app\Services\AdminCivicContentLifecycleService.php` passed.
+- `php -l app\Http\Requests\AdminConsole\ContentLifecycle\ArchiveContentRecordRequest.php` passed.
+- `php -l tests\Feature\AdminConsoleLifecycleActionsTest.php` passed.
+- `php artisan test tests\Feature\AdminConsoleLifecycleActionsTest.php` passed: 5 tests, 58 assertions.
+- `vendor\bin\pint --test app\Http\Controllers\AdminConsole\ContentLifecycleController.php app\Http\Requests\AdminConsole\ContentLifecycle app\Services\AdminCivicContentLifecycleService.php tests\Feature\AdminConsoleLifecycleActionsTest.php` passed.
+- `npm run typecheck` passed.
+- `npm run lint:check` passed after correcting the new component import order.
+- `npm run build` passed. Vite emitted the existing plugin timing notice only.
+- Browser/Playwright visual smoke was not rerun for this focused lifecycle slice by request; no dev server or browser automation was started.
+
 ## Current Phase 6 Coverage
 
 - `tests/Feature/InertiaTest.php` verifies that `/` renders the `Public/Home` Inertia component and required homepage props.

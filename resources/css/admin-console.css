@@ -1989,6 +1989,50 @@
     resize: vertical;
 }
 
+.admin-action-dialog input[type='text'] {
+    min-height: 2.875rem;
+    width: 100%;
+    border: 1px solid var(--admin-line-strong);
+    border-radius: var(--admin-radius-sm);
+    background: #ffffff;
+    color: var(--admin-ink);
+    padding: 0.75rem 0.85rem;
+    font: inherit;
+    font-weight: 700;
+}
+
+.admin-lifecycle-panel {
+    border-color: color-mix(in srgb, var(--admin-gold) 42%, var(--admin-line));
+}
+
+.admin-lifecycle-panel__copy {
+    margin: 0.75rem 0 0;
+    color: var(--admin-ink-soft);
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+.admin-lifecycle-panel__actions {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
+
+.admin-lifecycle-panel__actions .admin-button {
+    width: 100%;
+}
+
+.admin-lifecycle-panel__danger-note {
+    border: 1px solid color-mix(in srgb, var(--admin-red) 35%, var(--admin-line));
+    border-radius: var(--admin-radius-sm);
+    background: color-mix(in srgb, var(--admin-red) 9%, #ffffff);
+    color: var(--admin-red-dark);
+    padding: 0.85rem 0.95rem;
+    font-size: 0.88rem;
+    font-weight: 800;
+    line-height: 1.55;
+}
+
 .admin-action-errors {
     border: 1px solid #e4a3a8;
     border-left: 0.25rem solid var(--admin-red);

@@ -10,6 +10,7 @@ import {
     ShieldCheck,
 } from '@lucide/vue';
 import AdminEmptyState from '@/components/admin/AdminEmptyState.vue';
+import AdminLifecycleActions from '@/components/admin/AdminLifecycleActions.vue';
 import AdminStatusBadge from '@/components/admin/AdminStatusBadge.vue';
 import type { AdminConsoleContext } from '@/types/admin-console';
 
@@ -61,7 +62,19 @@ type NewsDetail = {
         verifiedAt: string | null;
         rightsReady: boolean;
     }[];
-    can: { update: boolean; approve: boolean };
+    lifecycle: {
+        trashed: boolean;
+        archiveUrl: string;
+        restoreUrl: string;
+        deleteUrl: string;
+    };
+    can: {
+        update: boolean;
+        approve: boolean;
+        archive: boolean;
+        restore: boolean;
+        forceDelete: boolean;
+    };
 };
 
 defineProps<{
@@ -103,12 +116,17 @@ const newsStatusBadgeValue = (tone: string) =>
             </div>
             <div class="admin-dossier-header__status">
                 <Link
-                    v-if="newsRecord.can.update"
+                    v-if="newsRecord.can.update && !newsRecord.lifecycle.trashed"
                     :href="`/admin-console/news/${newsRecord.id}/edit`"
                     class="admin-button admin-button--primary"
                 >
                     <Edit3 aria-hidden="true" />Edit update
                 </Link>
+                <AdminStatusBadge
+                    v-if="newsRecord.lifecycle.trashed"
+                    value="archived"
+                    label="Archived"
+                />
                 <AdminStatusBadge
                     :value="newsStatusBadgeValue(newsRecord.status.tone)"
                     :label="newsRecord.status.label"
@@ -338,15 +356,22 @@ const newsStatusBadgeValue = (tone: string) =>
                     </Link>
                 </section>
 
+                <AdminLifecycleActions
+                    :record-title="newsRecord.title"
+                    record-type="news/media record"
+                    :lifecycle="newsRecord.lifecycle"
+                    :can="newsRecord.can"
+                />
+
                 <section class="admin-panel admin-program-source-panel">
                     <header>
                         <p class="admin-kicker">Transition controls</p>
                         <h2>Fallback status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom news editing is available. File upload
-                        replacement and archive/restore parity remain in the
-                        restricted fallback until verified.
+                        Custom news editing and lifecycle actions are available.
+                        File upload replacement stays in the restricted fallback
+                        until upload parity is verified.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"

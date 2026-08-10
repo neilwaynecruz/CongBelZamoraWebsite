@@ -122,9 +122,11 @@ class ProjectController extends Controller
 
     public function show(
         Request $request,
-        Project $project,
+        string $project,
         AdminConsoleNavigationService $navigation,
     ): Response {
+        $project = Project::withTrashed()->findOrFail($project);
+
         Gate::authorize('view', $project);
 
         $project->load([

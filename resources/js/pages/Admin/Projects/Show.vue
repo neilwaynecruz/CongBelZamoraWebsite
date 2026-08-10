@@ -10,6 +10,7 @@ import {
     ShieldCheck,
 } from '@lucide/vue';
 import AdminEmptyState from '@/components/admin/AdminEmptyState.vue';
+import AdminLifecycleActions from '@/components/admin/AdminLifecycleActions.vue';
 import AdminStatusBadge from '@/components/admin/AdminStatusBadge.vue';
 import type { AdminConsoleContext } from '@/types/admin-console';
 
@@ -97,9 +98,18 @@ type ProjectDetail = {
         submittedAt: string | null;
         href: string;
     }[];
+    lifecycle: {
+        trashed: boolean;
+        archiveUrl: string;
+        restoreUrl: string;
+        deleteUrl: string;
+    };
     can: {
         update: boolean;
         approve: boolean;
+        archive: boolean;
+        restore: boolean;
+        forceDelete: boolean;
     };
 };
 
@@ -140,12 +150,17 @@ const projectStatusBadgeValue = (tone: string) =>
             </div>
             <div class="admin-dossier-header__status">
                 <Link
-                    v-if="project.can.update"
+                    v-if="project.can.update && !project.lifecycle.trashed"
                     :href="`/admin-console/projects/${project.id}/edit`"
                     class="admin-button admin-button--primary"
                 >
                     <Edit3 aria-hidden="true" />Edit project
                 </Link>
+                <AdminStatusBadge
+                    v-if="project.lifecycle.trashed"
+                    value="archived"
+                    label="Archived"
+                />
                 <AdminStatusBadge
                     :value="projectStatusBadgeValue(project.status.tone)"
                     :label="project.status.label"
@@ -376,6 +391,13 @@ const projectStatusBadgeValue = (tone: string) =>
                     </Link>
                 </section>
 
+                <AdminLifecycleActions
+                    :record-title="project.title"
+                    record-type="project"
+                    :lifecycle="project.lifecycle"
+                    :can="project.can"
+                />
+
                 <section class="admin-panel admin-program-source-panel">
                     <header>
                         <p class="admin-kicker">Image guidance</p>
@@ -392,9 +414,9 @@ const projectStatusBadgeValue = (tone: string) =>
                         <h2>Fallback status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom project record editing is available. File upload
-                        replacement and archive/restore parity remain in the
-                        restricted fallback until verified.
+                        Custom project editing and lifecycle actions are
+                        available. File upload replacement stays in the
+                        restricted fallback until upload parity is verified.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"

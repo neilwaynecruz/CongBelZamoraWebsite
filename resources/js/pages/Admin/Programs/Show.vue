@@ -11,6 +11,7 @@ import {
     ShieldCheck,
 } from '@lucide/vue';
 import AdminEmptyState from '@/components/admin/AdminEmptyState.vue';
+import AdminLifecycleActions from '@/components/admin/AdminLifecycleActions.vue';
 import AdminStatusBadge from '@/components/admin/AdminStatusBadge.vue';
 import type { AdminConsoleContext } from '@/types/admin-console';
 
@@ -99,9 +100,18 @@ type ProgramDetail = {
         submittedAt: string | null;
         href: string;
     }[];
+    lifecycle: {
+        trashed: boolean;
+        archiveUrl: string;
+        restoreUrl: string;
+        deleteUrl: string;
+    };
     can: {
         update: boolean;
         approve: boolean;
+        archive: boolean;
+        restore: boolean;
+        forceDelete: boolean;
     };
 };
 
@@ -139,12 +149,17 @@ const freshnessBadgeValue = (tone: string) =>
             </div>
             <div class="admin-dossier-header__status">
                 <Link
-                    v-if="program.can.update"
+                    v-if="program.can.update && !program.lifecycle.trashed"
                     :href="`/admin-console/programs/${program.id}/edit`"
                     class="admin-button admin-button--primary"
                 >
                     <Edit3 aria-hidden="true" />Edit program
                 </Link>
+                <AdminStatusBadge
+                    v-if="program.lifecycle.trashed"
+                    value="archived"
+                    label="Archived"
+                />
                 <AdminStatusBadge
                     :value="program.status.value"
                     :label="program.status.label"
@@ -406,6 +421,13 @@ const freshnessBadgeValue = (tone: string) =>
                         Open approval dossier<ArrowRight aria-hidden="true" />
                     </Link>
                 </section>
+
+                <AdminLifecycleActions
+                    :record-title="program.title"
+                    record-type="program"
+                    :lifecycle="program.lifecycle"
+                    :can="program.can"
+                />
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>

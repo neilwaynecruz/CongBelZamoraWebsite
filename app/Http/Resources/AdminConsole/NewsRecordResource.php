@@ -120,9 +120,19 @@ class NewsRecordResource extends JsonResource
                 ->map(fn (ContentApproval $approval): array => $this->approvalRecord($approval))
                 ->values()
                 ->all(),
+            'lifecycle' => [
+                'trashed' => $this->trashed(),
+                'archiveUrl' => route('admin-console.news.archive', $this->resource),
+                'restoreUrl' => route('admin-console.news.restore', $this->resource),
+                'deleteUrl' => route('admin-console.news.delete', $this->resource),
+            ],
             'can' => [
+                'view' => $request->user()?->can('view', $this->resource) ?? false,
                 'update' => $request->user()?->can('update', $this->resource) ?? false,
                 'approve' => $request->user()?->can('approve', $this->resource) ?? false,
+                'archive' => $request->user()?->can('delete', $this->resource) ?? false,
+                'restore' => $request->user()?->can('restore', $this->resource) ?? false,
+                'forceDelete' => $request->user()?->can('forceDelete', $this->resource) ?? false,
             ],
         ];
     }

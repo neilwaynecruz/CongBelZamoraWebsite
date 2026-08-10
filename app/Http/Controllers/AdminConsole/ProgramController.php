@@ -112,9 +112,11 @@ class ProgramController extends Controller
 
     public function show(
         Request $request,
-        Program $program,
+        string $program,
         AdminConsoleNavigationService $navigation,
     ): Response {
+        $program = Program::withTrashed()->findOrFail($program);
+
         Gate::authorize('view', $program);
 
         $program->load([
