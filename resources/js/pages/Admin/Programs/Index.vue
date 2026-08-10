@@ -5,6 +5,7 @@ import {
     ClipboardCheck,
     Filter,
     Landmark,
+    Plus,
     RotateCcw,
     Search,
     ShieldAlert,
@@ -78,6 +79,9 @@ const props = defineProps<{
         reviewDue: number;
         missingSource: number;
     };
+    can: {
+        create: boolean;
+    };
 }>();
 
 const form = reactive({ ...props.filters });
@@ -119,9 +123,18 @@ const freshnessBadgeValue = (tone: string) =>
             description="Inspect program status, ownership, source verification, review deadlines, and approval readiness before public updates move through governance."
         >
             <template #actions>
-                <span class="admin-trust-marker"
-                    ><Landmark aria-hidden="true" />Custom module</span
-                >
+                <div class="admin-page-header__action-row">
+                    <Link
+                        v-if="can.create"
+                        href="/admin-console/programs/create"
+                        class="admin-button admin-button--primary"
+                    >
+                        <Plus aria-hidden="true" />Create program
+                    </Link>
+                    <span class="admin-trust-marker"
+                        ><Landmark aria-hidden="true" />Custom module</span
+                    >
+                </div>
             </template>
         </AdminPageHeader>
 

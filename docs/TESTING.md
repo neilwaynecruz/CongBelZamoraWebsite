@@ -112,13 +112,14 @@ Latest August 10, 2026 results:
 
 Programs module update on August 10, 2026:
 
-- `php artisan test tests\Feature\AdminConsoleProgramsTest.php` passed: 4 tests, 62 assertions.
-- `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleProgramsTest.php` passed: 15 tests, 194 assertions.
-- Full `php artisan test` passed after the Programs slice: 200 tests, 1813 assertions.
-- `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed after adding `Admin/Programs/Index.vue` and `Admin/Programs/Show.vue`.
-- `tests\e2e\admin-console-visual-smoke.mjs` now includes `/admin-console/programs` and optionally `/admin-console/programs/{id}` when `ADMIN_CONSOLE_VISUAL_PROGRAM_ID` is set.
-- Latest visual smoke run passed with `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`, generating and checking Programs screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths.
-- Reviewed screenshots: `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, and `program-detail-390.png`.
+- `php artisan test tests\Feature\AdminConsoleProgramsTest.php` passed after custom editor parity: 9 tests, 116 assertions.
+- Full `php artisan test` passed after the Programs editor parity slice: 205 tests, 1867 assertions.
+- `php -l` passed for the new/updated Programs request, form resource, editor service, and controller files.
+- `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed.
+- `tests\e2e\admin-console-visual-smoke.mjs` now includes `/admin-console/programs`, `/admin-console/programs/create`, optional `/admin-console/programs/{id}`, and optional `/admin-console/programs/{id}/edit` when `ADMIN_CONSOLE_VISUAL_PROGRAM_ID` is set.
+- Latest visual smoke run passed with `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`, generating and checking Programs index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths.
+- Reviewed screenshots: `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, `program-detail-390.png`, `program-create-390.png`, `program-edit-390.png`, `program-create-1440.png`, and `program-edit-1440.png`.
+- The mobile Programs editor save controls were adjusted after visual review so they no longer overlay or split the first form section; desktop/tablet retain the sticky save bar.
 
 ## Current Phase 6 Coverage
 

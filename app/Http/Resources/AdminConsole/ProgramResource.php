@@ -197,7 +197,7 @@ class ProgramResource extends JsonResource
 
     private function formatDate(mixed $value, string $format = 'M j, Y'): ?string
     {
-        if (!($value instanceof \DateTimeInterface)) {
+        if (! ($value instanceof \DateTimeInterface)) {
             return null;
         }
 

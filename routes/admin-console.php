@@ -38,6 +38,14 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
             });
 
         Route::get('/programs', [ProgramController::class, 'index'])->name('programs.index');
+        Route::get('/programs/create', [ProgramController::class, 'create'])->name('programs.create');
+        Route::post('/programs', [ProgramController::class, 'store'])
+            ->middleware('throttle:30,1')
+            ->name('programs.store');
+        Route::get('/programs/{program}/edit', [ProgramController::class, 'edit'])->name('programs.edit');
+        Route::put('/programs/{program}', [ProgramController::class, 'update'])
+            ->middleware('throttle:30,1')
+            ->name('programs.update');
         Route::get('/programs/{program}', [ProgramController::class, 'show'])->name('programs.show');
 
         Route::get('/content-approvals', [ContentApprovalController::class, 'index'])

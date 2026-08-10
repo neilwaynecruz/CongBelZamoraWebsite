@@ -4,6 +4,7 @@ import {
     ArrowLeft,
     ArrowRight,
     ClipboardCheck,
+    Edit3,
     ExternalLink,
     FileText,
     Landmark,
@@ -137,6 +138,13 @@ const freshnessBadgeValue = (tone: string) =>
                 <p>{{ program.summary }}</p>
             </div>
             <div class="admin-dossier-header__status">
+                <Link
+                    v-if="program.can.update"
+                    :href="`/admin-console/programs/${program.id}/edit`"
+                    class="admin-button admin-button--primary"
+                >
+                    <Edit3 aria-hidden="true" />Edit program
+                </Link>
                 <AdminStatusBadge
                     :value="program.status.value"
                     :label="program.status.label"
@@ -440,9 +448,10 @@ const freshnessBadgeValue = (tone: string) =>
                         <h2>Fallback status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Editing remains in the restricted Filament fallback
-                        until the custom Programs editor, requirements editor,
-                        and approval submission workflow reach parity.
+                        Custom create and edit flows are available for program
+                        records. The restricted Filament fallback stays online
+                        only while parity is verified across remaining admin
+                        modules.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"

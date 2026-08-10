@@ -4,12 +4,16 @@ namespace App\Http\Controllers\AdminConsole;
 
 use App\Enums\ProgramStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminConsole\Programs\SaveProgramRequest;
+use App\Http\Resources\AdminConsole\ProgramFormResource;
 use App\Http\Resources\AdminConsole\ProgramResource;
 use App\Models\Program;
 use App\Models\ProgramCategory;
 use App\Models\User;
 use App\Services\AdminConsoleNavigationService;
+use App\Services\AdminProgramEditorService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -70,7 +74,40 @@ class ProgramController extends Controller
             'statusOptions' => ProgramStatus::options(),
             'categoryOptions' => $this->categoryOptions(),
             'summary' => $this->summary(),
+            'can' => [
+                'create' => $user->can('create', Program::class),
+            ],
         ]);
+    }
+
+    public function create(Request $request, AdminConsoleNavigationService $navigation): Response
+    {
+        Gate::authorize('create', Program::class);
+
+        /** @var User $user */
+        $user = $request->user();
+
+        return Inertia::render('Admin/Programs/Edit', [
+            'adminConsole' => $navigation->contextFor($user),
+            'form' => (new ProgramFormResource(null, 'create'))->toArray($request),
+        ]);
+    }
+
+    public function store(
+        SaveProgramRequest $request,
+        AdminProgramEditorService $editor,
+    ): RedirectResponse {
+        /** @var User $user */
+        $user = $request->user();
+
+        $program = $editor->create($request->payload(), $user);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => 'Program record created in the custom command system.',
+        ]);
+
+        return redirect()->route('admin-console.programs.show', $program);
     }
 
     public function show(
@@ -98,6 +135,46 @@ class ProgramController extends Controller
             'program' => (new ProgramResource($program))->resolve($request),
             'filamentFallbackUrl' => $this->filamentFallbackUrl($program, $user),
         ]);
+    }
+
+    public function edit(
+        Request $request,
+        Program $program,
+        AdminConsoleNavigationService $navigation,
+    ): Response {
+        Gate::authorize('update', $program);
+
+        $program->load([
+            'requirements',
+            'updates',
+            'sourceRecords',
+        ]);
+
+        /** @var User $user */
+        $user = $request->user();
+
+        return Inertia::render('Admin/Programs/Edit', [
+            'adminConsole' => $navigation->contextFor($user),
+            'form' => (new ProgramFormResource($program, 'edit'))->toArray($request),
+        ]);
+    }
+
+    public function update(
+        SaveProgramRequest $request,
+        Program $program,
+        AdminProgramEditorService $editor,
+    ): RedirectResponse {
+        /** @var User $user */
+        $user = $request->user();
+
+        $editor->update($program, $request->payload(), $user);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => 'Program record updated in the custom command system.',
+        ]);
+
+        return redirect()->route('admin-console.programs.show', $program);
     }
 
     private function applySearch(Builder $query, string $search): void

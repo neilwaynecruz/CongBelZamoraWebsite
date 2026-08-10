@@ -127,7 +127,7 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Decision:** Keep Filament as restricted fallback. Do not remove Filament until Programs, Projects, News/media, public pages, users/settings, audit, and reporting have custom parity and the Filament removal parity matrix is complete.
 
-**Recommended next custom-admin slice:** Build the custom Programs editor parity layer so authorized staff can create and edit program records, requirements, updates, and approval submissions without relying on Filament.
+**Recommended next custom-admin slice:** Continue reducing Filament reliance by adding the next custom content module parity layer, starting with Projects or News/media list/detail/edit workflows.
 
 ### Project Update: 2026-08-10 (Custom Admin Programs Command Module)
 
@@ -142,6 +142,20 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 **Visual evidence:** The admin-console visual smoke script now covers `/admin-console/programs` and optional `/admin-console/programs/{id}`. Latest run passed with `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`; reviewed screenshots were `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, and `program-detail-390.png`.
 
 **Recommended next custom-admin slice:** Build the custom Programs editor parity layer: create/edit form, requirements editor, updates editor, approval-submission controls, sticky save bar, unsaved-change warning, and archive/restore controls.
+
+### Project Update: 2026-08-10 (Custom Admin Programs Editor Parity Layer)
+
+**Task:** Add `/admin-console/programs/create` and `/admin-console/programs/{program}/edit` as the custom Programs editor parity layer.
+
+**Scope completed:** Added policy-protected create/store/edit/update routes, `SaveProgramRequest`, `ProgramFormResource`, transaction-backed `AdminProgramEditorService`, custom Vue Programs editor, visible labels, source and verification fields, requirements editor, program updates editor, approval-submission controls, validation-error display, unsaved-change warnings, desktop/tablet sticky save bar, mobile-safe save controls, Programs create/edit entry points, and visual-smoke coverage for create/edit pages.
+
+**Security and workflow decision:** Program saves are authorized by `ProgramPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through the existing `ContentApprovalWorkflowService` so submitted snapshots and workflow audit logs are created. Filament Programs remains restricted as fallback while archive/restore/delete parity and remaining module parity are completed.
+
+**Validation evidence:** `php -l` passed for `SaveProgramRequest`, `ProgramFormResource`, `AdminProgramEditorService`, and `ProgramController`. `php artisan test tests\Feature\AdminConsoleProgramsTest.php` passed with 9 tests and 116 assertions. Full `php artisan test` passed with 205 tests and 1867 assertions. `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed.
+
+**Visual evidence:** The temporary SQLite visual-QA database migrated and seeded successfully. `node tests\e2e\admin-console-visual-smoke.mjs` passed with `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`, including Programs index, create, detail, and edit routes at 320, 390, 768, 1024, 1440, and 1920 px widths. Reviewed screenshots were `program-create-390.png`, `program-edit-390.png`, `program-create-1440.png`, and `program-edit-1440.png`; mobile save controls were adjusted after review to avoid overlaying form fields.
+
+**Recommended next custom-admin slice:** Build custom Projects or News/media parity with list/detail/edit flows, keeping Filament as fallback until the parity matrix is complete.
 
 ### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
 

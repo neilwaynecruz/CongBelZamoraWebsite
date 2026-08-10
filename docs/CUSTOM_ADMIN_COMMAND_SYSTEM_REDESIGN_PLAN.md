@@ -1119,14 +1119,31 @@ Verification evidence:
 - Visual screenshots generated in `storage/app/admin-console-visual-smoke` include `programs-320.png`, `programs-390.png`, `programs-768.png`, `programs-1024.png`, `programs-1440.png`, `programs-1920.png`, and matching `program-detail-*` images when `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`.
 - Reviewed screenshots: `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, and `program-detail-390.png`; no horizontal overflow, major clipping, or contrast issue was found.
 
+Editor parity update:
+
+- `/admin-console/programs/create` and `/admin-console/programs/{program}/edit` now render the custom Programs command editor.
+- `SaveProgramRequest` enforces server-side create/update validation for public fields, source/verification fields, requirements, updates, publication metadata, and approval-submission change summaries.
+- `ProgramFormResource` provides controlled Vue form values and option lists for categories, statuses, responsible-office types, source types, source tiers, and source-public statuses.
+- `AdminProgramEditorService` saves Program edits through policies and a database transaction, replaces nested requirements and updates safely, synchronizes the linked source-register record, records an audit event, and submits approval requests through `ContentApprovalWorkflowService`.
+- The Vue editor includes visible labels, nested requirements and program-updates editors, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and a desktop/tablet sticky save bar with mobile-safe static save controls.
+- Program list and dossier pages now expose custom create/edit entry points for roles authorized by `ProgramPolicy`.
+- Filament Programs remains available only as a restricted fallback while custom archive/restore/delete parity and remaining module parity are completed.
+
+Verification evidence for editor parity:
+
+- `php -l` passed for `SaveProgramRequest`, `ProgramFormResource`, `AdminProgramEditorService`, and `ProgramController`.
+- `php artisan test tests\Feature\AdminConsoleProgramsTest.php` passed: 9 tests, 116 assertions.
+- Full `php artisan test` passed: 205 tests, 1867 assertions.
+- `vendor\bin\pint --test` passed.
+- `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed.
+- Temporary SQLite visual-QA database `database/admin_console_visual.sqlite` migrated and seeded successfully.
+- `node tests\e2e\admin-console-visual-smoke.mjs` passed with `ADMIN_CONSOLE_VISUAL_PROGRAM_ID=1`, including `/admin-console/programs/create` and `/admin-console/programs/1/edit`.
+- Visual screenshots generated in `storage/app/admin-console-visual-smoke` include `program-create-*` and `program-edit-*` captures at 320, 390, 768, 1024, 1440, and 1920 px widths. Reviewed screenshots: `program-create-390.png`, `program-edit-390.png`, `program-create-1440.png`, and `program-edit-1440.png`; mobile save controls were tuned to avoid overlaying form fields, and no horizontal overflow was detected.
+
 Deferred for Programs parity:
 
-- Custom create/edit form.
-- Requirements editor.
-- Program updates editor.
-- Approval submission controls from the Program editor.
-- Unsaved-change protection and sticky save bar for long editing forms.
 - Custom deletion/archive/restore controls.
+- Optional richer diff preview before approval submission.
 
 ## 21. Second Review Upgrade Summary
 

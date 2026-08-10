@@ -120,6 +120,8 @@ The public Programs routes now resolve through `PublicProgramController` and `Pu
 
 `ProgramResource` and `ServiceGuideResource` expose backend management for authorized program/content roles. Program officers and content administrators can create/update program/service-guide records, reviewer/approver and auditor roles can view/review without editing, and inquiry officers cannot manage public content.
 
+The custom admin console now provides Programs editor parity for create/update workflows at `/admin-console/programs/create` and `/admin-console/programs/{program}/edit`. The editor uses `SaveProgramRequest` for validation, `ProgramFormResource` for controlled Vue form options, and `AdminProgramEditorService` for transaction-backed program saves, nested requirements/updates replacement, source-register synchronization, audit logging, and submission through `ContentApprovalWorkflowService`. Filament remains a restricted fallback until archive/restore/delete parity and the remaining custom-admin module parity matrix are complete.
+
 The public Legislation route now resolves through `PublicLegislationController` and `PublicLegislationReadService`:
 
 - `/legislation`

@@ -34,6 +34,7 @@ const pages = [
     { name: 'dashboard', url: '/admin-console' },
     { name: 'inquiries', url: '/admin-console/inquiries' },
     { name: 'programs', url: '/admin-console/programs' },
+    { name: 'program-create', url: '/admin-console/programs/create' },
     { name: 'content-approvals', url: '/admin-console/content-approvals' },
     { name: 'design-system', url: '/admin-console/design-system' },
 ];
@@ -56,6 +57,10 @@ if (programId) {
     pages.splice(3, 0, {
         name: 'program-detail',
         url: `/admin-console/programs/${programId}`,
+    });
+    pages.splice(4, 0, {
+        name: 'program-edit',
+        url: `/admin-console/programs/${programId}/edit`,
     });
 }
 
