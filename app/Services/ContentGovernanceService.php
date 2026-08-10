@@ -144,8 +144,6 @@ class ContentGovernanceService
             : [];
     }
 
-    /**
-     */
     private function isBlankField(Model $model, string $field): bool
     {
         $value = $this->fieldValue($model, $field);

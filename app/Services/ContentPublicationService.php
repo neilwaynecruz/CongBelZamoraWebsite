@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class ContentPublicationService
 {
@@ -23,61 +24,78 @@ class ContentPublicationService
 
     public function schedule(ContentApproval $approval, Carbon|string $scheduledFor, ?User $actor = null): ContentApproval
     {
-        if ((bool) config('belzamora.governance.content_approval.pre_publish_validation', true)) {
-            $this->governance->assertPublishable($approval);
-        }
+        $approval = DB::transaction(function () use ($approval, $scheduledFor, $actor): ContentApproval {
+            $locked = $this->lockApproval($approval);
 
-        DB::transaction(function () use ($approval, $scheduledFor, $actor): void {
-            $approval->forceFill([
+            $this->ensure(
+                in_array($locked->status, [ContentApprovalStatus::Approved, ContentApprovalStatus::Scheduled], true),
+                'Only approved content can be scheduled for publication.',
+            );
+
+            if ((bool) config('belzamora.governance.content_approval.pre_publish_validation', true)) {
+                $this->governance->assertPublishable($locked);
+            }
+
+            $locked->forceFill([
                 'status' => ContentApprovalStatus::Scheduled,
-                'reviewed_by_id' => $approval->reviewed_by_id ?? $actor?->id,
-                'reviewed_at' => $approval->reviewed_at ?? now(),
-                'approved_at' => $approval->approved_at ?? now(),
+                'reviewed_by_id' => $locked->reviewed_by_id ?? $actor?->id,
+                'reviewed_at' => $locked->reviewed_at ?? now(),
+                'approved_at' => $locked->approved_at ?? now(),
                 'scheduled_for' => $scheduledFor,
                 'rejection_reason' => null,
             ])->save();
 
-            $this->snapshots->capture($approval->fresh(['approvable']) ?? $approval, ContentSnapshotType::Scheduled, $actor);
+            $this->snapshots->capture($this->fresh($locked), ContentSnapshotType::Scheduled, $actor);
 
             $this->auditLog->record(
                 event: 'content.scheduled',
-                auditable: $approval,
+                auditable: $locked,
                 actor: $actor,
                 newValues: [
-                    'content_approval_id' => $approval->id,
-                    'approvable_type' => $approval->approvable_type,
-                    'approvable_id' => $approval->approvable_id,
-                    'scheduled_for' => (string) $approval->scheduled_for,
+                    'content_approval_id' => $locked->id,
+                    'approvable_type' => $locked->approvable_type,
+                    'approvable_id' => $locked->approvable_id,
+                    'scheduled_for' => (string) $locked->scheduled_for,
                 ],
             );
+
+            return $this->fresh($locked);
         });
 
-        ContentScheduled::dispatch($approval->fresh(['approvable']));
+        ContentScheduled::dispatch($approval);
 
-        return $approval->fresh(['approvable']) ?? $approval;
+        return $approval;
     }
 
     public function publish(ContentApproval $approval, ?User $actor = null, string $event = 'content.published'): ContentApproval
     {
-        if ((bool) config('belzamora.governance.content_approval.pre_publish_validation', true)) {
-            $this->governance->assertPublishable($approval);
-        }
+        $approval = DB::transaction(function () use ($approval, $actor, $event): ContentApproval {
+            $locked = $this->lockApproval($approval);
 
-        DB::transaction(function () use ($approval, $actor, $event): void {
+            $this->ensure(
+                in_array($locked->status, [ContentApprovalStatus::Approved, ContentApprovalStatus::Scheduled], true),
+                'Only approved or scheduled content can be published.',
+            );
+
+            if ((bool) config('belzamora.governance.content_approval.pre_publish_validation', true)) {
+                $this->governance->assertPublishable($locked);
+            }
+
             $publishedAt = now();
 
-            $approval->forceFill([
+            $locked->forceFill([
                 'status' => ContentApprovalStatus::Published,
-                'reviewed_by_id' => $approval->reviewed_by_id ?? $actor?->id,
-                'reviewed_at' => $approval->reviewed_at ?? now(),
-                'approved_at' => $approval->approved_at ?? now(),
+                'reviewed_by_id' => $locked->reviewed_by_id ?? $actor?->id,
+                'reviewed_at' => $locked->reviewed_at ?? now(),
+                'approved_at' => $locked->approved_at ?? now(),
                 'published_at' => $publishedAt,
+                'scheduled_for' => null,
                 'unpublished_at' => null,
                 'archived_at' => null,
                 'archive_reason' => null,
             ])->save();
 
-            $approvable = $approval->approvable;
+            $approvable = $locked->approvable;
 
             if ($approvable instanceof Model) {
                 $attributes = [];
@@ -95,30 +113,39 @@ class ContentPublicationService
                 }
             }
 
-            $this->snapshots->capture($approval->fresh(['approvable']) ?? $approval, ContentSnapshotType::Published, $actor);
+            $this->snapshots->capture($this->fresh($locked), ContentSnapshotType::Published, $actor);
 
             $this->auditLog->record(
                 event: $event,
-                auditable: $approval,
+                auditable: $locked,
                 actor: $actor,
                 newValues: [
-                    'content_approval_id' => $approval->id,
-                    'approvable_type' => $approval->approvable_type,
-                    'approvable_id' => $approval->approvable_id,
-                    'scheduled_for' => (string) $approval->scheduled_for,
-                    'published_at' => (string) $approval->published_at,
+                    'content_approval_id' => $locked->id,
+                    'approvable_type' => $locked->approvable_type,
+                    'approvable_id' => $locked->approvable_id,
+                    'scheduled_for' => (string) $locked->scheduled_for,
+                    'published_at' => (string) $locked->published_at,
                 ],
             );
+
+            return $this->fresh($locked);
         });
 
-        ContentPublished::dispatch($approval->fresh(['approvable']));
+        ContentPublished::dispatch($approval);
 
-        return $approval->fresh(['approvable']) ?? $approval;
+        return $approval;
     }
 
     public function archive(ContentApproval $approval, string $reason, ?User $actor = null): ContentApproval
     {
-        return $this->unpublish($approval, $reason, $actor, ContentSnapshotType::Archived, 'content.archived');
+        return $this->removeFromPublication(
+            $approval,
+            $reason,
+            $actor,
+            ContentSnapshotType::Archived,
+            'content.archived',
+            false,
+        );
     }
 
     public function unpublish(
@@ -128,46 +155,94 @@ class ContentPublicationService
         ContentSnapshotType $snapshotType = ContentSnapshotType::Unpublished,
         string $event = 'content.unpublished',
     ): ContentApproval {
-        DB::transaction(function () use ($approval, $reason, $actor, $snapshotType, $event): void {
-            $approval->loadMissing('approvable');
+        return $this->removeFromPublication($approval, $reason, $actor, $snapshotType, $event, true);
+    }
+
+    private function removeFromPublication(
+        ContentApproval $approval,
+        string $reason,
+        ?User $actor,
+        ContentSnapshotType $snapshotType,
+        string $event,
+        bool $mustBePublished,
+    ): ContentApproval {
+        return DB::transaction(function () use ($approval, $reason, $actor, $snapshotType, $event, $mustBePublished): ContentApproval {
+            $locked = $this->lockApproval($approval);
+
+            $this->ensure(
+                $mustBePublished
+                    ? $locked->status === ContentApprovalStatus::Published
+                    : $locked->status !== ContentApprovalStatus::Archived,
+                $mustBePublished
+                    ? 'Only currently published content can be unpublished.'
+                    : 'This content is already archived.',
+            );
+
             $unpublishedAt = now();
 
-            $approval->forceFill([
+            $locked->forceFill([
                 'status' => ContentApprovalStatus::Archived,
                 'archived_at' => $unpublishedAt,
                 'unpublished_at' => $unpublishedAt,
+                'scheduled_for' => null,
                 'archive_reason' => $reason,
             ])->save();
 
-            $approvable = $approval->approvable;
+            $approvable = $locked->approvable;
 
             if ($approvable instanceof Model && array_key_exists('published_at', $approvable->getAttributes())) {
                 $approvable->forceFill(['published_at' => null])->save();
             }
 
-            $this->snapshots->capture($approval->fresh(['approvable']) ?? $approval, $snapshotType, $actor, $reason);
+            $this->snapshots->capture($this->fresh($locked), $snapshotType, $actor, $reason);
 
             $this->auditLog->record(
                 event: $event,
-                auditable: $approval,
+                auditable: $locked,
                 actor: $actor,
                 newValues: [
-                    'content_approval_id' => $approval->id,
-                    'approvable_type' => $approval->approvable_type,
-                    'approvable_id' => $approval->approvable_id,
+                    'content_approval_id' => $locked->id,
+                    'approvable_type' => $locked->approvable_type,
+                    'approvable_id' => $locked->approvable_id,
                     'archive_reason' => $reason,
-                    'unpublished_at' => (string) $approval->unpublished_at,
+                    'unpublished_at' => (string) $locked->unpublished_at,
                 ],
             );
-        });
 
-        return $approval->fresh(['approvable']) ?? $approval;
+            return $this->fresh($locked);
+        });
     }
 
     public function rollback(ContentApproval $approval, ContentSnapshot $snapshot, ?User $actor = null, ?string $reason = null): ContentApproval
     {
-        $this->snapshots->rollbackToSnapshot($approval, $snapshot, $actor, $reason);
+        $approval = DB::transaction(function () use ($approval, $snapshot, $actor, $reason): ContentApproval {
+            $locked = $this->lockApproval($approval);
 
+            $this->snapshots->rollbackToSnapshot($locked, $snapshot, $actor, $reason);
+
+            return $this->fresh($locked);
+        });
+
+        return $approval;
+    }
+
+    private function lockApproval(ContentApproval $approval): ContentApproval
+    {
+        return ContentApproval::query()
+            ->with('approvable')
+            ->lockForUpdate()
+            ->findOrFail($approval->getKey());
+    }
+
+    private function fresh(ContentApproval $approval): ContentApproval
+    {
         return $approval->fresh(['approvable', 'rollbackSnapshot']) ?? $approval;
+    }
+
+    private function ensure(bool $condition, string $message): void
+    {
+        if (! $condition) {
+            throw ValidationException::withMessages(['action' => $message]);
+        }
     }
 }

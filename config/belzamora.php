@@ -141,6 +141,15 @@ return [
         'database_notifications' => filter_var(env('STAFF_DATABASE_NOTIFICATIONS', true), FILTER_VALIDATE_BOOLEAN),
     ],
 
+    'admin_console' => [
+        'enabled' => filter_var(env('ADMIN_CONSOLE_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+        'filament_fallback_enabled' => filter_var(env('FILAMENT_FALLBACK_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+        'modules' => [
+            'inquiries' => filter_var(env('ADMIN_CONSOLE_INQUIRIES_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+            'content_approvals' => filter_var(env('ADMIN_CONSOLE_CONTENT_APPROVALS_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+        ],
+    ],
+
     'governance' => [
         'content_approval' => [
             'workflow' => 'Draft or Needs revision -> For review -> Approved -> Scheduled or Published -> Archived.',

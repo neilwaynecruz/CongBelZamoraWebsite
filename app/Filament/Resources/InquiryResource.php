@@ -748,7 +748,7 @@ class InquiryResource extends Resource
         $activities = $record->activities()->with('actor')->limit(12)->get();
 
         if ($activities->isEmpty()) {
-            return '<p class="text-sm text-gray-500">No activity recorded yet.</p>';
+            return '<div class="district-timeline-card text-sm text-gray-600">No activity recorded yet.</div>';
         }
 
         return $activities
@@ -756,16 +756,18 @@ class InquiryResource extends Resource
                 $actor = $activity->actor?->name ?? 'System';
                 $date = $activity->created_at?->timezone('Asia/Manila')->format('M j, Y g:i A') ?? 'Unknown time';
                 $status = $activity->old_status !== null || $activity->new_status !== null
-                    ? '<div class="text-xs text-gray-500">Status: '.e((string) $activity->old_status ?: 'none').' -> '.e((string) $activity->new_status ?: 'none').'</div>'
+                    ? '<div class="mt-2 text-xs font-semibold text-gray-500">Status: '.e((string) $activity->old_status ?: 'none').' -> '.e((string) $activity->new_status ?: 'none').'</div>'
                     : '';
 
-                return '<div class="border-b border-gray-200 py-3 last:border-b-0">'
+                $noteClass = filled($activity->body) ? ' district-case-note mt-3' : '';
+
+                return '<div class="district-timeline-card mb-3 last:mb-0">'
                     .'<div class="flex flex-wrap items-center justify-between gap-2">'
                     .'<span class="font-semibold text-gray-900">'.e($activity->type->label()).'</span>'
                     .'<span class="text-xs text-gray-500">'.e($date).'</span>'
                     .'</div>'
                     .'<div class="mt-1 text-sm text-gray-600">'.e($actor).'</div>'
-                    .($activity->body !== null ? '<div class="mt-2 text-sm text-gray-700">'.nl2br(e($activity->body)).'</div>' : '')
+                    .($activity->body !== null ? '<div class="'.trim($noteClass).' text-sm text-gray-700">'.nl2br(e($activity->body)).'</div>' : '')
                     .$status
                     .'</div>';
             })

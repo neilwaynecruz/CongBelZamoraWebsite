@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ContentApprovalStatus;
 use App\Enums\ContentSnapshotType;
 use App\Models\ContentApproval;
 use App\Models\ContentSnapshot;
@@ -122,6 +123,14 @@ class ContentSnapshotService
             throw new InvalidArgumentException('The selected snapshot does not belong to this content record.');
         }
 
+        if (! in_array($snapshot->snapshot_type, [ContentSnapshotType::Approved, ContentSnapshotType::Published], true)) {
+            throw new InvalidArgumentException('Only an approved or previously published snapshot can be restored.');
+        }
+
+        if (! $snapshot->is_publishable) {
+            throw new InvalidArgumentException('This snapshot did not pass governance checks when it was captured and cannot be restored.');
+        }
+
         return DB::transaction(function () use ($approval, $snapshot, $actor, $reason, $approvable): ContentSnapshot {
             $before = $this->normalizedPayload($approvable);
             $payloadAttributes = data_get($snapshot->payload, 'attributes', []);
@@ -132,10 +141,22 @@ class ContentSnapshotService
 
             $approvable->forceFill($restoredAttributes)->save();
 
+            if (array_key_exists('published_at', $approvable->getAttributes())) {
+                $approvable->forceFill([
+                    'published_at' => $approval->status === ContentApprovalStatus::Published
+                        ? ($approval->published_at ?? now())
+                        : null,
+                ])->save();
+            }
+
             $approval->forceFill([
                 'rollback_snapshot_id' => $snapshot->id,
                 'change_summary' => $reason ?: 'Rolled back to snapshot v'.$snapshot->version_number.'.',
             ])->save();
+
+            $approval->unsetRelation('approvable');
+            $approval->load('approvable');
+            $this->governance->assertPublishable($approval);
 
             $rollbackSnapshot = $this->capture(
                 approval: $approval->fresh(['approvable']) ?? $approval,

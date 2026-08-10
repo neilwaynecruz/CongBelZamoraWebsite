@@ -11,11 +11,18 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/admin-console.css',
                 'resources/js/app.ts',
                 'resources/css/filament/admin/theme.css',
             ],
             refresh: true,
             fonts: [
+                bunny('Libre Baskerville', {
+                    weights: [400, 700],
+                }),
+                bunny('Source Sans 3', {
+                    weights: [400, 500, 600, 700],
+                }),
                 bunny('Instrument Sans', {
                     weights: [400, 500, 600],
                 }),

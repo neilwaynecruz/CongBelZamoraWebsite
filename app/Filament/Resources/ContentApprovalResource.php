@@ -3,13 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ContentApprovalStatus;
-use App\Enums\ContentSnapshotType;
-use App\Events\ContentApprovalDecided;
-use App\Events\ContentApprovalSubmitted;
 use App\Filament\Resources\ContentApprovalResource\Pages;
 use App\Models\ContentApproval;
 use App\Models\ContentSnapshot;
 use App\Models\User;
+use App\Services\ContentApprovalWorkflowService;
 use App\Services\ContentGovernanceService;
 use App\Services\ContentPublicationService;
 use App\Services\ContentSnapshotService;
@@ -256,7 +254,7 @@ class ContentApprovalResource extends Resource
                     ->label('Submit for review')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('info')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'submit')
                         && in_array($record->status, [
                             ContentApprovalStatus::Draft,
                             ContentApprovalStatus::NeedsRevision,
@@ -269,36 +267,20 @@ class ContentApprovalResource extends Resource
                     ])
                     ->action(function (ContentApproval $record, array $data): void {
                         $actor = Auth::user();
+                        abort_unless($actor instanceof User, 403);
 
-                        $record->forceFill([
-                            'status' => ContentApprovalStatus::ForReview,
-                            'submitted_by_id' => $record->submitted_by_id ?? Auth::id(),
-                            'submitted_at' => $record->submitted_at ?? now(),
-                            'change_summary' => $data['change_summary'],
-                            'rejection_reason' => null,
-                        ])->save();
-
-                        app(ContentSnapshotService::class)->capture(
-                            $record->fresh(['approvable']) ?? $record,
-                            ContentSnapshotType::Submitted,
-                            $actor instanceof User ? $actor : null,
-                            $data['change_summary'],
-                        );
-
-                        ContentApprovalSubmitted::dispatch(
-                            $record->fresh() ?? $record,
-                            $actor instanceof User ? $actor : null,
+                        app(ContentApprovalWorkflowService::class)->submitForReview(
+                            $record,
+                            $actor,
+                            (string) $data['change_summary'],
                         );
                     }),
                 Tables\Actions\Action::make('approve')
                     ->label('Approve')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
-                        && ! in_array($record->status, [
-                            ContentApprovalStatus::Approved,
-                            ContentApprovalStatus::Published,
-                        ], true))
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'approve')
+                        && $record->status === ContentApprovalStatus::ForReview)
                     ->form([
                         Forms\Components\Textarea::make('change_summary')
                             ->label('Approval change summary')
@@ -308,36 +290,20 @@ class ContentApprovalResource extends Resource
                     ])
                     ->action(function (ContentApproval $record, array $data): void {
                         $actor = Auth::user();
+                        abort_unless($actor instanceof User, 403);
 
-                        $record->forceFill([
-                            'status' => ContentApprovalStatus::Approved,
-                            'reviewed_by_id' => Auth::id(),
-                            'reviewed_at' => now(),
-                            'approved_at' => now(),
-                            'change_summary' => $data['change_summary'],
-                            'rejection_reason' => null,
-                        ])->save();
-
-                        app(ContentSnapshotService::class)->capture(
-                            $record->fresh(['approvable']) ?? $record,
-                            ContentSnapshotType::Approved,
-                            $actor instanceof User ? $actor : null,
-                            $data['change_summary'],
-                        );
-
-                        ContentApprovalDecided::dispatch(
-                            $record->fresh() ?? $record,
-                            ContentApprovalStatus::Approved,
-                            $actor instanceof User ? $actor : null,
+                        app(ContentApprovalWorkflowService::class)->approve(
+                            $record,
+                            $actor,
+                            (string) $data['change_summary'],
                         );
                     }),
                 Tables\Actions\Action::make('schedule')
                     ->label('Schedule')
                     ->icon('heroicon-o-calendar-days')
                     ->color('info')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'schedule')
                         && in_array($record->status, [
-                            ContentApprovalStatus::ForReview,
                             ContentApprovalStatus::Approved,
                             ContentApprovalStatus::Scheduled,
                         ], true))
@@ -365,8 +331,8 @@ class ContentApprovalResource extends Resource
                     ->label('Mark published')
                     ->icon('heroicon-o-globe-alt')
                     ->color('success')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
-                        && $record->status === ContentApprovalStatus::Approved)
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'publish')
+                        && in_array($record->status, [ContentApprovalStatus::Approved, ContentApprovalStatus::Scheduled], true))
                     ->requiresConfirmation()
                     ->action(function (ContentApproval $record): void {
                         $actor = Auth::user();
@@ -392,7 +358,7 @@ class ContentApprovalResource extends Resource
                     ->label('Rollback')
                     ->icon('heroicon-o-arrow-uturn-left')
                     ->color('warning')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record) && $record->snapshots()->exists())
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'rollback') && $record->snapshots()->exists())
                     ->form(fn (ContentApproval $record): array => [
                         Forms\Components\Select::make('snapshot_id')
                             ->label('Snapshot')
@@ -428,7 +394,7 @@ class ContentApprovalResource extends Resource
                     ->label('Archive / unpublish')
                     ->icon('heroicon-o-archive-box')
                     ->color('danger')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'archive')
                         && $record->status !== ContentApprovalStatus::Archived)
                     ->form([
                         Forms\Components\Select::make('archive_reason_key')
@@ -458,7 +424,7 @@ class ContentApprovalResource extends Resource
                     ->label('Needs revision')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'requestChanges')
                         && $record->status !== ContentApprovalStatus::NeedsRevision)
                     ->form([
                         Forms\Components\Textarea::make('review_notes')
@@ -468,25 +434,19 @@ class ContentApprovalResource extends Resource
                     ])
                     ->action(function (ContentApproval $record, array $data): void {
                         $actor = Auth::user();
+                        abort_unless($actor instanceof User, 403);
 
-                        $record->forceFill([
-                            'status' => ContentApprovalStatus::NeedsRevision,
-                            'reviewed_by_id' => Auth::id(),
-                            'reviewed_at' => now(),
-                            'review_notes' => $data['review_notes'],
-                        ])->save();
-
-                        ContentApprovalDecided::dispatch(
-                            $record->fresh() ?? $record,
-                            ContentApprovalStatus::NeedsRevision,
-                            $actor instanceof User ? $actor : null,
+                        app(ContentApprovalWorkflowService::class)->requestChanges(
+                            $record,
+                            $actor,
+                            (string) $data['review_notes'],
                         );
                     }),
                 Tables\Actions\Action::make('reject')
                     ->label('Reject')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
-                    ->visible(fn (ContentApproval $record): bool => self::canUpdateApproval($record)
+                    ->visible(fn (ContentApproval $record): bool => self::canApprovalAction($record, 'reject')
                         && $record->status !== ContentApprovalStatus::Rejected)
                     ->form([
                         Forms\Components\Textarea::make('rejection_reason')
@@ -496,18 +456,12 @@ class ContentApprovalResource extends Resource
                     ])
                     ->action(function (ContentApproval $record, array $data): void {
                         $actor = Auth::user();
+                        abort_unless($actor instanceof User, 403);
 
-                        $record->forceFill([
-                            'status' => ContentApprovalStatus::Rejected,
-                            'reviewed_by_id' => Auth::id(),
-                            'reviewed_at' => now(),
-                            'rejection_reason' => $data['rejection_reason'],
-                        ])->save();
-
-                        ContentApprovalDecided::dispatch(
-                            $record->fresh() ?? $record,
-                            ContentApprovalStatus::Rejected,
-                            $actor instanceof User ? $actor : null,
+                        app(ContentApprovalWorkflowService::class)->reject(
+                            $record,
+                            $actor,
+                            (string) $data['rejection_reason'],
                         );
                     }),
                 Tables\Actions\ViewAction::make(),
@@ -536,6 +490,13 @@ class ContentApprovalResource extends Resource
         return $record !== null
             && $user instanceof User
             && $user->can('update', $record);
+    }
+
+    private static function canApprovalAction(ContentApproval $record, string $ability): bool
+    {
+        $user = Auth::user();
+
+        return $user instanceof User && $user->can($ability, $record);
     }
 
     private static function approvalItem(?ContentApproval $record): string
@@ -577,9 +538,17 @@ class ContentApprovalResource extends Resource
 
         $items = app(ContentGovernanceService::class)->readinessChecklist($record);
 
-        return collect($items)
-            ->map(fn (string $item): string => '<div class="py-0.5">'.e($item).'</div>')
+        $rows = collect($items)
+            ->map(function (string $item): string {
+                $state = str($item)->lower()->contains(['missing', 'expired', 'required', 'blocked'])
+                    ? 'blocked'
+                    : (str($item)->lower()->contains(['review', 'soon', 'warning']) ? 'warning' : 'ready');
+
+                return '<div class="district-readiness-item" data-state="'.$state.'"><span>'.e($item).'</span></div>';
+            })
             ->implode('');
+
+        return '<div class="district-publish-readiness">'.$rows.'</div>';
     }
 
     private static function notifyGovernanceIssues(ContentGovernanceException $exception): void
@@ -601,7 +570,7 @@ class ContentApprovalResource extends Resource
         $diff = app(ContentSnapshotService::class)->compareCurrentToPublished($record);
 
         if ($diff === []) {
-            return '<div class="rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">No differences from the last published snapshot, or no published snapshot exists yet.</div>';
+            return '<div class="district-compare-callout"><div class="district-compare-callout-header"><span class="district-compare-callout-title">No changed fields detected</span></div><div class="p-4 text-sm text-gray-600">No differences from the last published snapshot, or no published snapshot exists yet.</div></div>';
         }
 
         $limit = $full ? 30 : 8;
@@ -610,21 +579,23 @@ class ContentApprovalResource extends Resource
             ->take($limit)
             ->map(function (array $change, string $field): string {
                 return '<tr>'
-                    .'<td class="border-b border-gray-200 px-3 py-2 align-top font-semibold text-gray-900">'.e($field).'</td>'
-                    .'<td class="border-b border-gray-200 px-3 py-2 align-top text-gray-600">'.e(self::displayValue($change['from'] ?? null)).'</td>'
-                    .'<td class="border-b border-gray-200 px-3 py-2 align-top text-gray-900">'.e(self::displayValue($change['to'] ?? null)).'</td>'
+                    .'<td>'.e($field).'</td>'
+                    .'<td>'.e(self::displayValue($change['from'] ?? null)).'</td>'
+                    .'<td>'.e(self::displayValue($change['to'] ?? null)).'</td>'
                     .'</tr>';
             })
             ->implode('');
 
         $more = count($diff) > $limit
-            ? '<p class="mt-3 text-xs text-gray-500">'.(count($diff) - $limit).' additional changed field(s) hidden in this compact preview.</p>'
+            ? '<p class="p-4 pt-0 text-xs text-gray-500">'.(count($diff) - $limit).' additional changed field(s) hidden in this compact preview.</p>'
             : '';
 
-        return '<div class="overflow-x-auto rounded-lg border border-gray-200">'
-            .'<table class="min-w-full text-left text-sm">'
-            .'<thead class="bg-gray-50 text-xs uppercase tracking-wide text-gray-500"><tr><th class="px-3 py-2">Field</th><th class="px-3 py-2">Published</th><th class="px-3 py-2">Current draft</th></tr></thead>'
-            .'<tbody>'.$rows.'</tbody></table></div>'.$more;
+        return '<div class="district-compare-callout">'
+            .'<div class="district-compare-callout-header"><span class="district-compare-callout-title">Editorial comparison</span><span class="district-stale-indicator">'.count($diff).' changed field(s)</span></div>'
+            .'<div class="overflow-x-auto p-4">'
+            .'<table class="district-dashboard-table text-sm">'
+            .'<thead><tr><th>Field</th><th>Published</th><th>Current draft</th></tr></thead>'
+            .'<tbody>'.$rows.'</tbody></table></div>'.$more.'</div>';
     }
 
     private static function snapshotHistoryHtml(?ContentApproval $record): string
@@ -636,7 +607,7 @@ class ContentApprovalResource extends Resource
         $snapshots = $record->snapshots()->with('capturedBy')->limit(8)->get();
 
         if ($snapshots->isEmpty()) {
-            return '<div class="rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">No editorial snapshots have been captured yet.</div>';
+            return '<div class="district-timeline-card text-sm text-gray-600">No editorial snapshots have been captured yet.</div>';
         }
 
         return $snapshots
@@ -645,7 +616,7 @@ class ContentApprovalResource extends Resource
                     ? '<span class="text-green-700">Publishable at capture</span>'
                     : '<span class="text-red-700">'.count($snapshot->governance_issues ?? []).' gate issue(s)</span>';
 
-                return '<div class="border-b border-gray-200 py-3 last:border-b-0">'
+                return '<div class="district-timeline-card mb-3 last:mb-0">'
                     .'<div class="flex flex-wrap items-center gap-2 text-sm">'
                     .'<span class="font-semibold text-gray-950">v'.$snapshot->version_number.'</span>'
                     .'<span class="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-700">'.e($snapshot->snapshot_type->label()).'</span>'

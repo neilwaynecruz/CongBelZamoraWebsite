@@ -1,5 +1,6 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { initializeTheme } from '@/composables/useAppearance';
+import AdminConsoleLayout from '@/layouts/admin/AdminConsoleLayout.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
@@ -14,6 +15,10 @@ void createInertiaApp({
         switch (true) {
             case name.startsWith('Public/'):
                 return null;
+            case name.startsWith('Admin/Auth/'):
+                return null;
+            case name.startsWith('Admin/'):
+                return AdminConsoleLayout;
             case name.startsWith('auth/'):
                 return AuthLayout;
             case name.startsWith('settings/'):

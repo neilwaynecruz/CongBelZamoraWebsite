@@ -20,6 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
+        $middleware->redirectGuestsTo(fn (Request $request): string => $request->is('admin-console*')
+            ? route('admin-console.login')
+            : route('login'));
+
         $middleware->web(append: [
             ApplySecurityHeaders::class,
             HandleAppearance::class,

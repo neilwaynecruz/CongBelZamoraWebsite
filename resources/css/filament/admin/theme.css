@@ -54,6 +54,1503 @@
 }
 
 @layer components {
+    /*
+     * District Office Command System v2
+     * Final cascade layer for the custom civic admin direction. This makes
+     * Filament behave like a dark executive shell with light, readable work
+     * surfaces while the full custom admin console is migrated module by module.
+     */
+    :root,
+    .dark {
+        --doc-ink: #07182e;
+        --doc-ink-soft: #223750;
+        --doc-muted: #52647b;
+        --doc-paper: #fffdf7;
+        --doc-surface: #ffffff;
+        --doc-surface-soft: #f5f7fb;
+        --doc-shell: #020817;
+        --doc-shell-2: #07182e;
+        --doc-shell-3: #0b1f3a;
+        --doc-blue: #1746a2;
+        --doc-blue-dark: #102f6f;
+        --doc-red: #d62828;
+        --doc-red-dark: #a71920;
+        --doc-gold: #f1c84b;
+        --doc-gold-dark: #8a6500;
+        --doc-green: #16733c;
+        --doc-line: rgb(7 24 46 / 0.14);
+        --doc-line-strong: rgb(7 24 46 / 0.24);
+        --doc-radius: 0.875rem;
+        --doc-radius-lg: 1.125rem;
+        --doc-shadow: 0 1px 2px rgb(7 24 46 / 0.06), 0 18px 45px rgb(7 24 46 / 0.08);
+        --doc-shadow-command: 0 28px 80px rgb(2 8 23 / 0.28);
+    }
+
+    .fi-body,
+    .dark .fi-body {
+        background: var(--doc-shell) !important;
+        color: var(--doc-ink) !important;
+        font-family: 'Source Sans 3', 'Instrument Sans', 'Aptos', 'Segoe UI', sans-serif !important;
+    }
+
+    .fi-layout,
+    .dark .fi-layout {
+        background: var(--doc-shell) !important;
+    }
+
+    .fi-main,
+    .dark .fi-main {
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 100vh !important;
+        background:
+            radial-gradient(circle at 78% -6rem, rgb(23 70 162 / 0.1), transparent 31rem),
+            radial-gradient(circle at 6% 12rem, rgb(214 40 40 / 0.06), transparent 26rem),
+            linear-gradient(180deg, #f8fafc 0%, #eef3f8 52%, #e7eef6 100%) !important;
+        color: var(--doc-ink) !important;
+    }
+
+    .fi-page,
+    .dark .fi-page {
+        width: min(100%, 92rem) !important;
+        max-width: 92rem !important;
+        margin-inline: auto !important;
+        padding-inline: clamp(1rem, 2.4vw, 2.5rem) !important;
+        color: var(--doc-ink) !important;
+    }
+
+    .fi-header {
+        align-items: end !important;
+        gap: 1rem !important;
+    }
+
+    .fi-header-heading,
+    .dark .fi-header-heading {
+        color: var(--doc-ink) !important;
+        font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif !important;
+        font-size: clamp(1.8rem, 2.8vw, 2.75rem) !important;
+        line-height: 1.12 !important;
+        letter-spacing: 0 !important;
+    }
+
+    .fi-header-subheading,
+    .dark .fi-header-subheading,
+    .fi-breadcrumbs-item-label,
+    .dark .fi-breadcrumbs-item-label {
+        color: var(--doc-muted) !important;
+    }
+
+    .fi-sidebar,
+    .dark .fi-sidebar {
+        background:
+            linear-gradient(180deg, #0b1f3a 0%, #07182e 42%, #020817 100%) !important;
+        border-inline-end: 1px solid rgb(255 255 255 / 0.1) !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+    }
+
+    .fi-sidebar-header,
+    .dark .fi-sidebar-header,
+    .fi-topbar > nav,
+    .dark .fi-topbar > nav {
+        background: rgb(7 24 46 / 0.98) !important;
+        border-color: rgb(255 255 255 / 0.1) !important;
+        color: #ffffff !important;
+        box-shadow: 0 1px 0 rgb(255 255 255 / 0.06) !important;
+    }
+
+    .fi-sidebar *,
+    .dark .fi-sidebar *,
+    .fi-topbar > nav *,
+    .dark .fi-topbar > nav * {
+        color: #ffffff;
+    }
+
+    .fi-sidebar-group-label,
+    .dark .fi-sidebar-group-label {
+        margin-top: 1.25rem !important;
+        color: rgb(255 255 255 / 0.58) !important;
+        font-size: 0.72rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.14em !important;
+    }
+
+    .fi-sidebar-item-button {
+        min-height: 2.75rem !important;
+        border-radius: 0.55rem !important;
+        transition:
+            background-color 160ms ease,
+            border-color 160ms ease,
+            transform 160ms ease !important;
+    }
+
+    .fi-sidebar-item-button:hover {
+        background: rgb(255 255 255 / 0.08) !important;
+    }
+
+    .fi-sidebar-item-active > .fi-sidebar-item-button,
+    .dark .fi-sidebar-item-active > .fi-sidebar-item-button {
+        border-inline-start: 4px solid var(--doc-gold) !important;
+        background: linear-gradient(90deg, rgb(23 70 162 / 0.38), rgb(255 255 255 / 0.08)) !important;
+        color: #ffffff !important;
+    }
+
+    .fi-topbar input,
+    .dark .fi-topbar input {
+        background: rgb(255 255 255 / 0.07) !important;
+        border-color: rgb(255 255 255 / 0.18) !important;
+        color: #ffffff !important;
+    }
+
+    .fi-topbar input::placeholder,
+    .dark .fi-topbar input::placeholder {
+        color: rgb(255 255 255 / 0.6) !important;
+    }
+
+    .fi-section,
+    .fi-wi-widget:not(.district-command-card),
+    .fi-ta-ctn,
+    .fi-modal-window,
+    .fi-fo-repeater-item,
+    .fi-tabs,
+    .dark .fi-section,
+    .dark .fi-wi-widget:not(.district-command-card),
+    .dark .fi-ta-ctn,
+    .dark .fi-modal-window,
+    .dark .fi-fo-repeater-item,
+    .dark .fi-tabs {
+        overflow: hidden !important;
+        border: 1px solid var(--doc-line) !important;
+        border-radius: var(--doc-radius-lg) !important;
+        background: var(--doc-surface) !important;
+        color: var(--doc-ink) !important;
+        box-shadow: var(--doc-shadow) !important;
+    }
+
+    .fi-section *,
+    .fi-wi-widget:not(.district-command-card) *,
+    .fi-ta-ctn *,
+    .fi-modal-window *,
+    .fi-fo-repeater-item *,
+    .fi-tabs *,
+    .dark .fi-section *,
+    .dark .fi-wi-widget:not(.district-command-card) *,
+    .dark .fi-ta-ctn *,
+    .dark .fi-modal-window *,
+    .dark .fi-fo-repeater-item *,
+    .dark .fi-tabs * {
+        color: var(--doc-ink);
+    }
+
+    .fi-section-header,
+    .fi-ta-header,
+    .fi-modal-header,
+    .fi-fo-section-header,
+    .dark .fi-section-header,
+    .dark .fi-ta-header,
+    .dark .fi-modal-header,
+    .dark .fi-fo-section-header {
+        border-bottom: 1px solid var(--doc-line) !important;
+        background:
+            linear-gradient(90deg, #fffdf7 0%, #f8fafc 58%, #eef3f8 100%) !important;
+    }
+
+    .fi-section-header-heading,
+    .fi-modal-heading,
+    .dark .fi-section-header-heading,
+    .dark .fi-modal-heading {
+        color: var(--doc-ink) !important;
+        font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif !important;
+        letter-spacing: 0 !important;
+    }
+
+    .fi-section-header-description,
+    .fi-fo-field-wrp-helper-text,
+    .dark .fi-section-header-description,
+    .dark .fi-fo-field-wrp-helper-text {
+        color: var(--doc-muted) !important;
+    }
+
+    .fi-fo-field-wrp-label span,
+    .fi-fo-field-wrp-label label,
+    .fi-fo-placeholder,
+    .fi-in-text,
+    .fi-ta-text,
+    .fi-ta-cell,
+    .fi-ta-header-cell-label,
+    .dark .fi-fo-field-wrp-label span,
+    .dark .fi-fo-field-wrp-label label,
+    .dark .fi-fo-placeholder,
+    .dark .fi-in-text,
+    .dark .fi-ta-text,
+    .dark .fi-ta-cell,
+    .dark .fi-ta-header-cell-label {
+        color: var(--doc-ink) !important;
+    }
+
+    .fi-input-wrp,
+    .fi-select-input,
+    .fi-textarea,
+    .fi-input,
+    .fi-rich-editor,
+    .fi-markdown-editor,
+    .fi-fo-key-value,
+    .dark .fi-input-wrp,
+    .dark .fi-select-input,
+    .dark .fi-textarea,
+    .dark .fi-input,
+    .dark .fi-rich-editor,
+    .dark .fi-markdown-editor,
+    .dark .fi-fo-key-value {
+        min-height: 2.85rem !important;
+        border-color: var(--doc-line-strong) !important;
+        border-radius: 0.65rem !important;
+        background: #ffffff !important;
+        color: var(--doc-ink) !important;
+        box-shadow: none !important;
+    }
+
+    .fi-input::placeholder,
+    .fi-textarea::placeholder,
+    .dark .fi-input::placeholder,
+    .dark .fi-textarea::placeholder {
+        color: #6a788c !important;
+        opacity: 1 !important;
+    }
+
+    .fi-input-wrp:focus-within,
+    .dark .fi-input-wrp:focus-within {
+        border-color: var(--doc-blue) !important;
+        box-shadow: 0 0 0 3px rgb(23 70 162 / 0.16) !important;
+    }
+
+    .fi-fo-field-wrp-error-message,
+    .dark .fi-fo-field-wrp-error-message {
+        color: #b91c1c !important;
+        font-weight: 700 !important;
+    }
+
+    .fi-btn {
+        min-height: 2.65rem !important;
+        border-radius: 0.65rem !important;
+        font-weight: 800 !important;
+    }
+
+    .fi-btn-color-primary,
+    .dark .fi-btn-color-primary {
+        background: linear-gradient(135deg, var(--doc-blue), var(--doc-blue-dark)) !important;
+        color: #ffffff !important;
+        box-shadow: 0 12px 24px rgb(23 70 162 / 0.2) !important;
+    }
+
+    .fi-btn-color-danger,
+    .dark .fi-btn-color-danger {
+        background: linear-gradient(135deg, var(--doc-red), var(--doc-red-dark)) !important;
+        color: #ffffff !important;
+    }
+
+    .fi-btn-color-gray,
+    .dark .fi-btn-color-gray {
+        border: 1px solid var(--doc-line) !important;
+        background: #ffffff !important;
+        color: var(--doc-ink) !important;
+    }
+
+    .fi-btn-color-primary *,
+    .fi-btn-color-danger *,
+    .fi-btn-color-success *,
+    .fi-btn-color-warning *,
+    .dark .fi-btn-color-primary *,
+    .dark .fi-btn-color-danger *,
+    .dark .fi-btn-color-success *,
+    .dark .fi-btn-color-warning * {
+        color: #ffffff !important;
+    }
+
+    .fi-ta-ctn,
+    .dark .fi-ta-ctn {
+        background: var(--doc-surface) !important;
+    }
+
+    .fi-ta-table,
+    .fi-ta-table thead,
+    .fi-ta-table tbody,
+    .fi-ta-table tr,
+    .fi-ta-table th,
+    .fi-ta-table td,
+    .dark .fi-ta-table,
+    .dark .fi-ta-table thead,
+    .dark .fi-ta-table tbody,
+    .dark .fi-ta-table tr,
+    .dark .fi-ta-table th,
+    .dark .fi-ta-table td {
+        border-color: rgb(7 24 46 / 0.1) !important;
+        background-color: transparent !important;
+        color: var(--doc-ink) !important;
+    }
+
+    .fi-ta-header-cell,
+    .dark .fi-ta-header-cell {
+        background: #eef3f8 !important;
+    }
+
+    .fi-ta-row,
+    .dark .fi-ta-row {
+        background: #ffffff !important;
+    }
+
+    .fi-ta-row:nth-child(even),
+    .dark .fi-ta-row:nth-child(even) {
+        background: #fafcff !important;
+    }
+
+    .fi-ta-row:hover,
+    .dark .fi-ta-row:hover {
+        background: #eef5ff !important;
+    }
+
+    .fi-ta-actions a,
+    .fi-ta-actions button,
+    .fi-ta-cell a:not(.fi-btn),
+    .fi-link,
+    .dark .fi-ta-actions a,
+    .dark .fi-ta-actions button,
+    .dark .fi-ta-cell a:not(.fi-btn),
+    .dark .fi-link {
+        color: var(--doc-blue) !important;
+    }
+
+    .fi-badge,
+    .dark .fi-badge {
+        border-radius: 999px !important;
+        font-weight: 800 !important;
+    }
+
+    .district-admin-login {
+        min-height: min(52rem, calc(100vh - 2rem)) !important;
+        grid-template-columns: minmax(0, 1.12fr) minmax(25.5rem, 0.62fr) !important;
+        background: #fffdf7 !important;
+    }
+
+    .district-login-identity {
+        position: relative !important;
+        isolation: isolate !important;
+        padding: clamp(2.5rem, 4.8vw, 5.5rem) !important;
+        background:
+            radial-gradient(circle at 88% 28%, rgb(241 200 75 / 0.16), transparent 18rem),
+            linear-gradient(135deg, #c4212d 0%, #6f1e42 43%, #07182e 100%) !important;
+    }
+
+    .district-login-identity::before {
+        content: '';
+        position: absolute;
+        inset: clamp(1.25rem, 2vw, 2rem);
+        z-index: -1;
+        border: 1px solid rgb(255 255 255 / 0.16);
+        border-radius: 0.9rem;
+        pointer-events: none;
+    }
+
+    .district-login-copy {
+        max-width: 58rem !important;
+    }
+
+    .district-login-copy h1 {
+        max-width: 12ch !important;
+        font-size: clamp(4.75rem, 7.4vw, 7.75rem) !important;
+        line-height: 0.98 !important;
+        color: #ffffff !important;
+    }
+
+    .district-login-copy p:last-child {
+        max-width: 47rem !important;
+        color: rgb(255 255 255 / 0.92) !important;
+        font-size: clamp(1.05rem, 1.25vw, 1.35rem) !important;
+        line-height: 1.65 !important;
+    }
+
+    .district-login-trust-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 0.75rem !important;
+    }
+
+    .district-login-identity .district-trust-badge {
+        min-height: 2.45rem !important;
+        justify-content: center !important;
+        border: 1px solid rgb(241 200 75 / 0.45) !important;
+        background: rgb(7 24 46 / 0.42) !important;
+        color: #ffffff !important;
+    }
+
+    .district-login-message {
+        max-width: 100% !important;
+        border-color: rgb(241 200 75 / 0.42) !important;
+        background: rgb(2 8 23 / 0.42) !important;
+    }
+
+    .district-login-panel {
+        border-inline-start: 1px solid rgb(7 24 46 / 0.1) !important;
+        background:
+            linear-gradient(135deg, transparent 0 45%, rgb(214 40 40 / 0.08) 45% 45.7%, transparent 45.7% 100%),
+            linear-gradient(135deg, transparent 0 60%, rgb(241 200 75 / 0.12) 60% 60.55%, transparent 60.55% 100%),
+            linear-gradient(180deg, #ffffff 0%, #fffdf7 100%) !important;
+    }
+
+    .district-login-brand {
+        align-items: center !important;
+    }
+
+    .district-login-brand img {
+        width: clamp(8.75rem, 12vw, 11rem) !important;
+        height: auto !important;
+    }
+
+    .district-login-brand p {
+        color: var(--doc-ink) !important;
+        font-size: clamp(1.15rem, 1.7vw, 1.55rem) !important;
+    }
+
+    .district-login-brand span,
+    .district-login-card-heading p {
+        color: var(--doc-red-dark) !important;
+    }
+
+    .district-login-card-heading h2 {
+        color: var(--doc-ink) !important;
+        font-size: clamp(2.15rem, 3.2vw, 3.15rem) !important;
+    }
+
+    .district-login-card-heading span,
+    .district-login-footnote {
+        color: var(--doc-muted) !important;
+    }
+
+    .district-command-card {
+        overflow: hidden !important;
+        border: 1px solid rgb(255 255 255 / 0.14) !important;
+        border-radius: 1.15rem !important;
+        background:
+            radial-gradient(circle at 82% 18%, rgb(241 200 75 / 0.18), transparent 18rem),
+            radial-gradient(circle at 0% 0%, rgb(23 70 162 / 0.22), transparent 24rem),
+            linear-gradient(135deg, #061225 0%, #08172c 58%, #0b1f3a 100%) !important;
+        box-shadow: var(--doc-shadow-command) !important;
+    }
+
+    .district-command-card::after {
+        content: '';
+        position: absolute;
+        inset: 1rem;
+        border: 1px solid rgb(255 255 255 / 0.09);
+        border-radius: 0.85rem;
+        pointer-events: none;
+    }
+
+    .district-command-shell {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.36fr) !important;
+        align-items: start !important;
+        gap: clamp(1.5rem, 3vw, 2.75rem) !important;
+    }
+
+    .district-command-title {
+        max-width: 15ch !important;
+        color: #ffffff !important;
+        font-size: clamp(2.4rem, 4vw, 4.1rem) !important;
+        line-height: 1.03 !important;
+    }
+
+    .district-command-summary {
+        max-width: 62rem !important;
+        margin-top: 1rem !important;
+        color: rgb(255 255 255 / 0.9) !important;
+        font-size: 1.08rem !important;
+        line-height: 1.65 !important;
+    }
+
+    .district-command-summary *,
+    .district-command-card .font-semibold {
+        color: #ffffff !important;
+    }
+
+    .district-command-kicker,
+    .district-command-panel-title {
+        color: var(--doc-gold) !important;
+    }
+
+    .district-command-meta {
+        margin-top: 1.35rem !important;
+        gap: 0.75rem !important;
+    }
+
+    .district-command-panel {
+        border: 1px solid rgb(255 255 255 / 0.14) !important;
+        border-radius: 0.9rem !important;
+        background: rgb(2 8 23 / 0.34) !important;
+        color: #ffffff !important;
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08) !important;
+    }
+
+    .district-command-action {
+        min-height: 3.15rem !important;
+        border: 1px solid rgb(255 255 255 / 0.15) !important;
+        border-radius: 0.7rem !important;
+        background: rgb(255 255 255 / 0.08) !important;
+        color: #ffffff !important;
+    }
+
+    .district-command-action:hover {
+        background: rgb(255 255 255 / 0.14) !important;
+        transform: translateY(-1px);
+    }
+
+    .district-command-action *,
+    .district-command-panel *,
+    .district-command-card .district-governance-warning *,
+    .dark .fi-main .district-command-card *,
+    .dark .fi-main .district-command-panel * {
+        color: #ffffff !important;
+    }
+
+    .district-command-panel-title,
+    .dark .fi-main .district-command-panel-title {
+        color: var(--doc-gold) !important;
+    }
+
+    .district-trust-badge {
+        border-radius: 999px !important;
+        font-weight: 900 !important;
+    }
+
+    .district-governance-warning,
+    .district-publish-readiness,
+    .district-compare-callout,
+    .district-timeline-card,
+    .district-case-note,
+    .dark .district-governance-warning,
+    .dark .district-publish-readiness,
+    .dark .district-compare-callout,
+    .dark .district-timeline-card,
+    .dark .district-case-note {
+        border: 1px solid rgb(138 101 0 / 0.25) !important;
+        border-radius: 0.8rem !important;
+        background: #fff8ea !important;
+        color: var(--doc-ink) !important;
+    }
+
+    .district-governance-warning strong,
+    .district-publish-readiness strong,
+    .district-compare-callout-title,
+    .district-timeline-card strong,
+    .district-case-note strong,
+    .dark .district-governance-warning strong,
+    .dark .district-publish-readiness strong,
+    .dark .district-compare-callout-title,
+    .dark .district-timeline-card strong,
+    .dark .district-case-note strong {
+        color: var(--doc-ink) !important;
+    }
+
+    .district-governance-warning span,
+    .district-publish-readiness span,
+    .district-timeline-card span,
+    .district-case-note span,
+    .dark .district-governance-warning span,
+    .dark .district-publish-readiness span,
+    .dark .district-timeline-card span,
+    .dark .district-case-note span {
+        color: var(--doc-muted) !important;
+    }
+
+    .district-command-card .district-governance-warning {
+        border-color: rgb(255 255 255 / 0.14) !important;
+        background: rgb(255 255 255 / 0.1) !important;
+    }
+
+    .district-dashboard-table {
+        width: 100%;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        overflow: hidden !important;
+        border: 1px solid var(--doc-line) !important;
+        border-radius: var(--doc-radius) !important;
+        background: #ffffff !important;
+    }
+
+    .district-dashboard-table th,
+    .district-dashboard-table td,
+    .dark .district-dashboard-table th,
+    .dark .district-dashboard-table td {
+        padding: 0.85rem 1rem !important;
+        border-bottom: 1px solid rgb(7 24 46 / 0.1) !important;
+        color: var(--doc-ink) !important;
+    }
+
+    .district-dashboard-table th,
+    .dark .district-dashboard-table th {
+        background: #eef3f8 !important;
+        color: var(--doc-ink) !important;
+        font-size: 0.73rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.1em !important;
+        text-transform: uppercase !important;
+    }
+
+    .fi-wi-stats-overview-stat,
+    .dark .fi-wi-stats-overview-stat {
+        position: relative !important;
+        overflow: hidden !important;
+        border: 1px solid var(--doc-line) !important;
+        border-radius: var(--doc-radius) !important;
+        background: #ffffff !important;
+        box-shadow: var(--doc-shadow) !important;
+    }
+
+    .fi-wi-stats-overview-stat::before {
+        content: '';
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--doc-blue), var(--doc-gold));
+    }
+
+    .fi-wi-stats-overview-stat *,
+    .dark .fi-wi-stats-overview-stat * {
+        color: var(--doc-ink) !important;
+    }
+
+    .fi-wi-stats-overview-stat-label,
+    .dark .fi-wi-stats-overview-stat-label {
+        color: var(--doc-muted) !important;
+        font-weight: 800 !important;
+    }
+
+    .fi-wi-stats-overview-stat-value,
+    .dark .fi-wi-stats-overview-stat-value {
+        font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif !important;
+        color: var(--doc-ink) !important;
+    }
+
+    @media (max-width: 1180px) {
+        .district-admin-login {
+            grid-template-columns: 1fr !important;
+        }
+
+        .district-login-identity {
+            min-height: auto !important;
+        }
+
+        .district-command-shell {
+            grid-template-columns: 1fr !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .fi-page {
+            padding-inline: 1rem !important;
+        }
+
+        .district-login-trust-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        .district-login-copy h1 {
+            font-size: clamp(3rem, 13vw, 4.75rem) !important;
+        }
+
+        .district-login-copy p:last-child,
+        .district-command-summary {
+            font-size: 1rem !important;
+        }
+
+        .district-command-title {
+            font-size: clamp(2rem, 10vw, 3rem) !important;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .fi-simple-layout:has(.district-admin-login) {
+            padding: 0 !important;
+        }
+
+        .fi-simple-card:has(.district-admin-login) {
+            min-height: 100vh !important;
+            border-radius: 0 !important;
+        }
+
+        .district-login-identity,
+        .district-login-panel {
+            padding: 1.2rem !important;
+        }
+
+        .district-login-brand {
+            gap: 0.8rem !important;
+        }
+
+        .district-login-brand img {
+            width: 6.5rem !important;
+        }
+
+        .district-login-brand p {
+            font-size: 1.05rem !important;
+        }
+
+        .district-login-brand span {
+            font-size: 0.68rem !important;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .fi-sidebar-item-button,
+        .district-command-action {
+            transition: none !important;
+        }
+
+        .district-command-action:hover {
+            transform: none !important;
+        }
+    }
+}
+
+@layer components {
+    /*
+     * Dossier form and resource polish. These rules are deliberately last:
+     * resource pages should read as operational records, not generic cards
+     * with narrow centered fields.
+     */
+    .fi-page .fi-section-content,
+    .dark .fi-page .fi-section-content,
+    .fi-page .fi-fo-section-content,
+    .dark .fi-page .fi-fo-section-content {
+        padding: clamp(1.15rem, 2vw, 2rem) !important;
+        background: #ffffff !important;
+        color: var(--doc-ink) !important;
+    }
+
+    .fi-page .fi-section-content > *,
+    .dark .fi-page .fi-section-content > *,
+    .fi-page .fi-fo-section-content > *,
+    .dark .fi-page .fi-fo-section-content > * {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .fi-page [class*='fi-fo-component-ctn'],
+    .dark .fi-page [class*='fi-fo-component-ctn'] {
+        width: 100% !important;
+        max-width: none !important;
+        gap: clamp(1rem, 1.8vw, 1.5rem) !important;
+    }
+
+    .fi-page .fi-form > [class*='fi-fo-component-ctn'],
+    .dark .fi-page .fi-form > [class*='fi-fo-component-ctn'] {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .fi-page .fi-form > [class*='fi-fo-component-ctn'] > *,
+    .dark .fi-page .fi-form > [class*='fi-fo-component-ctn'] > *,
+    .fi-page .fi-section [class*='fi-fo-component-ctn'] > *,
+    .dark .fi-page .fi-section [class*='fi-fo-component-ctn'] > * {
+        grid-column: 1 / -1 !important;
+        grid-column-start: auto !important;
+        grid-column-end: auto !important;
+    }
+
+    .fi-page .fi-form > [class*='fi-fo-component-ctn'] > .fi-section,
+    .dark .fi-page .fi-form > [class*='fi-fo-component-ctn'] > .fi-section {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin-inline: 0 !important;
+    }
+
+    .fi-page .fi-section [class*='fi-fo-component-ctn'],
+    .dark .fi-page .fi-section [class*='fi-fo-component-ctn'] {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .fi-page .fi-section [class*='fi-fo-field-wrp'],
+    .dark .fi-page .fi-section [class*='fi-fo-field-wrp'] {
+        grid-column: 1 / -1 !important;
+        grid-column-start: auto !important;
+        grid-column-end: auto !important;
+    }
+
+    .fi-page .fi-section [class*='fi-fo-field-wrp']:has(textarea),
+    .dark .fi-page .fi-section [class*='fi-fo-field-wrp']:has(textarea),
+    .fi-page .fi-section [class*='fi-fo-field-wrp']:has(.fi-rich-editor),
+    .dark .fi-page .fi-section [class*='fi-fo-field-wrp']:has(.fi-rich-editor),
+    .fi-page .fi-section [class*='fi-fo-field-wrp']:has(.fi-markdown-editor),
+    .dark .fi-page .fi-section [class*='fi-fo-field-wrp']:has(.fi-markdown-editor) {
+        grid-column: 1 / -1 !important;
+    }
+
+    .fi-page [class*='fi-fo-field-wrp'],
+    .dark .fi-page [class*='fi-fo-field-wrp'] {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        align-items: stretch !important;
+        justify-content: stretch !important;
+        text-align: left !important;
+    }
+
+    .fi-page [class*='fi-fo-field-wrp'] > *,
+    .dark .fi-page [class*='fi-fo-field-wrp'] > * {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        text-align: left !important;
+    }
+
+    .fi-page [class*='fi-fo-field-wrp-label'],
+    .dark .fi-page [class*='fi-fo-field-wrp-label'] {
+        margin-bottom: 0.45rem !important;
+        text-align: left !important;
+    }
+
+    .fi-page [class*='fi-fo-field-wrp-label'] label,
+    .fi-page [class*='fi-fo-field-wrp-label'] span,
+    .dark .fi-page [class*='fi-fo-field-wrp-label'] label,
+    .dark .fi-page [class*='fi-fo-field-wrp-label'] span {
+        color: var(--doc-ink) !important;
+        font-size: 0.92rem !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.01em !important;
+        text-align: left !important;
+    }
+
+    .fi-page .fi-input-wrp,
+    .fi-page .fi-textarea,
+    .fi-page .fi-select-input,
+    .fi-page .fi-input,
+    .dark .fi-page .fi-input-wrp,
+    .dark .fi-page .fi-textarea,
+    .dark .fi-page .fi-select-input,
+    .dark .fi-page .fi-input {
+        width: 100% !important;
+        min-width: 0 !important;
+        border: 1px solid rgb(7 24 46 / 0.22) !important;
+        background: #ffffff !important;
+        color: var(--doc-ink) !important;
+        text-align: left !important;
+    }
+
+    .fi-page .fi-textarea,
+    .dark .fi-page .fi-textarea {
+        min-height: 12rem !important;
+        font-family: 'Source Code Pro', Consolas, 'Courier New', monospace !important;
+        line-height: 1.55 !important;
+    }
+
+    .fi-page .fi-section-header-heading,
+    .dark .fi-page .fi-section-header-heading {
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
+    }
+
+    .fi-page .fi-section-header,
+    .dark .fi-page .fi-section-header {
+        min-height: 3.35rem !important;
+        padding-inline: clamp(1.15rem, 2vw, 1.75rem) !important;
+    }
+
+    .fi-page .fi-form-actions,
+    .fi-page [class*='fi-form-actions'],
+    .dark .fi-page .fi-form-actions,
+    .dark .fi-page [class*='fi-form-actions'] {
+        width: min(100%, 92rem) !important;
+        max-width: 92rem !important;
+        margin-inline: auto !important;
+        justify-content: flex-start !important;
+    }
+
+    .fi-page .fi-tabs,
+    .dark .fi-page .fi-tabs {
+        width: fit-content !important;
+        max-width: 100% !important;
+        margin-inline: auto !important;
+        background: #ffffff !important;
+    }
+
+    .fi-page .fi-tabs-item,
+    .dark .fi-page .fi-tabs-item {
+        min-height: 2.65rem !important;
+        color: var(--doc-muted) !important;
+        font-weight: 800 !important;
+    }
+
+    .fi-page .fi-tabs-item[aria-selected='true'],
+    .dark .fi-page .fi-tabs-item[aria-selected='true'] {
+        color: var(--doc-blue) !important;
+    }
+
+    .fi-page .fi-ta-empty-state,
+    .dark .fi-page .fi-ta-empty-state,
+    .fi-page .fi-no,
+    .dark .fi-page .fi-no {
+        background: #ffffff !important;
+        color: var(--doc-ink) !important;
+    }
+
+    @media (min-width: 1024px) {
+        .fi-page form,
+        .dark .fi-page form {
+            width: min(100%, 92rem) !important;
+            max-width: 92rem !important;
+            margin-inline: auto !important;
+        }
+
+        .fi-page .fi-section,
+        .dark .fi-page .fi-section {
+            width: min(100%, 84rem) !important;
+            max-width: 84rem !important;
+            margin-inline: auto !important;
+        }
+
+        .fi-page .fi-ta-ctn,
+        .dark .fi-page .fi-ta-ctn {
+            width: 100% !important;
+            max-width: none !important;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .fi-page .fi-section,
+        .dark .fi-page .fi-section {
+            width: min(100%, 92rem) !important;
+            max-width: 92rem !important;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .fi-page .fi-section [class*='fi-fo-component-ctn'],
+        .dark .fi-page .fi-section [class*='fi-fo-component-ctn'] {
+            grid-template-columns: minmax(0, 1fr) !important;
+        }
+
+        .fi-page .fi-section,
+        .dark .fi-page .fi-section {
+            border-radius: 0.8rem !important;
+        }
+
+        .fi-page .fi-section-content,
+        .dark .fi-page .fi-section-content,
+        .fi-page .fi-fo-section-content,
+        .dark .fi-page .fi-fo-section-content {
+            padding: 1rem !important;
+        }
+    }
+}
+
+@layer components {
+    /*
+     * Final admin clarity layer.
+     * This keeps the legacy Filament admin usable while the custom console is
+     * migrated module by module: dark civic shell, light readable work surfaces.
+     */
+    :root,
+    .dark {
+        --district-ink: #0b1f3a;
+        --district-ink-soft: #334155;
+        --district-ink-muted: #64748b;
+        --district-navy-950: #020817;
+        --district-navy-900: #07182e;
+        --district-navy-850: #0b1f3a;
+        --district-paper: #fffdf7;
+        --district-paper-clean: #ffffff;
+        --district-paper-tint: #f5f7fb;
+        --district-line: rgb(15 35 65 / 0.14);
+        --district-line-strong: rgb(15 35 65 / 0.24);
+        --district-red-action: #d62828;
+        --district-red-deep: #a71920;
+        --district-gold-action: #d4a91f;
+        --district-blue-action: #1746a2;
+    }
+
+    .fi-simple-layout:has(.district-admin-login) {
+        min-height: 100vh;
+        padding: clamp(1rem, 2vw, 1.75rem) !important;
+        background:
+            radial-gradient(circle at 12% 0%, rgb(23 70 162 / 0.18), transparent 28rem),
+            radial-gradient(circle at 95% 10%, rgb(214 40 40 / 0.12), transparent 26rem),
+            linear-gradient(135deg, #08172c 0%, #0b1f3a 48%, #030a13 100%) !important;
+        color: #ffffff;
+    }
+
+    .fi-simple-layout:has(.district-admin-login)::before,
+    .fi-simple-layout:has(.district-admin-login)::after {
+        opacity: 0 !important;
+    }
+
+    .fi-simple-main:has(.district-admin-login),
+    .fi-simple-card:has(.district-admin-login) {
+        width: min(calc(100vw - 2rem), 112rem) !important;
+        max-width: 112rem !important;
+    }
+
+    .fi-simple-card:has(.district-admin-login) {
+        overflow: hidden;
+        border: 1px solid rgb(255 255 255 / 0.16) !important;
+        border-radius: 1.15rem !important;
+        background: transparent !important;
+        box-shadow:
+            0 1px 2px rgb(0 0 0 / 0.18),
+            0 28px 90px rgb(0 0 0 / 0.34) !important;
+    }
+
+    .district-admin-login {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(26rem, 0.62fr) !important;
+        min-height: min(48rem, calc(100vh - 3.5rem));
+        background: var(--district-paper-clean);
+    }
+
+    .district-login-identity {
+        position: relative;
+        justify-content: space-between !important;
+        min-height: 100%;
+        padding: clamp(2.25rem, 4.2vw, 4.5rem) !important;
+        background:
+            linear-gradient(135deg, rgb(178 30 39 / 0.97) 0%, rgb(93 34 66 / 0.95) 46%, rgb(7 24 46 / 0.98) 100%),
+            linear-gradient(90deg, rgb(255 255 255 / 0.07) 1px, transparent 1px),
+            linear-gradient(180deg, rgb(255 255 255 / 0.06) 1px, transparent 1px) !important;
+        background-size: auto, 3rem 3rem, 3rem 3rem !important;
+        color: #ffffff !important;
+    }
+
+    .district-login-identity::after {
+        inset-block-start: 7rem !important;
+        inset-inline-end: -4rem !important;
+        width: min(28vw, 20rem) !important;
+        opacity: 0.11 !important;
+    }
+
+    .district-login-seal-row {
+        gap: 0.7rem !important;
+    }
+
+    .district-login-seal {
+        width: 3rem !important;
+        height: 3rem !important;
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .district-login-copy {
+        max-width: 54rem !important;
+    }
+
+    .district-login-kicker,
+    .district-command-kicker,
+    .district-login-card-heading p {
+        color: #ffd84f !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.13em !important;
+    }
+
+    .district-login-copy h1 {
+        max-width: 13ch;
+        color: #ffffff !important;
+        font-size: clamp(4.5rem, 7vw, 7.5rem) !important;
+        line-height: 1.02 !important;
+        text-wrap: balance;
+    }
+
+    .district-login-copy p:last-child {
+        max-width: 43rem;
+        color: #f8fafc !important;
+        font-size: clamp(1.05rem, 1.3vw, 1.28rem) !important;
+        line-height: 1.65 !important;
+    }
+
+    .district-login-trust-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 0.8rem !important;
+    }
+
+    .district-login-identity .district-trust-badge {
+        min-height: 2.65rem;
+        justify-content: center;
+        border-color: rgb(255 216 79 / 0.42) !important;
+        background: rgb(2 8 23 / 0.3) !important;
+        color: #ffffff !important;
+        font-size: 0.92rem !important;
+    }
+
+    .district-login-message {
+        border-color: rgb(255 216 79 / 0.34) !important;
+        background: rgb(2 8 23 / 0.38) !important;
+        color: #ffffff !important;
+    }
+
+    .district-login-message strong,
+    .district-login-message span {
+        color: #ffffff !important;
+    }
+
+    .district-login-panel {
+        justify-content: center !important;
+        gap: 1.55rem !important;
+        padding: clamp(2rem, 3.6vw, 4rem) !important;
+        background:
+            linear-gradient(180deg, rgb(255 255 255 / 0.98), rgb(255 253 247 / 0.98)),
+            var(--district-paper-clean) !important;
+        color: var(--district-ink) !important;
+    }
+
+    .district-login-panel::before,
+    .district-login-panel::after {
+        display: none !important;
+    }
+
+    .district-login-brand {
+        align-items: center !important;
+        border-bottom-color: var(--district-line) !important;
+    }
+
+    .district-login-brand img {
+        width: clamp(7.25rem, 11vw, 10rem) !important;
+        max-width: 12rem !important;
+    }
+
+    .district-login-brand p,
+    .district-login-card-heading h2 {
+        color: var(--district-ink) !important;
+    }
+
+    .district-login-brand span {
+        color: var(--district-red-deep) !important;
+    }
+
+    .district-login-card-heading h2 {
+        font-size: clamp(2rem, 3vw, 2.85rem) !important;
+        line-height: 1.08 !important;
+        text-wrap: balance;
+    }
+
+    .district-login-card-heading span,
+    .district-login-footnote {
+        color: var(--district-ink-muted) !important;
+        font-size: 1rem !important;
+    }
+
+    .district-login-panel .fi-fo-field-wrp-label span,
+    .district-login-panel .fi-fo-field-wrp-label label,
+    .district-login-panel .fi-checkbox-input + span,
+    .district-login-panel label {
+        color: var(--district-ink) !important;
+    }
+
+    .district-login-panel .fi-input-wrp,
+    .district-login-panel .fi-input,
+    .district-login-panel .fi-textarea,
+    .district-login-panel .fi-select-input {
+        background: #ffffff !important;
+        color: var(--district-ink) !important;
+    }
+
+    .district-login-panel .fi-input-wrp {
+        min-height: 3.15rem;
+        border: 1px solid var(--district-line-strong) !important;
+        border-radius: 0.75rem !important;
+        box-shadow: 0 1px 2px rgb(7 24 46 / 0.06) !important;
+    }
+
+    .district-login-panel .fi-btn-color-primary {
+        min-height: 3.2rem;
+        border-radius: 0.75rem !important;
+        background: linear-gradient(135deg, var(--district-red-action), var(--district-red-deep)) !important;
+        color: #ffffff !important;
+        box-shadow: 0 14px 30px rgb(214 40 40 / 0.22) !important;
+    }
+
+    .dark .fi-body {
+        background: var(--district-navy-950) !important;
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-layout {
+        background: var(--district-navy-950) !important;
+    }
+
+    .dark .fi-main {
+        max-width: none !important;
+        background:
+            radial-gradient(circle at 82% 0%, rgb(23 70 162 / 0.08), transparent 30rem),
+            linear-gradient(180deg, #f6f8fb 0%, #edf2f7 100%) !important;
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-page {
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-sidebar,
+    .fi-sidebar {
+        border-inline-end: 1px solid rgb(255 255 255 / 0.08) !important;
+        background:
+            linear-gradient(180deg, #0b1f3a 0%, #061225 52%, #020817 100%) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-sidebar-header,
+    .fi-sidebar-header,
+    .dark .fi-topbar > nav,
+    .fi-topbar > nav {
+        border-color: rgb(255 255 255 / 0.1) !important;
+        background: rgb(11 31 58 / 0.96) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-sidebar .fi-logo,
+    .dark .fi-sidebar-item-label,
+    .dark .fi-sidebar-group-label,
+    .dark .fi-sidebar-item-icon,
+    .dark .fi-topbar,
+    .dark .fi-topbar * {
+        color: #ffffff;
+    }
+
+    .dark .fi-sidebar-group-label {
+        color: rgb(255 255 255 / 0.6) !important;
+    }
+
+    .dark .fi-sidebar-item-active > .fi-sidebar-item-button,
+    .fi-sidebar-item-active > .fi-sidebar-item-button {
+        background:
+            linear-gradient(90deg, rgb(212 169 31 / 0.22), rgb(23 70 162 / 0.16)),
+            rgb(255 255 255 / 0.08) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-header-heading,
+    .dark .fi-breadcrumbs-item-label,
+    .dark .fi-section-header-heading,
+    .dark .fi-modal-heading {
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-header-subheading,
+    .dark .fi-section-header-description,
+    .dark .fi-fo-field-wrp-helper-text,
+    .dark .fi-ta-text,
+    .dark .fi-breadcrumbs-item-separator {
+        color: var(--district-ink-muted) !important;
+    }
+
+    .dark .fi-section,
+    .dark .fi-wi-widget:not(.district-command-card),
+    .dark .fi-ta-ctn,
+    .dark .fi-modal-window,
+    .dark .fi-fo-repeater-item,
+    .dark .fi-tabs {
+        border: 1px solid var(--district-line) !important;
+        background: var(--district-paper-clean) !important;
+        color: var(--district-ink) !important;
+        box-shadow:
+            0 1px 2px rgb(7 24 46 / 0.06),
+            0 14px 36px rgb(7 24 46 / 0.08) !important;
+    }
+
+    .dark .fi-section-header,
+    .dark .fi-ta-header,
+    .dark .fi-modal-header,
+    .dark .fi-fo-section-header {
+        border-bottom: 1px solid var(--district-line) !important;
+        background:
+            linear-gradient(90deg, rgb(255 253 247 / 0.98), rgb(246 248 251 / 0.98)) !important;
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-section-header *,
+    .dark .fi-ta-header *,
+    .dark .fi-modal-header *,
+    .dark .fi-fo-section-header * {
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-fo-section-content,
+    .dark .fi-ta-content,
+    .dark .fi-modal-content,
+    .dark .fi-ta-table,
+    .dark .fi-ta-row,
+    .dark .fi-ta-cell,
+    .dark .fi-ta-summary-row {
+        background: var(--district-paper-clean) !important;
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-ta-row:hover {
+        background: #f6f8fb !important;
+    }
+
+    .dark .fi-input-wrp,
+    .dark .fi-select-input,
+    .dark .fi-textarea,
+    .dark .fi-input,
+    .dark .fi-rich-editor,
+    .dark .fi-markdown-editor,
+    .dark .fi-fo-key-value {
+        border-color: var(--district-line-strong) !important;
+        background: #ffffff !important;
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-input::placeholder,
+    .dark .fi-textarea::placeholder {
+        color: #7a8798 !important;
+    }
+
+    .dark .fi-fo-field-wrp-label span,
+    .dark .fi-fo-field-wrp-label label,
+    .dark .fi-fo-field-wrp-helper-text,
+    .dark .fi-fo-field-wrp-error-message,
+    .dark .fi-fo-placeholder,
+    .dark .fi-in-text,
+    .dark .fi-ta-text,
+    .dark .fi-ta-cell,
+    .dark .fi-ta-header-cell-label {
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-fo-field-wrp-helper-text {
+        color: var(--district-ink-muted) !important;
+    }
+
+    .dark .fi-fo-field-wrp-error-message {
+        color: #b91c1c !important;
+    }
+
+    .dark .fi-btn-color-primary {
+        background: linear-gradient(135deg, var(--district-blue-action), #0f347c) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-btn-color-danger {
+        background: linear-gradient(135deg, var(--district-red-action), var(--district-red-deep)) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-btn-color-gray {
+        border-color: var(--district-line) !important;
+        background: #ffffff !important;
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-link {
+        color: var(--district-blue-action) !important;
+    }
+
+    .district-command-card {
+        border: 1px solid rgb(255 255 255 / 0.1) !important;
+        background:
+            radial-gradient(circle at 94% 10%, rgb(212 169 31 / 0.16), transparent 19rem),
+            radial-gradient(circle at 8% 0%, rgb(23 70 162 / 0.18), transparent 20rem),
+            linear-gradient(135deg, #061225 0%, #08172c 58%, #0b1f3a 100%) !important;
+        color: #ffffff !important;
+        box-shadow:
+            0 1px 2px rgb(2 8 23 / 0.18),
+            0 24px 70px rgb(2 8 23 / 0.18) !important;
+    }
+
+    .district-command-card .district-command-title,
+    .district-command-card .district-command-summary,
+    .district-command-card .district-command-summary *,
+    .district-command-card .district-command-kicker {
+        color: #ffffff !important;
+    }
+
+    .district-command-card .district-command-kicker,
+    .district-command-panel-title {
+        color: #ffd84f !important;
+    }
+
+    .district-command-panel {
+        border-color: rgb(255 255 255 / 0.14) !important;
+        background:
+            linear-gradient(180deg, rgb(14 35 65 / 0.96), rgb(7 24 46 / 0.96)) !important;
+        color: #ffffff !important;
+    }
+
+    .district-command-action {
+        border-color: rgb(255 255 255 / 0.16) !important;
+        background: rgb(255 255 255 / 0.08) !important;
+        color: #ffffff !important;
+    }
+
+    .district-command-panel .district-governance-warning {
+        border-color: rgb(255 216 79 / 0.26) !important;
+        background: rgb(255 255 255 / 0.08) !important;
+    }
+
+    .district-command-panel .district-governance-warning strong,
+    .district-command-panel .district-governance-warning span {
+        color: #ffffff !important;
+    }
+
+    .dark .fi-wi-stats-overview-stat {
+        border: 1px solid var(--district-line) !important;
+        background: var(--district-paper-clean) !important;
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-wi-stats-overview-stat *,
+    .dark .fi-wi-widget:not(.district-command-card) * {
+        color: var(--district-ink) !important;
+    }
+
+    .dark .fi-badge {
+        border: 1px solid rgb(15 35 65 / 0.08) !important;
+    }
+
+    @media (max-width: 1180px) {
+        .district-admin-login {
+            grid-template-columns: 1fr !important;
+            min-height: auto;
+        }
+
+        .district-login-copy h1 {
+            max-width: 14ch;
+            font-size: clamp(3rem, 10vw, 5rem) !important;
+        }
+
+        .district-login-trust-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .fi-simple-layout:has(.district-admin-login) {
+            padding: 0.75rem !important;
+        }
+
+        .fi-simple-main:has(.district-admin-login),
+        .fi-simple-card:has(.district-admin-login) {
+            width: 100% !important;
+        }
+
+        .district-login-identity,
+        .district-login-panel {
+            padding: 1.15rem !important;
+        }
+
+        .district-login-copy h1 {
+            font-size: 2.55rem !important;
+        }
+
+        .district-login-brand {
+            gap: 0.85rem !important;
+        }
+
+        .district-login-brand img {
+            width: 6.25rem !important;
+        }
+    }
+}
+
+@layer components {
     .fi-simple-layout {
         position: relative;
         min-height: 100vh;
@@ -558,6 +2055,775 @@
     }
 }
 
+@layer components {
+    :root {
+        --district-font-ui: 'Source Sans 3', 'Instrument Sans', 'Aptos', 'Segoe UI',
+            ui-sans-serif, system-ui, sans-serif;
+        --district-font-display: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+        --district-shell: #eef3f8;
+        --district-shell-deep: #07182e;
+        --district-surface: #fffdf7;
+        --district-surface-raised: #ffffff;
+        --district-surface-table: #fbfcfe;
+        --district-border-soft: rgb(7 24 46 / 0.1);
+        --district-border-strong: rgb(7 24 46 / 0.18);
+        --district-muted: #607085;
+        --district-emphasis: #081a31;
+        --district-royal: #1746a2;
+        --district-red: #d62828;
+        --district-gold: #c9a227;
+        --district-green: #16733c;
+        --district-focus: rgb(201 162 39 / 0.52);
+        --district-shadow-soft: 0 1px 2px rgb(7 24 46 / 0.06),
+            0 18px 42px rgb(7 24 46 / 0.08);
+        --district-shadow-raised: 0 1px 2px rgb(7 24 46 / 0.08),
+            0 24px 64px rgb(7 24 46 / 0.12);
+    }
+
+    .fi-body,
+    .fi-layout,
+    .fi-main,
+    .fi-simple-layout {
+        font-family: var(--district-font-ui);
+        letter-spacing: 0;
+    }
+
+    .fi-body {
+        background:
+            linear-gradient(180deg, rgb(255 255 255 / 0.6), transparent 16rem),
+            radial-gradient(circle at 8% 4%, rgb(23 70 162 / 0.13), transparent 22rem),
+            radial-gradient(circle at 96% 18%, rgb(201 162 39 / 0.13), transparent 24rem),
+            var(--district-shell);
+        color: var(--district-emphasis);
+    }
+
+    .dark .fi-body {
+        --district-shell: #030a13;
+        --district-surface: #07182e;
+        --district-surface-raised: #0b1424;
+        --district-surface-table: #07111f;
+        --district-border-soft: rgb(255 255 255 / 0.09);
+        --district-border-strong: rgb(255 255 255 / 0.15);
+        --district-muted: #b5c0cf;
+        --district-emphasis: #f8fafc;
+    }
+
+    .fi-main {
+        background:
+            linear-gradient(90deg, rgb(7 24 46 / 0.035) 1px, transparent 1px),
+            linear-gradient(180deg, rgb(7 24 46 / 0.03) 1px, transparent 1px);
+        background-size: 3.5rem 3.5rem;
+    }
+
+    .fi-header-heading,
+    .fi-simple-header-heading,
+    .fi-section-header-heading,
+    .fi-modal-heading,
+    .district-command-title,
+    .district-login-copy h1,
+    .district-login-card-heading h2 {
+        color: var(--district-emphasis);
+        font-family: var(--district-font-display);
+        font-weight: 700;
+        letter-spacing: 0;
+    }
+
+    .fi-header-subheading,
+    .fi-section-header-description,
+    .fi-fo-field-wrp-helper-text,
+    .fi-ta-text,
+    .district-muted-copy {
+        color: var(--district-muted);
+    }
+
+    .fi-btn,
+    .fi-input,
+    .fi-select-input,
+    .fi-fo-field-wrp-label,
+    .fi-ta-header-cell-label,
+    .fi-sidebar-item-label {
+        font-family: var(--district-font-ui);
+        letter-spacing: 0;
+    }
+
+    .fi-btn:focus-visible,
+    .fi-icon-btn:focus-visible,
+    .fi-link:focus-visible,
+    .fi-input:focus-visible,
+    .fi-select-input:focus-visible,
+    .fi-checkbox-input:focus-visible {
+        outline: 3px solid var(--district-focus);
+        outline-offset: 3px;
+    }
+
+    .fi-simple-layout:has(.district-admin-login) {
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        padding: clamp(0.75rem, 2vw, 1.5rem);
+    }
+
+    .fi-simple-main:has(.district-admin-login) {
+        width: min(calc(100vw - clamp(1.5rem, 4vw, 3rem)), 118rem);
+        max-width: 118rem !important;
+        padding-inline: 0;
+    }
+
+    .fi-simple-card:has(.district-admin-login) {
+        width: 100%;
+        max-width: 118rem !important;
+        overflow: visible;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .fi-simple-card:has(.district-admin-login)::before,
+    .fi-simple-card:has(.district-admin-login)::after {
+        display: none;
+    }
+
+    .district-admin-login {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(25rem, 0.48fr);
+        width: 100%;
+        min-height: calc(100vh - clamp(2rem, 5vw, 4rem));
+        overflow: hidden;
+        border: 1px solid rgb(255 255 255 / 0.42);
+        border-radius: 1rem;
+        background:
+            linear-gradient(135deg, rgb(255 255 255 / 0.2), transparent 42%),
+            var(--district-shell-deep);
+        box-shadow: var(--district-shadow-raised);
+    }
+
+    .district-login-identity {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: clamp(2rem, 5vw, 4.5rem);
+        min-height: 100%;
+        overflow: hidden;
+        padding: clamp(2rem, 4vw, 3.5rem);
+        color: #ffffff;
+        background:
+            linear-gradient(135deg, rgb(214 40 40 / 0.92), rgb(70 27 53 / 0.88) 54%, rgb(7 24 46 / 0.96)),
+            linear-gradient(90deg, rgb(255 255 255 / 0.08) 1px, transparent 1px),
+            linear-gradient(180deg, rgb(255 255 255 / 0.07) 1px, transparent 1px);
+        background-size: auto, 3rem 3rem, 3rem 3rem;
+    }
+
+    .district-login-identity::after {
+        position: absolute;
+        inset-block-start: 14%;
+        inset-inline-end: -4rem;
+        width: min(34vw, 18rem);
+        aspect-ratio: 1;
+        content: '';
+        background-image: url('../../../../public/assets/images/brand/House_of_Representative_Logo_Seal.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        filter: grayscale(1);
+        opacity: 0.1;
+    }
+
+    .district-login-seal-row {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .district-login-seal {
+        width: 3rem;
+        height: 3rem;
+        object-fit: contain;
+        filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.16));
+    }
+
+    .district-login-copy {
+        position: relative;
+        z-index: 1;
+        max-width: 35rem;
+    }
+
+    .district-login-kicker,
+    .district-command-kicker {
+        margin: 0;
+        color: var(--district-gold);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    .district-login-copy h1 {
+        margin-top: 1rem;
+        color: #ffffff;
+        font-size: clamp(2.6rem, 5.4vw, 6.6rem);
+        line-height: 1.05;
+    }
+
+    .district-login-copy p:last-child {
+        margin-top: 1.25rem;
+        max-width: 44rem;
+        color: rgb(255 255 255 / 0.86);
+        font-size: clamp(1.05rem, 1.35vw, 1.28rem);
+        line-height: 1.75;
+    }
+
+    .district-login-trust-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+    }
+
+    .district-login-message {
+        position: relative;
+        z-index: 1;
+    }
+
+    .district-login-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1.35rem;
+        padding: clamp(1.75rem, 3.4vw, 3.5rem);
+        background:
+            linear-gradient(180deg, rgb(255 255 255 / 0.98), rgb(255 253 247 / 0.98)),
+            #ffffff;
+    }
+
+    .district-login-brand {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--district-border-soft);
+    }
+
+    .district-login-brand img {
+        width: 8.4rem;
+        max-width: 42%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .district-login-brand p {
+        margin: 0;
+        color: var(--district-emphasis);
+        font-family: var(--district-font-display);
+        font-size: 1.15rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .district-login-brand span {
+        display: block;
+        margin-top: 0.2rem;
+        color: var(--district-red);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        line-height: 1.35;
+        text-transform: uppercase;
+    }
+
+    .district-login-card-heading p {
+        margin: 0 0 0.4rem;
+        color: var(--district-red);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .district-login-card-heading h2 {
+        margin: 0;
+        font-size: clamp(1.65rem, 3vw, 2.2rem);
+        line-height: 1.16;
+    }
+
+    .district-login-card-heading span,
+    .district-login-footnote {
+        display: block;
+        margin-top: 0.55rem;
+        color: var(--district-muted);
+        font-size: 0.93rem;
+        line-height: 1.55;
+    }
+
+    @media (min-width: 1440px) {
+        .fi-simple-main:has(.district-admin-login),
+        .fi-simple-card:has(.district-admin-login) {
+            width: min(calc(100vw - 3rem), 126rem);
+            max-width: 126rem !important;
+        }
+
+        .district-admin-login {
+            grid-template-columns: minmax(0, 1fr) minmax(28rem, 0.42fr);
+        }
+
+        .district-login-panel {
+            padding-inline: clamp(2.25rem, 4vw, 4.75rem);
+        }
+    }
+
+    .district-login-panel .fi-input-wrp {
+        border-radius: 0.7rem;
+        background: #ffffff;
+    }
+
+    .district-login-panel .fi-btn-color-primary {
+        min-height: 3.1rem;
+        border-radius: 0.7rem;
+        background: linear-gradient(135deg, var(--district-red), #a91f1f);
+    }
+
+    .district-trust-badge,
+    .district-stale-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 2.25rem;
+        border: 1px solid rgb(201 162 39 / 0.28);
+        border-radius: 999px;
+        background: rgb(255 248 234 / 0.14);
+        color: inherit;
+        font-size: 0.82rem;
+        font-weight: 800;
+        line-height: 1.2;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .district-trust-badge svg,
+    .district-stale-indicator svg,
+    .district-governance-warning svg,
+    .district-compare-callout svg,
+    .district-case-note svg {
+        width: 1rem;
+        height: 1rem;
+        flex: none;
+    }
+
+    .district-governance-warning,
+    .district-publish-readiness,
+    .district-compare-callout,
+    .district-timeline-card,
+    .district-case-note {
+        border: 1px solid var(--district-border-soft);
+        border-radius: 0.85rem;
+        background: var(--district-surface);
+        color: var(--district-emphasis);
+        box-shadow: 0 1px 2px rgb(7 24 46 / 0.05);
+    }
+
+    .district-governance-warning {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        border-color: rgb(201 162 39 / 0.32);
+        background:
+            linear-gradient(135deg, rgb(255 248 234 / 0.9), rgb(255 255 255 / 0.82));
+        padding: 0.95rem 1rem;
+    }
+
+    .district-governance-warning strong {
+        display: block;
+        margin-bottom: 0.2rem;
+        color: #7a5b00;
+        font-weight: 850;
+    }
+
+    .district-governance-warning span {
+        color: #4b5563;
+        line-height: 1.5;
+    }
+
+    .district-publish-readiness {
+        display: grid;
+        gap: 0.65rem;
+        padding: 0.9rem;
+    }
+
+    .district-readiness-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.65rem;
+        color: var(--district-muted);
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }
+
+    .district-readiness-item strong {
+        color: var(--district-emphasis);
+    }
+
+    .district-readiness-item[data-state='ready']::before,
+    .district-readiness-item[data-state='warning']::before,
+    .district-readiness-item[data-state='blocked']::before {
+        width: 0.65rem;
+        height: 0.65rem;
+        flex: none;
+        margin-top: 0.32rem;
+        border-radius: 999px;
+        content: '';
+    }
+
+    .district-readiness-item[data-state='ready']::before {
+        background: var(--district-green);
+    }
+
+    .district-readiness-item[data-state='warning']::before {
+        background: var(--district-gold);
+    }
+
+    .district-readiness-item[data-state='blocked']::before {
+        background: var(--district-red);
+    }
+
+    .district-compare-callout {
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .district-compare-callout-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem;
+        border-bottom: 1px solid var(--district-border-soft);
+        background: #f8fafc;
+    }
+
+    .district-compare-callout-title {
+        color: var(--district-emphasis);
+        font-family: var(--district-font-display);
+        font-size: 1.02rem;
+        font-weight: 700;
+    }
+
+    .district-timeline-card,
+    .district-case-note {
+        padding: 1rem;
+    }
+
+    .district-timeline-card {
+        border-inline-start: 4px solid var(--district-royal);
+    }
+
+    .district-case-note {
+        border-inline-start: 4px solid var(--district-gold);
+        background: linear-gradient(135deg, #fffdf7, #ffffff);
+    }
+
+    .district-dashboard-table {
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid var(--district-border-soft);
+        border-radius: 0.8rem;
+        background: var(--district-surface-table);
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .district-dashboard-table th,
+    .district-dashboard-table td {
+        padding: 0.8rem 0.95rem;
+        border-bottom: 1px solid var(--district-border-soft);
+        text-align: start;
+        vertical-align: top;
+    }
+
+    .district-dashboard-table th {
+        background: #f1f5f9;
+        color: var(--district-emphasis);
+        font-size: 0.78rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .district-dashboard-table tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .district-command-card,
+    .fi-section,
+    .fi-wi-widget,
+    .fi-ta-ctn {
+        border: 1px solid var(--district-border-soft);
+        border-radius: 0.9rem;
+        background: var(--district-surface-raised);
+        box-shadow: var(--district-shadow-soft);
+    }
+
+    .district-command-card {
+        overflow: hidden;
+        background:
+            linear-gradient(135deg, rgb(255 253 247 / 0.98), rgb(255 255 255 / 0.96)),
+            radial-gradient(circle at 94% 8%, rgb(23 70 162 / 0.1), transparent 18rem);
+    }
+
+    .district-command-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.42fr);
+        gap: clamp(1rem, 3vw, 2rem);
+        align-items: stretch;
+    }
+
+    .district-command-title {
+        margin: 0;
+        font-size: clamp(1.85rem, 3vw, 3rem);
+        line-height: 1.12;
+    }
+
+    .district-command-summary {
+        margin-top: 0.8rem;
+        max-width: 52rem;
+        color: var(--district-muted);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .district-command-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1rem;
+    }
+
+    .district-command-panel {
+        display: grid;
+        gap: 0.7rem;
+        align-content: start;
+        border: 1px solid var(--district-border-soft);
+        border-radius: 0.85rem;
+        background:
+            linear-gradient(180deg, rgb(7 24 46 / 0.96), rgb(11 31 58 / 0.94));
+        padding: 1rem;
+        color: #ffffff;
+    }
+
+    .district-command-panel-title {
+        color: rgb(255 255 255 / 0.72);
+        font-size: 0.75rem;
+        font-weight: 850;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .district-command-action {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.85rem;
+        min-height: 3rem;
+        border: 1px solid rgb(255 255 255 / 0.14);
+        border-radius: 0.75rem;
+        background: rgb(255 255 255 / 0.07);
+        color: #ffffff;
+        padding: 0.78rem 0.9rem;
+        font-size: 0.9rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition:
+            background-color 160ms ease,
+            border-color 160ms ease,
+            transform 160ms ease;
+    }
+
+    .district-command-action:hover {
+        border-color: rgb(201 162 39 / 0.48);
+        background: rgb(255 255 255 / 0.12);
+        transform: translateY(-1px);
+    }
+
+    .fi-sidebar {
+        background:
+            linear-gradient(180deg, #07182e, #0b1f3a 54%, #07182e);
+    }
+
+    .fi-sidebar-header {
+        border-bottom-color: rgb(255 255 255 / 0.1);
+        background: rgb(255 255 255 / 0.04);
+    }
+
+    .fi-sidebar .fi-logo,
+    .fi-sidebar-item-label,
+    .fi-sidebar-group-label {
+        color: #ffffff;
+    }
+
+    .fi-sidebar-group-label {
+        color: rgb(255 255 255 / 0.58);
+        font-size: 0.73rem;
+        font-weight: 850;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .fi-sidebar-item-button {
+        border-radius: 0.7rem;
+        color: rgb(255 255 255 / 0.78);
+    }
+
+    .fi-sidebar-item-button:hover {
+        background: rgb(255 255 255 / 0.08);
+        color: #ffffff;
+    }
+
+    .fi-sidebar-item-active > .fi-sidebar-item-button {
+        position: relative;
+        background:
+            linear-gradient(90deg, rgb(201 162 39 / 0.2), rgb(23 70 162 / 0.18)),
+            rgb(255 255 255 / 0.08);
+        color: #ffffff;
+    }
+
+    .fi-sidebar-item-active > .fi-sidebar-item-button::before {
+        position: absolute;
+        inset-block: 0.65rem;
+        inset-inline-start: 0.35rem;
+        width: 0.18rem;
+        border-radius: 999px;
+        content: '';
+        background: var(--district-gold);
+    }
+
+    .fi-topbar > nav {
+        min-height: 4.25rem;
+        border-bottom: 1px solid var(--district-border-soft);
+        background: rgb(255 253 247 / 0.88);
+        box-shadow: 0 1px 0 rgb(7 24 46 / 0.03);
+    }
+
+    .fi-section {
+        overflow: hidden;
+    }
+
+    .fi-section-header {
+        border-bottom: 1px solid var(--district-border-soft);
+        background: linear-gradient(180deg, #ffffff, #fbfcfe);
+    }
+
+    .fi-fo-section-content {
+        background: var(--district-surface-raised);
+    }
+
+    .fi-input-wrp,
+    .fi-select-input,
+    .fi-textarea {
+        border-radius: 0.65rem;
+    }
+
+    .fi-ta-header {
+        border-bottom: 1px solid var(--district-border-soft);
+        background: #f8fafc;
+    }
+
+    .fi-ta-header-cell {
+        color: var(--district-emphasis);
+        font-size: 0.78rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .fi-ta-row {
+        background: var(--district-surface-raised);
+    }
+
+    .fi-ta-row:hover {
+        background: rgb(23 70 162 / 0.045);
+    }
+
+    .fi-ta-filters {
+        border: 1px solid var(--district-border-soft);
+        border-radius: 0.9rem;
+        background: #ffffff;
+        box-shadow: 0 1px 2px rgb(7 24 46 / 0.04);
+    }
+
+    .fi-modal-window {
+        border: 1px solid var(--district-border-soft);
+        border-radius: 0.95rem;
+        background: var(--district-surface-raised);
+        box-shadow: var(--district-shadow-raised);
+    }
+
+    .fi-modal-header {
+        border-bottom: 1px solid var(--district-border-soft);
+        background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .fi-no-notification,
+    .fi-ta-empty-state {
+        border-radius: 0.9rem;
+        background:
+            linear-gradient(135deg, #ffffff, #fffdf7),
+            radial-gradient(circle at top right, rgb(201 162 39 / 0.1), transparent 16rem);
+    }
+
+    @media (max-width: 900px) {
+        .fi-simple-main:has(.district-admin-login),
+        .fi-simple-card:has(.district-admin-login) {
+            max-width: min(calc(100vw - 1rem), 34rem) !important;
+        }
+
+        .district-admin-login {
+            grid-template-columns: 1fr;
+            min-height: auto;
+        }
+
+        .district-login-identity {
+            min-height: auto;
+            padding: 1.35rem;
+        }
+
+        .district-login-copy h1 {
+            font-size: 2.05rem;
+        }
+
+        .district-login-trust-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .district-command-shell {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .fi-simple-main:has(.district-admin-login) {
+            width: min(calc(100vw - 1rem), 72rem);
+        }
+
+        .district-login-brand {
+            align-items: flex-start;
+        }
+
+        .district-login-brand img {
+            width: 6.4rem;
+        }
+
+        .district-login-panel {
+            padding: 1rem;
+        }
+
+        .district-command-meta {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .fi-wi-stats-overview-stat,
     .district-command-card,
@@ -571,5 +2837,651 @@
     .district-command-card:hover,
     .district-attention-card:hover {
         transform: none;
+    }
+
+    .district-admin-login *,
+    .district-command-action {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@layer components {
+    :root {
+        --district-muted: #435269;
+        --district-emphasis: #07182e;
+        --district-readable-blue: #102f6f;
+        --district-readable-red: #b91f26;
+        --district-readable-gold: #f1ca48;
+        --district-readable-gold-deep: #8a6500;
+    }
+
+    .fi-body,
+    .fi-section,
+    .fi-wi-widget,
+    .fi-ta-ctn,
+    .fi-modal-window {
+        color: var(--district-emphasis);
+    }
+
+    .fi-header-heading,
+    .fi-section-header-heading,
+    .fi-modal-heading,
+    .district-command-title,
+    .district-login-card-heading h2 {
+        color: var(--district-emphasis);
+    }
+
+    .fi-header-subheading,
+    .fi-section-header-description,
+    .fi-fo-field-wrp-helper-text,
+    .district-command-summary,
+    .district-login-card-heading span,
+    .district-login-footnote,
+    .district-muted-copy {
+        color: var(--district-muted);
+    }
+
+    .district-login-identity {
+        color: #ffffff;
+        background:
+            linear-gradient(
+                135deg,
+                rgb(151 24 32 / 0.96),
+                rgb(79 30 57 / 0.94) 48%,
+                rgb(7 24 46 / 0.98)
+            ),
+            linear-gradient(90deg, rgb(255 255 255 / 0.09) 1px, transparent 1px),
+            linear-gradient(180deg, rgb(255 255 255 / 0.08) 1px, transparent 1px);
+        background-size: auto, 3rem 3rem, 3rem 3rem;
+    }
+
+    .district-login-kicker,
+    .district-command-kicker {
+        color: var(--district-readable-gold);
+        text-shadow: 0 1px 1px rgb(0 0 0 / 0.2);
+    }
+
+    .district-login-copy h1 {
+        color: #ffffff;
+        text-shadow: 0 2px 14px rgb(0 0 0 / 0.18);
+    }
+
+    .district-login-copy p:last-child {
+        color: #f2f6fb;
+    }
+
+    .district-login-identity .district-trust-badge {
+        border-color: rgb(241 202 72 / 0.42);
+        background: rgb(7 24 46 / 0.34);
+        color: #ffffff;
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+    }
+
+    .district-login-identity .district-trust-badge svg {
+        color: var(--district-readable-gold);
+    }
+
+    .district-login-identity .district-governance-warning {
+        border-color: rgb(241 202 72 / 0.38);
+        background:
+            linear-gradient(135deg, rgb(7 24 46 / 0.78), rgb(11 31 58 / 0.58));
+        color: #ffffff;
+    }
+
+    .district-login-identity .district-governance-warning strong {
+        color: #ffffff;
+    }
+
+    .district-login-identity .district-governance-warning span {
+        color: #e6edf8;
+    }
+
+    .district-login-panel {
+        color: var(--district-emphasis);
+        background:
+            linear-gradient(180deg, rgb(255 255 255 / 0.99), rgb(255 252 244 / 0.99)),
+            #ffffff;
+    }
+
+    .district-login-brand p {
+        color: var(--district-emphasis);
+    }
+
+    .district-login-brand span,
+    .district-login-card-heading p {
+        color: var(--district-readable-red);
+    }
+
+    .district-login-panel .fi-fo-field-wrp-label span,
+    .district-login-panel .fi-fo-field-wrp-label label,
+    .fi-fo-field-wrp-label span,
+    .fi-fo-field-wrp-label label {
+        color: var(--district-emphasis);
+        font-weight: 800;
+    }
+
+    .district-login-panel .fi-input,
+    .district-login-panel .fi-select-input,
+    .district-login-panel .fi-textarea,
+    .fi-input,
+    .fi-select-input,
+    .fi-textarea {
+        color: var(--district-emphasis);
+    }
+
+    .district-login-panel .fi-input::placeholder,
+    .fi-input::placeholder,
+    .fi-textarea::placeholder {
+        color: #68778d;
+        opacity: 1;
+    }
+
+    .district-login-panel .fi-input-wrp {
+        border-color: rgb(7 24 46 / 0.22);
+        background: #ffffff;
+    }
+
+    .district-login-panel .fi-input-wrp:focus-within {
+        border-color: var(--district-readable-blue);
+        box-shadow:
+            0 0 0 3px rgb(23 70 162 / 0.16),
+            0 10px 24px rgb(7 24 46 / 0.1);
+    }
+
+    .district-login-panel .fi-btn-color-primary {
+        background: linear-gradient(135deg, #d62828, #a91920);
+        color: #ffffff;
+    }
+
+    .district-command-panel {
+        color: #ffffff;
+    }
+
+    .district-command-panel-title {
+        color: var(--district-readable-gold);
+    }
+
+    .district-command-panel .district-governance-warning span,
+    .district-command-panel .district-governance-warning strong {
+        color: #ffffff;
+    }
+
+    .district-trust-badge.bg-\[\#fff8ea\] {
+        color: var(--district-readable-gold-deep);
+    }
+
+    .district-trust-badge.bg-\[\#f0fdf4\] {
+        color: #14532d;
+    }
+
+    .district-trust-badge.bg-\[\#f8fafc\] {
+        color: #1f2f46;
+    }
+
+    .district-dashboard-table th {
+        color: #1a2b43;
+    }
+
+    .district-dashboard-table td {
+        color: #334155;
+    }
+
+    .district-readiness-item strong,
+    .district-compare-callout-title {
+        color: var(--district-emphasis);
+    }
+
+    .district-governance-warning strong {
+        color: var(--district-readable-gold-deep);
+    }
+
+    .district-governance-warning span {
+        color: #374151;
+    }
+}
+
+@layer components {
+    /*
+     * End-of-file production correction.
+     * These rules intentionally come last so the admin never falls back into
+     * white text on white cards or cramped half-themed screens.
+     */
+    :root,
+    .dark {
+        --district-final-ink: #0b1f3a;
+        --district-final-muted: #52647b;
+        --district-final-paper: #fffdf7;
+        --district-final-white: #ffffff;
+        --district-final-shell: #020817;
+        --district-final-navy: #0b1f3a;
+        --district-final-blue: #1746a2;
+        --district-final-red: #d62828;
+        --district-final-red-deep: #a71920;
+        --district-final-gold: #ffd84f;
+        --district-final-line: rgb(15 35 65 / 0.16);
+    }
+
+    .fi-simple-layout:has(.district-admin-login) {
+        padding: clamp(1rem, 2vw, 1.75rem) !important;
+        background:
+            radial-gradient(circle at 14% 4%, rgb(23 70 162 / 0.2), transparent 28rem),
+            radial-gradient(circle at 92% 12%, rgb(214 40 40 / 0.16), transparent 30rem),
+            linear-gradient(135deg, #08172c 0%, #0b1f3a 50%, #020817 100%) !important;
+    }
+
+    .fi-simple-layout:has(.district-admin-login)::before,
+    .fi-simple-layout:has(.district-admin-login)::after {
+        display: none !important;
+    }
+
+    .fi-simple-main:has(.district-admin-login),
+    .fi-simple-card:has(.district-admin-login) {
+        width: min(calc(100vw - 2rem), 112rem) !important;
+        max-width: 112rem !important;
+    }
+
+    .fi-simple-card:has(.district-admin-login) {
+        overflow: hidden !important;
+        border: 1px solid rgb(255 255 255 / 0.18) !important;
+        border-radius: 1.15rem !important;
+        background: transparent !important;
+        box-shadow: 0 28px 90px rgb(0 0 0 / 0.35) !important;
+    }
+
+    .fi-simple-card:has(.district-admin-login)::before,
+    .fi-simple-card:has(.district-admin-login)::after {
+        display: none !important;
+    }
+
+    .district-admin-login {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1.26fr) minmax(26rem, 0.62fr) !important;
+        min-height: min(48rem, calc(100vh - 3.5rem)) !important;
+        background: var(--district-final-white) !important;
+    }
+
+    .district-login-identity {
+        justify-content: space-between !important;
+        padding: clamp(2.3rem, 4.2vw, 4.75rem) !important;
+        background:
+            linear-gradient(135deg, rgb(178 30 39 / 0.97) 0%, rgb(90 32 65 / 0.95) 48%, rgb(7 24 46 / 0.98) 100%),
+            linear-gradient(90deg, rgb(255 255 255 / 0.07) 1px, transparent 1px),
+            linear-gradient(180deg, rgb(255 255 255 / 0.06) 1px, transparent 1px) !important;
+        background-size: auto, 3rem 3rem, 3rem 3rem !important;
+        color: #ffffff !important;
+    }
+
+    .district-login-copy h1 {
+        max-width: 13ch !important;
+        color: #ffffff !important;
+        font-size: clamp(4.4rem, 7vw, 7.35rem) !important;
+        line-height: 1.02 !important;
+        text-wrap: balance;
+    }
+
+    .district-login-copy p,
+    .district-login-copy p:last-child,
+    .district-login-message strong,
+    .district-login-message span,
+    .district-login-identity .district-trust-badge {
+        color: #ffffff !important;
+    }
+
+    .district-login-kicker,
+    .district-command-kicker,
+    .district-login-card-heading p {
+        color: var(--district-final-gold) !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.13em !important;
+    }
+
+    .district-login-panel {
+        justify-content: center !important;
+        gap: 1.55rem !important;
+        padding: clamp(2rem, 3.5vw, 4rem) !important;
+        background: linear-gradient(180deg, #ffffff, #fffdf7) !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .district-login-brand img {
+        width: clamp(7.25rem, 11vw, 10rem) !important;
+        max-width: 12rem !important;
+    }
+
+    .district-login-brand p,
+    .district-login-card-heading h2,
+    .district-login-panel label,
+    .district-login-panel .fi-fo-field-wrp-label span,
+    .district-login-panel .fi-fo-field-wrp-label label {
+        color: var(--district-final-ink) !important;
+    }
+
+    .district-login-brand span {
+        color: var(--district-final-red-deep) !important;
+    }
+
+    .district-login-card-heading h2 {
+        font-size: clamp(2rem, 3vw, 2.85rem) !important;
+        line-height: 1.08 !important;
+        text-wrap: balance;
+    }
+
+    .district-login-card-heading span,
+    .district-login-footnote {
+        color: var(--district-final-muted) !important;
+        font-size: 1rem !important;
+    }
+
+    .district-login-panel .fi-input-wrp,
+    .district-login-panel .fi-input,
+    .district-login-panel .fi-textarea,
+    .district-login-panel .fi-select-input {
+        background: #ffffff !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .district-login-panel .fi-input-wrp {
+        min-height: 3.15rem !important;
+        border: 1px solid rgb(15 35 65 / 0.24) !important;
+        border-radius: 0.75rem !important;
+    }
+
+    .district-login-panel .fi-btn-color-primary {
+        min-height: 3.2rem !important;
+        border-radius: 0.75rem !important;
+        background: linear-gradient(135deg, var(--district-final-red), var(--district-final-red-deep)) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-body,
+    .dark .fi-layout {
+        background: var(--district-final-shell) !important;
+    }
+
+    .dark .fi-main {
+        max-width: none !important;
+        background:
+            radial-gradient(circle at 80% 0%, rgb(23 70 162 / 0.08), transparent 30rem),
+            linear-gradient(180deg, #f6f8fb 0%, #edf2f7 100%) !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-page,
+    .dark .fi-header-heading,
+    .dark .fi-breadcrumbs-item-label,
+    .dark .fi-section-header-heading,
+    .dark .fi-modal-heading,
+    .dark .fi-fo-field-wrp-label span,
+    .dark .fi-fo-field-wrp-label label,
+    .dark .fi-ta-header-cell-label,
+    .dark .fi-ta-cell,
+    .dark .fi-in-text,
+    .dark .fi-ta-text {
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-header-subheading,
+    .dark .fi-section-header-description,
+    .dark .fi-fo-field-wrp-helper-text {
+        color: var(--district-final-muted) !important;
+    }
+
+    .dark .fi-sidebar,
+    .fi-sidebar,
+    .dark .fi-sidebar-header,
+    .fi-sidebar-header,
+    .dark .fi-topbar > nav,
+    .fi-topbar > nav {
+        border-color: rgb(255 255 255 / 0.1) !important;
+        background: var(--district-final-navy) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-sidebar *,
+    .dark .fi-topbar * {
+        color: #ffffff;
+    }
+
+    .dark .fi-sidebar-group-label {
+        color: rgb(255 255 255 / 0.62) !important;
+    }
+
+    .dark .fi-section,
+    .dark .fi-wi-widget:not(.district-command-card),
+    .dark .fi-ta-ctn,
+    .dark .fi-modal-window,
+    .dark .fi-fo-repeater-item,
+    .dark .fi-tabs {
+        border: 1px solid var(--district-final-line) !important;
+        background: var(--district-final-white) !important;
+        color: var(--district-final-ink) !important;
+        box-shadow:
+            0 1px 2px rgb(7 24 46 / 0.06),
+            0 14px 36px rgb(7 24 46 / 0.08) !important;
+    }
+
+    .dark .fi-section-header,
+    .dark .fi-ta-header,
+    .dark .fi-modal-header,
+    .dark .fi-fo-section-header {
+        border-bottom: 1px solid var(--district-final-line) !important;
+        background: linear-gradient(90deg, #fffdf7, #f6f8fb) !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-section-header *,
+    .dark .fi-ta-header *,
+    .dark .fi-modal-header *,
+    .dark .fi-fo-section-header * {
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-fo-section-content,
+    .dark .fi-ta-content,
+    .dark .fi-modal-content,
+    .dark .fi-ta-table,
+    .dark .fi-ta-row,
+    .dark .fi-ta-cell {
+        background: var(--district-final-white) !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-main :where(.fi-section, .fi-ta-ctn, .fi-wi-widget:not(.district-command-card), .fi-modal-window)
+        :where(*:not(svg):not(path):not(.fi-btn):not(.fi-icon-btn):not(.fi-badge)) {
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-ta-ctn,
+    .dark .fi-ta-table,
+    .dark .fi-ta-row,
+    .dark .fi-ta-cell,
+    .dark .fi-ta-cell *,
+    .dark .fi-ta-text,
+    .dark .fi-ta-text *,
+    .dark .fi-ta-header-cell,
+    .dark .fi-ta-header-cell *,
+    .dark .fi-ta-record,
+    .dark .fi-ta-record * {
+        background-color: transparent !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-ta-row {
+        background: #ffffff !important;
+    }
+
+    .dark .fi-ta-row:nth-child(even) {
+        background: #fafcff !important;
+    }
+
+    .dark .fi-ta-row:hover {
+        background: #f1f5fb !important;
+    }
+
+    .dark .fi-ta-header-cell {
+        background: #f6f8fb !important;
+    }
+
+    .dark .fi-ta-cell,
+    .dark .fi-ta-header-cell {
+        border-color: rgb(15 35 65 / 0.1) !important;
+    }
+
+    .dark .fi-ta-actions a,
+    .dark .fi-ta-actions button,
+    .dark .fi-ta-cell a:not(.fi-btn),
+    .dark .fi-link {
+        color: var(--district-final-blue) !important;
+    }
+
+    .dark .fi-ta-actions a *,
+    .dark .fi-ta-actions button *,
+    .dark .fi-ta-cell a:not(.fi-btn) * {
+        color: var(--district-final-blue) !important;
+    }
+
+    .dark .fi-input-wrp,
+    .dark .fi-select-input,
+    .dark .fi-textarea,
+    .dark .fi-input,
+    .dark .fi-rich-editor,
+    .dark .fi-markdown-editor,
+    .dark .fi-fo-key-value {
+        border-color: rgb(15 35 65 / 0.24) !important;
+        background: #ffffff !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .fi-fo-field-wrp-error-message {
+        color: #b91c1c !important;
+    }
+
+    .dark .fi-btn-color-primary {
+        background: linear-gradient(135deg, var(--district-final-blue), #0f347c) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-btn-color-primary *,
+    .dark .fi-btn-color-danger *,
+    .dark .fi-btn-color-success *,
+    .dark .fi-btn-color-warning * {
+        color: #ffffff !important;
+    }
+
+    .dark .fi-btn-color-danger {
+        background: linear-gradient(135deg, var(--district-final-red), var(--district-final-red-deep)) !important;
+        color: #ffffff !important;
+    }
+
+    .dark .fi-btn-color-gray {
+        border-color: var(--district-final-line) !important;
+        background: #ffffff !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .district-command-card {
+        border: 1px solid rgb(255 255 255 / 0.12) !important;
+        background:
+            radial-gradient(circle at 92% 12%, rgb(212 169 31 / 0.16), transparent 19rem),
+            radial-gradient(circle at 6% 0%, rgb(23 70 162 / 0.2), transparent 22rem),
+            linear-gradient(135deg, #061225 0%, #08172c 58%, #0b1f3a 100%) !important;
+        color: #ffffff !important;
+    }
+
+    .district-command-card *,
+    .district-command-panel *,
+    .district-command-panel .district-governance-warning strong,
+    .district-command-panel .district-governance-warning span {
+        color: #ffffff !important;
+    }
+
+    .district-command-card .district-command-kicker,
+    .district-command-panel-title {
+        color: var(--district-final-gold) !important;
+    }
+
+    .dark .fi-main .district-command-card .district-command-kicker,
+    .dark .fi-main .district-command-card .district-command-title,
+    .dark .fi-main .district-command-card .district-command-summary,
+    .dark .fi-main .district-command-card .district-command-summary *,
+    .dark .fi-main .district-command-card .district-command-panel-title,
+    .dark .fi-main .district-command-card .district-command-action,
+    .dark .fi-main .district-command-card .district-command-action *,
+    .dark .fi-main .district-command-card .district-governance-warning,
+    .dark .fi-main .district-command-card .district-governance-warning strong,
+    .dark .fi-main .district-command-card .district-governance-warning span {
+        color: #ffffff !important;
+    }
+
+    .dark .fi-main .district-command-card .district-command-kicker,
+    .dark .fi-main .district-command-card .district-command-panel-title {
+        color: var(--district-final-gold) !important;
+    }
+
+    .dark .district-dashboard-table,
+    .dark .district-dashboard-table thead,
+    .dark .district-dashboard-table tbody,
+    .dark .district-dashboard-table tr,
+    .dark .district-dashboard-table th,
+    .dark .district-dashboard-table td {
+        border-color: rgb(15 35 65 / 0.12) !important;
+        background: #ffffff !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .district-dashboard-table th {
+        background: #f1f5f9 !important;
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .district-dashboard-table tbody tr:nth-child(even) td {
+        background: #fafcff !important;
+    }
+
+    .dark .district-dashboard-table *,
+    .dark .district-dashboard-table span,
+    .dark .district-dashboard-table div {
+        color: var(--district-final-ink) !important;
+    }
+
+    .dark .district-dashboard-table a {
+        color: var(--district-final-blue) !important;
+    }
+
+    @media (max-width: 1180px) {
+        .district-admin-login {
+            grid-template-columns: 1fr !important;
+            min-height: auto !important;
+        }
+
+        .district-login-copy h1 {
+            font-size: clamp(3rem, 10vw, 5rem) !important;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .fi-simple-layout:has(.district-admin-login) {
+            padding: 0.75rem !important;
+        }
+
+        .fi-simple-main:has(.district-admin-login),
+        .fi-simple-card:has(.district-admin-login) {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .district-login-identity,
+        .district-login-panel {
+            padding: 1.15rem !important;
+        }
+
+        .district-login-copy h1 {
+            font-size: 2.55rem !important;
+        }
+
+        .district-login-brand img {
+            width: 6.25rem !important;
+        }
     }
 }

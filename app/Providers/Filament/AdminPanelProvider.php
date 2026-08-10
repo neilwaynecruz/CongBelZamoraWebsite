@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\AdminLogin;
 use App\Filament\Pages\Dashboard;
 use App\Filament\Widgets\DashboardHeaderWidget;
 use App\Filament\Widgets\InquiryAssigneeQueueOverview;
@@ -37,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(AdminLogin::class)
             ->brandName('Bel Zamora District Office')
             ->brandLogo(asset('assets/images/brand/House_of_Representative_Logo_Seal.svg'))
             ->brandLogoHeight('3.25rem')

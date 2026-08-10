@@ -6,66 +6,111 @@
 @endphp
 
 <x-filament-widgets::widget>
-    <div class="district-command-card fi-wi-widget relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-        <div class="absolute inset-x-0 top-0 h-1.5" style="background: linear-gradient(90deg, #0b1f3a 0%, #1746a2 42%, #c9a227 72%, #d62828 100%);"></div>
+    <div class="district-command-card fi-wi-widget relative p-6 sm:p-7">
+        <div class="absolute inset-x-0 top-0 h-1" style="background: linear-gradient(90deg, #0b1f3a 0%, #1746a2 42%, #c9a227 72%, #d62828 100%);"></div>
 
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mt-1">
-            <div class="flex-1 space-y-2">
-                <div class="flex items-center gap-2">
-                    <span class="inline-flex items-center justify-center w-2.5 h-2.5 rounded-full bg-status-open animate-pulse"></span>
-                    <span class="text-xs font-semibold tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                        Bel Zamora District Office
+        <div class="district-command-shell mt-1">
+            <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-3">
+                    <span class="district-login-seal-row">
+                        <img
+                            src="{{ asset('assets/images/brand/House_of_Representative_Logo_Seal.svg') }}"
+                            alt=""
+                            class="district-login-seal !h-10 !w-10"
+                        >
+                        <img
+                            src="{{ asset('assets/images/brand/Logo_of_San_Juan_Seal.svg') }}"
+                            alt=""
+                            class="district-login-seal !h-10 !w-10"
+                        >
                     </span>
+                    <span class="district-command-kicker">Bel Zamora District Office</span>
                 </div>
-                <h1 class="text-2xl font-bold tracking-tight text-brand-navy dark:text-white sm:text-3xl">
+
+                <h1 class="district-command-title mt-4">
                     Operations Command Center
                 </h1>
-                <p class="text-sm text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
+
+                <p class="district-command-summary">
                     Welcome, <span class="font-semibold text-gray-900 dark:text-white">{{ $userName }}</span>. This dashboard provides live status summaries, work queues, and quick actions for managing official programs, news, and inquiries.
                 </p>
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-[#fff8ea] dark:bg-yellow-950/30 border border-[#c9a227]/20 rounded-lg text-xs font-medium text-brand-gold dark:text-yellow-400">
-                    <svg class="w-4 h-4 text-[#c9a227]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>Manila Time: <strong>{{ $currentTime->format('l, F j, Y - h:i A') }}</strong></span>
+
+                <div class="district-command-meta">
+                    <span class="district-trust-badge bg-[#fff8ea] text-[#7a5b00]">
+                        <svg class="h-4 w-4 text-[#c9a227]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Manila Time: <strong>{{ $currentTime->format('l, F j, Y - h:i A') }}</strong></span>
+                    </span>
+                    <span class="district-trust-badge bg-[#f0fdf4] text-[#14532d]">
+                        <svg class="h-4 w-4 text-[#16733c]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m6 2.25a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Governance rules active</span>
+                    </span>
+                    <span class="district-trust-badge bg-[#f8fafc] text-[#334155]">
+                        <svg class="h-4 w-4 text-[#1746a2]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 12h9.75M10.5 18h9.75M3.75 6h.008v.008H3.75V6Zm0 6h.008v.008H3.75V12Zm0 6h.008v.008H3.75V18Z" />
+                        </svg>
+                        <span>Queues monitored</span>
+                    </span>
                 </div>
             </div>
 
             @if(count($actions) > 0 || $canRunHealthCheck)
-                <div class="w-full lg:w-auto min-w-[280px]">
-                    <div class="grid grid-cols-2 gap-3">
-                        @foreach($actions as $action)
-                            @php
-                                $btnClass = match($action['color']) {
-                                    'gold' => 'border-[#c9a227] text-[#c9a227] hover:bg-[#c9a227] hover:text-white dark:border-[#c9a227]/50 dark:hover:bg-[#c9a227]/20 dark:hover:text-yellow-400',
-                                    'blue' => 'border-[#1746a2] text-[#1746a2] hover:bg-[#1746a2] hover:text-white dark:border-[#1746a2]/50 dark:hover:bg-[#1746a2]/20 dark:hover:text-blue-400',
-                                    'navy' => 'border-[#0b1f3a] text-[#0b1f3a] hover:bg-[#0b1f3a] hover:text-white dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white',
-                                    'red' => 'border-[#d62828] text-[#d62828] hover:bg-[#d62828] hover:text-white dark:border-[#d62828]/50 dark:hover:bg-[#d62828]/20 dark:hover:text-red-400',
-                                    default => 'border-gray-300 text-gray-700 hover:bg-gray-500 hover:text-white dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800',
-                                };
-                            @endphp
-                            <a href="{{ $action['url'] }}"
-                               class="district-command-action flex items-center gap-2.5 px-4 py-3 rounded-lg border bg-transparent font-semibold text-sm transition-all duration-200 hover:scale-[1.02] hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1746a2] {{ $btnClass }}">
-                                <x-filament::icon :icon="$action['icon']" class="w-4 h-4 flex-shrink-0" />
-                                <span>{{ $action['label'] }}</span>
-                            </a>
-                        @endforeach
+                <aside class="district-command-panel" aria-label="Admin quick actions">
+                    <p class="district-command-panel-title">Priority actions</p>
 
-                        @if($canRunHealthCheck)
-                            <button
-                                type="button"
-                                wire:click="checkRequiredPublicPages"
-                                wire:loading.attr="disabled"
-                                wire:target="checkRequiredPublicPages"
-                                class="district-command-action col-span-2 flex items-center justify-center gap-2.5 rounded-lg border border-[#16733c] bg-[#16733c] px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-[1.01] hover:bg-[#115a2f] hover:shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#16733c] disabled:cursor-wait disabled:opacity-70"
-                            >
-                                <x-filament::icon icon="heroicon-s-shield-check" class="w-4 h-4 flex-shrink-0" />
-                                <span wire:loading.remove wire:target="checkRequiredPublicPages">Run Required Pages Check</span>
+                    @foreach($actions as $action)
+                        <a href="{{ $action['url'] }}" class="district-command-action">
+                            <span class="flex min-w-0 items-center gap-2.5">
+                                <x-filament::icon :icon="$action['icon']" class="h-4 w-4 flex-shrink-0" />
+                                <span class="truncate">{{ $action['label'] }}</span>
+                            </span>
+                            <svg class="h-4 w-4 flex-shrink-0 text-[#c9a227]" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+                    @endforeach
+
+                    @if($canRunHealthCheck)
+                        <button
+                            type="button"
+                            wire:click="checkRequiredPublicPages"
+                            wire:loading.attr="disabled"
+                            wire:target="checkRequiredPublicPages"
+                            class="district-command-action text-left disabled:cursor-wait disabled:opacity-70"
+                        >
+                            <span class="flex min-w-0 items-center gap-2.5">
+                                <x-filament::icon icon="heroicon-s-shield-check" class="h-4 w-4 flex-shrink-0" />
+                                <span wire:loading.remove wire:target="checkRequiredPublicPages">Run required pages check</span>
                                 <span wire:loading wire:target="checkRequiredPublicPages">Checking required pages...</span>
-                            </button>
-                        @endif
+                            </span>
+                            <svg class="h-4 w-4 flex-shrink-0 text-[#c9a227]" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+                        </button>
+                    @endif
+
+                    <div class="district-governance-warning mt-1 !bg-white/10 !text-white">
+                        <x-filament::icon icon="heroicon-m-shield-check" class="text-[#c9a227]" />
+                        <div>
+                            <strong class="!text-white">Official operations mode</strong>
+                            <span class="!text-white/75">Review urgent queues first, then publish only records that pass governance gates.</span>
+                        </div>
                     </div>
-                </div>
+                </aside>
+            @else
+                <aside class="district-command-panel" aria-label="Admin quick actions">
+                    <p class="district-command-panel-title">System state</p>
+                    <div class="district-governance-warning !bg-white/10 !text-white">
+                        <x-filament::icon icon="heroicon-m-check-circle" class="text-[#c9a227]" />
+                        <div>
+                            <strong class="!text-white">No priority actions available</strong>
+                            <span class="!text-white/75">Visible queues and health checks are governed by assigned role permissions.</span>
+                        </div>
+                    </div>
+                </aside>
             @endif
         </div>
     </div>

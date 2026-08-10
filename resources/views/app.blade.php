@@ -36,6 +36,9 @@
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
+        @if (str_starts_with($page['component'] ?? '', 'Admin/'))
+            @vite('resources/css/admin-console.css')
+        @endif
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>
