@@ -7,7 +7,9 @@ use App\Http\Controllers\AdminConsole\DashboardController;
 use App\Http\Controllers\AdminConsole\DesignSystemController;
 use App\Http\Controllers\AdminConsole\InquiryController;
 use App\Http\Controllers\AdminConsole\InquiryWorkflowController;
+use App\Http\Controllers\AdminConsole\NewsRecordController;
 use App\Http\Controllers\AdminConsole\ProgramController;
+use App\Http\Controllers\AdminConsole\ProjectController;
 use App\Http\Controllers\AdminConsole\SearchController;
 use App\Http\Middleware\EnsureAdminConsoleAccess;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +49,28 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
             ->middleware('throttle:30,1')
             ->name('programs.update');
         Route::get('/programs/{program}', [ProgramController::class, 'show'])->name('programs.show');
+
+        Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+        Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+        Route::post('/projects', [ProjectController::class, 'store'])
+            ->middleware('throttle:30,1')
+            ->name('projects.store');
+        Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+        Route::put('/projects/{project}', [ProjectController::class, 'update'])
+            ->middleware('throttle:30,1')
+            ->name('projects.update');
+        Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+
+        Route::get('/news', [NewsRecordController::class, 'index'])->name('news.index');
+        Route::get('/news/create', [NewsRecordController::class, 'create'])->name('news.create');
+        Route::post('/news', [NewsRecordController::class, 'store'])
+            ->middleware('throttle:30,1')
+            ->name('news.store');
+        Route::get('/news/{newsRecord}/edit', [NewsRecordController::class, 'edit'])->name('news.edit');
+        Route::put('/news/{newsRecord}', [NewsRecordController::class, 'update'])
+            ->middleware('throttle:30,1')
+            ->name('news.update');
+        Route::get('/news/{newsRecord}', [NewsRecordController::class, 'show'])->name('news.show');
 
         Route::get('/content-approvals', [ContentApprovalController::class, 'index'])
             ->name('content-approvals.index');

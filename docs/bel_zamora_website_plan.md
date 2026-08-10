@@ -157,6 +157,34 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Recommended next custom-admin slice:** Build custom Projects or News/media parity with list/detail/edit flows, keeping Filament as fallback until the parity matrix is complete.
 
+### Project Update: 2026-08-10 (Custom Admin Projects Parity Layer)
+
+**Task:** Build custom Projects admin parity with list/detail/create/edit workflows.
+
+**Scope completed:** Added custom Projects routes, `ProjectController`, `SaveProjectRequest`, `ProjectResource`, `ProjectFormResource`, transaction-backed `AdminProjectEditorService`, role-aware navigation, command-palette custom Project routing, Projects command ledger, Project dossier, Projects create/edit editor, source/verification fields, partner and barangay filters, evidence metadata editor, media-rights notes, validation errors, approval-submission controls, unsaved-change warnings, and visual-smoke coverage for Projects pages.
+
+**Security and workflow decision:** Project saves are authorized by `ProjectPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through `ContentApprovalWorkflowService`. Filament Projects and Project Evidence remain restricted fallback for custom upload, archive/restore/delete, and remaining parity gaps.
+
+**Validation evidence:** `php -l` passed for the new custom Projects backend files and test. `php artisan test tests\Feature\AdminConsoleProjectsTest.php` passed with 9 tests and 121 assertions. Full `php artisan test` passed with 214 tests and 1988 assertions. `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, `npm run test`, and `npm run build` passed. `php artisan route:list --name=admin-console.projects` listed the six custom Projects routes.
+
+**Visual evidence:** The temporary SQLite visual-QA database migrated and seeded successfully. The visual-smoke run generated Projects index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted. Reviewed screenshots were `projects-390.png`, `project-create-390.png`, `project-detail-1440.png`, and `project-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
+
+**Recommended next custom-admin slice:** Build custom News/media admin parity with list/detail/create/edit workflows, official-source fields, stale-content review states, media-rights metadata, approval submission, and restricted Filament fallback.
+
+### Project Update: 2026-08-10 (Custom Admin News/Media Parity Layer)
+
+**Task:** Build custom News/media admin parity with list/detail/create/edit workflows.
+
+**Scope completed:** Added custom News routes, `NewsRecordController`, `SaveNewsRecordRequest`, `NewsRecordResource`, `NewsRecordFormResource`, transaction-backed `AdminNewsRecordEditorService`, role-aware navigation, command-palette custom News routing, News/media command desk, News dossier, News create/edit editor, official-source fields, stale-content note, publication metadata, media-rights metadata editor, validation errors, approval-submission controls, unsaved-change warnings, and targeted visual-smoke coverage for News pages.
+
+**Security and workflow decision:** News/media saves are authorized by `NewsRecordPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through `ContentApprovalWorkflowService`. Filament News Records and News Media Assets remain restricted fallback for custom upload, archive/restore/delete, and remaining parity gaps.
+
+**Validation evidence:** `php -l` passed for the new custom News/media backend files and test. `php artisan test tests\Feature\AdminConsoleNewsTest.php` passed with 9 tests and 120 assertions. `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed. `php artisan route:list --name=admin-console.news` listed the six custom News routes.
+
+**Visual evidence:** The targeted News visual-smoke run generated News index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted. Reviewed screenshots were `news-390.png`, `news-create-390.png`, `news-detail-1440.png`, and `news-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
+
+**Recommended next custom-admin slice:** Continue custom parity with Legislation or Public Pages, or close module-wide parity gaps for custom upload/archive/restore/delete before further reducing Filament fallback.
+
 ### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
 
 **Task:** Implement launch-critical backend/admin enhancements for staff operations before/with Phases 10–11

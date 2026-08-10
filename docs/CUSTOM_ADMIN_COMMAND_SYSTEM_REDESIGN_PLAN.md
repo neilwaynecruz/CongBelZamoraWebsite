@@ -1145,6 +1145,60 @@ Deferred for Programs parity:
 - Custom deletion/archive/restore controls.
 - Optional richer diff preview before approval submission.
 
+Projects parity update:
+
+- `/admin-console/projects`, `/admin-console/projects/{project}`, `/admin-console/projects/create`, and `/admin-console/projects/{project}/edit` now render the custom Projects command module.
+- `ProjectController` provides policy-protected list/detail/create/edit routes with server-side search, barangay/status/category/review filters, sorting, pagination, and Filament fallback links for authorized roles.
+- `SaveProjectRequest` enforces server-side validation for identity, barangay/location, partner attribution, source/verification fields, source-register fields, evidence metadata, media-rights notes, and approval-submission change summaries.
+- `ProjectFormResource` provides controlled Vue form values and option lists for categories, statuses, partners, source types, source tiers, and source-public statuses.
+- `AdminProjectEditorService` saves project edits through policies and a database transaction, replaces nested evidence records safely, synchronizes the linked source-register record, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
+- The Vue Projects editor includes visible labels, evidence/source/rights editors, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and the established admin sticky save bar pattern.
+- Command-palette search now routes authorized Project results to the custom Project dossier instead of legacy Filament.
+- Filament Projects and Project Evidence remain available only as restricted fallback for custom upload, archive/restore/delete, and remaining parity gaps.
+
+Verification evidence for Projects parity:
+
+- `php -l` passed for `ProjectController`, `SaveProjectRequest`, `ProjectResource`, `ProjectFormResource`, `AdminProjectEditorService`, and `AdminConsoleProjectsTest`.
+- `php artisan test tests\Feature\AdminConsoleProjectsTest.php` passed: 9 tests, 121 assertions.
+- Full `php artisan test` passed: 214 tests, 1988 assertions.
+- `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, `npm run test`, and `npm run build` passed.
+- `php artisan route:list --name=admin-console.projects` listed the six custom Projects routes.
+- Temporary SQLite visual-QA database `database/admin_console_visual.sqlite` migrated and seeded successfully.
+- The visual-smoke run generated Projects index, create, detail, and edit screenshots in `storage/app/admin-console-visual-smoke` at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted.
+- Reviewed screenshots: `projects-390.png`, `project-create-390.png`, `project-detail-1440.png`, and `project-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
+
+Deferred for Projects parity:
+
+- Custom media file upload parity.
+- Custom deletion/archive/restore controls.
+- Optional richer diff preview before approval submission.
+
+News/media parity update:
+
+- `/admin-console/news`, `/admin-console/news/{newsRecord}`, `/admin-console/news/create`, and `/admin-console/news/{newsRecord}/edit` now render the custom News/media command module.
+- `NewsRecordController` provides policy-protected list/detail/create/edit routes with server-side search, status/category/year/review filters, sorting, pagination, and Filament fallback links for authorized roles.
+- `SaveNewsRecordRequest` enforces server-side validation for identity, publication metadata, official-source fields, public copy, stale-content notes, source-register fields, media-rights metadata, and approval-submission change summaries.
+- `NewsRecordFormResource` provides controlled Vue form values and option lists for categories, statuses, media types, source types, source tiers, and source-public statuses.
+- `AdminNewsRecordEditorService` saves news/media edits through policies and a database transaction, replaces nested media metadata safely, synchronizes the linked source-register record, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
+- The Vue News/media editor includes visible labels, official update fields, stale-content note, media source/caption/alt-text/rights fields, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and the established admin sticky save bar pattern.
+- Command-palette search now routes authorized News results to the custom News dossier instead of legacy Filament.
+- Filament News Records and News Media Assets remain available only as restricted fallback for custom upload, archive/restore/delete, and remaining parity gaps.
+
+Verification evidence for News/media parity:
+
+- `php -l` passed for `NewsRecordController`, `SaveNewsRecordRequest`, `NewsRecordResource`, `NewsRecordFormResource`, `AdminNewsRecordEditorService`, and `AdminConsoleNewsTest`.
+- `php artisan test tests\Feature\AdminConsoleNewsTest.php` passed: 9 tests, 120 assertions.
+- `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed.
+- `php artisan route:list --name=admin-console.news` listed the six custom News routes.
+- The targeted News visual-smoke run generated News index, create, detail, and edit screenshots in `storage/app/admin-console-visual-smoke` at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted.
+- Reviewed screenshots: `news-390.png`, `news-create-390.png`, `news-detail-1440.png`, and `news-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
+
+Deferred for News/media parity:
+
+- Custom media file upload parity.
+- Custom deletion/archive/restore controls.
+- Optional richer diff preview before approval submission.
+
 ## 21. Second Review Upgrade Summary
 
 The first plan is a safe and solid migration plan. This second review raises it into a stricter product, design, and engineering standard. The upgraded direction is not only "replace Filament"; it is to build an internal operating system with a consistent visual language, better staff productivity, stronger governance, and a more resilient technical foundation.

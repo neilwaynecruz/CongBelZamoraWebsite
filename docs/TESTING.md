@@ -121,6 +121,28 @@ Programs module update on August 10, 2026:
 - Reviewed screenshots: `programs-1440.png`, `programs-390.png`, `program-detail-1440.png`, `program-detail-390.png`, `program-create-390.png`, `program-edit-390.png`, `program-create-1440.png`, and `program-edit-1440.png`.
 - The mobile Programs editor save controls were adjusted after visual review so they no longer overlay or split the first form section; desktop/tablet retain the sticky save bar.
 
+Projects module update on August 10, 2026:
+
+- `php -l` passed for the new custom Projects controller, request, resources, editor service, and focused test file.
+- `php artisan test tests\Feature\AdminConsoleProjectsTest.php` passed: 9 tests, 121 assertions.
+- Full `php artisan test` passed after Projects custom parity: 214 tests, 1988 assertions.
+- `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, `npm run test`, and `npm run build` passed.
+- `php artisan route:list --name=admin-console.projects` listed custom Projects index, create, store, show, edit, and update routes.
+- `tests\e2e\admin-console-visual-smoke.mjs` now includes `/admin-console/projects`, `/admin-console/projects/create`, optional `/admin-console/projects/{id}`, and optional `/admin-console/projects/{id}/edit` when `ADMIN_CONSOLE_VISUAL_PROJECT_ID` is set.
+- A temporary SQLite visual-QA database at `database/admin_console_visual.sqlite` was migrated and seeded successfully.
+- The visual-smoke run generated Projects index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted.
+- Reviewed screenshots: `projects-390.png`, `project-create-390.png`, `project-detail-1440.png`, and `project-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
+
+News/media module update on August 10, 2026:
+
+- `php -l` passed for the new custom News/media controller, request, resources, editor service, and focused test file.
+- `php artisan test tests\Feature\AdminConsoleNewsTest.php` passed: 9 tests, 120 assertions.
+- `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed.
+- `php artisan route:list --name=admin-console.news` listed custom News index, create, store, show, edit, and update routes.
+- `tests\e2e\admin-console-visual-smoke.mjs` now includes `/admin-console/news`, `/admin-console/news/create`, optional `/admin-console/news/{id}`, and optional `/admin-console/news/{id}/edit` when `ADMIN_CONSOLE_VISUAL_NEWS_ID` is set; `ADMIN_CONSOLE_VISUAL_SCOPE=news` limits a run to News pages only.
+- The targeted News visual-smoke run generated News index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted.
+- Reviewed screenshots: `news-390.png`, `news-create-390.png`, `news-detail-1440.png`, and `news-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
+
 ## Current Phase 6 Coverage
 
 - `tests/Feature/InertiaTest.php` verifies that `/` renders the `Public/Home` Inertia component and required homepage props.

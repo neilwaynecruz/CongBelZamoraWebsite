@@ -6,7 +6,7 @@ The Bel Zamora website is a **Laravel modern monolith** with two clearly separat
 
 ```text
 Public users → Inertia.js + Vue 3 + SSR
-Staff users  → Filament admin panel (/admin)
+Staff users  → Custom Inertia admin console (/admin-console) with restricted Filament fallback (/admin)
 ```
 
 Both interfaces share the same Laravel application, database, authorization policies, and domain models.
@@ -21,9 +21,11 @@ Both interfaces share the same Laravel application, database, authorization poli
 
 ## Request flow (staff)
 
-1. Authorized staff authenticate through Filament.
-2. Filament resources manage content using Livewire internally.
-3. Business rules, validation, and policies remain authoritative on the server.
+1. Authorized staff authenticate through the custom admin console.
+2. `/admin-console` renders Inertia/Vue command pages for migrated workflows.
+3. Controllers stay thin and delegate mutation to Form Requests, Resources, policies, and domain services.
+4. Filament remains restricted fallback for modules or actions that have not reached custom parity.
+5. Business rules, validation, and policies remain authoritative on the server.
 
 ## Security headers
 
@@ -42,8 +44,8 @@ Production hosting must still terminate HTTPS correctly and should validate TLS,
 | Path | Purpose |
 |---|---|
 | `app/` | Controllers, models, policies, services |
-| `app/Filament/` | Staff admin resources (Phase 7+) |
-| `resources/js/pages/` | Inertia Vue pages |
+| `app/Filament/` | Restricted staff admin fallback resources |
+| `resources/js/pages/` | Public and custom admin Inertia Vue pages |
 | `resources/js/components/` | Shared Vue components |
 | `resources/js/composables/` | Vue composables |
 | `resources/css/app.css` | Tailwind 4 theme and design tokens |
@@ -134,11 +136,15 @@ The public Projects route now resolves through `PublicProjectController` and `Pu
 
 `ProjectResource` and `ProjectEvidenceResource` expose backend management for authorized project/content roles. Project editors and content administrators can create/update project and evidence records, reviewer/approver and auditor roles can view/review without editing, and inquiry/legislative officers cannot manage project content.
 
+The custom admin console now provides Projects parity for list/detail/create/update workflows at `/admin-console/projects`, `/admin-console/projects/{project}`, `/admin-console/projects/create`, and `/admin-console/projects/{project}/edit`. The editor uses `SaveProjectRequest` for validation, `ProjectFormResource` for controlled Vue form options, and `AdminProjectEditorService` for transaction-backed project saves, evidence-record replacement, source-register synchronization, audit logging, and submission through `ContentApprovalWorkflowService`. Filament Projects and Project Evidence remain restricted fallback until custom upload, archive/restore/delete, and remaining module parity are completed.
+
 The public News route now resolves through `PublicNewsController` and `PublicNewsReadService`:
 
 - `/news`
 
 `NewsRecordResource` and `NewsMediaAssetResource` expose backend management for authorized communications/media/content roles. Communications editors, media managers, and content administrators can create/update news and media records, reviewer/approver and auditor roles can view/review without editing, and inquiry/project/legislative/program officers cannot manage news content.
+
+The custom admin console now provides News/media parity for list/detail/create/update workflows at `/admin-console/news`, `/admin-console/news/{newsRecord}`, `/admin-console/news/create`, and `/admin-console/news/{newsRecord}/edit`. The editor uses `SaveNewsRecordRequest` for validation, `NewsRecordFormResource` for controlled Vue form options, and `AdminNewsRecordEditorService` for transaction-backed news saves, media metadata replacement, source-register synchronization, audit logging, and submission through `ContentApprovalWorkflowService`. Filament News Records and News Media Assets remain restricted fallback until custom upload, archive/restore/delete, and remaining module parity are completed.
 
 The public static routes now resolve through `PublicStaticPageController` and `PublicStaticPageReadService`:
 

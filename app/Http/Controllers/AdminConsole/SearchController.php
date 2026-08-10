@@ -55,6 +55,22 @@ class SearchController extends Controller
                 : null;
         }
 
+        if (($result['type'] ?? null) === 'Project') {
+            $record = Project::query()->find($result['id'] ?? null);
+
+            return $record !== null && $user->can('view', $record)
+                ? route('admin-console.projects.show', $record)
+                : null;
+        }
+
+        if (($result['type'] ?? null) === 'News') {
+            $record = NewsRecord::query()->find($result['id'] ?? null);
+
+            return $record !== null && $user->can('view', $record)
+                ? route('admin-console.news.show', $record)
+                : null;
+        }
+
         return $this->legacyRecordUrl($result, $user);
     }
 
@@ -93,6 +109,6 @@ class SearchController extends Controller
      */
     private function usesLegacyFallback(array $result, ?string $href): bool
     {
-        return $href !== null && ($result['type'] ?? null) !== 'Program';
+        return $href !== null && ! in_array($result['type'] ?? null, ['Program', 'Project', 'News'], true);
     }
 }

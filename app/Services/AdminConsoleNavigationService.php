@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Enums\AdminRole;
 use App\Models\ContentApproval;
 use App\Models\Inquiry;
+use App\Models\NewsRecord;
 use App\Models\Program;
+use App\Models\Project;
 use App\Models\User;
 
 class AdminConsoleNavigationService
@@ -82,6 +84,24 @@ class AdminConsoleNavigationService
                 'Program records, sources, and approval readiness',
                 route('admin-console.programs.index'),
                 'programs',
+            );
+        }
+
+        if ($user->can('viewAny', Project::class)) {
+            $operations[] = $this->item(
+                'Projects',
+                'Project records, evidence, and source readiness',
+                route('admin-console.projects.index'),
+                'projects',
+            );
+        }
+
+        if ($user->can('viewAny', NewsRecord::class)) {
+            $operations[] = $this->item(
+                'News & Media',
+                'Official updates, stale review, and media rights',
+                route('admin-console.news.index'),
+                'news',
             );
         }
 

@@ -7,6 +7,8 @@ import {
     Gauge,
     Inbox,
     Landmark,
+    MapPinned,
+    Newspaper,
     Palette,
 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -35,6 +37,8 @@ const iconMap: Record<string, Component> = {
     inbox: Inbox,
     approval: ClipboardCheck,
     programs: Landmark,
+    projects: MapPinned,
+    news: Newspaper,
     palette: Palette,
     legacy: ArchiveRestore,
 };

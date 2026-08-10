@@ -10,6 +10,9 @@ const outputDir = path.resolve('storage/app/admin-console-visual-smoke');
 const inquiryId = process.env.ADMIN_CONSOLE_VISUAL_INQUIRY_ID;
 const approvalId = process.env.ADMIN_CONSOLE_VISUAL_APPROVAL_ID;
 const programId = process.env.ADMIN_CONSOLE_VISUAL_PROGRAM_ID;
+const projectId = process.env.ADMIN_CONSOLE_VISUAL_PROJECT_ID;
+const newsId = process.env.ADMIN_CONSOLE_VISUAL_NEWS_ID;
+const visualScope = process.env.ADMIN_CONSOLE_VISUAL_SCOPE;
 const executeWorkflow =
     process.env.ADMIN_CONSOLE_VISUAL_EXECUTE_WORKFLOW === '1';
 const executeGovernance =
@@ -30,11 +33,15 @@ const viewports = [
     { name: '1920', width: 1920, height: 1080 },
 ];
 
-const pages = [
+let pages = [
     { name: 'dashboard', url: '/admin-console' },
     { name: 'inquiries', url: '/admin-console/inquiries' },
     { name: 'programs', url: '/admin-console/programs' },
     { name: 'program-create', url: '/admin-console/programs/create' },
+    { name: 'projects', url: '/admin-console/projects' },
+    { name: 'project-create', url: '/admin-console/projects/create' },
+    { name: 'news', url: '/admin-console/news' },
+    { name: 'news-create', url: '/admin-console/news/create' },
     { name: 'content-approvals', url: '/admin-console/content-approvals' },
     { name: 'design-system', url: '/admin-console/design-system' },
 ];
@@ -62,6 +69,32 @@ if (programId) {
         name: 'program-edit',
         url: `/admin-console/programs/${programId}/edit`,
     });
+}
+
+if (projectId) {
+    pages.splice(5, 0, {
+        name: 'project-detail',
+        url: `/admin-console/projects/${projectId}`,
+    });
+    pages.splice(6, 0, {
+        name: 'project-edit',
+        url: `/admin-console/projects/${projectId}/edit`,
+    });
+}
+
+if (newsId) {
+    pages.splice(7, 0, {
+        name: 'news-detail',
+        url: `/admin-console/news/${newsId}`,
+    });
+    pages.splice(8, 0, {
+        name: 'news-edit',
+        url: `/admin-console/news/${newsId}/edit`,
+    });
+}
+
+if (visualScope) {
+    pages = pages.filter((target) => target.name.startsWith(visualScope));
 }
 
 await fs.rm(outputDir, { recursive: true, force: true });
@@ -144,19 +177,21 @@ const assertNoHorizontalOverflow = async (label) => {
     }
 };
 
-for (const viewport of viewports) {
-    await page.setViewportSize({
-        width: viewport.width,
-        height: viewport.height,
-    });
-    await page.goto(`${baseUrl}/admin-console/login`, {
-        waitUntil: 'networkidle',
-    });
-    await page.screenshot({
-        path: path.join(outputDir, `login-${viewport.name}.png`),
-        fullPage: true,
-    });
-    await assertNoHorizontalOverflow(`login-${viewport.name}`);
+if (!visualScope) {
+    for (const viewport of viewports) {
+        await page.setViewportSize({
+            width: viewport.width,
+            height: viewport.height,
+        });
+        await page.goto(`${baseUrl}/admin-console/login`, {
+            waitUntil: 'networkidle',
+        });
+        await page.screenshot({
+            path: path.join(outputDir, `login-${viewport.name}.png`),
+            fullPage: true,
+        });
+        await assertNoHorizontalOverflow(`login-${viewport.name}`);
+    }
 }
 
 await page.setViewportSize({ width: 1440, height: 1000 });
