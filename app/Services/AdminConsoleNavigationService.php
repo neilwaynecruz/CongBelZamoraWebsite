@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\AdminRole;
+use App\Models\AuditLog;
 use App\Models\ContentApproval;
 use App\Models\Inquiry;
 use App\Models\LegislativeRecord;
@@ -14,6 +15,8 @@ use App\Models\User;
 
 class AdminConsoleNavigationService
 {
+    public function __construct(private readonly AdminReportsMetricsService $reportsMetrics) {}
+
     /**
      * @return array<string, mixed>
      */
@@ -132,9 +135,50 @@ class AdminConsoleNavigationService
             ];
         }
 
+        $governance = [];
+
+        if ($this->canViewReports($user)) {
+            $governance[] = $this->item(
+                'Reports',
+                'Aggregate inquiry, publishing, freshness, and project metrics',
+                route('admin-console.reports'),
+                'reports',
+            );
+        }
+
+        if ($user->can('viewAny', AuditLog::class)) {
+            $governance[] = $this->item(
+                'Audit Trail',
+                'Redacted governed activity ledger',
+                route('admin-console.audit.index'),
+                'audit',
+            );
+        }
+
+        if ($governance !== []) {
+            $groups[] = [
+                'label' => 'Governance',
+                'items' => $governance,
+            ];
+        }
+
         $tools = [];
 
         if ($user->hasAdminRole(AdminRole::SuperAdministrator)) {
+            $tools[] = $this->item(
+                'Staff Users',
+                'Roles, access status, and 2FA readiness',
+                route('admin-console.users.index'),
+                'users',
+            );
+
+            $tools[] = $this->item(
+                'Settings',
+                'Read-only launch and security configuration',
+                route('admin-console.settings'),
+                'settings',
+            );
+
             $tools[] = $this->item(
                 'Design System',
                 'Admin component and accessibility reference',
@@ -186,5 +230,13 @@ class AdminConsoleNavigationService
             || $user->canManageProjects()
             || $user->canManageNewsMedia()
             || $user->canAuditRecords();
+    }
+
+    private function canViewReports(User $user): bool
+    {
+        return $this->reportsMetrics->canViewInquiryReports($user)
+            || $this->reportsMetrics->canViewPublishReports($user)
+            || $this->reportsMetrics->canViewStaleReports($user)
+            || $this->reportsMetrics->canViewProjectReports($user);
     }
 }

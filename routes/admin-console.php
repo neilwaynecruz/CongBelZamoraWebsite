@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminConsole\AdminConsoleAuthController;
+use App\Http\Controllers\AdminConsole\AuditLogController;
 use App\Http\Controllers\AdminConsole\ContentApprovalController;
 use App\Http\Controllers\AdminConsole\ContentApprovalWorkflowController;
 use App\Http\Controllers\AdminConsole\ContentLifecycleController;
@@ -13,7 +14,10 @@ use App\Http\Controllers\AdminConsole\NewsRecordController;
 use App\Http\Controllers\AdminConsole\ProgramController;
 use App\Http\Controllers\AdminConsole\ProjectController;
 use App\Http\Controllers\AdminConsole\PublicPageController;
+use App\Http\Controllers\AdminConsole\ReportsController;
 use App\Http\Controllers\AdminConsole\SearchController;
+use App\Http\Controllers\AdminConsole\SettingsController;
+use App\Http\Controllers\AdminConsole\StaffUserController;
 use App\Http\Middleware\EnsureAdminConsoleAccess;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +30,11 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
         Route::get('/search', SearchController::class)
             ->middleware('throttle:30,1')
             ->name('search');
+
+        Route::get('/settings', SettingsController::class)->name('settings');
+        Route::get('/reports', ReportsController::class)->name('reports');
+        Route::get('/audit', [AuditLogController::class, 'index'])->name('audit.index');
+        Route::get('/audit/{auditLog}', [AuditLogController::class, 'show'])->name('audit.show');
 
         Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
         Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
@@ -141,6 +150,20 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
             ->middleware('throttle:10,1')
             ->name('public-pages.delete');
         Route::get('/public-pages/{publicPage}', [PublicPageController::class, 'show'])->name('public-pages.show');
+
+        Route::get('/users', [StaffUserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [StaffUserController::class, 'create'])->name('users.create');
+        Route::post('/users', [StaffUserController::class, 'store'])
+            ->middleware('throttle:20,1')
+            ->name('users.store');
+        Route::get('/users/{user}/edit', [StaffUserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [StaffUserController::class, 'update'])
+            ->middleware('throttle:20,1')
+            ->name('users.update');
+        Route::post('/users/{user}/password-reset', [StaffUserController::class, 'sendPasswordReset'])
+            ->middleware('throttle:10,1')
+            ->name('users.password-reset');
+        Route::get('/users/{user}', [StaffUserController::class, 'show'])->name('users.show');
 
         Route::get('/content-approvals', [ContentApprovalController::class, 'index'])
             ->name('content-approvals.index');

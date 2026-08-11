@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     ArchiveRestore,
+    ChartColumn,
     ClipboardCheck,
     ExternalLink,
     FileText,
@@ -10,8 +11,11 @@ import {
     Landmark,
     MapPinned,
     Newspaper,
-    Scale,
     Palette,
+    Scale,
+    Settings,
+    ShieldCheck,
+    UsersRound,
 } from '@lucide/vue';
 import { computed } from 'vue';
 import type { AdminConsoleContext } from '@/types/admin-console';
@@ -43,6 +47,10 @@ const iconMap: Record<string, Component> = {
     legislation: Scale,
     news: Newspaper,
     publicPages: FileText,
+    reports: ChartColumn,
+    audit: ShieldCheck,
+    users: UsersRound,
+    settings: Settings,
     palette: Palette,
     legacy: ArchiveRestore,
 };

@@ -1235,6 +1235,46 @@ Verification evidence for Public Pages parity:
 - `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
 - Browser/Playwright visual smoke was not rerun because no visual defect appeared during this focused parity slice.
 
+Users and Settings parity update:
+
+- `/admin-console/users`, `/admin-console/users/create`, `/admin-console/users/{user}`, `/admin-console/users/{user}/edit`, and `/admin-console/settings` now render custom command-system staff access and read-only configuration screens.
+- `StaffUserController` provides Super Administrator-only list/detail/create/edit/password-reset routes with server-side search, role/status/2FA filters, sorting, pagination, and restricted Filament fallback links for authorized users.
+- `SaveStaffUserRequest` enforces server-side validation for staff name, email uniqueness, `AdminRole` assignment, active status, and create/update password rules.
+- `StaffUserResource` and `StaffUserFormResource` expose safe staff-user props and controlled form options without passwords, reset tokens, 2FA secrets, or recovery codes.
+- `AdminStaffUserService` saves staff-user changes inside database transactions, protects self-deactivation and self-demotion from Super Administrator, records audit logs for role/status/access changes, and sends Laravel password-reset links without exposing tokens.
+- `/admin-console/settings` exposes read-only launch, security, privacy, media, cache, jobs, and environment configuration, including the active staff 2FA requirement from `config/belzamora.php`.
+- Command-palette search routes authorized Staff User results to the custom staff-user dossier instead of legacy Filament.
+- Filament Staff Users remains available only as restricted fallback until staff approval, audit/reporting parity, upload/file-management parity, and the final removal matrix are complete.
+
+Verification evidence for Users and Settings parity:
+
+- `php -l` passed for `StaffUserController`, `SettingsController`, `SaveStaffUserRequest`, `StaffUserResource`, `StaffUserFormResource`, `AdminStaffUserService`, modified admin-console routes, navigation service, search controller, content search service, and `AdminConsoleUsersSettingsTest`.
+- `php artisan test tests\Feature\AdminConsoleUsersSettingsTest.php` passed: 10 tests, 137 assertions.
+- Focused `vendor\bin\pint --test` for the Users/Settings controller/request/resources/service/test plus modified route/search/navigation PHP files passed.
+- `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+- `php artisan route:list --name=admin-console.users` showed 7 custom user routes, and `php artisan route:list --name=admin-console.settings` showed the read-only settings route.
+- Browser/Playwright visual smoke was not rerun because no visual or interaction bug appeared during this focused parity slice.
+
+Audit and Reports parity update:
+
+- `/admin-console/audit`, `/admin-console/audit/{auditLog}`, and `/admin-console/reports` now render custom command-system governance pages.
+- `AuditLogController` provides policy-protected audit list/detail routes for Super Administrators and Read-Only Auditors with server-side search, event/type/actor/system/date filters, sorting, pagination, and restricted Filament fallback links.
+- `AuditLogIndexRequest` validates audit filters, including date ranges and approved sort modes.
+- `AuditLogResource` exposes a redacted audit dossier with actor, event, auditable record, Manila timestamp, IP/user-agent hashes, old/new diffs, metadata, and recursive redaction for passwords, tokens, 2FA secrets, recovery codes, private inquiry content, file paths, attachments, and document references.
+- `ReportsController` and `AdminReportResource` reuse `AdminReportsMetricsService` for existing aggregate-only inquiry, publishing, stale-content, and project metrics. No official data is invented, and no citizen message bodies or personal contact details are exposed.
+- Custom Reports exports remain disabled until privacy-reviewed custom export policies are approved.
+- Role-aware navigation now includes a Governance group for Reports and Audit Trail when policies/metrics allow access.
+- Filament Audit remains available only as restricted fallback until staff approval, upload/file-management parity, and the final removal matrix are complete.
+
+Verification evidence for Audit and Reports parity:
+
+- `php -l` passed for `AuditLogController`, `ReportsController`, `AuditLogIndexRequest`, `ReportsIndexRequest`, `AuditLogResource`, `AdminReportResource`, and `AdminConsoleAuditReportsTest`.
+- `php artisan test tests\Feature\AdminConsoleAuditReportsTest.php` passed: 5 tests, 120 assertions.
+- Focused `vendor\bin\pint --test` for the Audit/Reports controller/request/resources/test plus modified route/navigation PHP files passed.
+- `php artisan route:list --name=admin-console.audit` showed 2 custom audit routes, and `php artisan route:list --name=admin-console.reports` showed 1 custom reports route.
+- `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+- Browser/Playwright visual smoke was not rerun because no visual or interaction bug appeared during this focused parity slice.
+
 Shared lifecycle parity update:
 
 - `/admin-console/programs/{program}/archive`, `/admin-console/projects/{project}/archive`, `/admin-console/legislation/{legislativeRecord}/archive`, `/admin-console/news/{newsRecord}/archive`, and `/admin-console/public-pages/{publicPage}/archive` now provide custom archive actions using Form Requests, existing delete policies, `AdminCivicContentLifecycleService`, database transactions, and audit logging.
@@ -1897,8 +1937,10 @@ Projects | Yes | Yes | Yes | Pending | No
 News | Yes | Yes | Yes | Pending | No
 Legislation | Yes | Yes | Yes | Pending | No
 Public pages | Yes | Yes | Yes | Pending | No
-Users | Yes | No | No | No | No
-Audit | Yes | No | No | No | No
+Users | Yes | Yes | Yes | Pending | No
+Settings | Partial | Read-only | Yes | Pending | No
+Audit | Yes | Yes | Yes | Pending | No
+Reports | Partial | Aggregate read-only | Yes | Pending | No
 ```
 
 Only remove a Filament module when:

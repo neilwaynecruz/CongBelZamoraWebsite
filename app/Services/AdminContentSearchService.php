@@ -31,6 +31,7 @@ class AdminContentSearchService
             ...$this->searchModel(Project::query(), 'Project', ['title', 'summary', 'barangay', 'location'], $term, $limit),
             ...$this->searchModel(NewsRecord::query(), 'News', ['title', 'summary', 'official_update'], $term, $limit),
             ...$this->searchModel(PublicPage::query(), 'Public Page', ['title', 'slug', 'component', 'owner_label'], $term, $limit),
+            ...$this->searchModel(User::query()->whereNotNull('admin_role'), 'Staff User', ['name', 'email', 'admin_role'], $term, $limit, 'name'),
             ...$this->searchModel(SourceRecord::query(), 'Source', ['title', 'description', 'url'], $term, $limit),
         ];
 
@@ -84,6 +85,13 @@ class AdminContentSearchService
             $results = [
                 ...$results,
                 ...$this->searchModel(PublicPage::query(), 'Public Page', ['title', 'slug', 'component', 'owner_label'], $term, $limit),
+            ];
+        }
+
+        if ($user->can('viewAny', User::class)) {
+            $results = [
+                ...$results,
+                ...$this->searchModel(User::query()->whereNotNull('admin_role'), 'Staff User', ['name', 'email', 'admin_role'], $term, $limit, 'name'),
             ];
         }
 

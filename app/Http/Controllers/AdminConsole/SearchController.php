@@ -89,6 +89,14 @@ class SearchController extends Controller
                 : null;
         }
 
+        if (($result['type'] ?? null) === 'Staff User') {
+            $record = User::query()->find($result['id'] ?? null);
+
+            return $record !== null && $user->can('view', $record)
+                ? route('admin-console.users.show', $record)
+                : null;
+        }
+
         return $this->legacyRecordUrl($result, $user);
     }
 
@@ -128,6 +136,6 @@ class SearchController extends Controller
      */
     private function usesLegacyFallback(array $result, ?string $href): bool
     {
-        return $href !== null && ! in_array($result['type'] ?? null, ['Program', 'Project', 'News', 'Legislation', 'Public Page'], true);
+        return $href !== null && ! in_array($result['type'] ?? null, ['Program', 'Project', 'News', 'Legislation', 'Public Page', 'Staff User'], true);
     }
 }
