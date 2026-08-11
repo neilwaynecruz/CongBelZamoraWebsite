@@ -6,11 +6,13 @@ use App\Filament\Resources\LegislativeRecordResource;
 use App\Filament\Resources\NewsRecordResource;
 use App\Filament\Resources\ProgramResource;
 use App\Filament\Resources\ProjectResource;
+use App\Filament\Resources\PublicPageResource as FilamentPublicPageResource;
 use App\Http\Controllers\Controller;
 use App\Models\LegislativeRecord;
 use App\Models\NewsRecord;
 use App\Models\Program;
 use App\Models\Project;
+use App\Models\PublicPage;
 use App\Models\User;
 use App\Services\AdminContentSearchService;
 use Illuminate\Http\JsonResponse;
@@ -71,6 +73,22 @@ class SearchController extends Controller
                 : null;
         }
 
+        if (($result['type'] ?? null) === 'Legislation') {
+            $record = LegislativeRecord::query()->find($result['id'] ?? null);
+
+            return $record !== null && $user->can('view', $record)
+                ? route('admin-console.legislation.show', $record)
+                : null;
+        }
+
+        if (($result['type'] ?? null) === 'Public Page') {
+            $record = PublicPage::query()->find($result['id'] ?? null);
+
+            return $record !== null && $user->can('view', $record)
+                ? route('admin-console.public-pages.show', $record)
+                : null;
+        }
+
         return $this->legacyRecordUrl($result, $user);
     }
 
@@ -88,6 +106,7 @@ class SearchController extends Controller
             'Legislation' => [LegislativeRecord::class, LegislativeRecordResource::class],
             'Project' => [Project::class, ProjectResource::class],
             'News' => [NewsRecord::class, NewsRecordResource::class],
+            'Public Page' => [PublicPage::class, FilamentPublicPageResource::class],
             default => [null, null],
         };
 
@@ -109,6 +128,6 @@ class SearchController extends Controller
      */
     private function usesLegacyFallback(array $result, ?string $href): bool
     {
-        return $href !== null && ! in_array($result['type'] ?? null, ['Program', 'Project', 'News'], true);
+        return $href !== null && ! in_array($result['type'] ?? null, ['Program', 'Project', 'News', 'Legislation', 'Public Page'], true);
     }
 }

@@ -1196,14 +1196,53 @@ Deferred for News/media parity:
 - Custom media file upload parity.
 - Optional richer diff preview before approval submission.
 
+Legislation parity update:
+
+- `/admin-console/legislation`, `/admin-console/legislation/{legislativeRecord}`, `/admin-console/legislation/create`, and `/admin-console/legislation/{legislativeRecord}/edit` now render the custom Legislation command module.
+- `LegislativeRecordController` provides policy-protected list/detail/create/edit routes with server-side search, role/status/topic/review filters, sorting, pagination, and Filament fallback links for authorized roles.
+- `SaveLegislativeRecordRequest` enforces server-side validation for bill identity, role/status/topic taxonomy, official-source fields, plain-language summaries, San Juan relevance, source-register fields, source-history checks, and approval-submission change summaries.
+- `LegislativeRecordFormResource` provides controlled Vue form values and option lists for roles, statuses, topics, source types, source tiers, and source-public statuses.
+- `AdminLegislativeRecordEditorService` saves legislative edits through policies and a database transaction, replaces nested source-history checks safely, synchronizes the linked source-register record, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
+- The Vue Legislation editor includes visible labels, official-source fields, plain-language fields, source-history editor, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and the established admin sticky save bar pattern.
+- Command-palette search now routes authorized Legislation results to the custom Legislation dossier instead of legacy Filament.
+- Filament Legislative Records remains available only as restricted fallback until the full custom-admin parity matrix is complete.
+
+Verification evidence for Legislation parity:
+
+- `php -l` passed for `LegislativeRecordController`, `SaveLegislativeRecordRequest`, `LegislativeRecordResource`, `LegislativeRecordFormResource`, `AdminLegislativeRecordEditorService`, and `AdminConsoleLegislationTest`.
+- `php artisan test tests\Feature\AdminConsoleLegislationTest.php` passed: 9 tests, 125 assertions.
+- Focused `vendor\bin\pint --test` for the Legislation controller/request/resources/service/test plus lifecycle controller passed.
+- `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+- Browser/Playwright visual smoke was not rerun for this focused slice.
+
+Public Pages parity update:
+
+- `/admin-console/public-pages`, `/admin-console/public-pages/{publicPage}`, `/admin-console/public-pages/create`, and `/admin-console/public-pages/{publicPage}/edit` now render the custom Public Pages command module.
+- `PublicPageController` provides policy-protected list/detail/create/edit routes with server-side search, status/page-type/review filters, sorting, pagination, and Filament fallback links for authorized roles.
+- `SavePublicPageRequest` enforces server-side validation for page title, slug, public Inertia component, route name, page type, source/verification fields, JSON props, JSON metadata, SEO fields, source-register fields, and approval-submission change summaries.
+- `PublicPageFormResource` provides controlled Vue form values and options for page type, component, source type, source tier, and source-public status.
+- `AdminPublicPageEditorService` saves pages through policies and a database transaction, synchronizes the linked source-register record, clears affected static-page cache keys, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
+- The Vue Public Pages editor includes visible labels, SEO fields, structured props JSON editor, metadata JSON editor, source-register fields, validation-error display, unsaved-change warning, sticky save bar, and approval-submission controls.
+- Public Pages archive, restore, and permanent-delete controls now use the shared custom lifecycle layer.
+- Command-palette search routes authorized Public Page results to the custom Public Page dossier instead of legacy Filament.
+- Filament Public Pages remains available only as restricted fallback until the full custom-admin parity matrix is complete.
+
+Verification evidence for Public Pages parity:
+
+- `php -l` passed for `PublicPageController`, `SavePublicPageRequest`, `PublicPageResource`, `PublicPageFormResource`, `AdminPublicPageEditorService`, `AdminConsolePublicPagesTest`, modified admin-console routes, lifecycle controller, search controller, navigation service, and content search service.
+- `php artisan test tests\Feature\AdminConsolePublicPagesTest.php` passed: 9 tests, 124 assertions.
+- Focused `vendor\bin\pint --test` for the Public Pages controller/request/resources/service/test plus modified route/search/navigation/lifecycle PHP files passed.
+- `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+- Browser/Playwright visual smoke was not rerun because no visual defect appeared during this focused parity slice.
+
 Shared lifecycle parity update:
 
-- `/admin-console/programs/{program}/archive`, `/admin-console/projects/{project}/archive`, and `/admin-console/news/{newsRecord}/archive` now provide custom archive actions using Form Requests, existing delete policies, `AdminCivicContentLifecycleService`, database transactions, and audit logging.
-- `/admin-console/programs/{program}/restore`, `/admin-console/projects/{project}/restore`, and `/admin-console/news/{newsRecord}/restore` now provide custom restore actions using existing restore policies. Archived dossiers remain inspectable to authorized users so restore controls are reachable without Filament.
+- `/admin-console/programs/{program}/archive`, `/admin-console/projects/{project}/archive`, `/admin-console/legislation/{legislativeRecord}/archive`, `/admin-console/news/{newsRecord}/archive`, and `/admin-console/public-pages/{publicPage}/archive` now provide custom archive actions using Form Requests, existing delete policies, `AdminCivicContentLifecycleService`, database transactions, and audit logging.
+- `/admin-console/programs/{program}/restore`, `/admin-console/projects/{project}/restore`, `/admin-console/legislation/{legislativeRecord}/restore`, `/admin-console/news/{newsRecord}/restore`, and `/admin-console/public-pages/{publicPage}/restore` now provide custom restore actions using existing restore policies. Archived dossiers remain inspectable to authorized users so restore controls are reachable without Filament.
 - Custom permanent delete actions are available only where `forceDelete` policy allows them. The Vue confirmation requires a reason and the exact record title before the server performs irreversible deletion.
-- `AdminLifecycleActions.vue` is shared by Program, Project, and News/media dossiers and uses the existing accessible `AdminActionDialog` for focus-trapped archive, restore, and destructive confirmations.
-- `ProgramResource`, `ProjectResource`, and `NewsRecordResource` now expose lifecycle URLs, trashed state, and policy-derived action flags to Vue.
-- Filament remains available as a restricted fallback, but Programs, Projects, and News/media no longer rely on Filament for archive, restore, or permanent delete parity.
+- `AdminLifecycleActions.vue` is shared by Program, Project, Legislation, News/media, and Public Page dossiers and uses the existing accessible `AdminActionDialog` for focus-trapped archive, restore, and destructive confirmations.
+- `ProgramResource`, `ProjectResource`, `LegislativeRecordResource`, `NewsRecordResource`, and `PublicPageResource` now expose lifecycle URLs, trashed state, and policy-derived action flags to Vue.
+- Filament remains available as a restricted fallback, but Programs, Projects, Legislation, News/media, and Public Pages no longer rely on Filament for archive, restore, or permanent delete parity.
 
 Verification evidence for shared lifecycle parity:
 
@@ -1853,11 +1892,11 @@ Module | Filament capability | Custom capability | Tests | Staff approved | Remo
 Dashboard | Yes | Yes | Yes | Pending | No
 Inquiries | Yes | No | No | No | No
 Content approvals | Yes | No | No | No | No
-Programs | Yes | No | No | No | No
-Projects | Yes | No | No | No | No
-News | Yes | No | No | No | No
-Legislation | Yes | No | No | No | No
-Public pages | Yes | No | No | No | No
+Programs | Yes | Yes | Yes | Pending | No
+Projects | Yes | Yes | Yes | Pending | No
+News | Yes | Yes | Yes | Pending | No
+Legislation | Yes | Yes | Yes | Pending | No
+Public pages | Yes | Yes | Yes | Pending | No
 Users | Yes | No | No | No | No
 Audit | Yes | No | No | No | No
 ```

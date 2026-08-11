@@ -143,9 +143,18 @@ News/media module update on August 10, 2026:
 - The targeted News visual-smoke run generated News index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted.
 - Reviewed screenshots: `news-390.png`, `news-create-390.png`, `news-detail-1440.png`, and `news-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
 
+Legislation module update on August 11, 2026:
+
+- `php -l` passed for the new custom Legislation controller, request, resources, editor service, and focused test file.
+- `php artisan test tests\Feature\AdminConsoleLegislationTest.php` passed: 9 tests, 125 assertions.
+- Focused `vendor\bin\pint --test` for the Legislation controller/request/resources/service/test plus lifecycle controller passed.
+- `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+- Custom routes now cover `/admin-console/legislation`, `/admin-console/legislation/create`, `/admin-console/legislation/{legislativeRecord}`, `/admin-console/legislation/{legislativeRecord}/edit`, and Legislation archive/restore/delete lifecycle actions.
+- Browser/Playwright visual smoke was not rerun for this focused slice by request; no dev server or browser automation was started.
+
 Shared custom-admin lifecycle actions update on August 10, 2026:
 
-- Programs, Projects, and News/media custom dossiers now include policy-derived archive, restore, and permanent-delete controls through `AdminLifecycleActions.vue`.
+- Programs, Projects, Legislation, and News/media custom dossiers now include policy-derived archive, restore, and permanent-delete controls through `AdminLifecycleActions.vue`.
 - Archive, restore, and permanent-delete requests use dedicated Form Requests, `ContentLifecycleController`, `AdminCivicContentLifecycleService`, database transactions, existing policies, and audit logging.
 - Archived records remain accessible through authorized custom dossier routes so restore and permanent-delete controls do not require Filament.
 - `php -l app\Http\Controllers\AdminConsole\ContentLifecycleController.php` passed.
@@ -338,6 +347,7 @@ Coverage added:
 - Least-privilege policy separation for public page editors, reviewers, auditors, and inquiry officers.
 - Filament `PublicPageResource` and `AuditLogResource` authorization.
 - Home, About, Contact, Privacy, Accessibility, and Disclaimer routes using backend `public_pages` while preserving Phase 6 Inertia prop contracts.
+- Custom Public Pages admin parity covering `/admin-console/public-pages`, create, detail, edit, server-side filters, JSON prop validation, SEO metadata, source-register synchronization, approval submission, lifecycle actions, audit logging, and custom command-search routing.
 - Queued stale-content job audit logging and reviewer digest notification routing.
 - Phase 7 dashboard widget role gates for audit and inquiry visibility.
 - Public page prop JSON validation and required prop-key checks.
@@ -359,4 +369,5 @@ Coverage added:
 - Filament `NewsRecordResource` and `NewsMediaAssetResource` authorization.
 - Public News route using backend records while preserving Phase 6 Inertia prop contracts and `status=stale-review` query mapping.
 - Current frontend contract checks after the Projects backend slice: `npm run lint:check`, `npm run format:check`, `npm run types:check`, `npm run test`, `npm run build`, and `npm run build:ssr` passed. SSR still emits the known `@inertiajs/vite` sourcemap warning.
+- Current custom-admin Public Pages parity checks: `php -l` passed for touched PHP files; `php artisan test tests\Feature\AdminConsolePublicPagesTest.php` passed with 9 tests and 124 assertions; focused `vendor\bin\pint --test` passed; `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
 - Current frontend contract checks after the News backend slice: `npm run lint:check`, `npm run format:check`, `npm run types:check`, `npm run test`, `npm run build`, and `npm run build:ssr` passed. SSR still emits the known `@inertiajs/vite` sourcemap warning.

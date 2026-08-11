@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 27, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement), verified Custom Admin Command System Wave 1 at `/admin-console`, and custom Programs/Projects/News command modules with list/detail/create/edit parity, role-filtered navigation, source/approval readiness, shared archive/restore/permanent-delete lifecycle controls, focused tests, and restricted Filament fallback for remaining upload/module gaps. Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement), verified Custom Admin Command System Wave 1 at `/admin-console`, and custom Programs/Projects/Legislation/News command modules with list/detail/create/edit parity, role-filtered navigation, source/approval readiness, shared archive/restore/permanent-delete lifecycle controls, focused tests, and restricted Filament fallback for remaining upload/module gaps. Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
 
 ---
 
@@ -197,7 +197,35 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Deferred:** Custom upload/file-management parity and optional richer diff preview before approval submission. Browser/Playwright visual smoke was intentionally not rerun for this focused slice.
 
-**Recommended next custom-admin slice:** Continue with Legislation custom admin parity, then Public Pages/settings/audit parity before further reducing Filament fallback.
+**Recommended next custom-admin slice:** Continue with Public Pages custom admin parity, then settings/users/audit parity before further reducing Filament fallback.
+
+### Project Update: 2026-08-11 (Custom Admin Legislation Parity Layer)
+
+**Task:** Build custom Legislation admin parity with list/detail/create/edit workflows and shared lifecycle actions.
+
+**Scope completed:** Added custom Legislation routes, `LegislativeRecordController`, `SaveLegislativeRecordRequest`, `LegislativeRecordResource`, `LegislativeRecordFormResource`, transaction-backed `AdminLegislativeRecordEditorService`, role-aware navigation, command-palette custom Legislation routing, Legislation command ledger, Legislative dossier, Legislation create/edit editor, role/status/topic filters, official-source fields, plain-language summary fields, source-history editor, source-register synchronization, validation errors, approval-submission controls, unsaved-change warnings, and shared archive/restore/permanent-delete lifecycle controls.
+
+**Security and workflow decision:** Legislative saves are authorized by `LegislativeRecordPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through `ContentApprovalWorkflowService`. Archive uses the existing `delete` policy, restore uses the existing `restore` policy, and permanent delete uses the existing `forceDelete` policy through the shared custom lifecycle layer. Filament Legislative Records remains restricted fallback until the full custom-admin parity matrix is complete.
+
+**Validation evidence:** `php -l` passed for `LegislativeRecordController`, `SaveLegislativeRecordRequest`, `LegislativeRecordResource`, `LegislativeRecordFormResource`, `AdminLegislativeRecordEditorService`, `ContentLifecycleController`, and `AdminConsoleLegislationTest`. `php artisan test tests\Feature\AdminConsoleLegislationTest.php` passed with 9 tests and 125 assertions. Focused `vendor\bin\pint --test` passed for the Legislation controller/request/resources/service/test plus lifecycle controller. `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+
+**Visual evidence:** Browser/Playwright visual smoke was intentionally not rerun for this focused slice. No dev server or browser automation was started.
+
+**Recommended next custom-admin slice:** Build Public Pages custom admin parity with list/detail/create/edit workflows, source and approval controls, dedicated policy-page editing, and restricted Filament fallback.
+
+### Project Update: 2026-08-11 (Custom Admin Public Pages Parity Layer)
+
+**Task:** Build custom Public Pages admin parity with list/detail/create/edit workflows and shared lifecycle actions.
+
+**Scope completed:** Added custom Public Pages routes, `PublicPageController`, `SavePublicPageRequest`, `PublicPageResource`, `PublicPageFormResource`, transaction-backed `AdminPublicPageEditorService`, role-aware navigation, command-palette custom Public Page routing, Public Pages command desk, Public Page dossier, create/edit editor, status/page-type/review filters, route and page-type metadata fields, SEO fields, structured props JSON editor, metadata JSON editor, source-register synchronization, validation errors, approval-submission controls, unsaved-change warning, and shared archive/restore/permanent-delete lifecycle controls.
+
+**Security and workflow decision:** Public Page saves are authorized by `PublicPagePolicy`, validated server-side, written in a transaction, audited, cached public-page entries are invalidated, and approval submissions are routed through `ContentApprovalWorkflowService`. Archive uses the existing `delete` policy, restore uses the existing `restore` policy, and permanent delete uses the existing `forceDelete` policy through the shared custom lifecycle layer. Filament Public Pages remains restricted fallback until the full custom-admin parity matrix is complete.
+
+**Validation evidence:** `php -l` passed for `PublicPageController`, `SavePublicPageRequest`, `PublicPageResource`, `PublicPageFormResource`, `AdminPublicPageEditorService`, `AdminConsolePublicPagesTest`, modified admin-console routes, lifecycle controller, search controller, navigation service, and content search service. `php artisan test tests\Feature\AdminConsolePublicPagesTest.php` passed with 9 tests and 124 assertions. Focused `vendor\bin\pint --test` passed for the Public Pages controller/request/resources/service/test plus modified route/search/navigation/lifecycle PHP files. `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+
+**Visual evidence:** Browser/Playwright visual smoke was intentionally not rerun for this focused slice because no visual or interaction bug appeared and the user requested avoiding browser/Playwright unless needed.
+
+**Recommended next custom-admin slice:** Build Users and Settings custom admin parity, then custom Audit/Reports parity and upload/file-management parity before removing Filament fallback.
 
 ### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
 

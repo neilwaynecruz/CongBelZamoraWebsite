@@ -5,9 +5,11 @@ namespace App\Services;
 use App\Enums\AdminRole;
 use App\Models\ContentApproval;
 use App\Models\Inquiry;
+use App\Models\LegislativeRecord;
 use App\Models\NewsRecord;
 use App\Models\Program;
 use App\Models\Project;
+use App\Models\PublicPage;
 use App\Models\User;
 
 class AdminConsoleNavigationService
@@ -96,12 +98,30 @@ class AdminConsoleNavigationService
             );
         }
 
+        if ($user->can('viewAny', LegislativeRecord::class)) {
+            $operations[] = $this->item(
+                'Legislation',
+                'Bills, roles, status, topics, and official sources',
+                route('admin-console.legislation.index'),
+                'legislation',
+            );
+        }
+
         if ($user->can('viewAny', NewsRecord::class)) {
             $operations[] = $this->item(
                 'News & Media',
                 'Official updates, stale review, and media rights',
                 route('admin-console.news.index'),
                 'news',
+            );
+        }
+
+        if ($user->can('viewAny', PublicPage::class)) {
+            $operations[] = $this->item(
+                'Public Pages',
+                'Static pages, SEO metadata, sources, and review readiness',
+                route('admin-console.public-pages.index'),
+                'publicPages',
             );
         }
 

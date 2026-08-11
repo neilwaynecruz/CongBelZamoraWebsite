@@ -4,11 +4,13 @@ import {
     ArchiveRestore,
     ClipboardCheck,
     ExternalLink,
+    FileText,
     Gauge,
     Inbox,
     Landmark,
     MapPinned,
     Newspaper,
+    Scale,
     Palette,
 } from '@lucide/vue';
 import { computed } from 'vue';
@@ -38,7 +40,9 @@ const iconMap: Record<string, Component> = {
     approval: ClipboardCheck,
     programs: Landmark,
     projects: MapPinned,
+    legislation: Scale,
     news: Newspaper,
+    publicPages: FileText,
     palette: Palette,
     legacy: ArchiveRestore,
 };

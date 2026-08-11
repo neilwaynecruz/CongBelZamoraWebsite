@@ -130,6 +130,8 @@ The public Legislation route now resolves through `PublicLegislationController` 
 
 `LegislativeRecordResource` exposes backend management for authorized legislative/content roles. Legislative editors and content administrators can create/update legislative records, reviewer/approver and auditor roles can view/review without editing, and inquiry/program officers cannot manage legislative content.
 
+The custom admin console now provides Legislation parity for list/detail/create/update workflows at `/admin-console/legislation`, `/admin-console/legislation/{legislativeRecord}`, `/admin-console/legislation/create`, and `/admin-console/legislation/{legislativeRecord}/edit`. The editor uses `SaveLegislativeRecordRequest` for validation, `LegislativeRecordFormResource` for controlled Vue form options, and `AdminLegislativeRecordEditorService` for transaction-backed legislative saves, source-history replacement, source-register synchronization, audit logging, and submission through `ContentApprovalWorkflowService`. Legislative archive, restore, and permanent-delete controls use the shared custom lifecycle action layer. Filament Legislative Records remains restricted fallback until the full custom-admin parity matrix is complete.
+
 The public Projects route now resolves through `PublicProjectController` and `PublicProjectReadService`:
 
 - `/projects`
@@ -146,7 +148,7 @@ The public News route now resolves through `PublicNewsController` and `PublicNew
 
 The custom admin console now provides News/media parity for list/detail/create/update workflows at `/admin-console/news`, `/admin-console/news/{newsRecord}`, `/admin-console/news/create`, and `/admin-console/news/{newsRecord}/edit`. The editor uses `SaveNewsRecordRequest` for validation, `NewsRecordFormResource` for controlled Vue form options, and `AdminNewsRecordEditorService` for transaction-backed news saves, media metadata replacement, source-register synchronization, audit logging, and submission through `ContentApprovalWorkflowService`. News/media archive, restore, and permanent-delete controls now use the shared custom lifecycle action layer. Filament News Records and News Media Assets remain restricted fallback until custom upload and remaining module parity are completed.
 
-Shared custom lifecycle parity is implemented in `ContentLifecycleController`, `ArchiveContentRecordRequest`, `RestoreContentRecordRequest`, `DeleteContentRecordRequest`, `AdminCivicContentLifecycleService`, and `AdminLifecycleActions.vue`. Dossier resources expose `lifecycle` URLs, trashed state, and policy-derived action flags. Archived dossiers remain viewable to authorized staff so restore and permanent-delete actions do not depend on Filament.
+Shared custom lifecycle parity is implemented in `ContentLifecycleController`, `ArchiveContentRecordRequest`, `RestoreContentRecordRequest`, `DeleteContentRecordRequest`, `AdminCivicContentLifecycleService`, and `AdminLifecycleActions.vue`. Program, Project, Legislation, and News/media dossier resources expose `lifecycle` URLs, trashed state, and policy-derived action flags. Archived dossiers remain viewable to authorized staff so restore and permanent-delete actions do not depend on Filament.
 
 The public static routes now resolve through `PublicStaticPageController` and `PublicStaticPageReadService`:
 
@@ -158,6 +160,8 @@ The public static routes now resolve through `PublicStaticPageController` and `P
 - `/disclaimer`
 
 `PublicPageResource` exposes backend management for authorized public-content roles. `AuditLogResource` exposes read-only audit history to super administrators and read-only auditors. Dashboard widgets surface open programs, pending approvals, unanswered inquiries, stale content, due source reviews, and recent audit activity.
+
+The custom admin console now provides Public Pages parity for list/detail/create/update workflows at `/admin-console/public-pages`, `/admin-console/public-pages/{publicPage}`, `/admin-console/public-pages/create`, and `/admin-console/public-pages/{publicPage}/edit`. The editor uses `SavePublicPageRequest` for validation, `PublicPageFormResource` for controlled Vue form options, and `AdminPublicPageEditorService` for transaction-backed public-page saves, JSON prop validation, SEO/route metadata storage, source-register synchronization, cache invalidation, audit logging, and submission through `ContentApprovalWorkflowService`. Public Page archive, restore, and permanent-delete controls use the shared custom lifecycle action layer. Filament Public Pages remains restricted fallback until the full custom-admin parity matrix is complete.
 
 Retention is enforced by `inquiries:anonymize-expired`, scheduled daily in `routes/console.php`. Freshness review automation is queued by `content:flag-stale`, scheduled daily at 03:00. Production environments must run both queue workers and the Laravel scheduler.
 

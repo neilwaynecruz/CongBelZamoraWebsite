@@ -8,9 +8,11 @@ use App\Http\Controllers\AdminConsole\DashboardController;
 use App\Http\Controllers\AdminConsole\DesignSystemController;
 use App\Http\Controllers\AdminConsole\InquiryController;
 use App\Http\Controllers\AdminConsole\InquiryWorkflowController;
+use App\Http\Controllers\AdminConsole\LegislativeRecordController;
 use App\Http\Controllers\AdminConsole\NewsRecordController;
 use App\Http\Controllers\AdminConsole\ProgramController;
 use App\Http\Controllers\AdminConsole\ProjectController;
+use App\Http\Controllers\AdminConsole\PublicPageController;
 use App\Http\Controllers\AdminConsole\SearchController;
 use App\Http\Middleware\EnsureAdminConsoleAccess;
 use Illuminate\Support\Facades\Route;
@@ -80,6 +82,26 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
             ->name('projects.delete');
         Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 
+        Route::get('/legislation', [LegislativeRecordController::class, 'index'])->name('legislation.index');
+        Route::get('/legislation/create', [LegislativeRecordController::class, 'create'])->name('legislation.create');
+        Route::post('/legislation', [LegislativeRecordController::class, 'store'])
+            ->middleware('throttle:30,1')
+            ->name('legislation.store');
+        Route::get('/legislation/{legislativeRecord}/edit', [LegislativeRecordController::class, 'edit'])->name('legislation.edit');
+        Route::put('/legislation/{legislativeRecord}', [LegislativeRecordController::class, 'update'])
+            ->middleware('throttle:30,1')
+            ->name('legislation.update');
+        Route::post('/legislation/{legislativeRecord}/archive', [ContentLifecycleController::class, 'archiveLegislation'])
+            ->middleware('throttle:20,1')
+            ->name('legislation.archive');
+        Route::post('/legislation/{legislativeRecord}/restore', [ContentLifecycleController::class, 'restoreLegislation'])
+            ->middleware('throttle:20,1')
+            ->name('legislation.restore');
+        Route::delete('/legislation/{legislativeRecord}', [ContentLifecycleController::class, 'deleteLegislation'])
+            ->middleware('throttle:10,1')
+            ->name('legislation.delete');
+        Route::get('/legislation/{legislativeRecord}', [LegislativeRecordController::class, 'show'])->name('legislation.show');
+
         Route::get('/news', [NewsRecordController::class, 'index'])->name('news.index');
         Route::get('/news/create', [NewsRecordController::class, 'create'])->name('news.create');
         Route::post('/news', [NewsRecordController::class, 'store'])
@@ -99,6 +121,26 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
             ->middleware('throttle:10,1')
             ->name('news.delete');
         Route::get('/news/{newsRecord}', [NewsRecordController::class, 'show'])->name('news.show');
+
+        Route::get('/public-pages', [PublicPageController::class, 'index'])->name('public-pages.index');
+        Route::get('/public-pages/create', [PublicPageController::class, 'create'])->name('public-pages.create');
+        Route::post('/public-pages', [PublicPageController::class, 'store'])
+            ->middleware('throttle:30,1')
+            ->name('public-pages.store');
+        Route::get('/public-pages/{publicPage}/edit', [PublicPageController::class, 'edit'])->name('public-pages.edit');
+        Route::put('/public-pages/{publicPage}', [PublicPageController::class, 'update'])
+            ->middleware('throttle:30,1')
+            ->name('public-pages.update');
+        Route::post('/public-pages/{publicPage}/archive', [ContentLifecycleController::class, 'archivePublicPage'])
+            ->middleware('throttle:20,1')
+            ->name('public-pages.archive');
+        Route::post('/public-pages/{publicPage}/restore', [ContentLifecycleController::class, 'restorePublicPage'])
+            ->middleware('throttle:20,1')
+            ->name('public-pages.restore');
+        Route::delete('/public-pages/{publicPage}', [ContentLifecycleController::class, 'deletePublicPage'])
+            ->middleware('throttle:10,1')
+            ->name('public-pages.delete');
+        Route::get('/public-pages/{publicPage}', [PublicPageController::class, 'show'])->name('public-pages.show');
 
         Route::get('/content-approvals', [ContentApprovalController::class, 'index'])
             ->name('content-approvals.index');

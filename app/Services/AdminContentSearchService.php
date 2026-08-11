@@ -6,11 +6,11 @@ use App\Models\LegislativeRecord;
 use App\Models\NewsRecord;
 use App\Models\Program;
 use App\Models\Project;
+use App\Models\PublicPage;
 use App\Models\SourceRecord;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Schema;
 
 class AdminContentSearchService
 {
@@ -30,6 +30,7 @@ class AdminContentSearchService
             ...$this->searchModel(LegislativeRecord::query(), 'Legislation', ['bill_number', 'public_title', 'official_title', 'plain_language_summary'], $term, $limit, 'public_title'),
             ...$this->searchModel(Project::query(), 'Project', ['title', 'summary', 'barangay', 'location'], $term, $limit),
             ...$this->searchModel(NewsRecord::query(), 'News', ['title', 'summary', 'official_update'], $term, $limit),
+            ...$this->searchModel(PublicPage::query(), 'Public Page', ['title', 'slug', 'component', 'owner_label'], $term, $limit),
             ...$this->searchModel(SourceRecord::query(), 'Source', ['title', 'description', 'url'], $term, $limit),
         ];
 
@@ -79,6 +80,13 @@ class AdminContentSearchService
             ];
         }
 
+        if ($user->can('viewAny', PublicPage::class)) {
+            $results = [
+                ...$results,
+                ...$this->searchModel(PublicPage::query(), 'Public Page', ['title', 'slug', 'component', 'owner_label'], $term, $limit),
+            ];
+        }
+
         if ($user->can('viewAny', SourceRecord::class)) {
             $results = [
                 ...$results,
@@ -98,17 +106,11 @@ class AdminContentSearchService
      */
     private function searchModel(Builder $query, string $type, array $columns, string $term, int $limit, string $titleColumn = 'title'): array
     {
-        $driver = Schema::getConnection()->getDriverName();
-
-        if ($driver === 'mysql') {
-            $query->whereFullText($columns, $term);
-        } else {
-            $query->where(function (Builder $builder) use ($columns, $term): void {
-                foreach ($columns as $column) {
-                    $builder->orWhere($column, 'like', '%'.$term.'%');
-                }
-            });
-        }
+        $query->where(function (Builder $builder) use ($columns, $term): void {
+            foreach ($columns as $column) {
+                $builder->orWhere($column, 'like', '%'.$term.'%');
+            }
+        });
 
         return array_values($query
             ->limit($limit)
