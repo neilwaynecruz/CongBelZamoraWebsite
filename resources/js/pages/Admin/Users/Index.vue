@@ -211,7 +211,9 @@ const resetFilters = () => {
                     <option value="">All 2FA states</option>
                     <option value="enabled">Enabled</option>
                     <option value="missing">Missing</option>
-                    <option value="required_missing">Required and missing</option>
+                    <option value="required_missing">
+                        Required and missing
+                    </option>
                 </select>
             </label>
             <label class="admin-field">
@@ -242,7 +244,10 @@ const resetFilters = () => {
             </div>
         </form>
 
-        <section class="admin-table-panel" aria-labelledby="staff-results-title">
+        <section
+            class="admin-table-panel"
+            aria-labelledby="staff-results-title"
+        >
             <header class="admin-table-panel__header">
                 <div>
                     <p class="admin-kicker">Authorized results</p>
@@ -264,7 +269,10 @@ const resetFilters = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="staffUser in staffUsers.data" :key="staffUser.id">
+                        <tr
+                            v-for="staffUser in staffUsers.data"
+                            :key="staffUser.id"
+                        >
                             <td data-label="Staff user">
                                 <strong>{{ staffUser.name }}</strong>
                                 <span>{{ staffUser.email }}</span>
@@ -299,7 +307,9 @@ const resetFilters = () => {
                                 </span>
                             </td>
                             <td data-label="Updated">
-                                <span>{{ staffUser.updatedAt ?? 'No update' }}</span>
+                                <span>{{
+                                    staffUser.updatedAt ?? 'No update'
+                                }}</span>
                             </td>
                             <td data-label="Action">
                                 <Link
@@ -322,7 +332,10 @@ const resetFilters = () => {
                 description="Clear search or role filters to return to every staff account you are authorized to manage."
             />
 
-            <AdminPagination :links="staffUsers.links" :meta="staffUsers.meta" />
+            <AdminPagination
+                :links="staffUsers.links"
+                :meta="staffUsers.meta"
+            />
         </section>
     </div>
 </template>

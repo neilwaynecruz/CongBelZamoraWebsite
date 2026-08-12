@@ -145,7 +145,10 @@ const deleteRecord = () => {
                     Minimum 12 characters. This reason is stored in the audit
                     trail.
                 </small>
-                <small v-if="archiveForm.errors.reason" class="admin-field__error">
+                <small
+                    v-if="archiveForm.errors.reason"
+                    class="admin-field__error"
+                >
                     {{ archiveForm.errors.reason }}
                 </small>
             </label>
@@ -171,7 +174,10 @@ const deleteRecord = () => {
                     maxlength="500"
                     placeholder="Example: Restored after reviewer confirmed this is still the authoritative record."
                 ></textarea>
-                <small v-if="restoreForm.errors.reason" class="admin-field__error">
+                <small
+                    v-if="restoreForm.errors.reason"
+                    class="admin-field__error"
+                >
                     {{ restoreForm.errors.reason }}
                 </small>
             </label>
@@ -204,7 +210,10 @@ const deleteRecord = () => {
                     :placeholder="recordTitle"
                     required
                 />
-                <small v-if="deleteForm.errors.confirmation" class="admin-field__error">
+                <small
+                    v-if="deleteForm.errors.confirmation"
+                    class="admin-field__error"
+                >
                     {{ deleteForm.errors.confirmation }}
                 </small>
             </label>
@@ -218,9 +227,13 @@ const deleteRecord = () => {
                     placeholder="Example: Duplicate staging import approved for permanent removal after source reconciliation."
                 ></textarea>
                 <small>
-                    Minimum 20 characters. Do not include sensitive citizen data.
+                    Minimum 20 characters. Do not include sensitive citizen
+                    data.
                 </small>
-                <small v-if="deleteForm.errors.reason" class="admin-field__error">
+                <small
+                    v-if="deleteForm.errors.reason"
+                    class="admin-field__error"
+                >
                     {{ deleteForm.errors.reason }}
                 </small>
             </label>

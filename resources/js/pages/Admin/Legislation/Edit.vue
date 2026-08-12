@@ -419,9 +419,7 @@ onBeforeUnmount(() => {
                                     rows="4"
                                 ></textarea>
                                 <small
-                                    v-if="
-                                        fieldError('plain_language_summary')
-                                    "
+                                    v-if="fieldError('plain_language_summary')"
                                     >{{
                                         fieldError('plain_language_summary')
                                     }}</small
@@ -472,12 +470,16 @@ onBeforeUnmount(() => {
 
                         <div class="admin-repeatable-list">
                             <article
-                                v-for="(history, index) in editor.source_histories"
+                                v-for="(
+                                    history, index
+                                ) in editor.source_histories"
                                 :key="index"
                                 class="admin-repeatable-item"
                             >
                                 <div class="admin-repeatable-item__header">
-                                    <strong>Source check {{ index + 1 }}</strong>
+                                    <strong
+                                        >Source check {{ index + 1 }}</strong
+                                    >
                                     <button
                                         type="button"
                                         class="admin-icon-button"
@@ -709,9 +711,7 @@ onBeforeUnmount(() => {
                             <label class="admin-field">
                                 <span>Public source status</span>
                                 <select
-                                    v-model="
-                                        editor.source_record.public_status
-                                    "
+                                    v-model="editor.source_record.public_status"
                                 >
                                     <option
                                         v-for="option in form.options
@@ -767,9 +767,7 @@ onBeforeUnmount(() => {
                                     rows="4"
                                 ></textarea>
                                 <small
-                                    v-if="
-                                        fieldError('approval.change_summary')
-                                    "
+                                    v-if="fieldError('approval.change_summary')"
                                     >{{
                                         fieldError('approval.change_summary')
                                     }}</small

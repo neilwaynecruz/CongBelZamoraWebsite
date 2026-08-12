@@ -115,7 +115,11 @@ const copyPrimarySourceToRegister = () => {
 
 const formatJson = (field: 'props_json' | 'metadata_json') => {
     try {
-        editor[field] = JSON.stringify(JSON.parse(editor[field] || '{}'), null, 2);
+        editor[field] = JSON.stringify(
+            JSON.parse(editor[field] || '{}'),
+            null,
+            2,
+        );
     } catch {
         return;
     }
@@ -299,10 +303,7 @@ onBeforeUnmount(() => {
                         <div class="admin-editor-fields">
                             <label class="admin-field">
                                 <span>SEO title</span>
-                                <input
-                                    v-model="editor.seo_title"
-                                    type="text"
-                                />
+                                <input v-model="editor.seo_title" type="text" />
                             </label>
                             <label class="admin-field">
                                 <span>SEO description</span>

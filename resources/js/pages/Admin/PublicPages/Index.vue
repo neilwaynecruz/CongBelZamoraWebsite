@@ -260,10 +260,7 @@ const freshnessBadgeValue = (tone: string) =>
                 <strong>{{ publicPages.meta.total }} records</strong>
             </header>
 
-            <div
-                v-if="publicPages.data.length"
-                class="admin-responsive-table"
-            >
+            <div v-if="publicPages.data.length" class="admin-responsive-table">
                 <table>
                     <thead>
                         <tr>
@@ -279,7 +276,10 @@ const freshnessBadgeValue = (tone: string) =>
                         <tr v-for="page in publicPages.data" :key="page.id">
                             <td data-label="Page / route">
                                 <strong>{{ page.title }}</strong>
-                                <span>{{ page.slug }} · {{ page.routeName }}</span>
+                                <span
+                                    >{{ page.slug }} ·
+                                    {{ page.routeName }}</span
+                                >
                                 <small>{{ page.component }}</small>
                             </td>
                             <td data-label="Type">
@@ -328,7 +328,9 @@ const freshnessBadgeValue = (tone: string) =>
                                 }}</span>
                             </td>
                             <td data-label="Props">
-                                <strong>{{ page.counts.propsKeys }} keys</strong>
+                                <strong
+                                    >{{ page.counts.propsKeys }} keys</strong
+                                >
                                 <span
                                     >{{ page.counts.sources }} source ·
                                     {{ page.counts.approvals }} approval</span

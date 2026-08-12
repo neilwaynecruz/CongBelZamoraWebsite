@@ -255,7 +255,10 @@ const resetFilters = () => {
             </div>
         </form>
 
-        <section class="admin-table-panel" aria-labelledby="audit-results-title">
+        <section
+            class="admin-table-panel"
+            aria-labelledby="audit-results-title"
+        >
             <header class="admin-table-panel__header">
                 <div>
                     <p class="admin-kicker">Authorized results</p>
@@ -313,10 +316,15 @@ const resetFilters = () => {
                                 />
                             </td>
                             <td data-label="Occurred">
-                                <span>{{ log.occurredAt ?? 'Not recorded' }}</span>
+                                <span>{{
+                                    log.occurredAt ?? 'Not recorded'
+                                }}</span>
                             </td>
                             <td data-label="Action">
-                                <Link :href="log.href" class="admin-table-action">
+                                <Link
+                                    :href="log.href"
+                                    class="admin-table-action"
+                                >
                                     Open event<ArrowRight aria-hidden="true" />
                                 </Link>
                             </td>

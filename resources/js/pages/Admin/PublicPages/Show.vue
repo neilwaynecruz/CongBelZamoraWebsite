@@ -105,7 +105,9 @@ const freshnessBadgeValue = (tone: string) =>
             </div>
             <div class="admin-dossier-header__status">
                 <Link
-                    v-if="publicPage.can.update && !publicPage.lifecycle.trashed"
+                    v-if="
+                        publicPage.can.update && !publicPage.lifecycle.trashed
+                    "
                     :href="`/admin-console/public-pages/${publicPage.id}/edit`"
                     class="admin-button admin-button--primary"
                 >
@@ -156,8 +158,7 @@ const freshnessBadgeValue = (tone: string) =>
                             <h2>Page contract</h2>
                         </div>
                         <span class="admin-trust-marker">
-                            <ShieldCheck aria-hidden="true" />Server-owned
-                            props
+                            <ShieldCheck aria-hidden="true" />Server-owned props
                         </span>
                     </header>
                     <dl class="admin-record-grid">
@@ -209,14 +210,15 @@ const freshnessBadgeValue = (tone: string) =>
                     <dl class="admin-record-grid">
                         <div>
                             <dt>SEO title</dt>
-                            <dd>{{ publicPage.seo.title ?? 'Not recorded' }}</dd>
+                            <dd>
+                                {{ publicPage.seo.title ?? 'Not recorded' }}
+                            </dd>
                         </div>
                         <div>
                             <dt>SEO description</dt>
                             <dd>
                                 {{
-                                    publicPage.seo.description ??
-                                    'Not recorded'
+                                    publicPage.seo.description ?? 'Not recorded'
                                 }}
                             </dd>
                         </div>
@@ -274,8 +276,7 @@ const freshnessBadgeValue = (tone: string) =>
                             <dt>Verifier</dt>
                             <dd>
                                 {{
-                                    publicPage.source.verifier ??
-                                    'Not recorded'
+                                    publicPage.source.verifier ?? 'Not recorded'
                                 }}
                             </dd>
                         </div>

@@ -2023,7 +2023,8 @@
 }
 
 .admin-lifecycle-panel__danger-note {
-    border: 1px solid color-mix(in srgb, var(--admin-red) 35%, var(--admin-line));
+    border: 1px solid
+        color-mix(in srgb, var(--admin-red) 35%, var(--admin-line));
     border-radius: var(--admin-radius-sm);
     background: color-mix(in srgb, var(--admin-red) 9%, #ffffff);
     color: var(--admin-red-dark);
@@ -2560,6 +2561,15 @@
     height: 0.45rem;
     border-radius: 999px;
     background: linear-gradient(90deg, var(--admin-blue), var(--admin-gold));
+}
+
+.admin-report-table table {
+    min-width: 0;
+}
+
+.admin-report-table th,
+.admin-report-table td {
+    padding-inline: 0.65rem;
 }
 
 .admin-report-latency {
@@ -3876,6 +3886,91 @@
     font-weight: 700;
 }
 
+.admin-media-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.95fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.admin-media-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.admin-media-register {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.admin-media-card {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.85rem;
+    border: 1px solid
+        color-mix(in srgb, var(--admin-gold) 22%, var(--admin-line));
+    border-radius: 0.75rem;
+    background: var(--admin-surface);
+}
+
+.admin-media-card img,
+.admin-media-card__placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 0.55rem;
+    object-fit: cover;
+    background: color-mix(in srgb, var(--admin-navy) 8%, white);
+}
+
+.admin-media-card__placeholder {
+    display: grid;
+    place-items: center;
+    gap: 0.35rem;
+    color: var(--admin-muted);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.admin-media-card__placeholder svg {
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+.admin-media-card__body,
+.admin-media-card__meta,
+.admin-media-card__actions {
+    min-width: 0;
+}
+
+.admin-media-card__body {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.admin-media-card__meta,
+.admin-media-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.admin-media-card h3 {
+    margin: 0;
+    color: var(--admin-ink);
+    font-size: 1rem;
+}
+
+.admin-media-card p {
+    margin: 0;
+    color: var(--admin-muted);
+}
+
+.admin-media-edit-panel {
+    margin-top: 1rem;
+}
+
 .admin-login-passkey {
     margin-top: 1.3rem;
 }
@@ -4273,6 +4368,14 @@
     }
     .admin-action-dialog__footer .admin-button {
         flex: 1;
+    }
+    .admin-media-layout,
+    .admin-media-card {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .admin-media-card img,
+    .admin-media-card__placeholder {
+        max-height: 14rem;
     }
 }
 

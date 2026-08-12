@@ -1153,7 +1153,7 @@ Projects parity update:
 - `AdminProjectEditorService` saves project edits through policies and a database transaction, replaces nested evidence records safely, synchronizes the linked source-register record, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
 - The Vue Projects editor includes visible labels, evidence/source/rights editors, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and the established admin sticky save bar pattern.
 - Command-palette search now routes authorized Project results to the custom Project dossier instead of legacy Filament.
-- Filament Projects and Project Evidence remain available only as restricted fallback for custom upload and remaining parity gaps.
+- Filament Projects and Project Evidence remain available only as restricted fallback until staff approval and the final removal matrix are complete.
 
 Verification evidence for Projects parity:
 
@@ -1168,7 +1168,6 @@ Verification evidence for Projects parity:
 
 Deferred for Projects parity:
 
-- Custom media file upload parity.
 - Optional richer diff preview before approval submission.
 
 News/media parity update:
@@ -1180,7 +1179,7 @@ News/media parity update:
 - `AdminNewsRecordEditorService` saves news/media edits through policies and a database transaction, replaces nested media metadata safely, synchronizes the linked source-register record, records audit events, and submits approval requests through `ContentApprovalWorkflowService`.
 - The Vue News/media editor includes visible labels, official update fields, stale-content note, media source/caption/alt-text/rights fields, source-register fields, governance handoff controls, validation-error display, unsaved-change warning, and the established admin sticky save bar pattern.
 - Command-palette search now routes authorized News results to the custom News dossier instead of legacy Filament.
-- Filament News Records and News Media Assets remain available only as restricted fallback for custom upload and remaining parity gaps.
+- Filament News Records and News Media Assets remain available only as restricted fallback until staff approval and the final removal matrix are complete.
 
 Verification evidence for News/media parity:
 
@@ -1193,7 +1192,6 @@ Verification evidence for News/media parity:
 
 Deferred for News/media parity:
 
-- Custom media file upload parity.
 - Optional richer diff preview before approval submission.
 
 Legislation parity update:
@@ -1244,7 +1242,7 @@ Users and Settings parity update:
 - `AdminStaffUserService` saves staff-user changes inside database transactions, protects self-deactivation and self-demotion from Super Administrator, records audit logs for role/status/access changes, and sends Laravel password-reset links without exposing tokens.
 - `/admin-console/settings` exposes read-only launch, security, privacy, media, cache, jobs, and environment configuration, including the active staff 2FA requirement from `config/belzamora.php`.
 - Command-palette search routes authorized Staff User results to the custom staff-user dossier instead of legacy Filament.
-- Filament Staff Users remains available only as restricted fallback until staff approval, audit/reporting parity, upload/file-management parity, and the final removal matrix are complete.
+- Filament Staff Users remains available only as restricted fallback until staff approval and the final removal matrix are complete.
 
 Verification evidence for Users and Settings parity:
 
@@ -1264,7 +1262,7 @@ Audit and Reports parity update:
 - `ReportsController` and `AdminReportResource` reuse `AdminReportsMetricsService` for existing aggregate-only inquiry, publishing, stale-content, and project metrics. No official data is invented, and no citizen message bodies or personal contact details are exposed.
 - Custom Reports exports remain disabled until privacy-reviewed custom export policies are approved.
 - Role-aware navigation now includes a Governance group for Reports and Audit Trail when policies/metrics allow access.
-- Filament Audit remains available only as restricted fallback until staff approval, upload/file-management parity, and the final removal matrix are complete.
+- Filament Audit remains available only as restricted fallback until staff approval and the final removal matrix are complete.
 
 Verification evidence for Audit and Reports parity:
 
@@ -1273,6 +1271,29 @@ Verification evidence for Audit and Reports parity:
 - Focused `vendor\bin\pint --test` for the Audit/Reports controller/request/resources/test plus modified route/navigation PHP files passed.
 - `php artisan route:list --name=admin-console.audit` showed 2 custom audit routes, and `php artisan route:list --name=admin-console.reports` showed 1 custom reports route.
 - `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
+- Browser/Playwright visual smoke was not rerun because no visual or interaction bug appeared during this focused parity slice.
+
+Upload and File-Management parity update:
+
+- `/admin-console/news/{newsRecord}/media` and `/admin-console/projects/{project}/evidence` now render custom upload/file-management desks for approved public images.
+- `NewsMediaManagerController` and `ProjectEvidenceManagerController` provide policy-protected index/store/update/delete routes while verifying each child media/evidence row belongs to the parent record.
+- `SaveNewsMediaAssetRequest` and `SaveProjectEvidenceRequest` enforce approved image file types from `config/belzamora.php`, configured max upload size, visible source URL/label, caption, alt text, media-rights note, verification date, and sort order.
+- `RemoveNewsMediaAssetRequest` and `RemoveProjectEvidenceRequest` require explicit confirmation copy for destructive removal.
+- `ManagedNewsMediaAssetResource` and `ManagedProjectEvidenceResource` expose controlled Vue props, public preview URLs, storage disk/visibility metadata, rights-readiness flags, and policy-derived action URLs.
+- `AdminMediaLibraryService` saves uploads through transactions, replaces old files after successful updates, deletes newly uploaded files if a database write fails, removes stored files when rows are removed, and records audit events without logging file contents.
+- `AdminManagedMediaDesk.vue` provides the shared accessible upload/editor UI with visible labels, validation errors, source/verification fields, rights metadata, stable preview sizing, dirty-form unload warning, and focus-trapped destructive confirmation through `AdminActionDialog`.
+- News and Project dossiers now link directly to the custom media/evidence managers, while Filament remains restricted fallback until final staff approval and the removal matrix are complete.
+- Sensitive resident files, IDs, medical documents, private attachments, and unapproved uploads remain explicitly disallowed; this parity layer is for rights-cleared public images only.
+
+Verification evidence for upload and file-management parity:
+
+- `php -l` passed for `NewsMediaManagerController`, `ProjectEvidenceManagerController`, `AdminMediaLibraryService`, and `AdminConsoleMediaManagementTest`.
+- `php artisan test tests\Feature\AdminConsoleMediaManagementTest.php` passed: 4 tests, 57 assertions.
+- Focused `vendor\bin\pint --test` passed for the new media controllers, requests, resources, service, and test.
+- `php artisan route:list --name=admin-console.news.media` showed 4 custom News media routes.
+- `php artisan route:list --name=admin-console.projects.evidence` showed 4 custom Project evidence routes.
+- `npm run typecheck` and `npm run lint:check` passed.
+- `npm run build` passed after rerunning with a longer timeout; the first 120-second build attempt timed out before completion, and the successful rerun completed in 2m 14s with the existing plugin-timing notice.
 - Browser/Playwright visual smoke was not rerun because no visual or interaction bug appeared during this focused parity slice.
 
 Shared lifecycle parity update:
@@ -1925,23 +1946,25 @@ Migration readiness checklist per module:
 
 ## 40. Filament Removal Parity Matrix
 
-Before removing Filament, create a parity matrix:
+Current acceptance pass date: August 12, 2026. Local browser acceptance evidence was refreshed on August 12, 2026; signed staff acceptance remains pending.
 
-```text
-Module | Filament capability | Custom capability | Tests | Staff approved | Remove fallback
-Dashboard | Yes | Yes | Yes | Pending | No
-Inquiries | Yes | No | No | No | No
-Content approvals | Yes | No | No | No | No
-Programs | Yes | Yes | Yes | Pending | No
-Projects | Yes | Yes | Yes | Pending | No
-News | Yes | Yes | Yes | Pending | No
-Legislation | Yes | Yes | Yes | Pending | No
-Public pages | Yes | Yes | Yes | Pending | No
-Users | Yes | Yes | Yes | Pending | No
-Settings | Partial | Read-only | Yes | Pending | No
-Audit | Yes | Yes | Yes | Pending | No
-Reports | Partial | Aggregate read-only | Yes | Pending | No
-```
+| Module | Filament capability | Custom capability | Tests | Staff approved | Remove fallback |
+| --- | --- | --- | --- | --- | --- |
+| Dashboard / shell / search | Yes | Yes: custom login, shell, dashboard, role navigation, command search | Yes | Pending | No |
+| Inquiries | Yes | Yes: list, detail, assignment, review, notes, response milestone, resolve, close, reopen, privacy redaction | Yes | Pending | No |
+| Content approvals | Yes | Yes: queue, detail, assign reviewer, submit, approve, request changes, reject, cancel, schedule, publish, unpublish/archive, rollback | Yes | Pending | No |
+| Programs | Yes | Yes: list, detail, create, edit, requirements, updates, source fields, approval submission, lifecycle | Yes | Pending | No |
+| Projects | Yes | Yes: list, detail, create, edit, filters, evidence metadata, evidence uploads, approval submission, lifecycle | Yes | Pending | No |
+| News/media | Yes | Yes: list, detail, create, edit, stale review fields, media metadata, media uploads, approval submission, lifecycle | Yes | Pending | No |
+| Legislation | Yes | Yes: list, detail, create, edit, role/status/topic filters, source history, approval submission, lifecycle | Yes | Pending | No |
+| Public pages | Yes | Yes: list, detail, create, edit, SEO, JSON props, source fields, approval submission, lifecycle | Yes | Pending | No |
+| Users | Yes | Yes: Super Administrator-only list, detail, create, edit, roles, status, reset-link action | Yes | Pending | No |
+| Settings | Partial | Read-only launch/security/media/cache/jobs view; writes intentionally not approved | Yes | Pending | No |
+| Audit | Yes | Yes: list, detail, filters, redacted diffs and metadata | Yes | Pending | No |
+| Reports | Partial | Aggregate read-only dashboard; exports intentionally disabled until privacy policy approval | Yes | Pending | No |
+| Upload/file management | Yes | Yes: News media and Project evidence upload/edit/replace/remove with source, rights, alt text, and audit logging | Yes | Pending | No |
+| Source records and reference data | Yes | Not yet custom; still Filament-owned unless formally declared non-daily fallback scope | No | Pending | No |
+| CSV/export workflows | Yes | Partial: custom Reports exports disabled; Filament/redacted exports still exist from earlier admin packs | Partial | Pending | No |
 
 Only remove a Filament module when:
 
@@ -1949,6 +1972,77 @@ Only remove a Filament module when:
 - Staff approves it.
 - Tests pass.
 - No unresolved production issue exists.
+- Any adjacent fallback workflow, such as source-record maintenance, reference/taxonomy CRUD, CSV export, notification-bell behavior, or approved configuration writes, is either custom-built or formally accepted as out of scope for daily staff work.
+
+### 40.1 Custom Admin Parity Acceptance Pass - August 12, 2026
+
+Decision: **Implemented but not approved for Filament removal**.
+
+Evidence reviewed:
+
+- `routes/admin-console.php` now exposes custom routes for dashboard/search, inquiries and case workflow actions, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, Content Approvals, shared lifecycle actions, and upload/file-management.
+- Admin-console controllers are present for each listed module under `app/Http/Controllers/AdminConsole`.
+- Focused custom-admin tests exist for foundation, inquiry workflow, content governance workflow, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, lifecycle actions, and media management.
+- Fresh focused regression command passed: `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleInquiryWorkflowTest.php tests\Feature\AdminConsoleContentGovernanceWorkflowTest.php tests\Feature\AdminConsoleProgramsTest.php tests\Feature\AdminConsoleProjectsTest.php tests\Feature\AdminConsoleNewsTest.php tests\Feature\AdminConsoleLegislationTest.php tests\Feature\AdminConsolePublicPagesTest.php tests\Feature\AdminConsoleUsersSettingsTest.php tests\Feature\AdminConsoleAuditReportsTest.php tests\Feature\AdminConsoleLifecycleActionsTest.php tests\Feature\AdminConsoleMediaManagementTest.php` passed with 96 tests and 1308 assertions.
+
+Fully covered custom workflows:
+
+- Daily content CRUD and governance workflows for Programs, Projects, News/media, Legislation, and Public Pages.
+- Inquiry case handling from assignment through review, note, response milestone, resolution, closure, and reopening.
+- Content approval queue operations through submission, reviewer assignment, approval, changes requested, rejection, cancellation, scheduling, publishing, unpublishing/archive, and rollback.
+- Shared archive, restore, and permanent-delete lifecycle for core public content modules.
+- News media and Project evidence upload/edit/replace/remove with approved-file validation, source/rights metadata, and audit logging.
+- Super Administrator staff user management and read-only settings visibility.
+- Read-only audit inspection and aggregate reports without citizen PII exposure.
+
+Known gaps before reducing Filament access:
+
+- No signed staff workflow acceptance exists for the custom console modules.
+- No fresh browser/manual staff-usability pass was performed for every custom admin screen after the latest upload/file-management slice.
+- Source Records and reference/taxonomy maintenance still appear Filament-owned from the Tier 2 admin productivity pack.
+- CSV/export workflows are not fully custom and remain privacy-sensitive; custom Reports exports are intentionally disabled until export policy approval.
+- Settings writes remain intentionally read-only until a rollback/audit-approved configuration workflow exists.
+- Real production backup/restore, monitoring, and launch authorization remain outside this custom-admin parity pass.
+
+Parity decision:
+
+- Do **not** remove Filament.
+- Do **not** redirect `/admin` yet.
+- Keep Filament as restricted fallback while collecting staff acceptance evidence and deciding whether Source Records, reference data CRUD, CSV exports, notification bell behavior, and configuration writes must be custom-built before fallback reduction.
+
+### 40.2 Staff-Proxy Browser Acceptance Session - August 12, 2026
+
+Decision: **Local browser acceptance passed after one responsive Reports fix; real staff-observed sign-off remains pending**.
+
+Environment and evidence:
+
+- Temporary acceptance database: `database/admin_console_acceptance.sqlite`, migrated with `php artisan migrate:fresh --seed --force`.
+- Synthetic QA-only inquiry `QA-ADMIN-0001` was added to the temporary database. No production personal data was used.
+- Local server: `http://127.0.0.1:8018` with `DB_CONNECTION=sqlite`, `SESSION_DRIVER=file`, `CACHE_STORE=array`, `QUEUE_CONNECTION=sync`, and `MAIL_MAILER=array`.
+- Browser evidence script: `node tests\e2e\admin-console-visual-smoke.mjs`.
+- Screenshots generated: 176 PNG files in `storage/app/admin-console-visual-smoke`.
+- Report files generated: `admin-console-visual-smoke-report-*.json` for scoped route groups.
+
+Workflow coverage:
+
+- Login, dashboard, command search, mobile navigation, desktop navigation, Inquiries list/detail/action dialog, Content Approvals queue/detail/action dialog, Programs list/detail/create/edit/lifecycle entry points, Projects list/detail/create/edit/evidence manager/lifecycle entry points, News/media list/detail/create/edit/media manager/lifecycle entry points, Legislation list/detail/create/edit/lifecycle entry points, Public Pages list/detail/create/edit/lifecycle entry points, Users list/detail/create/edit, Settings read-only configuration, Audit list/filter pages, and Reports aggregate dashboard all rendered under authenticated Super Administrator access.
+- Checked viewports: 320, 390, 768, 1024, 1440, and 1920 px.
+- Command search opened, accepted keyboard input, closed with Escape, and produced no horizontal overflow.
+- Mobile drawer navigation opened, was accessible by label, closed with Escape, and produced no horizontal overflow.
+- Inquiry and governance action dialogs received focus, closed with Escape, and restored focus to their triggers.
+- Browser console error collection reported no console errors in the passing scoped reports.
+
+Defect found and retested:
+
+- Initial Reports browser run failed at 1024 px because the project aggregate table overflowed inside a dashboard panel.
+- Fix applied: Reports tables now use the `admin-report-table` modifier with compact table sizing in `resources/js/pages/Admin/Reports/Index.vue` and `resources/css/admin-console.css`.
+- Retest passed for `/admin-console/reports` at all required viewports with no horizontal overflow.
+
+Staff-observed decision:
+
+- No real District Office staff member observed or signed this local session. The current status is staff-proxy accepted for technical/browser readiness only.
+- Each custom module remains `Staff approved: Pending` in the Filament matrix.
+- Filament is no longer needed for the covered daily workflows in the local browser pass, but it remains required as a restricted fallback for Source Records/reference data CRUD, privacy-reviewed exports, configuration writes, any notification-bell workflow not formally accepted, and final staff recovery while acceptance is incomplete.
 
 ## 41. Better First Implementation Slice
 

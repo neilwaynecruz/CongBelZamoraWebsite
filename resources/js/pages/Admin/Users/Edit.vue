@@ -113,17 +113,12 @@ onBeforeUnmount(() => {
         >
             <template #actions>
                 <span class="admin-trust-marker">
-                    <ShieldCheck aria-hidden="true" />Super Administrator
-                    only
+                    <ShieldCheck aria-hidden="true" />Super Administrator only
                 </span>
             </template>
         </AdminPageHeader>
 
-        <form
-            class="admin-program-editor"
-            novalidate
-            @submit.prevent="submit"
-        >
+        <form class="admin-program-editor" novalidate @submit.prevent="submit">
             <section
                 v-if="hasErrors"
                 class="admin-editor-error-summary"

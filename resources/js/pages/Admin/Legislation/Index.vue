@@ -290,9 +290,7 @@ const statusBadgeValue = (tone: string) =>
             <header class="admin-table-panel__header">
                 <div>
                     <p class="admin-kicker">Authorized results</p>
-                    <h2 id="legislation-results-title">
-                        Legislative records
-                    </h2>
+                    <h2 id="legislation-results-title">Legislative records</h2>
                 </div>
                 <strong>{{ legislativeRecords.meta.total }} records</strong>
             </header>

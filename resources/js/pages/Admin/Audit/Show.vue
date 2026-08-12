@@ -171,9 +171,7 @@ const formatJson = (value: Record<string, unknown>) =>
                                                     : 'healthy'
                                             "
                                             :label="
-                                                row.changed
-                                                    ? 'Changed'
-                                                    : 'Same'
+                                                row.changed ? 'Changed' : 'Same'
                                             "
                                         />
                                     </td>
@@ -200,10 +198,15 @@ const formatJson = (value: Record<string, unknown>) =>
                         </div>
                         <div>
                             <dt>Email</dt>
-                            <dd>{{ auditLog.actor.email ?? 'System event' }}</dd>
+                            <dd>
+                                {{ auditLog.actor.email ?? 'System event' }}
+                            </dd>
                         </div>
                     </dl>
-                    <UserRound aria-hidden="true" class="admin-report-rail-icon" />
+                    <UserRound
+                        aria-hidden="true"
+                        class="admin-report-rail-icon"
+                    />
                 </section>
 
                 <section class="admin-panel admin-program-source-panel">

@@ -256,7 +256,9 @@ const statusBadgeValue = (tone: string) =>
                             <h2>Source history</h2>
                         </div>
                         <span class="admin-trust-marker"
-                            >{{ legislativeRecord.sourceHistories.length }}
+                            >{{
+                                legislativeRecord.sourceHistories.length
+                            }}
                             checks</span
                         >
                     </header>
@@ -272,7 +274,8 @@ const statusBadgeValue = (tone: string) =>
                                 <AdminStatusBadge
                                     value="info"
                                     :label="
-                                        history.checkedAt ?? 'Check date missing'
+                                        history.checkedAt ??
+                                        'Check date missing'
                                     "
                                 />
                                 <span>{{
@@ -373,9 +376,7 @@ const statusBadgeValue = (tone: string) =>
                         }}</strong>
                     </div>
                     <ul
-                        v-if="
-                            !legislativeRecord.governance.readiness.passed
-                        "
+                        v-if="!legislativeRecord.governance.readiness.passed"
                         class="admin-program-readiness__issues"
                     >
                         <li

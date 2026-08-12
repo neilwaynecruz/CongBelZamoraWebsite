@@ -61,9 +61,7 @@ const sendResetLink = () => {
 
         <header class="admin-dossier-header admin-dossier-header--program">
             <div>
-                <p class="admin-kicker">
-                    Staff user · #{{ staffUser.id }}
-                </p>
+                <p class="admin-kicker">Staff user · #{{ staffUser.id }}</p>
                 <h1>{{ staffUser.name }}</h1>
                 <p>{{ staffUser.email }} · {{ staffUser.role.label }}</p>
             </div>
@@ -130,8 +128,7 @@ const sendResetLink = () => {
                             <dt>Email verified</dt>
                             <dd>
                                 {{
-                                    staffUser.emailVerifiedAt ??
-                                    'Not verified'
+                                    staffUser.emailVerifiedAt ?? 'Not verified'
                                 }}
                             </dd>
                         </div>
@@ -152,11 +149,17 @@ const sendResetLink = () => {
                     <dl class="admin-fact-list">
                         <div>
                             <dt>Required by config</dt>
-                            <dd>{{ staffUser.twoFactor.required ? 'Yes' : 'No' }}</dd>
+                            <dd>
+                                {{
+                                    staffUser.twoFactor.required ? 'Yes' : 'No'
+                                }}
+                            </dd>
                         </div>
                         <div>
                             <dt>Enabled</dt>
-                            <dd>{{ staffUser.twoFactor.enabled ? 'Yes' : 'No' }}</dd>
+                            <dd>
+                                {{ staffUser.twoFactor.enabled ? 'Yes' : 'No' }}
+                            </dd>
                         </div>
                         <div>
                             <dt>Confirmed at</dt>

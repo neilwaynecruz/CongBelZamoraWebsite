@@ -100,7 +100,10 @@ defineProps<{
                 <span
                     ><small>Retention</small
                     ><strong
-                        >{{ settings.privacy.inquiryRetentionDays }} days</strong
+                        >{{
+                            settings.privacy.inquiryRetentionDays
+                        }}
+                        days</strong
                     ></span
                 >
             </div>
@@ -149,7 +152,8 @@ defineProps<{
                             <dt>Filament fallback</dt>
                             <dd>
                                 {{
-                                    settings.adminConsole.filamentFallbackEnabled
+                                    settings.adminConsole
+                                        .filamentFallbackEnabled
                                         ? 'Enabled'
                                         : 'Disabled'
                                 }}
@@ -220,7 +224,9 @@ defineProps<{
                     <dl class="admin-fact-list">
                         <div>
                             <dt>Public cache TTL</dt>
-                            <dd>{{ settings.cache.publicTtlSeconds }} seconds</dd>
+                            <dd>
+                                {{ settings.cache.publicTtlSeconds }} seconds
+                            </dd>
                         </div>
                         <div>
                             <dt>Max upload</dt>

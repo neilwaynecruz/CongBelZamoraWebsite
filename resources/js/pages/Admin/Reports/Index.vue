@@ -116,7 +116,10 @@ const applyFilters = () => {
     });
 };
 
-const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) => {
+const barWidth = (
+    value: number,
+    rows: { total?: number; overdue?: number }[],
+) => {
     const max = Math.max(
         1,
         ...rows.map((row) => Number(row.total ?? row.overdue ?? 0)),
@@ -170,7 +173,9 @@ const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) =
                 label="Open inquiries"
                 :value="reports.inquiries.summary.open"
                 description="Aggregate active case count"
-                :tone="reports.inquiries.summary.open > 0 ? 'warning' : 'success'"
+                :tone="
+                    reports.inquiries.summary.open > 0 ? 'warning' : 'success'
+                "
             />
             <AdminMetricCard
                 label="Approvals for review"
@@ -214,7 +219,9 @@ const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) =
                     <div>
                         <p class="admin-kicker">Constituent service</p>
                         <h2>Inquiry aggregates</h2>
-                        <p>{{ reports.period.label }}. No personal data shown.</p>
+                        <p>
+                            {{ reports.period.label }}. No personal data shown.
+                        </p>
                     </div>
                     <Inbox aria-hidden="true" />
                 </header>
@@ -268,7 +275,9 @@ const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) =
                     <div>
                         <p class="admin-kicker">Publishing</p>
                         <h2>Approval and latency</h2>
-                        <p>Workflow timing comes from published approval rows.</p>
+                        <p>
+                            Workflow timing comes from published approval rows.
+                        </p>
                     </div>
                     <ClipboardCheck aria-hidden="true" />
                 </header>
@@ -280,16 +289,22 @@ const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) =
                     </div>
                     <div data-tone="warning">
                         <dt>For review</dt>
-                        <dd>{{ reports.publishing.approvalSummary.forReview }}</dd>
+                        <dd>
+                            {{ reports.publishing.approvalSummary.forReview }}
+                        </dd>
                     </div>
                     <div data-tone="success">
                         <dt>Published</dt>
-                        <dd>{{ reports.publishing.approvalSummary.published }}</dd>
+                        <dd>
+                            {{ reports.publishing.approvalSummary.published }}
+                        </dd>
                     </div>
                     <div>
                         <dt>Needs revision</dt>
                         <dd>
-                            {{ reports.publishing.approvalSummary.needsRevision }}
+                            {{
+                                reports.publishing.approvalSummary.needsRevision
+                            }}
                         </dd>
                     </div>
                 </dl>
@@ -304,7 +319,8 @@ const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) =
                         </strong>
                         <span>
                             {{
-                                reports.publishing.latency.average_hours === null
+                                reports.publishing.latency.average_hours ===
+                                null
                                     ? 'published timing sample yet'
                                     : 'average hours from submission to publish'
                             }}
@@ -333,7 +349,7 @@ const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) =
                     <Database aria-hidden="true" />
                 </header>
 
-                <div class="admin-responsive-table">
+                <div class="admin-responsive-table admin-report-table">
                     <table>
                         <thead>
                             <tr>
@@ -414,14 +430,17 @@ const barWidth = (value: number, rows: { total?: number; overdue?: number }[]) =
                     <div>
                         <p class="admin-kicker">Projects</p>
                         <h2>Barangay and status</h2>
-                        <p>Project aggregates only, grouped from backend records.</p>
+                        <p>
+                            Project aggregates only, grouped from backend
+                            records.
+                        </p>
                     </div>
                     <MapPinned aria-hidden="true" />
                 </header>
 
                 <div
                     v-if="reports.projects.byBarangay.length"
-                    class="admin-responsive-table"
+                    class="admin-responsive-table admin-report-table"
                 >
                     <table>
                         <thead>

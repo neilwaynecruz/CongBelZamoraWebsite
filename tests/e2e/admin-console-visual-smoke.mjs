@@ -12,6 +12,9 @@ const approvalId = process.env.ADMIN_CONSOLE_VISUAL_APPROVAL_ID;
 const programId = process.env.ADMIN_CONSOLE_VISUAL_PROGRAM_ID;
 const projectId = process.env.ADMIN_CONSOLE_VISUAL_PROJECT_ID;
 const newsId = process.env.ADMIN_CONSOLE_VISUAL_NEWS_ID;
+const legislationId = process.env.ADMIN_CONSOLE_VISUAL_LEGISLATION_ID;
+const publicPageId = process.env.ADMIN_CONSOLE_VISUAL_PUBLIC_PAGE_ID;
+const userId = process.env.ADMIN_CONSOLE_VISUAL_USER_ID;
 const visualScope = process.env.ADMIN_CONSOLE_VISUAL_SCOPE;
 const executeWorkflow =
     process.env.ADMIN_CONSOLE_VISUAL_EXECUTE_WORKFLOW === '1';
@@ -42,6 +45,15 @@ let pages = [
     { name: 'project-create', url: '/admin-console/projects/create' },
     { name: 'news', url: '/admin-console/news' },
     { name: 'news-create', url: '/admin-console/news/create' },
+    { name: 'legislation', url: '/admin-console/legislation' },
+    { name: 'legislation-create', url: '/admin-console/legislation/create' },
+    { name: 'public-pages', url: '/admin-console/public-pages' },
+    { name: 'public-page-create', url: '/admin-console/public-pages/create' },
+    { name: 'users', url: '/admin-console/users' },
+    { name: 'user-create', url: '/admin-console/users/create' },
+    { name: 'settings', url: '/admin-console/settings' },
+    { name: 'audit', url: '/admin-console/audit' },
+    { name: 'reports', url: '/admin-console/reports' },
     { name: 'content-approvals', url: '/admin-console/content-approvals' },
     { name: 'design-system', url: '/admin-console/design-system' },
 ];
@@ -80,6 +92,10 @@ if (projectId) {
         name: 'project-edit',
         url: `/admin-console/projects/${projectId}/edit`,
     });
+    pages.splice(7, 0, {
+        name: 'project-evidence',
+        url: `/admin-console/projects/${projectId}/evidence`,
+    });
 }
 
 if (newsId) {
@@ -91,13 +107,53 @@ if (newsId) {
         name: 'news-edit',
         url: `/admin-console/news/${newsId}/edit`,
     });
+    pages.splice(9, 0, {
+        name: 'news-media',
+        url: `/admin-console/news/${newsId}/media`,
+    });
+}
+
+if (legislationId) {
+    pages.splice(pages.length - 3, 0, {
+        name: 'legislation-detail',
+        url: `/admin-console/legislation/${legislationId}`,
+    });
+    pages.splice(pages.length - 3, 0, {
+        name: 'legislation-edit',
+        url: `/admin-console/legislation/${legislationId}/edit`,
+    });
+}
+
+if (publicPageId) {
+    pages.splice(pages.length - 3, 0, {
+        name: 'public-page-detail',
+        url: `/admin-console/public-pages/${publicPageId}`,
+    });
+    pages.splice(pages.length - 3, 0, {
+        name: 'public-page-edit',
+        url: `/admin-console/public-pages/${publicPageId}/edit`,
+    });
+}
+
+if (userId) {
+    pages.splice(pages.length - 3, 0, {
+        name: 'user-detail',
+        url: `/admin-console/users/${userId}`,
+    });
+    pages.splice(pages.length - 3, 0, {
+        name: 'user-edit',
+        url: `/admin-console/users/${userId}/edit`,
+    });
 }
 
 if (visualScope) {
     pages = pages.filter((target) => target.name.startsWith(visualScope));
 }
 
-await fs.rm(outputDir, { recursive: true, force: true });
+if (!visualScope) {
+    await fs.rm(outputDir, { recursive: true, force: true });
+}
+
 await fs.mkdir(outputDir, { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
@@ -107,6 +163,7 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 const consoleErrors = [];
+const interactionEvidence = [];
 
 page.on('console', (message) => {
     if (message.type() === 'error') {
@@ -204,6 +261,79 @@ await Promise.all([
     }),
     page.locator('button[type="submit"]').click(),
 ]);
+
+const exerciseCommandSearch = async () => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(`${baseUrl}/admin-console`, { waitUntil: 'networkidle' });
+
+    const trigger = page.getByRole('button', { name: 'Open command search' });
+
+    if (!(await trigger.isVisible())) {
+        interactionEvidence.push({
+            workflow: 'command-search',
+            status: 'missing',
+            note: 'Open command search trigger was not visible on desktop dashboard.',
+        });
+
+        return;
+    }
+
+    await trigger.click();
+
+    const dialog = page.getByRole('dialog', {
+        name: 'Find work and move quickly',
+    });
+    await dialog.waitFor({ state: 'visible' });
+    await page
+        .getByPlaceholder('Search commands, programs, projects, news...')
+        .fill('projects');
+    await page.screenshot({
+        path: path.join(outputDir, 'command-search-1440.png'),
+        fullPage: true,
+    });
+    await assertNoHorizontalOverflow('command-search-1440');
+    await page.keyboard.press('Escape');
+    await dialog.waitFor({ state: 'hidden' });
+    interactionEvidence.push({
+        workflow: 'command-search',
+        status: 'passed',
+        note: 'Desktop command search opened, accepted keyboard input, closed with Escape, and produced no overflow.',
+    });
+};
+
+const exerciseMobileNavigation = async () => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${baseUrl}/admin-console`, { waitUntil: 'networkidle' });
+
+    const trigger = page.getByRole('button', { name: 'Open navigation' });
+
+    if (!(await trigger.isVisible())) {
+        interactionEvidence.push({
+            workflow: 'mobile-navigation',
+            status: 'missing',
+            note: 'Open navigation trigger was not visible on mobile dashboard.',
+        });
+
+        return;
+    }
+
+    await trigger.click();
+    await page.getByLabel('Admin navigation').waitFor({ state: 'visible' });
+    await page.screenshot({
+        path: path.join(outputDir, 'mobile-navigation-390.png'),
+        fullPage: true,
+    });
+    await assertNoHorizontalOverflow('mobile-navigation-390');
+    await page.keyboard.press('Escape');
+    interactionEvidence.push({
+        workflow: 'mobile-navigation',
+        status: 'passed',
+        note: 'Mobile drawer navigation opened, was accessible by label, closed with Escape, and produced no overflow.',
+    });
+};
+
+await exerciseCommandSearch();
+await exerciseMobileNavigation();
 
 for (const target of pages) {
     for (const viewport of viewports) {
@@ -387,5 +517,26 @@ if (consoleErrors.length > 0) {
 }
 
 await browser.close();
+
+await fs.writeFile(
+    path.join(
+        outputDir,
+        visualScope
+            ? `admin-console-visual-smoke-report-${visualScope}.json`
+            : 'admin-console-visual-smoke-report.json',
+    ),
+    JSON.stringify(
+        {
+            baseUrl,
+            generatedAt: new Date().toISOString(),
+            viewports,
+            pages,
+            interactions: interactionEvidence,
+            consoleErrors,
+        },
+        null,
+        2,
+    ),
+);
 
 console.log(`Admin console screenshots written to ${outputDir}`);

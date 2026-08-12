@@ -10,8 +10,10 @@ use App\Http\Controllers\AdminConsole\DesignSystemController;
 use App\Http\Controllers\AdminConsole\InquiryController;
 use App\Http\Controllers\AdminConsole\InquiryWorkflowController;
 use App\Http\Controllers\AdminConsole\LegislativeRecordController;
+use App\Http\Controllers\AdminConsole\NewsMediaManagerController;
 use App\Http\Controllers\AdminConsole\NewsRecordController;
 use App\Http\Controllers\AdminConsole\ProgramController;
+use App\Http\Controllers\AdminConsole\ProjectEvidenceManagerController;
 use App\Http\Controllers\AdminConsole\ProjectController;
 use App\Http\Controllers\AdminConsole\PublicPageController;
 use App\Http\Controllers\AdminConsole\ReportsController;
@@ -80,6 +82,17 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
         Route::put('/projects/{project}', [ProjectController::class, 'update'])
             ->middleware('throttle:30,1')
             ->name('projects.update');
+        Route::get('/projects/{project}/evidence', [ProjectEvidenceManagerController::class, 'index'])
+            ->name('projects.evidence');
+        Route::post('/projects/{project}/evidence', [ProjectEvidenceManagerController::class, 'store'])
+            ->middleware('throttle:20,1')
+            ->name('projects.evidence.store');
+        Route::put('/projects/{project}/evidence/{projectEvidence}', [ProjectEvidenceManagerController::class, 'update'])
+            ->middleware('throttle:20,1')
+            ->name('projects.evidence.update');
+        Route::delete('/projects/{project}/evidence/{projectEvidence}', [ProjectEvidenceManagerController::class, 'destroy'])
+            ->middleware('throttle:10,1')
+            ->name('projects.evidence.delete');
         Route::post('/projects/{project}/archive', [ContentLifecycleController::class, 'archiveProject'])
             ->middleware('throttle:20,1')
             ->name('projects.archive');
@@ -120,6 +133,17 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
         Route::put('/news/{newsRecord}', [NewsRecordController::class, 'update'])
             ->middleware('throttle:30,1')
             ->name('news.update');
+        Route::get('/news/{newsRecord}/media', [NewsMediaManagerController::class, 'index'])
+            ->name('news.media');
+        Route::post('/news/{newsRecord}/media', [NewsMediaManagerController::class, 'store'])
+            ->middleware('throttle:20,1')
+            ->name('news.media.store');
+        Route::put('/news/{newsRecord}/media/{newsMediaAsset}', [NewsMediaManagerController::class, 'update'])
+            ->middleware('throttle:20,1')
+            ->name('news.media.update');
+        Route::delete('/news/{newsRecord}/media/{newsMediaAsset}', [NewsMediaManagerController::class, 'destroy'])
+            ->middleware('throttle:10,1')
+            ->name('news.media.delete');
         Route::post('/news/{newsRecord}/archive', [ContentLifecycleController::class, 'archiveNews'])
             ->middleware('throttle:20,1')
             ->name('news.archive');

@@ -116,11 +116,22 @@ const newsStatusBadgeValue = (tone: string) =>
             </div>
             <div class="admin-dossier-header__status">
                 <Link
-                    v-if="newsRecord.can.update && !newsRecord.lifecycle.trashed"
+                    v-if="
+                        newsRecord.can.update && !newsRecord.lifecycle.trashed
+                    "
                     :href="`/admin-console/news/${newsRecord.id}/edit`"
                     class="admin-button admin-button--primary"
                 >
                     <Edit3 aria-hidden="true" />Edit update
+                </Link>
+                <Link
+                    v-if="
+                        newsRecord.can.update && !newsRecord.lifecycle.trashed
+                    "
+                    :href="`/admin-console/news/${newsRecord.id}/media`"
+                    class="admin-button admin-button--secondary"
+                >
+                    <Image aria-hidden="true" />Manage media
                 </Link>
                 <AdminStatusBadge
                     v-if="newsRecord.lifecycle.trashed"
@@ -369,9 +380,10 @@ const newsStatusBadgeValue = (tone: string) =>
                         <h2>Fallback status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom news editing and lifecycle actions are available.
-                        File upload replacement stays in the restricted fallback
-                        until upload parity is verified.
+                        Custom news editing, media uploads, metadata, and
+                        lifecycle actions are available. Filament remains
+                        restricted as a fallback until final staff parity
+                        approval.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"

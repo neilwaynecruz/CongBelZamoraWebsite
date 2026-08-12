@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 27, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement), verified Custom Admin Command System Wave 1 at `/admin-console`, and custom Programs/Projects/Legislation/News/Public Pages/Users/Settings/Audit/Reports command modules with list/detail/create/edit, redacted read-only, aggregate-only, or read-only parity as appropriate, role-filtered navigation, source/approval readiness, shared archive/restore/permanent-delete lifecycle controls, focused tests, and restricted Filament fallback for remaining upload/module gaps. Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement), verified Custom Admin Command System Wave 1 at `/admin-console`, and custom Programs/Projects/Legislation/News/Public Pages/Users/Settings/Audit/Reports command modules with list/detail/create/edit, redacted read-only, aggregate-only, or read-only parity as appropriate, role-filtered navigation, source/approval readiness, shared archive/restore/permanent-delete lifecycle controls, custom News media and Project evidence upload/file-management parity, focused tests, and restricted Filament fallback pending staff approval and final removal-matrix sign-off. Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
 
 ---
 
@@ -163,7 +163,7 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Scope completed:** Added custom Projects routes, `ProjectController`, `SaveProjectRequest`, `ProjectResource`, `ProjectFormResource`, transaction-backed `AdminProjectEditorService`, role-aware navigation, command-palette custom Project routing, Projects command ledger, Project dossier, Projects create/edit editor, source/verification fields, partner and barangay filters, evidence metadata editor, media-rights notes, validation errors, approval-submission controls, unsaved-change warnings, and visual-smoke coverage for Projects pages.
 
-**Security and workflow decision:** Project saves are authorized by `ProjectPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through `ContentApprovalWorkflowService`. Filament Projects and Project Evidence remain restricted fallback for custom upload, archive/restore/delete, and remaining parity gaps.
+**Security and workflow decision:** Project saves are authorized by `ProjectPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through `ContentApprovalWorkflowService`. Filament Projects and Project Evidence remain restricted fallback until staff approval and the final removal matrix are complete.
 
 **Validation evidence:** `php -l` passed for the new custom Projects backend files and test. `php artisan test tests\Feature\AdminConsoleProjectsTest.php` passed with 9 tests and 121 assertions. Full `php artisan test` passed with 214 tests and 1988 assertions. `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, `npm run test`, and `npm run build` passed. `php artisan route:list --name=admin-console.projects` listed the six custom Projects routes.
 
@@ -177,13 +177,13 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Scope completed:** Added custom News routes, `NewsRecordController`, `SaveNewsRecordRequest`, `NewsRecordResource`, `NewsRecordFormResource`, transaction-backed `AdminNewsRecordEditorService`, role-aware navigation, command-palette custom News routing, News/media command desk, News dossier, News create/edit editor, official-source fields, stale-content note, publication metadata, media-rights metadata editor, validation errors, approval-submission controls, unsaved-change warnings, and targeted visual-smoke coverage for News pages.
 
-**Security and workflow decision:** News/media saves are authorized by `NewsRecordPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through `ContentApprovalWorkflowService`. Filament News Records and News Media Assets remain restricted fallback for custom upload and remaining parity gaps.
+**Security and workflow decision:** News/media saves are authorized by `NewsRecordPolicy`, validated server-side, written in a transaction, audited, and approval submissions are routed through `ContentApprovalWorkflowService`. Filament News Records and News Media Assets remain restricted fallback until staff approval and the final removal matrix are complete.
 
 **Validation evidence:** `php -l` passed for the new custom News/media backend files and test. `php artisan test tests\Feature\AdminConsoleNewsTest.php` passed with 9 tests and 120 assertions. `vendor\bin\pint --test`, `npm run format:check`, `npm run lint:check`, `npm run typecheck`, and `npm run build` passed. `php artisan route:list --name=admin-console.news` listed the six custom News routes.
 
 **Visual evidence:** The targeted News visual-smoke run generated News index, create, detail, and edit screenshots at 320, 390, 768, 1024, 1440, and 1920 px widths before the command was interrupted. Reviewed screenshots were `news-390.png`, `news-create-390.png`, `news-detail-1440.png`, and `news-edit-1440.png`; no major clipping, contrast failure, or horizontal overflow was visible in those reviewed captures.
 
-**Recommended next custom-admin slice:** Continue custom parity with Legislation or Public Pages, or close custom upload parity before further reducing Filament fallback.
+**Recommended next custom-admin slice:** Continue custom parity with Legislation or Public Pages before further reducing Filament fallback.
 
 ### Project Update: 2026-08-10 (Shared Custom Admin Lifecycle Actions)
 
@@ -195,7 +195,7 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Validation evidence:** `php -l` passed for the new lifecycle controller, service, archive request, and focused test file. `php artisan test tests\Feature\AdminConsoleLifecycleActionsTest.php` passed with 5 tests and 58 assertions. Focused `vendor\bin\pint --test` passed for the new lifecycle PHP files and test. `npm run typecheck`, `npm run lint:check`, and `npm run build` passed after adding the shared Vue lifecycle component.
 
-**Deferred:** Custom upload/file-management parity and optional richer diff preview before approval submission. Browser/Playwright visual smoke was intentionally not rerun for this focused slice.
+**Deferred:** Optional richer diff preview before approval submission. Browser/Playwright visual smoke was intentionally not rerun for this focused slice.
 
 **Recommended next custom-admin slice:** Continue with Public Pages custom admin parity, then settings/users/audit parity before further reducing Filament fallback.
 
@@ -225,7 +225,7 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Visual evidence:** Browser/Playwright visual smoke was intentionally not rerun for this focused slice because no visual or interaction bug appeared and the user requested avoiding browser/Playwright unless needed.
 
-**Recommended next custom-admin slice:** Build Users and Settings custom admin parity, then custom Audit/Reports parity and upload/file-management parity before removing Filament fallback.
+**Recommended next custom-admin slice:** Build Users and Settings custom admin parity, then custom Audit/Reports parity before removing Filament fallback.
 
 ### Project Update: 2026-08-11 (Custom Admin Users and Settings Parity Layer)
 
@@ -239,7 +239,7 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Visual evidence:** Browser/Playwright visual smoke was intentionally not rerun for this focused slice because no visual or interaction bug appeared and the user requested avoiding browser/Playwright unless needed.
 
-**Recommended next custom-admin slice:** Build custom Audit/Reports parity, then upload/file-management parity and staff approval evidence before removing Filament fallback.
+**Recommended next custom-admin slice:** Build custom Audit/Reports parity, then staff approval evidence before removing Filament fallback.
 
 ### Project Update: 2026-08-11 (Custom Admin Audit and Reports Parity Layer)
 
@@ -247,13 +247,49 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Scope completed:** Added `/admin-console/audit`, `/admin-console/audit/{auditLog}`, and `/admin-console/reports`. Added `AuditLogController`, `ReportsController`, `AuditLogIndexRequest`, `ReportsIndexRequest`, `AuditLogResource`, `AdminReportResource`, role-aware Governance navigation entries, sidebar icons, Audit Trail command desk, Audit Event dossier, aggregate Reports dashboard, audit event/type/actor/system/date filters, sorting, pagination, IP/user-agent hash presentation, redacted old/new diffs, redacted metadata, aggregate inquiry/content/program/project/news/public-page governance summaries, and focused feature coverage.
 
-**Security and workflow decision:** Audit access remains policy-owned through `AuditLogPolicy` for Super Administrators and Read-Only Auditors. Reports access is role-gated through `AdminReportsMetricsService` and exposes aggregate-only rows. Recursive audit redaction removes passwords, tokens, 2FA secrets, recovery codes, private inquiry content, file paths, attachments, and document references before Vue receives data. Custom CSV/export remains disabled until privacy-reviewed export policies are approved. Filament Audit remains restricted fallback until staff approval, upload/file-management parity, and the final removal matrix are complete.
+**Security and workflow decision:** Audit access remains policy-owned through `AuditLogPolicy` for Super Administrators and Read-Only Auditors. Reports access is role-gated through `AdminReportsMetricsService` and exposes aggregate-only rows. Recursive audit redaction removes passwords, tokens, 2FA secrets, recovery codes, private inquiry content, file paths, attachments, and document references before Vue receives data. Custom CSV/export remains disabled until privacy-reviewed export policies are approved. Filament Audit remains restricted fallback until staff approval and the final removal matrix are complete.
 
 **Validation evidence:** `php -l` passed for `AuditLogController`, `ReportsController`, `AuditLogIndexRequest`, `ReportsIndexRequest`, `AuditLogResource`, `AdminReportResource`, and `AdminConsoleAuditReportsTest`. `php artisan test tests\Feature\AdminConsoleAuditReportsTest.php` passed with 5 tests and 120 assertions. Focused `vendor\bin\pint --test` passed for the Audit/Reports controller/request/resources/test plus modified route/navigation PHP files. `php artisan route:list --name=admin-console.audit` showed 2 custom audit routes. `php artisan route:list --name=admin-console.reports` showed 1 custom reports route. `npm run typecheck`, `npm run lint:check`, and `npm run build` passed.
 
 **Visual evidence:** Browser/Playwright visual smoke was intentionally not rerun for this focused slice because no visual or interaction bug appeared and the user requested avoiding browser/Playwright unless needed.
 
-**Recommended next custom-admin slice:** Build upload/file-management parity for News media assets and Project evidence, then collect staff approval evidence for the Filament removal matrix.
+**Recommended next custom-admin slice:** Collect staff approval evidence for the Filament removal matrix.
+
+### Project Update: 2026-08-12 (Custom Admin Upload and File-Management Parity)
+
+**Task:** Build custom upload/file-management parity for News media assets and Project evidence.
+
+**Scope completed:** Added `/admin-console/news/{newsRecord}/media` and `/admin-console/projects/{project}/evidence` with `NewsMediaManagerController`, `ProjectEvidenceManagerController`, media Form Requests, managed media/evidence resources, transaction-backed `AdminMediaLibraryService`, shared `AdminManagedMediaDesk.vue`, stable media-register CSS, and entry links from News and Project dossiers. Staff can upload, edit, replace, remove, and audit approved public image records with source, caption, alt text, rights note, verification date, storage disk, visibility, and policy-derived controls.
+
+**Security and workflow decision:** Uploads are limited to approved image MIME types and size from `config/belzamora.php`; private resident files, IDs, medical documents, and unapproved attachments remain disallowed. Writes are authorized by existing child policies, parent/child binding is verified before updates or removals, saves run through transactions, file replacement cleans old storage only after successful persistence, failed database writes remove newly uploaded files, and audit logs record metadata/path information without file contents. Filament remains restricted fallback until staff approval and the final removal matrix are complete.
+
+**Validation evidence:** `php -l` passed for `NewsMediaManagerController`, `ProjectEvidenceManagerController`, `AdminMediaLibraryService`, and `AdminConsoleMediaManagementTest`. `php artisan test tests\Feature\AdminConsoleMediaManagementTest.php` passed with 4 tests and 57 assertions. Focused `vendor\bin\pint --test` passed for the new media controllers, requests, resources, service, and test. `php artisan route:list --name=admin-console.news.media` showed 4 routes. `php artisan route:list --name=admin-console.projects.evidence` showed 4 routes. `npm run typecheck`, `npm run lint:check`, and `npm run build` passed; the first build attempt timed out at 120 seconds, then the successful rerun completed in 2m 14s.
+
+**Visual evidence:** Browser/Playwright was intentionally not run because no visual or interaction bug appeared and the request asked to avoid browser runs unless needed. CSS was added for stable previews, mobile stacking, and readable file-management cards.
+
+**Recommended next custom-admin slice:** Collect staff workflow approval evidence for custom Programs, Projects, News/media, Public Pages, Users/Settings, Audit/Reports, lifecycle, and upload parity; then finalize the Filament fallback parity matrix before any `/admin` redirect or Filament package removal.
+
+### Project Update: 2026-08-12 (Custom Admin Parity Acceptance Pass)
+
+**Task:** Review all `/admin-console` modules against the Filament fallback parity matrix.
+
+**Scope reviewed:** Dashboard/search, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, shared lifecycle actions, and upload/file-management. Route coverage, controller coverage, focused feature tests, and documentation state were inspected.
+
+**Acceptance decision:** Custom admin parity is **implemented for the requested `/admin-console` modules but not approved for Filament removal**. The listed daily workflows have custom routes, focused tests, and refreshed local browser evidence, but Filament must remain a restricted fallback until real staff workflow sign-off and decisions on adjacent fallback workflows are complete.
+
+**Workflows fully covered by custom admin:** inquiry case lifecycle; content approval lifecycle; content CRUD and governance for Programs, Projects, News/media, Legislation, and Public Pages; shared archive/restore/permanent-delete lifecycle actions; News media and Project evidence upload/file-management; Super Administrator staff-user management; read-only settings visibility; read-only audit; and aggregate reports.
+
+**Workflows still depending on Filament or formal scope decisions:** Source Records and reference/taxonomy maintenance from the Tier 2 admin productivity pack; CSV/export workflows where custom export policy is not privacy-approved; configuration/settings writes; and any staff notification-bell behavior not formally accepted as custom-console equivalent.
+
+**Security/privacy decision:** No new security blocker was found in the acceptance pass. Existing server patterns remain appropriate: middleware-protected `/admin-console`, policy-gated actions, Form Requests for writes, transaction-backed services, audit logging, redaction for sensitive inquiry/audit values, approved image upload restrictions, and no public storage for sensitive files. Export and settings writes remain intentionally blocked/deferred because they need explicit governance and privacy approval.
+
+**Validation evidence:** Fresh focused custom-admin regression command passed: `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleInquiryWorkflowTest.php tests\Feature\AdminConsoleContentGovernanceWorkflowTest.php tests\Feature\AdminConsoleProgramsTest.php tests\Feature\AdminConsoleProjectsTest.php tests\Feature\AdminConsoleNewsTest.php tests\Feature\AdminConsoleLegislationTest.php tests\Feature\AdminConsolePublicPagesTest.php tests\Feature\AdminConsoleUsersSettingsTest.php tests\Feature\AdminConsoleAuditReportsTest.php tests\Feature\AdminConsoleLifecycleActionsTest.php tests\Feature\AdminConsoleMediaManagementTest.php` passed with 96 tests and 1308 assertions.
+
+**Browser/manual acceptance evidence:** A local staff-proxy browser acceptance pass used temporary SQLite database `database/admin_console_acceptance.sqlite`, Super Administrator login `test@example.com`, and synthetic inquiry `QA-ADMIN-0001`; no production personal data was used. `node tests\e2e\admin-console-visual-smoke.mjs` generated 176 screenshots in `storage/app/admin-console-visual-smoke` and covered login, dashboard, command search, mobile navigation, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users, Settings, Audit, Reports, lifecycle entry points, and media/evidence management across 320, 390, 768, 1024, 1440, and 1920 px viewports. Initial Reports QA found a 1024 px table overflow; `resources/js/pages/Admin/Reports/Index.vue` and `resources/css/admin-console.css` were fixed with compact Reports table styling, then Reports retested successfully. `npm run build`, `npm run typecheck`, and `npm run lint:check` passed after the fix.
+
+**Staff-observed limitation:** No real District Office staff member observed or signed the session. Every module remains staff-approval pending, and Filament remains available as restricted fallback.
+
+**Recommended next custom-admin task:** Schedule real staff acceptance using the generated screenshots and live `/admin-console`, then decide whether Source Records, reference data CRUD, CSV exports, notification bell behavior, and settings writes are required before hiding or redirecting `/admin`.
 
 ### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
 

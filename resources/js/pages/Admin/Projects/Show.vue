@@ -156,6 +156,13 @@ const projectStatusBadgeValue = (tone: string) =>
                 >
                     <Edit3 aria-hidden="true" />Edit project
                 </Link>
+                <Link
+                    v-if="project.can.update && !project.lifecycle.trashed"
+                    :href="`/admin-console/projects/${project.id}/evidence`"
+                    class="admin-button admin-button--secondary"
+                >
+                    <Image aria-hidden="true" />Manage evidence
+                </Link>
                 <AdminStatusBadge
                     v-if="project.lifecycle.trashed"
                     value="archived"
@@ -414,9 +421,10 @@ const projectStatusBadgeValue = (tone: string) =>
                         <h2>Fallback status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom project editing and lifecycle actions are
-                        available. File upload replacement stays in the
-                        restricted fallback until upload parity is verified.
+                        Custom project editing, evidence uploads, metadata, and
+                        lifecycle actions are available. Filament remains
+                        restricted as a fallback until final staff parity
+                        approval.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"
