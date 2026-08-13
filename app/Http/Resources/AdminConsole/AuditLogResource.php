@@ -4,6 +4,7 @@ namespace App\Http\Resources\AdminConsole;
 
 use App\Filament\Resources\AuditLogResource as FilamentAuditLogResource;
 use App\Models\AuditLog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
@@ -160,7 +161,9 @@ class AuditLogResource extends JsonResource
             return null;
         }
 
-        if (! ($request->user()?->can('view', $this->resource) ?? false)) {
+        $user = $request->user();
+
+        if (! $user instanceof User || ! $user->canAccessFilamentFallback() || ! $user->can('view', $this->resource)) {
             return null;
         }
 

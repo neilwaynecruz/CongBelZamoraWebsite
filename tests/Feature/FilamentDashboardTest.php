@@ -36,7 +36,7 @@ class FilamentDashboardTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(DashboardHeaderWidget::class)
-            ->assertSee('Emergency fallback only.')
+            ->assertSee('Emergency admin only.')
             ->assertSee('/admin-console');
     }
 

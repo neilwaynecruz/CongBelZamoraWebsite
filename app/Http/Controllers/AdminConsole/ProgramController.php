@@ -269,7 +269,7 @@ class ProgramController extends Controller
             return null;
         }
 
-        if (! $user->can('update', $program)) {
+        if (! $user->canAccessFilamentFallback() || ! $user->can('update', $program)) {
             return null;
         }
 

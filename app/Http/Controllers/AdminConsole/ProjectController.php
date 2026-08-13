@@ -321,7 +321,7 @@ class ProjectController extends Controller
             return null;
         }
 
-        if (! $user->can('update', $project)) {
+        if (! $user->canAccessFilamentFallback() || ! $user->can('update', $project)) {
             return null;
         }
 

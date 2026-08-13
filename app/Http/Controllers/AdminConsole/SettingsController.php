@@ -61,6 +61,7 @@ class SettingsController extends Controller
                 'reason' => 'Settings are read-only until a dedicated approval workflow for configuration changes is approved.',
             ],
             'filamentFallbackUrl' => (bool) config('belzamora.admin_console.filament_fallback_enabled', true)
+                && $user->canAccessFilamentFallback()
                 ? url('/admin')
                 : null,
         ]);

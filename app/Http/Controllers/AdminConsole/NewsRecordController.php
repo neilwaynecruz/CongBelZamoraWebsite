@@ -327,7 +327,7 @@ class NewsRecordController extends Controller
             return null;
         }
 
-        if (! $user->can('update', $record)) {
+        if (! $user->canAccessFilamentFallback() || ! $user->can('update', $record)) {
             return null;
         }
 

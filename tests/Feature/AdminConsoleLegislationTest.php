@@ -328,6 +328,14 @@ class AdminConsoleLegislationTest extends TestCase
                 ->where('legislativeRecord.governance.approval.id', $approval->id)
                 ->where('legislativeRecord.lifecycle.archiveUrl', route('admin-console.legislation.archive', $record))
                 ->where('legislativeRecord.can.update', true)
+                ->where('filamentFallbackUrl', null));
+
+        $superAdministrator = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+
+        $this->actingAs($superAdministrator)
+            ->get(route('admin-console.legislation.show', $record))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
                 ->where('filamentFallbackUrl', FilamentLegislativeRecordResource::getUrl('edit', ['record' => $record])));
     }
 

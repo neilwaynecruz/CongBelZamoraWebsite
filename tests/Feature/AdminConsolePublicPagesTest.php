@@ -287,6 +287,14 @@ class AdminConsolePublicPagesTest extends TestCase
                 ->where('publicPage.governance.approval.href', route('admin-console.content-approvals.show', $approval))
                 ->where('publicPage.governance.readiness.passed', true)
                 ->where('publicPage.can.update', true)
+                ->where('filamentFallbackUrl', null));
+
+        $superAdministrator = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+
+        $this->actingAs($superAdministrator)
+            ->get(route('admin-console.public-pages.show', $page))
+            ->assertOk()
+            ->assertInertia(fn (Assert $inertia) => $inertia
                 ->where('filamentFallbackUrl', FilamentPublicPageResource::getUrl('edit', ['record' => $page])));
     }
 

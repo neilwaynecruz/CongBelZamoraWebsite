@@ -245,7 +245,7 @@ onBeforeUnmount(() => {
                                 }}</small>
                             </label>
                             <label class="admin-field">
-                                <span>Internal route name</span>
+                                <span>Internal page name</span>
                                 <input
                                     v-model="editor.route_name"
                                     type="text"
@@ -320,7 +320,7 @@ onBeforeUnmount(() => {
                                 />
                             </label>
                             <label class="admin-field">
-                                <span>Open Graph image path or URL</span>
+                                <span>Social preview image path or link</span>
                                 <input v-model="editor.og_image" type="text" />
                             </label>
                         </div>
@@ -414,7 +414,7 @@ onBeforeUnmount(() => {
                                 />
                             </label>
                             <label class="admin-field">
-                                <span>Primary source URL</span>
+                                <span>Primary source link</span>
                                 <input v-model="editor.source_url" type="url" />
                             </label>
                             <label class="admin-field">
@@ -460,7 +460,7 @@ onBeforeUnmount(() => {
                                 />
                             </label>
                             <label class="admin-field">
-                                <span>Record URL</span>
+                                <span>Record link</span>
                                 <input
                                     v-model="editor.source_record.url"
                                     type="url"

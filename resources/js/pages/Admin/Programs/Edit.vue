@@ -696,7 +696,7 @@ onBeforeUnmount(() => {
                                         />
                                     </label>
                                     <label class="admin-field">
-                                        <span>Update source URL</span>
+                                        <span>Update source link</span>
                                         <input
                                             v-model="update.source_url"
                                             type="url"
@@ -769,7 +769,7 @@ onBeforeUnmount(() => {
                                 }}</small>
                             </label>
                             <label class="admin-field">
-                                <span>Primary source URL</span>
+                                <span>Primary source link</span>
                                 <input
                                     v-model="editor.source_url"
                                     type="url"
@@ -835,7 +835,7 @@ onBeforeUnmount(() => {
                                 >
                             </label>
                             <label class="admin-field">
-                                <span>Record URL</span>
+                                <span>Record link</span>
                                 <input
                                     v-model="editor.source_record.url"
                                     type="url"

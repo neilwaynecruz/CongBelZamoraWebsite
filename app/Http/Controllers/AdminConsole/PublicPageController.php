@@ -269,7 +269,7 @@ class PublicPageController extends Controller
             return null;
         }
 
-        if (! $user->can('update', $page)) {
+        if (! $user->canAccessFilamentFallback() || ! $user->can('update', $page)) {
             return null;
         }
 

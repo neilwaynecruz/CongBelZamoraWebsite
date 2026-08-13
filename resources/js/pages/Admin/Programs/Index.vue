@@ -357,7 +357,7 @@ const freshnessBadgeValue = (tone: string) =>
                                 />
                                 <span>{{
                                     program.governance.approval
-                                        ? `Revision ${program.governance.approval.revisionNumber ?? ''}`
+                                        ? `Version ${program.governance.approval.revisionNumber ?? ''}`
                                         : 'No approval record'
                                 }}</span>
                             </td>

@@ -436,7 +436,7 @@ onBeforeUnmount(() => {
                                         />
                                     </label>
                                     <label class="admin-field">
-                                        <span>Media source URL</span>
+                                        <span>Media source link</span>
                                         <input
                                             v-model="asset.source_url"
                                             type="url"
@@ -509,7 +509,7 @@ onBeforeUnmount(() => {
                                 />
                             </label>
                             <label class="admin-field">
-                                <span>Primary source URL</span>
+                                <span>Primary source link</span>
                                 <input v-model="editor.source_url" type="url" />
                             </label>
                             <label class="admin-field">
@@ -555,7 +555,7 @@ onBeforeUnmount(() => {
                                 />
                             </label>
                             <label class="admin-field">
-                                <span>Record URL</span>
+                                <span>Record link</span>
                                 <input
                                     v-model="editor.source_record.url"
                                     type="url"

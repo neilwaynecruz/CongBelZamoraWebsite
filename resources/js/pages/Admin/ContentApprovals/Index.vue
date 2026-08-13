@@ -295,7 +295,7 @@ const freshnessBadgeValue = (tone: string) =>
                                     >{{ approval.recordType }} · Approval #{{
                                         approval.id
                                     }}
-                                    · Revision
+                                    · Version
                                     {{ approval.revisionNumber }}</span
                                 >
                             </td>

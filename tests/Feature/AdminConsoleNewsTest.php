@@ -329,6 +329,14 @@ class AdminConsoleNewsTest extends TestCase
                 ->where('newsRecord.governance.approval.href', route('admin-console.content-approvals.show', $approval))
                 ->where('newsRecord.governance.readiness.passed', true)
                 ->where('newsRecord.can.update', true)
+                ->where('filamentFallbackUrl', null));
+
+        $superAdministrator = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+
+        $this->actingAs($superAdministrator)
+            ->get(route('admin-console.news.show', $record))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
                 ->where('filamentFallbackUrl', FilamentNewsRecordResource::getUrl('edit', ['record' => $record])));
     }
 

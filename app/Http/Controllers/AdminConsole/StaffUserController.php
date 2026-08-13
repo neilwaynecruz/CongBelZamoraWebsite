@@ -259,7 +259,7 @@ class StaffUserController extends Controller
             return null;
         }
 
-        if (! $actor->can('update', $staffUser)) {
+        if (! $actor->canAccessFilamentFallback() || ! $actor->can('update', $staffUser)) {
             return null;
         }
 

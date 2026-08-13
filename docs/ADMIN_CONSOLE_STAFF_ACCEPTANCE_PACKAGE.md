@@ -1,131 +1,154 @@
-# Custom Admin Console Staff Acceptance Package
+# Admin Console Staff Acceptance Package
 
-**Project:** Cong. Bel Zamora Digital District Office  
-**Surface under review:** `/admin-console` custom District Office Command System  
-**Fallback under review:** `/admin` restricted Filament emergency fallback  
-**Prepared:** August 13, 2026  
-**Status:** Staff-observed session pending. Technical package is ready, but no signed staff results are recorded.
+**Project:** Cong. Bel Zamora Digital District Office
+**System to review:** `/admin-console` staff work area
+**Emergency backup:** `/admin` older admin area, available only to Super Administrators when needed
+**Prepared:** August 13, 2026
+**Current status:** Ready for staff review. No signed staff approval has been recorded yet.
 
-This package is the working checklist for staff-observed acceptance, fallback-use monitoring, and final Filament fallback decisions. It does not authorize removing Filament. It exists to prove whether daily staff work can be completed in `/admin-console` without using `/admin`.
+Use this document during the live staff review. Its purpose is simple:
 
-## 1. Session Setup
+- Confirm that staff can do their daily work in `/admin-console`.
+- Record anything confusing, missing, or unsafe.
+- Record every time someone still needs the older `/admin` area.
+- Decide whether the older admin area can stay emergency-only.
 
-| Field | Value |
+This document **does not** approve removing Filament or deleting the older admin area.
+
+## 1. Review Session Details
+
+Fill this in before the review starts.
+
+| Field | Answer |
 | --- | --- |
-| Session date and time, Asia/Manila |  |
-| Environment URL |  |
-| Build or commit SHA |  |
-| Facilitator |  |
-| Note taker |  |
-| Super Administrator participant |  |
-| Inquiry staff participant |  |
-| Content/program staff participant |  |
-| Communications/media participant |  |
-| Legislative/project participant |  |
-| Privacy or legal reviewer |  |
+| Date and time, Asia/Manila |  |
+| Website or test link used |  |
+| Reviewed version or commit |  |
+| Person leading the review |  |
+| Person taking notes |  |
+| Super Administrator present |  |
+| Inquiry staff present |  |
+| Program or content staff present |  |
+| Communications or media staff present |  |
+| Legislative or project staff present |  |
+| Privacy or legal reviewer present |  |
 | Accessibility observer, if available |  |
 
-## 2. Global Acceptance Criteria
+## 2. When A Section Can Be Accepted
 
-A module can be marked accepted only when staff can complete the tested daily workflow in `/admin-console` without using Filament, and all items below are satisfied:
+Mark a section accepted only when staff can complete the work in `/admin-console` without using the older `/admin` area.
 
-- Access is role-appropriate.
-- Required actions are visible and understandable.
-- Sensitive inquiry or audit data is not exposed to unauthorized roles.
-- Search, filters, sorting, and pagination behave as expected where present.
-- Forms show visible labels, helper text, and actionable validation errors.
-- Destructive actions require clear confirmation.
-- Source, verification, approval, or rights fields are present where required.
-- Mobile and desktop layouts remain usable.
-- Keyboard navigation and visible focus are acceptable.
-- Staff can explain what to do next after each empty, warning, or error state.
+Each accepted section must meet these checks:
 
-## 3. Module Checklist
+- The right staff can open it, and the wrong staff cannot.
+- The buttons and next steps are easy to understand.
+- Private resident information is shown only to staff who are allowed to see it.
+- Search, filters, sorting, and page controls work where they appear.
+- Forms have clear labels and helpful error messages.
+- Risky actions, like delete or restore, explain what will happen first.
+- Source checks, approval checks, and file-rights fields are present when needed.
+- The page works on phone-sized and desktop-sized screens.
+- Staff can use the page with a keyboard.
+- Empty, warning, and error messages explain what to do next.
 
-Use these statuses only: `Accepted`, `Accepted with Follow-Up`, `Blocked`, or `Not Tested`.
+Use only these results:
 
-| Module | Required staff workflow | Acceptance status | Staff initials | Notes or defect ID |
+- `Accepted`: Staff can use it for daily work.
+- `Accepted with Follow-Up`: Staff can use it, but a small improvement or training note is needed.
+- `Blocked`: Staff cannot safely complete the work yet.
+- `Not Tested`: This area was not reviewed.
+
+## 3. Staff Work Checklist
+
+| Area | What staff should try | Result | Staff initials | Notes or issue number |
 | --- | --- | --- | --- | --- |
-| Dashboard/Search | Login, review priority queues, use command search, navigate to assigned work |  |  |  |
-| Inquiries | Review list/detail, verify redaction, update permitted case actions, confirm unauthorized data is hidden |  |  |  |
-| Content Approvals | Review queue/detail, approve/reject/request changes where authorized, confirm reviewer-only behavior |  |  |  |
-| Programs | Search/filter/list/detail/create/edit, source fields, requirements, updates, approval submission |  |  |  |
-| Projects | Search/filter/list/detail/create/edit, partner/status/category fields, evidence references, approval submission |  |  |  |
-| News/media | Search/filter/list/detail/create/edit, official source, stale review, media-rights metadata |  |  |  |
-| Legislation | Search/filter/list/detail/create/edit, role/status/topic filters, official source, plain-language summary, source history |  |  |  |
-| Public Pages | Search/filter/list/detail/create/edit, slug/route metadata, SEO fields, structured props, source fields |  |  |  |
-| Users/Settings | Super Administrator user create/edit, role/status controls, reset-link action, 2FA visibility, read-only settings |  |  |  |
-| Audit/Reports | Audit list/detail filters, redacted diffs, aggregate-only reports, no invented official data |  |  |  |
-| Source Records | Search/filter/list/detail/create/edit/archive/restore source records and verification fields |  |  |  |
-| Reference Data | Manage approved categories/statuses/topics/partners/routing labels, active/inactive controls, usage warning |  |  |  |
-| Upload/file-management | News media and project evidence upload/edit/replace/remove metadata, rights, caption, alt text, source fields |  |  |  |
-| Lifecycle actions | Archive, restore, and permanent-delete controls where policies allow, with confirmation and audit expectation |  |  |  |
-| Emergency `/admin` fallback | Super Administrator confirms access only for emergency fallback; non-Super staff confirm no daily need |  |  |  |
+| Dashboard and search | Log in, review priority work, search for records, and open assigned work. |  |  |  |
+| Inquiries | Review inquiry lists and details, confirm private details are protected, and complete allowed case actions. |  |  |  |
+| Content reviews | Review pending items, approve, reject, or request changes if the staff role allows it. |  |  |  |
+| Programs | Find, open, create, and edit programs; add requirements, updates, sources, and send for review. |  |  |  |
+| Projects | Find, open, create, and edit projects; check partner, status, category, proof, and review steps. |  |  |  |
+| News and media | Find, open, create, and edit updates; check official sources, old-content warnings, and media rights. |  |  |  |
+| Legislation | Find, open, create, and edit legislative records; check role, status, topic, plain summary, and source history. |  |  |  |
+| Public pages | Find, open, create, and edit public pages; check page address, page type, search preview, content, and sources. |  |  |  |
+| Users and settings | Super Administrator creates or updates staff accounts, roles, active status, password reset links, and reviews read-only settings. |  |  |  |
+| Activity log and reports | Review activity history and summary reports; confirm private values stay hidden. |  |  |  |
+| Official sources | Find, open, create, and edit official sources and review dates. |  |  |  |
+| Reference lists | Manage approved categories, statuses, topics, partners, and labels; check warnings before turning items off. |  |  |  |
+| File uploads | Upload, edit, replace, or remove news images and project proof files with captions, alt text, rights notes, and sources. |  |  |  |
+| Archive, restore, and delete | Confirm that archive, restore, remove, and permanent delete actions are clear and require confirmation. |  |  |  |
+| Emergency `/admin` backup | Super Administrator confirms `/admin` works only as emergency backup; other staff confirm they do not need it for daily work. |  |  |  |
 
-## 4. Role and Access Checks
+## 4. Login And Access Checks
 
-| Check | Expected result | Pass/Fail | Notes |
+These checks make sure the right people can enter the right area.
+
+| Check | Expected result | Pass or fail | Notes |
 | --- | --- | --- | --- |
-| Guest visits `/admin-console` | Redirects to `/admin-console/login` |  |  |
-| Guest visits `/admin` | Redirects to `/admin/login` |  |  |
-| Non-staff authenticated user visits `/admin-console` | Receives 403 |  |  |
-| Inactive staff visits `/admin-console` | Receives 403 |  |  |
-| Non-Super staff visits `/admin` | Receives 403 |  |  |
-| Active verified Super Administrator visits `/admin` | Can access emergency fallback and sees fallback banner |  |  |
-| Non-Super staff sidebar | Does not show Legacy Admin Fallback |  |  |
-| Super Administrator sidebar | Shows Legacy Admin Fallback only when fallback config is enabled |  |  |
+| Visitor opens `/admin-console` without logging in | They are sent to `/admin-console/login`. |  |  |
+| Visitor opens `/admin` without logging in | They are sent to `/admin/login`. |  |  |
+| Logged-in person who is not staff opens `/admin-console` | They are blocked. |  |  |
+| Inactive staff account opens `/admin-console` | They are blocked. |  |  |
+| Staff who is not a Super Administrator opens `/admin` | They are blocked. |  |  |
+| Active verified Super Administrator opens `/admin` | They can enter and see the emergency-backup warning. |  |  |
+| Staff who is not a Super Administrator checks the sidebar | They do not see the older admin area. |  |  |
+| Super Administrator checks the sidebar | They see the older admin area only if emergency backup is enabled. |  |  |
 
-## 5. Accessibility and Usability Checks
+## 5. Ease-Of-Use And Accessibility Checks
 
-| Check | Expected result | Pass/Fail | Notes |
+| Check | Expected result | Pass or fail | Notes |
 | --- | --- | --- | --- |
-| Keyboard-only navigation | All visible controls can be reached and operated |  |  |
-| Focus visibility | Focus indicator is visible on links, buttons, form fields, and dialogs |  |  |
-| Modal or confirmation controls | Escape behavior, focus return, and destructive confirmation copy are understandable |  |  |
-| Mobile navigation | Staff can navigate at small widths without horizontal overflow |  |  |
-| 200 percent zoom | Forms, tables, and actions remain readable and usable |  |  |
-| Error and empty states | Staff understand what happened and what to do next |  |  |
+| Keyboard use | Staff can reach and use visible links, buttons, form fields, and dialogs without a mouse. |  |  |
+| Focus highlight | The current link, button, field, or dialog control is easy to see. |  |  |
+| Confirmation messages | Warning dialogs clearly explain what will happen, especially for delete or restore actions. |  |  |
+| Mobile layout | Staff can use the page on small screens without sideways scrolling. |  |  |
+| 200 percent zoom | Text, forms, tables, and actions remain readable and usable. |  |  |
+| Error and empty messages | Staff understand what happened and what to do next. |  |  |
 
-## 6. Fallback-Use Register
+## 6. Emergency `/admin` Use Log
 
-Record every `/admin` use during the acceptance window. A blank register is not approval to remove Filament; it must be reviewed and signed after at least one release cycle.
+Record every time someone uses the older `/admin` area during the review window.
 
-| Date/time, Asia/Manila | Actor | Role | Reason for `/admin` use | Workflow attempted | Why `/admin-console` was insufficient | Sensitive data involved? | Follow-up owner | Remediation or decision | Closed date |
+A blank log does **not** automatically approve removing Filament. The project owner and Super Administrator must review and sign the final decision after at least one release cycle.
+
+| Date/time, Asia/Manila | Staff member | Role | Why `/admin` was used | Work they tried to do | Why `/admin-console` was not enough | Private data involved? | Follow-up owner | Fix or decision | Closed date |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |  |  |  |  |
 
-Fallback-use classification:
+Use these reason types:
 
-- `Emergency recovery`: Super Administrator recovery or break-glass operation.
-- `Policy-deferred`: Export, mutable settings, or notification behavior still awaiting approval.
-- `Workflow gap`: Daily staff task missing or unclear in `/admin-console`.
-- `Training issue`: Custom workflow exists but staff need clearer training or labels.
-- `Bug`: Custom workflow exists but failed.
+- `Emergency recovery`: A Super Administrator needed the older admin area to recover from a serious issue.
+- `Waiting for policy`: The work needs an approved rule first, such as exports, editable settings, or notifications.
+- `Missing work step`: A daily task is missing or unclear in `/admin-console`.
+- `Training needed`: The work exists, but staff need clearer instructions or labels.
+- `Bug`: The work exists, but something failed.
 
-Any `Workflow gap` or `Bug` entry blocks `/admin` redirect and Filament package removal until fixed and retested.
+Any `Missing work step` or `Bug` entry blocks `/admin` redirect and Filament removal until it is fixed and retested.
 
-## 7. Policy Decisions To Confirm
+## 7. Decisions To Confirm
 
-| Decision | Recommended position | Approver | Decision date | Approved? | Notes |
+These decisions must be signed before changing the older admin area.
+
+| Decision | Recommended answer | Who approves | Date | Approved? | Notes |
 | --- | --- | --- | --- | --- | --- |
-| Export policy | Keep custom exports disabled until DPO/legal approves redaction, retention, requester, and audit rules | DPO/legal plus Super Administrator |  |  |  |
-| Settings writes | Keep Settings read-only before launch unless rollback and audit workflow is approved | Super Administrator plus project owner |  |  |  |
-| Notification bell | Accept dashboard/task queues as daily replacement, or approve a custom notification center | Operations owner plus staff leads |  |  |  |
-| `/admin` access | Keep emergency-only for active verified Super Administrators during acceptance window | Super Administrator |  |  |  |
-| Filament removal | Do not schedule until signed acceptance, clean release cycle, and fallback-use review | Project owner plus Super Administrator |  |  |  |
+| Exports | Keep custom exports off until privacy/legal approves what can be exported, who can request it, how long it is kept, and how it is logged. | Privacy/legal reviewer and Super Administrator |  |  |  |
+| Editable settings | Keep Settings read-only before launch unless a tested save, rollback, and activity-log process is approved. | Super Administrator and project owner |  |  |  |
+| Notifications | Decide whether dashboard tasks are enough, or whether a separate notification center is needed. | Operations owner and staff leads |  |  |  |
+| `/admin` access | Keep `/admin` emergency-only for active verified Super Administrators during the review window. | Super Administrator |  |  |  |
+| Filament removal | Do not schedule removal until staff sign-off, a clean release cycle, and emergency-use review are complete. | Project owner and Super Administrator |  |  |  |
 
-## 8. Approval Workflow
+## 8. How To Run The Review
 
-1. Facilitator opens the reviewed environment and confirms build or commit SHA.
-2. Staff perform each module workflow using realistic non-production sample records.
-3. Note taker records pass/fail status, blockers, confusion points, and fallback attempts.
-4. Privacy/legal reviewer checks inquiry redaction, audit redaction, exports, and media/file handling.
-5. Super Administrator verifies `/admin` emergency fallback access and confirms non-Super staff do not need Filament for daily work.
-6. Each staff lead signs the module rows they observed.
-7. Project owner reviews unresolved defects and assigns severity.
-8. Launch governance decides whether the result is accepted, accepted with follow-up, or blocked.
-9. Fallback-use monitoring begins or continues for one release cycle.
-10. Filament redirect or package-removal planning may begin only after all blocking rows are closed and signed.
+1. Open the reviewed website or test link.
+2. Write down the reviewed version or commit.
+3. Ask staff to complete each work area using safe sample records, not real private resident data.
+4. Record whether each area passes, needs follow-up, is blocked, or was not tested.
+5. Write down anything confusing, missing, unsafe, or hard to use.
+6. Ask privacy/legal to review private inquiry information, hidden activity-log values, exports, and file handling.
+7. Ask the Super Administrator to confirm `/admin` works only as emergency backup.
+8. Ask staff leads to initial the rows they observed.
+9. Assign an owner and severity for each open issue.
+10. Start or continue the emergency `/admin` use log for one release cycle.
+11. Do not plan `/admin` redirect or Filament removal until all blocking issues are closed and signed.
 
 ## 9. Final Sign-Off
 
@@ -140,123 +163,152 @@ Any `Workflow gap` or `Bug` entry blocks `/admin` redirect and Filament package 
 | Privacy or legal reviewer |  |  |  |  |
 | Accessibility reviewer, if available |  |  |  |  |
 
-Final decision options:
+Decision options:
 
-- `Accepted`: All daily workflows pass, no launch-blocking issues remain, fallback-use register has no unresolved daily-work dependency.
-- `Accepted with Follow-Up`: No launch-blocking issue remains, but minor training or copy refinements are tracked.
-- `Blocked`: One or more staff workflows still require Filament, expose unacceptable risk, or cannot be completed.
+- `Accepted`: Staff can complete daily work, no launch-blocking issue remains, and the emergency-use log has no unresolved daily-work dependency.
+- `Accepted with Follow-Up`: Staff can complete daily work, but small training, wording, or usability improvements are still listed.
+- `Blocked`: A staff workflow still needs the older admin area, has an unsafe risk, or cannot be completed.
 
 ## 10. Current Decision
 
 As of August 13, 2026:
 
-- `/admin-console` is technically sufficient for daily staff workflows based on local tests and staff-proxy browser evidence.
-- Real staff-observed acceptance is not yet complete.
-- Fallback-use monitoring is required before redirecting `/admin` or removing Filament.
-- Filament remains installed and restricted as emergency fallback.
+- `/admin-console` is technically ready for daily staff workflows based on local tests and local browser evidence.
+- Real staff review is not complete yet.
+- Emergency `/admin` use must be monitored before any redirect or Filament removal.
+- Filament stays installed and restricted as the emergency backup.
 
 ## 11. Session Record - August 13, 2026
 
-Session status: **Not conducted; awaiting real staff participants**.
+Session status: **Not conducted yet; waiting for real staff participants**.
 
-This workspace cannot truthfully record a real staff-observed acceptance session because no District Office staff participant, signed decision, reviewed environment URL, production fallback-use log, or approval artifact was provided. The package remains ready for the live session, but no module is staff-accepted yet.
+This file cannot truthfully record staff approval because no District Office staff participant, signed decision, reviewed website link, production emergency-use log, or approval document was provided.
 
-Recorded results:
+Current results:
 
 | Area | Result | Evidence |
 | --- | --- | --- |
-| Staff decisions | Pending | No staff participant decisions were provided. |
-| Module sign-offs | Pending | No staff initials or signatures were provided. |
-| Blockers | Staff acceptance unavailable; fallback-use monitoring not started from production evidence | No reviewed session record or production fallback-use register was available. |
-| Fallback-use entries | None recorded in this package | No `/admin` emergency-use log was provided. |
-| Export policy | Pending | DPO/legal approval was not provided. |
-| Settings-write policy | Pending | Settings remain read-only until an approved write workflow exists. |
-| Notification decision | Pending staff approval | Dashboard/task queues remain the provisional daily-work replacement. |
-| `/admin-console` daily-work decision | Technically sufficient, not staff-signed | Based on existing local tests and staff-proxy browser evidence only. |
-| `/admin` fallback decision | Keep emergency-only for active verified Super Administrators | Do not remove Filament or redirect `/admin`. |
+| Staff decisions | Pending | No staff decisions were provided. |
+| Section sign-offs | Pending | No staff initials or signatures were provided. |
+| Blockers | Staff review unavailable; production emergency-use monitoring has not started. | No completed review record or production emergency-use log was available. |
+| Emergency `/admin` use entries | None recorded here | No emergency-use log was provided. |
+| Export policy | Pending | Privacy/legal approval was not provided. |
+| Editable settings policy | Pending | Settings stay read-only until an approved edit process exists. |
+| Notification decision | Pending staff approval | Dashboard tasks are the temporary daily-work replacement. |
+| `/admin-console` daily-work decision | Technically ready, not staff-signed | Based on local tests and local browser evidence only. |
+| `/admin` backup decision | Keep emergency-only for active verified Super Administrators. | Do not remove Filament or redirect `/admin`. |
 
-Current module acceptance status:
+Current staff approval status:
 
-| Module | Staff acceptance status |
+| Area | Staff approval status |
 | --- | --- |
-| Dashboard/Search | Not Tested by real staff |
-| Inquiries | Not Tested by real staff |
-| Content Approvals | Not Tested by real staff |
-| Programs | Not Tested by real staff |
-| Projects | Not Tested by real staff |
-| News/media | Not Tested by real staff |
-| Legislation | Not Tested by real staff |
-| Public Pages | Not Tested by real staff |
-| Users/Settings | Not Tested by real staff |
-| Audit/Reports | Not Tested by real staff |
-| Source Records | Not Tested by real staff |
-| Reference Data | Not Tested by real staff |
-| Upload/file-management | Not Tested by real staff |
-| Lifecycle actions | Not Tested by real staff |
-| Emergency `/admin` fallback | Not Tested by real staff |
+| Dashboard and search | Not tested by real staff |
+| Inquiries | Not tested by real staff |
+| Content reviews | Not tested by real staff |
+| Programs | Not tested by real staff |
+| Projects | Not tested by real staff |
+| News and media | Not tested by real staff |
+| Legislation | Not tested by real staff |
+| Public pages | Not tested by real staff |
+| Users and settings | Not tested by real staff |
+| Activity log and reports | Not tested by real staff |
+| Official sources | Not tested by real staff |
+| Reference lists | Not tested by real staff |
+| File uploads | Not tested by real staff |
+| Archive, restore, and delete | Not tested by real staff |
+| Emergency `/admin` backup | Not tested by real staff |
 
 Next required action:
 
-Schedule the real staff-observed acceptance session, fill Sections 1 through 9 during the live review, attach the reviewed build or commit SHA, and keep the fallback-use register active for at least one release cycle before any `/admin` redirect or Filament package-removal plan.
+Schedule the real staff review. During the live review, fill Sections 1 through 9, attach the reviewed version or commit, and keep the emergency `/admin` use log active for at least one release cycle.
 
 ## 12. Release-Candidate QA Pass - August 13, 2026
 
-QA status: **Go for scheduling real staff-observed acceptance; no-go for `/admin` redirect or Filament removal**.
+QA status: **Ready to schedule staff review. Not approved for `/admin` redirect or Filament removal.**
 
-This was a focused technical release-candidate pass before staff acceptance. It did not replace the real staff-observed session and did not mark any module staff-accepted.
+This was a technical check before staff review. It does not replace real staff approval.
 
-Verification commands and results:
+Checks already run:
 
 | Check | Command | Result |
 | --- | --- | --- |
-| Focused custom-admin workflow and fallback authorization tests | `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleInquiryWorkflowTest.php tests\Feature\AdminConsoleContentGovernanceWorkflowTest.php tests\Feature\AdminConsoleProgramsTest.php tests\Feature\AdminConsoleProjectsTest.php tests\Feature\AdminConsoleNewsTest.php tests\Feature\AdminConsoleLegislationTest.php tests\Feature\AdminConsolePublicPagesTest.php tests\Feature\AdminConsoleUsersSettingsTest.php tests\Feature\AdminConsoleAuditReportsTest.php tests\Feature\AdminConsoleLifecycleActionsTest.php tests\Feature\AdminConsoleMediaManagementTest.php tests\Feature\AdminConsoleSourceReferenceTest.php tests\Feature\FilamentDashboardTest.php` | Passed: 112 tests, 1416 assertions |
-| Admin and fallback route inventory | `php artisan route:list --path=admin --except-vendor` | Passed: `/admin-console` routes and `/admin` Filament routes are both present; no global `/admin` redirect is listed |
-| Source Records route inventory | `php artisan route:list --name=admin-console.source-records --except-vendor` | Passed: 8 custom Source Records routes |
-| Reference Data route inventory | `php artisan route:list --name=admin-console.reference-data --except-vendor` | Passed: 6 custom Reference Data routes |
-| Navigation and command-search evidence | `rg -n "admin-console\.source-records|admin-console\.reference-data|Source Records|Reference Data|source-records|reference-data" app\Services app\Http\Controllers routes resources\js tests\Feature\AdminConsoleSourceReferenceTest.php` | Passed: Source Records and Reference Data are present in routes/navigation; Source Records are covered in command-search routing and focused tests |
-| No accidental `/admin` redirect or Filament removal | `rg -n "Route::redirect|redirect\(|to_route\(|Redirect::to" routes app config` and `rg -n "filament/filament|AdminPanelProvider|Filament\\AdminPanelProvider|filament.admin.pages.dashboard" composer.json composer.lock app config bootstrap routes` | Passed: no global `/admin` redirect found; Filament package and panel provider remain registered |
+| Main custom-admin workflow and emergency-backup access tests | `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\AdminConsoleInquiryWorkflowTest.php tests\Feature\AdminConsoleContentGovernanceWorkflowTest.php tests\Feature\AdminConsoleProgramsTest.php tests\Feature\AdminConsoleProjectsTest.php tests\Feature\AdminConsoleNewsTest.php tests\Feature\AdminConsoleLegislationTest.php tests\Feature\AdminConsolePublicPagesTest.php tests\Feature\AdminConsoleUsersSettingsTest.php tests\Feature\AdminConsoleAuditReportsTest.php tests\Feature\AdminConsoleLifecycleActionsTest.php tests\Feature\AdminConsoleMediaManagementTest.php tests\Feature\AdminConsoleSourceReferenceTest.php tests\Feature\FilamentDashboardTest.php` | Passed: 112 tests, 1416 assertions |
+| Admin page list | `php artisan route:list --path=admin --except-vendor` | Passed: `/admin-console` and `/admin` are both present; no automatic `/admin` redirect is listed. |
+| Official Sources page list | `php artisan route:list --name=admin-console.source-records --except-vendor` | Passed: 8 custom Official Sources routes. |
+| Reference Lists page list | `php artisan route:list --name=admin-console.reference-data --except-vendor` | Passed: 6 custom Reference Lists routes. |
+| Navigation and search check | `rg -n "admin-console\.source-records|admin-console\.reference-data|Source Records|Reference Data|source-records|reference-data" app\Services app\Http\Controllers routes resources\js tests\Feature\AdminConsoleSourceReferenceTest.php` | Passed: Official Sources and Reference Lists are included in custom admin routes/navigation, with test coverage. |
+| No accidental `/admin` redirect or Filament removal | `rg -n "Route::redirect|redirect\(|to_route\(|Redirect::to" routes app config` and `rg -n "filament/filament|AdminPanelProvider|Filament\\AdminPanelProvider|filament.admin.pages.dashboard" composer.json composer.lock app config bootstrap routes` | Passed: no global `/admin` redirect found; Filament remains installed and registered. |
 
-Release-candidate findings:
+Technical findings:
 
-- `/admin-console` daily workflows remain covered by focused tests.
-- `/admin` remains emergency fallback rather than a global redirect.
+- `/admin-console` daily work areas are covered by focused tests.
+- `/admin` remains an emergency backup, not an automatic redirect.
 - Filament remains installed and registered.
-- Source Records and Reference Data are present in custom admin navigation and route coverage.
-- Source Records command-search routing is covered by `AdminConsoleSourceReferenceTest`.
-- No frontend files were changed in this pass, so npm checks were not run.
-- Real staff acceptance, production fallback-use monitoring, export policy approval, settings-write approval, notification replacement approval, and launch governance remain pending.
+- Official Sources and Reference Lists are present in custom admin navigation and route coverage.
+- Real staff approval, production emergency-use monitoring, export approval, editable-settings approval, notification decision, and launch approval are still pending.
 
-Go/no-go recommendation:
+Recommendation:
 
-- **Go:** Schedule the real staff-observed acceptance session using this package.
-- **No-go:** Do not redirect `/admin`, remove Filament packages, delete Filament resources, or mark custom admin staff-accepted until the live session is completed and signed.
+- **Proceed:** Schedule the real staff review using this package.
+- **Do not proceed:** Do not redirect `/admin`, remove Filament, delete Filament resources, or mark the custom admin as staff-approved until the live review is completed and signed.
 
-## 13. Plain-Language Wording Acceptance Addendum - August 13, 2026
+## 13. Plain-Language Wording Check - August 13, 2026
 
-Status: **Ready for staff review; legal/privacy wording approval still required where noted**.
+Status: **Ready for staff review. Privacy/legal wording approval is still needed.**
 
-The custom `/admin-console` wording was revised so staff-facing pages use clearer action labels, helper text, empty states, validation messages, and emergency-admin warnings. This addendum should be reviewed during the staff-observed acceptance session.
+The `/admin-console` wording was updated to use clearer labels, helper text, empty messages, error messages, and emergency-admin warnings. Review this during the live staff session.
 
-Acceptance checks:
+Plain-language checks:
 
-| Area | Staff check | Result | Notes |
+| Area | What to confirm with staff | Result | Notes |
 | --- | --- | --- | --- |
-| Dashboard/Search | Staff can understand priority work, search results, and emergency-admin links without explanation. | Pending |  |
-| Inquiries | Staff can understand case actions, privacy warnings, notes, responses, resolution, and closing. | Pending |  |
-| Content Approvals | Staff can understand review actions, saved versions, publish checks, and restore actions. | Pending |  |
-| Programs/Projects/News/Legislation/Public Pages | Staff can understand sources, publication readiness, review submission, file details, and emergency-admin status. | Pending |  |
-| Users/Settings | Super Administrators can understand access, 2FA, password changes, read-only settings, and activity-log boundaries. | Pending |  |
-| Audit/Reports | Authorized staff can understand activity logs, hidden sensitive values, totals-only reports, and export boundaries. | Pending |  |
-| Source Records/Reference Data | Staff can understand official sources, reference lists, source checks, and warnings for records used by content. | Pending |  |
-| Destructive actions | Staff can clearly tell what archive, restore, remove, and permanent delete actions do. | Pending | Privacy/legal reviewer should confirm deletion wording. |
+| Dashboard and search | Staff understand priority work, search results, and emergency-admin links without extra explanation. | Pending |  |
+| Inquiries | Staff understand case actions, privacy warnings, notes, responses, resolving, and closing. | Pending |  |
+| Content reviews | Staff understand review actions, saved versions, publish checks, and restore actions. | Pending |  |
+| Programs, Projects, News, Legislation, and Public Pages | Staff understand sources, readiness for review, file details, and emergency-admin status. | Pending |  |
+| Users and settings | Super Administrators understand access, 2FA, password changes, read-only settings, and activity-log limits. | Pending |  |
+| Activity log and reports | Allowed staff understand activity history, hidden private values, summary-only reports, and export limits. | Pending |  |
+| Official Sources and Reference Lists | Staff understand official sources, source checks, approved lists, and warnings for items already used by content. | Pending |  |
+| Archive, restore, and delete | Staff clearly understand what archive, restore, remove, and permanent delete actions do. | Pending | Privacy/legal reviewer should confirm delete wording. |
 
-Wording conventions to verify during acceptance:
+Words to check during the staff session:
 
 - "Details" should be clearer than "dossier".
-- "Official sources" and "source checks" should be clearer than source-record jargon.
-- "Review queue" and "send for review" should be clearer than governance jargon.
-- "Saved version" should be clearer than snapshot.
-- "Web address name" should be clearer than URL slug.
-- "Emergency admin" and "older admin area" should be clearer than fallback.
+- "Official sources" and "source checks" should be clearer than "source records".
+- "Review queue" and "send for review" should be clearer than "governance".
+- "Saved version" should be clearer than "snapshot".
+- "Web address name" should be clearer than "URL slug".
+- "Emergency admin" and "older admin area" should be clearer than "fallback".
 
-Record any unclear wording as an acceptance issue even when the workflow passes.
+Record any unclear wording as an issue, even if the button or page works.
+
+## 14. Copy And Ease-Of-Use Review - August 13, 2026
+
+Status: **Reviewed by proxy; ready for real staff review; not yet staff-approved**.
+
+This review checked whether `/admin-console` wording would make sense during a staff review. No access rules, page routes, saved data, backend rules, or emergency-admin behavior were changed.
+
+Findings:
+
+- Most page titles, action labels, helper text, empty messages, warnings, and confirmations now use plain staff-facing wording.
+- Privacy warnings and delete warnings are clear enough for review, but privacy/legal must still approve them.
+- Source-check and approval wording remains precise while avoiding unnecessary technical terms.
+- The last confusing labels found were "URL", "Revision", and "Internal route name".
+
+Copy fixes made:
+
+| Area | Before | After | Why it is clearer |
+| --- | --- | --- | --- |
+| Source fields in Programs, Projects, News, Legislation, and Public Pages | `Primary source URL`, `Official source URL`, `Record URL` | `Primary source link`, `Official source link`, `Record link` | "Link" is easier to understand than "URL". |
+| Program approval status | `Revision` | `Version` | "Version" better describes a saved record sent for review. |
+| Public page setup | `Internal route name` | `Internal page name` | Avoids Laravel routing language. |
+| Public page social preview | `Open Graph image path or URL` | `Social preview image path or link` | Explains where the image is used. |
+| Legislation source list | `Governed source record`, `Register URL` | `Official source record`, `Register link` | Keeps the source-check meaning while using plainer words. |
+
+Decision for the real session:
+
+- **Ready to test with staff:** Yes.
+- **Ready to mark staff-approved:** No. Real District Office staff, privacy/legal, and workflow owners still need to sign the rows above.
+- **Training notes needed:** Explain that "source link" means the official page or document used to support public information, and "version" means the saved record sent for review.
+
+Record any staff confusion from the live session as a wording issue, even if the workflow works.

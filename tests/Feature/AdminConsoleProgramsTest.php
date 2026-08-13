@@ -310,6 +310,14 @@ class AdminConsoleProgramsTest extends TestCase
                 ->where('program.governance.approval.href', route('admin-console.content-approvals.show', $approval))
                 ->where('program.governance.readiness.passed', true)
                 ->where('program.can.update', true)
+                ->where('filamentFallbackUrl', null));
+
+        $superAdministrator = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+
+        $this->actingAs($superAdministrator)
+            ->get(route('admin-console.programs.show', $program))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
                 ->where('filamentFallbackUrl', ProgramResource::getUrl('edit', ['record' => $program])));
     }
 

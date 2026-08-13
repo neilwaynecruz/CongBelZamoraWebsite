@@ -284,7 +284,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                             }}</small>
                         </label>
                         <label>
-                            <span>Official source URL</span>
+                            <span>Official source link</span>
                             <input v-model="createForm.source_url" type="url" />
                             <small v-if="createForm.errors.source_url">{{
                                 createForm.errors.source_url
@@ -506,7 +506,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                         }}</small>
                     </label>
                     <label>
-                        <span>Official source URL</span>
+                        <span>Official source link</span>
                         <input v-model="updateForm.source_url" type="url" />
                         <small v-if="updateForm.errors.source_url">{{
                             updateForm.errors.source_url

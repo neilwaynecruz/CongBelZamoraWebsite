@@ -348,6 +348,14 @@ class AdminConsoleProjectsTest extends TestCase
                 ->where('project.governance.approval.href', route('admin-console.content-approvals.show', $approval))
                 ->where('project.governance.readiness.passed', true)
                 ->where('project.can.update', true)
+                ->where('filamentFallbackUrl', null));
+
+        $superAdministrator = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+
+        $this->actingAs($superAdministrator)
+            ->get(route('admin-console.projects.show', $project))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
                 ->where('filamentFallbackUrl', FilamentProjectResource::getUrl('edit', ['record' => $project])));
     }
 

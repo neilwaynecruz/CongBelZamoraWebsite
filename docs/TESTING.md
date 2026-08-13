@@ -400,3 +400,28 @@ Validation results:
 | Whitespace/conflict check | `git diff --check` | Passed |
 
 Remaining QA: Real staff and privacy/legal reviewers still need to approve whether the revised wording is clear enough for daily work, inquiry privacy, source verification, exports, publishing, and destructive actions.
+
+## Custom Admin Staff-Facing Copy and UX Acceptance Review - August 13, 2026
+
+Scope: Proxy acceptance review of visible `/admin-console` wording after the plain-language pass. This was a copy-only review focused on whether staff can understand labels, helper text, empty states, warnings, confirmations, privacy language, destructive actions, source verification, and approval wording without technical knowledge.
+
+Changes made:
+
+- Replaced remaining visible `URL` labels with clearer `link` wording in Programs, Projects, News/media, Legislation, Public Pages, and managed upload/file-management UI.
+- Replaced visible `Revision` wording with `Version` in approval/list UI.
+- Replaced `Internal route name` with `Internal page name` in Public Pages.
+- Replaced `Open Graph image path or URL` with `Social preview image path or link`.
+- Replaced `Governed source record` with `Official source record` in Legislation.
+
+Validation results:
+
+| Check | Command | Result |
+| --- | --- | --- |
+| Vue type checking | `npm run typecheck` | Passed |
+| Vue linting | `npm run lint:check` | Passed |
+| Production frontend build | `npm run build` | Passed in 31.61s; emitted the known plugin timing note |
+| Whitespace/conflict check | `git diff --check` | Passed |
+
+PHP checks were not required for this acceptance review because no PHP files were changed in this pass.
+
+Remaining QA: Real staff and privacy/legal reviewers must still approve the wording during the live staff-observed acceptance session.

@@ -513,7 +513,7 @@ onBeforeUnmount(() => {
                                         >
                                     </label>
                                     <label class="admin-field">
-                                        <span>Source URL</span>
+                                        <span>Source link</span>
                                         <input
                                             v-model="history.source_url"
                                             type="url"
@@ -604,7 +604,7 @@ onBeforeUnmount(() => {
                                 >
                             </label>
                             <label class="admin-field">
-                                <span>Official source URL</span>
+                                <span>Official source link</span>
                                 <input
                                     v-model="editor.official_source_url"
                                     type="url"
@@ -650,7 +650,7 @@ onBeforeUnmount(() => {
                         <header>
                             <div>
                                 <p class="admin-kicker">Source register</p>
-                                <h2>Governed source record</h2>
+                                <h2>Official source record</h2>
                             </div>
                         </header>
 
@@ -669,7 +669,7 @@ onBeforeUnmount(() => {
                                 >
                             </label>
                             <label class="admin-field">
-                                <span>Register URL</span>
+                                <span>Register link</span>
                                 <input
                                     v-model="editor.source_record.url"
                                     type="url"

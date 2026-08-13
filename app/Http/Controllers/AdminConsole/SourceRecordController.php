@@ -241,7 +241,7 @@ class SourceRecordController extends Controller
             return null;
         }
 
-        if (! $user->can('update', $sourceRecord)) {
+        if (! $user->canAccessFilamentFallback() || ! $user->can('update', $sourceRecord)) {
             return null;
         }
 
