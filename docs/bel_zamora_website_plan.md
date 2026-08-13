@@ -1,5 +1,21 @@
 # Atty. Congresswoman Bel Zamora Website Plan
 
+## 2026-08-14 - Custom Admin Final Technical Acceptance
+
+**Status:** Technically ready for real staff-observed acceptance; not staff-signed and not launch-approved.
+
+- Reviewed every custom `/admin-console` module through focused authorization/workflow tests and a six-width browser matrix.
+- Passed 113 focused tests with 1,482 assertions and generated 236 browser screenshots.
+- Fixed Reference Data type-navigation overflow at 320px and 768px.
+- Fixed direct-load lifecycle and approval dialog failures by adding a stable admin overlay host outside the Inertia mount.
+- Verified lifecycle confirmation focus containment, Escape close, focus return, reduced-motion browser context, no-submit behavior, and no final Vue/page errors.
+- Preserved encrypted/role-restricted inquiry handling; the synthetic QA inquiry was removed after testing.
+- Preserved `/admin` as emergency-only for active verified Super Administrators. No redirect or Filament removal was introduced.
+
+**Remaining blockers:** real staff module sign-offs, privacy/legal policy decisions, accessibility observer review where available, Phase 10 launch-critical approvals, and at least one release cycle of emergency-fallback monitoring.
+
+**Decision:** proceed to a real staff-observed acceptance session. Do not authorize launch, redirect `/admin`, or remove Filament yet.
+
 ## Final Professional Public-Service Website Strategy for San Juan City
 
 **Prepared for:** Atty. Congresswoman Bel Zamora  

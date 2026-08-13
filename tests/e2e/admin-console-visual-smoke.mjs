@@ -15,6 +15,10 @@ const newsId = process.env.ADMIN_CONSOLE_VISUAL_NEWS_ID;
 const legislationId = process.env.ADMIN_CONSOLE_VISUAL_LEGISLATION_ID;
 const publicPageId = process.env.ADMIN_CONSOLE_VISUAL_PUBLIC_PAGE_ID;
 const userId = process.env.ADMIN_CONSOLE_VISUAL_USER_ID;
+const sourceRecordId = process.env.ADMIN_CONSOLE_VISUAL_SOURCE_RECORD_ID;
+const referenceType =
+    process.env.ADMIN_CONSOLE_VISUAL_REFERENCE_TYPE ?? 'program-categories';
+const referenceRecordId = process.env.ADMIN_CONSOLE_VISUAL_REFERENCE_RECORD_ID;
 const visualScope = process.env.ADMIN_CONSOLE_VISUAL_SCOPE;
 const executeWorkflow =
     process.env.ADMIN_CONSOLE_VISUAL_EXECUTE_WORKFLOW === '1';
@@ -54,6 +58,19 @@ let pages = [
     { name: 'settings', url: '/admin-console/settings' },
     { name: 'audit', url: '/admin-console/audit' },
     { name: 'reports', url: '/admin-console/reports' },
+    { name: 'source-records', url: '/admin-console/source-records' },
+    {
+        name: 'source-record-create',
+        url: '/admin-console/source-records/create',
+    },
+    {
+        name: 'reference-data',
+        url: `/admin-console/reference-data/${referenceType}`,
+    },
+    {
+        name: 'reference-data-create',
+        url: `/admin-console/reference-data/${referenceType}/create`,
+    },
     { name: 'content-approvals', url: '/admin-console/content-approvals' },
     { name: 'design-system', url: '/admin-console/design-system' },
 ];
@@ -146,6 +163,28 @@ if (userId) {
     });
 }
 
+if (sourceRecordId) {
+    pages.splice(pages.length - 2, 0, {
+        name: 'source-record-detail',
+        url: `/admin-console/source-records/${sourceRecordId}`,
+    });
+    pages.splice(pages.length - 2, 0, {
+        name: 'source-record-edit',
+        url: `/admin-console/source-records/${sourceRecordId}/edit`,
+    });
+}
+
+if (referenceRecordId) {
+    pages.splice(pages.length - 2, 0, {
+        name: 'reference-data-detail',
+        url: `/admin-console/reference-data/${referenceType}/${referenceRecordId}`,
+    });
+    pages.splice(pages.length - 2, 0, {
+        name: 'reference-data-edit',
+        url: `/admin-console/reference-data/${referenceType}/${referenceRecordId}/edit`,
+    });
+}
+
 if (visualScope) {
     pages = pages.filter((target) => target.name.startsWith(visualScope));
 }
@@ -166,9 +205,16 @@ const consoleErrors = [];
 const interactionEvidence = [];
 
 page.on('console', (message) => {
-    if (message.type() === 'error') {
+    if (
+        message.type() === 'error' ||
+        (message.type() === 'warning' && message.text().includes('[Vue warn]'))
+    ) {
         consoleErrors.push(`${page.url()}: ${message.text()}`);
     }
+});
+
+page.on('pageerror', (error) => {
+    consoleErrors.push(`${page.url()}: ${error.message}`);
 });
 
 const assertNoHorizontalOverflow = async (label) => {
@@ -285,7 +331,7 @@ const exerciseCommandSearch = async () => {
     });
     await dialog.waitFor({ state: 'visible' });
     await page
-        .getByPlaceholder('Search commands, programs, projects, news...')
+        .getByRole('searchbox', { name: 'Search commands and records' })
         .fill('projects');
     await page.screenshot({
         path: path.join(outputDir, 'command-search-1440.png'),
@@ -405,13 +451,13 @@ for (const target of pages) {
 
         if (target.name === 'approval-detail') {
             const decisionTrigger = page.getByRole('button', {
-                name: 'Approve revision',
+                name: 'Approve version',
             });
 
             if (await decisionTrigger.isVisible()) {
                 await decisionTrigger.click();
                 const dialog = page.getByRole('dialog', {
-                    name: 'Approve this content revision',
+                    name: 'Approve this content version',
                 });
                 await dialog.waitFor({ state: 'visible' });
 
@@ -448,6 +494,65 @@ for (const target of pages) {
                 }
             }
         }
+
+        if (
+            [
+                'program-detail',
+                'project-detail',
+                'news-detail',
+                'legislation-detail',
+                'public-page-detail',
+            ].includes(target.name)
+        ) {
+            const lifecyclePanel = page.locator('.admin-lifecycle-panel');
+            const archiveTrigger = lifecyclePanel
+                .getByRole('button', { name: /^Archive / })
+                .first();
+
+            if (await archiveTrigger.isVisible()) {
+                await archiveTrigger.click();
+                const dialog = page.locator('.admin-action-dialog__panel');
+                await dialog.waitFor({ state: 'visible' });
+
+                const focusIsContained = await dialog.evaluate((element) =>
+                    element.contains(document.activeElement),
+                );
+
+                if (!focusIsContained) {
+                    throw new Error(
+                        `lifecycle-dialog-${target.name}-${viewport.name} did not receive focus.`,
+                    );
+                }
+
+                await page.screenshot({
+                    path: path.join(
+                        outputDir,
+                        `lifecycle-dialog-${target.name}-${viewport.name}.png`,
+                    ),
+                });
+                await assertNoHorizontalOverflow(
+                    `lifecycle-dialog-${target.name}-${viewport.name}`,
+                );
+                await page.keyboard.press('Escape');
+                await dialog.waitFor({ state: 'hidden' });
+
+                if (
+                    !(await archiveTrigger.evaluate(
+                        (element) => document.activeElement === element,
+                    ))
+                ) {
+                    throw new Error(
+                        `lifecycle-dialog-${target.name}-${viewport.name} did not restore focus.`,
+                    );
+                }
+
+                interactionEvidence.push({
+                    workflow: `lifecycle-dialog-${target.name}-${viewport.name}`,
+                    status: 'passed',
+                    note: 'Archive confirmation opened, contained focus, closed with Escape, restored focus, and did not submit the action.',
+                });
+            }
+        }
     }
 }
 
@@ -459,10 +564,10 @@ if (executeGovernance && approvalId) {
             waitUntil: 'networkidle',
         },
     );
-    await page.getByRole('button', { name: 'Approve revision' }).click();
+    await page.getByRole('button', { name: 'Approve version' }).click();
 
     const dialog = page.getByRole('dialog', {
-        name: 'Approve this content revision',
+        name: 'Approve this content version',
     });
     await dialog
         .locator('textarea')
@@ -470,7 +575,7 @@ if (executeGovernance && approvalId) {
         .fill(
             'Playwright verified the governed approval decision, snapshot, audit trail, and custom console success state.',
         );
-    await dialog.getByRole('button', { name: 'Approve revision' }).click();
+    await dialog.getByRole('button', { name: 'Approve version' }).click();
     await dialog.waitFor({ state: 'hidden' });
     await page.getByText('Approved', { exact: true }).first().waitFor();
     await page
@@ -530,6 +635,11 @@ await fs.writeFile(
             baseUrl,
             generatedAt: new Date().toISOString(),
             viewports,
+            reflowEvidence: {
+                cssViewportWidth: 320,
+                equivalentPhysicalWidthAt200PercentZoom: 640,
+                note: 'Every listed page is checked at a 320 CSS-pixel viewport, the WCAG reflow equivalent of a 640-pixel browser window at 200% zoom.',
+            },
             pages,
             interactions: interactionEvidence,
             consoleErrors,

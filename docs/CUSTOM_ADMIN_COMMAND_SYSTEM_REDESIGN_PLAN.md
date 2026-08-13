@@ -1,5 +1,23 @@
 # Custom Admin Command System Redesign Plan
 
+## 48. Final Technical Acceptance Pass (August 14, 2026)
+
+The redesigned custom admin completed a full local technical acceptance pass across Login, Dashboard/Search, Inquiries, Content Approvals, Programs, Projects/evidence, News/media, Legislation, Public Pages, Users, Settings, Audit, Reports, Source Records, Reference Data, upload/file management, and lifecycle confirmations.
+
+Evidence and decisions:
+
+- `tests/e2e/admin-console-visual-smoke.mjs` now includes Source Records, Reference Data list/create/detail/edit, six required widths, 320 CSS-pixel reflow evidence, lifecycle confirmation focus checks, Vue warning capture, and uncaught browser-page error capture.
+- The focused custom-admin and Filament fallback suite passed 113 tests and 1,482 assertions.
+- 236 screenshots were generated under `storage/app/admin-console-visual-smoke`.
+- Reference Data navigation overflow was found and fixed with a responsive grid.
+- A direct-load Vue Teleport failure prevented lifecycle dialogs from opening. A stable Blade-owned `#admin-overlay-root` now hosts shared admin dialogs; lifecycle and pending-approval confirmations passed direct-load keyboard/focus retests.
+- Filament remains installed, is not redirected, and remains emergency-only for active verified Super Administrators.
+- No real District Office participant observed or signed this local pass. The custom console is technically ready for the live staff session, not staff-approved.
+
+**Parity decision:** technical custom parity remains sufficient for daily-work acceptance testing. Fallback reduction must not advance to redirect or package removal until signed staff acceptance, privacy/legal decisions, launch-critical approvals, and release-cycle emergency-use monitoring are complete.
+
+---
+
 Date: August 2, 2026  
 Project: Cong. Bel Zamora Digital District Office  
 Scope: Admin, staff dashboards, role dashboards, protected internal pages, operations workflows, and eventual Filament removal.
@@ -2575,6 +2593,33 @@ Acceptance guidance:
 - Staff acceptance must include a wording check for every module.
 - Any confusing label, empty state, validation message, or destructive confirmation should be recorded as a copy issue even when the workflow technically works.
 - Legal/privacy reviewers must approve wording for exports, inquiry privacy, source verification, public publishing, and permanent deletion warnings.
+
+## 47. Full Admin Visual-System Refresh - August 13, 2026
+
+The custom `/admin-console` now uses a refreshed Civic Ledger Command system across login, the shared shell, and every custom module. The implementation is shared through `resources/css/admin-console.css`, `AdminConsoleLayout`, and the existing admin component classes, so Dashboard/Search, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, Source Records, Reference Data, uploads, lifecycle controls, dialogs, alerts, empty states, tables, and forms use the same visual rules.
+
+Design decisions:
+
+- The login identity surface now uses a navy official-record composition with a restrained red security rail, a red/gold/blue civic register line, and a rightsized seal watermark.
+- Sign-in and normal system commands use royal blue. Civic red remains reserved for urgent and destructive work.
+- Work surfaces stay white or ivory even when the browser prefers dark mode. The dark shell does not invert forms or record surfaces.
+- Shared borders, shadows, radii, form focus rings, table focus states, buttons, status badges, panels, and editor sections use semantic design tokens.
+- Inertia page changes, profile disclosure, command search, mobile navigation, dialogs, hover states, and pressed states use short motion that does not delay staff work.
+- `prefers-reduced-motion` continues to disable non-essential animation and smooth scrolling.
+- The login changes to one column at tablet widths to prevent cramped headings and form controls.
+
+Validation evidence:
+
+- `npm run format:check`: passed.
+- `npm run lint:check`: passed.
+- `npm run typecheck`: passed.
+- `npm run build`: final validation passed in 15.29 seconds; the known plugin timing notice was informational.
+- `git diff --check`: passed.
+- Browser screenshots were reviewed at 320, 390, 768, 1024, 1440, and 1920 px for `/admin-console/login`, `/admin-console`, `/admin-console/programs`, `/admin-console/projects/1`, and `/admin-console/news/create`.
+- The scoped browser reports recorded no console errors or horizontal overflow. Command search and mobile navigation opened, accepted keyboard interaction, closed with Escape, and passed their overflow checks.
+- The browser script now locates command search by its accessible searchbox name instead of a change-prone placeholder.
+
+This is implementation and local proxy evidence. Real District Office staff acceptance remains required before final rollout or any Filament removal decision.
 
 ## 45. Short AI Agent Kickoff Prompt
 

@@ -312,3 +312,64 @@ Decision for the real session:
 - **Training notes needed:** Explain that "source link" means the official page or document used to support public information, and "version" means the saved record sent for review.
 
 Record any staff confusion from the live session as a wording issue, even if the workflow works.
+
+## 15. Final Technical Design And Workflow Acceptance - August 14, 2026
+
+**Decision:** Technically ready for the real staff-observed session. **Not staff-signed and not approved for launch or Filament removal.**
+
+No District Office participant was available for this local session. The reviewer was Codex acting as a technical QA proxy with the seeded Super Administrator account. This section records browser, security, and workflow evidence only; it does not fill staff initials, signatures, policy approvals, or emergency-use history.
+
+| Session field | Recorded value |
+| --- | --- |
+| Date and time | August 14, 2026, 12:24 AM, Asia/Manila |
+| Environment | Local Laravel application at `http://127.0.0.1:8000` |
+| Reviewed commit | `01c773b33ffb57cae04b7197e79322594ed9f70b`, plus the uncommitted admin visual and acceptance fixes listed by `git status` |
+| Technical reviewer | Codex, local QA proxy; not District Office staff |
+| Account used | Seeded active, verified Super Administrator (`test@example.com`) |
+| Real staff participants | None available |
+| Private data used | None. One synthetic inquiry was created for protected-detail testing and removed after the run. |
+| Emergency `/admin` use | None during local browser QA; release-cycle monitoring has not started |
+
+### Module Decisions
+
+`Technical pass` means the local workflow, responsive layout, and applicable access tests passed. It does not mean staff acceptance.
+
+| Area | Technical decision | Staff decision | Evidence or limitation |
+| --- | --- | --- | --- |
+| Login | Technical pass | Not Tested | Responsive screenshots at 320, 390, 768, 1024, 1440, and 1920 CSS pixels. |
+| Dashboard and command search | Technical pass | Not Tested | Search opens, accepts keyboard input, closes with Escape, and has no overflow. |
+| Inquiries | Technical pass | Not Tested | Protected list/detail and internal-note dialog checked with synthetic data; focused privacy tests pass. |
+| Content reviews | Technical pass | Not Tested | Queue/detail and pending approval confirmation checked without submitting a decision. |
+| Programs | Technical pass | Not Tested | List/create/detail/edit and lifecycle confirmation checked. |
+| Projects and evidence | Technical pass | Not Tested | List/create/detail/edit and evidence manager checked. |
+| News and media | Technical pass | Not Tested | List/create/detail/edit and media manager checked. |
+| Legislation | Technical pass | Not Tested | List/create/detail/edit and lifecycle controls covered. |
+| Public pages | Technical pass | Not Tested | List/create/detail/edit and lifecycle controls covered. |
+| Users | Technical pass | Not Tested | List/create/detail/edit and Super Administrator policy tests pass. |
+| Settings | Technical pass, read-only by policy | Not Tested | Read-only security and launch configuration remains intentional. |
+| Activity log and reports | Technical pass | Not Tested | List/detail/filter and aggregate report views checked; redaction tests pass. |
+| Official sources | Technical pass | Not Tested | List/create/detail/edit included in the six-width browser matrix. |
+| Reference lists | Technical pass after fix | Not Tested | Type navigation changed from a clipped horizontal row to a responsive grid and passed all six widths. |
+| File uploads | Technical pass | Not Tested | News media and project evidence screens checked; file authorization and validation tests pass. |
+| Archive, restore, and delete | Technical pass after fix | Not Tested | Stable overlay host restored direct-load dialogs; focus containment, Escape close, focus return, and no-submit behavior passed at all six widths. |
+| Emergency `/admin` backup | Technical policy pass | Not Tested | Focused tests confirm only active verified Super Administrators can enter; no redirect was added. |
+
+### Defects And Retests
+
+| ID | Severity | Defect | Fix and owner | Retest result |
+| --- | --- | --- | --- | --- |
+| AC-2026-08-14-01 | Medium | Reference-list type links extended past 320px and 768px viewports. | Frontend: replace horizontal scrolling pills with a responsive 5/4/3/2-column grid. Owner: development team. | Passed list/create/detail/edit at all six required widths with no horizontal overflow. |
+| AC-2026-08-14-02 | High | Lifecycle confirmations failed on direct detail-page loads because Vue could not find the Teleport target during mount. | Frontend shell: add a stable `#admin-overlay-root` outside the Inertia mount and use it for shared action dialogs. Owner: development team. | Passed archive confirmation at all six widths: opens, traps focus, closes with Escape, restores focus, does not submit, and records no Vue/page error. Pending approval confirmation also passed. |
+
+### Evidence And Final Decision
+
+- Focused admin and fallback suite: **113 tests, 1,482 assertions passed**.
+- Browser evidence: **236 PNG screenshots** and scoped JSON reports in `storage/app/admin-console-visual-smoke`.
+- Required widths: 320, 390, 768, 1024, 1440, and 1920 CSS pixels.
+- Reflow evidence: 320 CSS pixels is the WCAG reflow equivalent of a 640-pixel browser window at 200% zoom.
+- Final frontend checks: formatting, lint, type checking, and production build passed.
+- No normal non-Super-Administrator route or permission was changed to use `/admin`.
+
+**Go:** Schedule and conduct the real staff-observed review using Sections 1-9.
+
+**No-go:** Do not call this staff-accepted, authorize production launch, redirect `/admin`, or remove Filament until real staff and required policy reviewers sign, launch-critical Phase 10 items close, and one release cycle of fallback-use monitoring is reviewed.

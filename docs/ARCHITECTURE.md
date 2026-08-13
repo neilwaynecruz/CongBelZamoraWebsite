@@ -1,5 +1,13 @@
 # Architecture
 
+### Admin Overlay And Acceptance Boundary (August 14, 2026)
+
+- Shared admin confirmations teleport to Blade-owned `#admin-overlay-root`, rendered only for `Admin/*` Inertia pages. The host exists before Vue hydration and carries `data-admin-theme="command"`, preventing direct-load Teleport failures while preserving admin design tokens.
+- The Inertia application remains the owner of dialog state, focus trapping, Escape handling, and workflow requests. The Blade host contains no business or authorization logic.
+- Reference Data type navigation uses a responsive grid instead of hidden horizontal overflow.
+- The acceptance harness treats Vue warnings and uncaught page errors as browser failures and covers Source Records, Reference Data, approval dialogs, lifecycle dialogs, and the required responsive widths.
+- Filament remains a separate emergency-only surface. No `/admin` redirect or package-removal decision is part of this architecture update.
+
 ## Overview
 
 The Bel Zamora website is a **Laravel modern monolith** with two clearly separated interfaces:
@@ -203,6 +211,8 @@ Staff acceptance artifact:
 
 - `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md` is the controlling checklist for real staff-observed acceptance, fallback-use monitoring, and final Filament fallback decisions. Its signed output is required before any `/admin` redirect or Filament package-removal plan.
 - As of August 13, 2026, the package records that the real staff-observed session has not yet been conducted and all modules remain staff-approval pending.
+
+The August 13, 2026 admin visual-system refresh remains centralized in `resources/css/admin-console.css`. `AdminConsoleLayout` owns the keyed, reduced-motion-safe Inertia page transition, while `AdminTopbar`, `AdminMobileNav`, `AdminCommandPalette`, `AdminActionDialog`, and the shared `admin-*` component classes own disclosure and interaction motion. Individual modules continue to use the shared classes instead of defining isolated themes, which keeps list, detail, editor, upload, audit, report, source, reference, and lifecycle screens in one visual family. This styling layer does not own authorization, validation, persistence, or workflow rules.
 
 Retention is enforced by `inquiries:anonymize-expired`, scheduled daily in `routes/console.php`. Freshness review automation is queued by `content:flag-stale`, scheduled daily at 03:00. Production environments must run both queue workers and the Laravel scheduler.
 

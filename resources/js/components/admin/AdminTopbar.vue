@@ -52,10 +52,18 @@ const onDocumentClick = (event: MouseEvent) => {
     }
 };
 
+const onDocumentKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && profileOpen.value) {
+        profileOpen.value = false;
+        profileButton.value?.focus();
+    }
+};
+
 onMounted(() => {
     updateTime();
     clock = window.setInterval(updateTime, 30_000);
     document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentKeydown);
 });
 
 onBeforeUnmount(() => {
@@ -64,6 +72,7 @@ onBeforeUnmount(() => {
     }
 
     document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onDocumentKeydown);
 });
 </script>
 
@@ -143,21 +152,23 @@ onBeforeUnmount(() => {
                     <ChevronDown aria-hidden="true" />
                 </button>
 
-                <div
-                    v-if="profileOpen"
-                    class="admin-profile-menu__popover"
-                    role="menu"
-                >
-                    <div class="admin-profile-menu__summary">
-                        <strong>{{ context.user.name }}</strong>
-                        <span>{{ context.user.email }}</span>
-                        <small>{{ context.user.roleLabel }}</small>
+                <Transition name="admin-popover">
+                    <div
+                        v-if="profileOpen"
+                        class="admin-profile-menu__popover"
+                        role="menu"
+                    >
+                        <div class="admin-profile-menu__summary">
+                            <strong>{{ context.user.name }}</strong>
+                            <span>{{ context.user.email }}</span>
+                            <small>{{ context.user.roleLabel }}</small>
+                        </div>
+                        <button type="button" role="menuitem" @click="logout">
+                            <LogOut aria-hidden="true" />
+                            Sign out securely
+                        </button>
                     </div>
-                    <button type="button" role="menuitem" @click="logout">
-                        <LogOut aria-hidden="true" />
-                        Sign out securely
-                    </button>
-                </div>
+                </Transition>
             </div>
         </div>
     </header>

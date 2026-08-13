@@ -34,18 +34,24 @@ const showPassword = ref(false);
                 aria-labelledby="admin-login-title"
             >
                 <div class="admin-login-identity__marks">
-                    <img
-                        src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
-                        alt="House of Representatives seal"
-                        width="52"
-                        height="52"
-                    />
-                    <img
-                        src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
-                        alt="Official seal of San Juan City"
-                        width="52"
-                        height="52"
-                    />
+                    <span class="admin-login-identity__seals">
+                        <img
+                            src="/assets/images/brand/House_of_Representative_Logo_Seal.svg"
+                            alt="House of Representatives seal"
+                            width="52"
+                            height="52"
+                        />
+                        <img
+                            src="/assets/images/brand/Logo_of_San_Juan_Seal.svg"
+                            alt="Official seal of San Juan City"
+                            width="52"
+                            height="52"
+                        />
+                    </span>
+                    <span class="admin-login-identity__system-state">
+                        <span aria-hidden="true"></span>
+                        Secure staff workspace
+                    </span>
                 </div>
 
                 <div class="admin-login-identity__copy">

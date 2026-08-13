@@ -20,6 +20,7 @@ const sidebarCollapsed = ref(false);
 
 const context = computed(() => page.props.adminConsole);
 const taskCount = computed(() => page.props.attentionItems?.length ?? 0);
+const transitionKey = computed(() => page.url.split('?')[0]);
 
 const onGlobalKeydown = (event: KeyboardEvent) => {
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
@@ -58,7 +59,11 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onGlobalKeydown));
             />
 
             <main id="admin-main" class="admin-console-main" tabindex="-1">
-                <slot />
+                <Transition name="admin-page-shift" mode="out-in" appear>
+                    <div :key="transitionKey" class="admin-page-transition">
+                        <slot />
+                    </div>
+                </Transition>
             </main>
         </div>
 

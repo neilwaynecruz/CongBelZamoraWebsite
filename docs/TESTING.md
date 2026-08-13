@@ -1,5 +1,32 @@
 # Testing
 
+## Custom Admin Final Technical Acceptance - August 14, 2026
+
+This was a local technical acceptance pass, not a signed District Office staff session.
+
+| Check | Result |
+| --- | --- |
+| Focused custom-admin and Filament authorization suite | Passed: 113 tests, 1,482 assertions |
+| `npm run format:check` | Passed |
+| `npx prettier --check tests/e2e/admin-console-visual-smoke.mjs` | Passed |
+| `npm run lint:check` | Passed |
+| `npm run typecheck` | Passed |
+| `npm run build` | Passed; Vite plugin timing advisory only |
+| `git diff --check` | Passed before documentation update |
+| Browser widths | Passed at 320, 390, 768, 1024, 1440, and 1920 CSS pixels after targeted fixes |
+| Browser evidence | 236 PNG screenshots plus scoped JSON reports in `storage/app/admin-console-visual-smoke` |
+| Command search/mobile drawer | Passed keyboard input, Escape close, accessible labels, and overflow checks |
+| Inquiry/approval dialogs | Passed direct-load visibility, focus containment, Escape close, and focus return where applicable |
+| Lifecycle confirmation | Passed all six widths without submitting archive actions |
+| Console/hydration checks | Final scoped reports contain no browser console errors, Vue warnings, or uncaught page errors |
+
+Defects found and closed:
+
+1. Reference Data tabs overflowed compact viewports. Fixed with a responsive grid; list/create/detail/edit retest passed all widths.
+2. `AdminActionDialog` targeted a Vue-owned element unavailable during direct-load mount. Added a Blade-owned `#admin-overlay-root`; lifecycle and approval dialog retests passed.
+
+The 320 CSS-pixel checks provide reflow evidence equivalent to a 640-pixel browser window at 200% zoom. Real device, assistive-technology user, and District Office staff observation remain human acceptance tasks.
+
 ## Phase 6 Baseline Commands
 
 Run these checks for public Vue/Inertia frontend slices:
@@ -425,3 +452,26 @@ Validation results:
 PHP checks were not required for this acceptance review because no PHP files were changed in this pass.
 
 Remaining QA: Real staff and privacy/legal reviewers must still approve the wording during the live staff-observed acceptance session.
+
+## Custom Admin Visual-System Refresh - August 13, 2026
+
+Scope: Login, shared shell, navigation, common admin components, module surfaces, responsive behavior, and reduced-motion-safe interaction transitions. Backend routes, authorization, persistence, workflow rules, public pages, and Filament fallback behavior were unchanged.
+
+| Check | Command or evidence | Result |
+| --- | --- | --- |
+| Formatting | `npm run format:check` | Passed; all files under `resources/` match Prettier rules |
+| Vue and JavaScript linting | `npm run lint:check` | Passed |
+| Vue type checking | `npm run typecheck` | Passed |
+| Production client build | `npm run build` | Final validation passed in 15.29s; informational plugin timing note only |
+| Whitespace and conflict markers | `git diff --check` | Passed |
+| Login visual review | Playwright screenshots for `/admin-console/login` at 320, 390, 768, 1024, 1440, and 1920 px | Passed manual review for contrast, readable labels, focus treatment, responsive composition, clipping, overlap, and horizontal overflow |
+| Shared shell and dashboard | `ADMIN_CONSOLE_VISUAL_SCOPE=dashboard node tests/e2e/admin-console-visual-smoke.mjs` | Passed at all six viewports; command search and mobile navigation passed; no console errors or overflow |
+| Representative list | Scoped browser run for `/admin-console/programs` | Passed at all six viewports; no console errors or overflow |
+| Representative detail | Scoped browser run for `/admin-console/projects/1` | Passed at all six viewports; no console errors or overflow |
+| Representative long form | Scoped browser run for `/admin-console/news/create` | Passed at all six viewports; no console errors or overflow |
+
+Evidence is stored in `storage/app/admin-console-visual-smoke` and the scoped `admin-console-visual-smoke-report-*.json` files. Additional login comparison images are stored in `storage/app/admin-console-redesign-login-after-*.png`.
+
+The browser script command-search selector was changed from placeholder matching to the accessible searchbox name. This prevents copy changes from breaking the visual smoke check while preserving a screen-reader-oriented locator.
+
+Remaining acceptance: Real District Office staff must still complete `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md`. This local visual pass does not authorize Filament removal or an `/admin` redirect.

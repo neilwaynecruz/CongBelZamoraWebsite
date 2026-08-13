@@ -106,7 +106,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <Teleport to="[data-admin-theme='command']">
+    <Teleport to="#admin-overlay-root">
         <Transition name="admin-dialog">
             <div v-if="open" class="admin-action-dialog" role="presentation">
                 <button

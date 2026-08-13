@@ -45,5 +45,8 @@
     </head>
     <body class="font-sans antialiased">
         <x-inertia::app />
+        @if (str_starts_with($page['component'] ?? '', 'Admin/'))
+            <div id="admin-overlay-root" data-admin-theme="command"></div>
+        @endif
     </body>
 </html>

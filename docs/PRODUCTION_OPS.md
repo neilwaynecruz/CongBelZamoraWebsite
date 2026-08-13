@@ -1,5 +1,24 @@
 # Production Backend Operations
 
+## Admin Console Acceptance And Fallback Gate (August 14, 2026)
+
+The custom `/admin-console` passed local technical browser, workflow, authorization, and responsive checks after two defects were fixed. This does **not** authorize production launch or Filament removal.
+
+Operational rules remain:
+
+- `/admin` stays available only to active verified Super Administrators as an emergency fallback.
+- Do not redirect `/admin` and do not remove Filament packages or resources.
+- Begin the emergency-use register when the first release candidate enters real staff use. Record actor, reason, workflow, private-data involvement, owner, and closure.
+- Any daily-work dependency, bug, privacy concern, or missing custom action recorded against `/admin` blocks fallback removal.
+- Keep Settings read-only and exports disabled until their policies are signed.
+- Dashboard/task queues remain the temporary notification-bell replacement pending staff operations approval.
+- Schedule a real staff-observed session using `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md`; obtain role-owner, privacy/legal, and accessibility sign-off before launch.
+- Review one complete release cycle with no unresolved fallback dependency before considering a redirect or Filament removal plan.
+
+Technical evidence is stored in `storage/app/admin-console-visual-smoke`. Evidence files may contain local seeded record labels; keep them out of public web storage and production artifacts unless explicitly approved.
+
+---
+
 **Project:** Atty. Congresswoman Bel Zamora public-service website  
 **Audience:** Security/IT and deployment operators  
 **Related:** `docs/LAUNCH_RUNBOOK.md`, `.env.production.example`
