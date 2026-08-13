@@ -9,6 +9,7 @@ use App\Models\ContentApproval;
 use App\Models\Inquiry;
 use App\Models\NewsRecord;
 use App\Models\Program;
+use App\Models\SourceRecord;
 use App\Models\User;
 use App\Services\AdminConsoleNavigationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -127,6 +128,37 @@ class AdminConsoleFoundationTest extends TestCase
         $this->assertTrue($labels->contains('Inquiry Cases'));
         $this->assertFalse($labels->contains('Content Review'));
         $this->assertFalse($labels->contains('Design System'));
+    }
+
+    public function test_dashboard_attention_news_and_source_items_use_custom_admin_console_links(): void
+    {
+        $staff = User::factory()->adminRole(AdminRole::CommunicationsEditor)->create();
+        $record = NewsRecord::factory()->create([
+            'title' => 'Balik Sigla, Bigay Saya community gift-giving record needs review',
+            'review_due_at' => now()->subDays(2),
+        ]);
+
+        SourceRecord::factory()
+            ->for($record, 'sourceable')
+            ->create([
+                'title' => 'Source for Balik Sigla news record',
+                'next_review_at' => now()->subDay(),
+            ]);
+
+        $response = $this->actingAs($staff)->get(route('admin-console.dashboard'));
+
+        $response
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin/Dashboard')
+                ->where('attentionItems.0.type', 'News Record')
+                ->where('attentionItems.0.href', route('admin-console.news.show', $record))
+                ->where('attentionItems.0.usesLegacyFallback', false)
+                ->where('attentionItems.1.type', 'Source')
+                ->where('attentionItems.1.href', route('admin-console.news.show', $record))
+                ->where('attentionItems.1.usesLegacyFallback', false));
+
+        $this->assertStringNotContainsString('/admin/news-records', $response->getContent());
     }
 
     public function test_inquiry_lists_never_expose_citizen_identity_and_auditor_detail_is_redacted(): void

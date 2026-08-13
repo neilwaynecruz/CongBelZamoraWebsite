@@ -9,6 +9,7 @@ use App\Services\AdminConsoleNavigationService;
 use App\Services\AdminDashboardMetricsService;
 use DateTimeInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,20 +27,24 @@ class DashboardController extends Controller
 
         $attentionItems = collect($metrics->getNeedsAttentionItems($user))
             ->take(8)
-            ->map(fn (array $item): array => [
-                'type' => $item['type'],
-                'title' => $item['title'],
-                'status' => $item['status'],
-                'severity' => $item['severity'],
-                'date' => $item['date'] instanceof DateTimeInterface
-                    ? $item['date']->format(DateTimeInterface::ATOM)
-                    : null,
-                'dateLabel' => $item['date'] instanceof DateTimeInterface
-                    ? $item['date']->setTimezone(new \DateTimeZone('Asia/Manila'))->format('M j, Y g:i A')
-                    : null,
-                'href' => $this->attentionHref($item),
-                'usesLegacyFallback' => ! in_array($item['type'], ['Inquiry', 'Approval'], true),
-            ])
+            ->map(function (array $item): array {
+                $href = $this->attentionHref($item);
+
+                return [
+                    'type' => $item['type'],
+                    'title' => $item['title'],
+                    'status' => $item['status'],
+                    'severity' => $item['severity'],
+                    'date' => $item['date'] instanceof DateTimeInterface
+                        ? $item['date']->format(DateTimeInterface::ATOM)
+                        : null,
+                    'dateLabel' => $item['date'] instanceof DateTimeInterface
+                        ? Carbon::instance($item['date'])->setTimezone('Asia/Manila')->format('M j, Y g:i A')
+                        : null,
+                    'href' => $href,
+                    'usesLegacyFallback' => ! str_starts_with($href, url('/admin-console')),
+                ];
+            })
             ->values();
 
         $recentActivity = $user->canAuditRecords()
@@ -80,11 +85,7 @@ class DashboardController extends Controller
     private function attentionHref(array $item): string
     {
         return match ($item['type']) {
-            'Inquiry' => route('admin-console.inquiries.index', ['queue' => 'overdue']),
-            'Approval' => route('admin-console.content-approvals.index', ['status' => 'for_review']),
-            default => (bool) config('belzamora.admin_console.filament_fallback_enabled', true)
-                ? (string) $item['url']
-                : route('admin-console.dashboard'),
+            default => (string) ($item['url'] ?? route('admin-console.dashboard')),
         };
     }
 }

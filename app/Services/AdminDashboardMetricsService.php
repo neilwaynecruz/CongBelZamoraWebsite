@@ -6,14 +6,6 @@ use App\Enums\AdminRole;
 use App\Enums\ContentApprovalStatus;
 use App\Enums\InquiryStatus;
 use App\Enums\ProgramStatus;
-use App\Filament\Resources\ContentApprovalResource;
-use App\Filament\Resources\InquiryResource;
-use App\Filament\Resources\LegislativeRecordResource;
-use App\Filament\Resources\NewsRecordResource;
-use App\Filament\Resources\ProgramResource;
-use App\Filament\Resources\ProjectResource;
-use App\Filament\Resources\PublicPageResource;
-use App\Filament\Resources\ServiceGuideResource;
 use App\Models\ContentApproval;
 use App\Models\Inquiry;
 use App\Models\LegislativeRecord;
@@ -26,7 +18,6 @@ use App\Models\SourceRecord;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use DateTimeInterface;
-use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -163,7 +154,7 @@ class AdminDashboardMetricsService
         /** @var list<NeedsAttentionItem> $items */
         $items = [];
 
-        foreach ($this->staleContentModelsFor($user) as $label => [$class, $resource]) {
+        foreach ($this->staleContentModelsFor($user) as $label => $class) {
             $records = $class::query()
                 ->whereNotNull('review_due_at')
                 ->where('review_due_at', '<=', now())
@@ -182,7 +173,7 @@ class AdminDashboardMetricsService
                     'status' => 'Stale Review',
                     'date' => $this->recordDate($record, 'review_due_at'),
                     'severity' => 'warning',
-                    'url' => $this->recordUrl($resource, $record, $user),
+                    'url' => $this->recordUrl($record),
                 ];
             }
         }
@@ -201,21 +192,13 @@ class AdminDashboardMetricsService
                     continue;
                 }
 
-                $resource = $this->resourceFor($approval->approvable);
-
-                if ($resource === null) {
-                    continue;
-                }
-
                 $items[] = [
                     'type' => 'Approval',
                     'title' => 'Approval for '.$this->readableRecordType($approval->approvable).': '.$this->recordTitle($approval->approvable),
                     'status' => 'Pending Review',
                     'date' => $this->recordDate($approval, 'submitted_at'),
                     'severity' => 'danger',
-                    'url' => data_get($approval->metadata, 'launch_gate') === true
-                        ? $this->recordUrl(ContentApprovalResource::class, $approval->approvable, $user)
-                        : $this->recordUrl($resource, $approval->approvable, $user),
+                    'url' => route('admin-console.content-approvals.show', $approval),
                 ];
             }
         }
@@ -233,19 +216,13 @@ class AdminDashboardMetricsService
                 continue;
             }
 
-            $resource = $this->resourceFor($source->sourceable);
-
-            if ($resource === null) {
-                continue;
-            }
-
             $items[] = [
                 'type' => 'Source',
                 'title' => 'Source for '.$this->readableRecordType($source->sourceable).': '.$this->recordTitle($source->sourceable),
                 'status' => 'Verification Due',
                 'date' => $this->recordDate($source, 'next_review_at'),
                 'severity' => 'warning',
-                'url' => $this->recordUrl($resource, $source->sourceable, $user),
+                'url' => $this->recordUrl($source->sourceable),
             ];
         }
 
@@ -269,7 +246,7 @@ class AdminDashboardMetricsService
                     'status' => 'Overdue first response (>'.$slaHours.'h target)',
                     'date' => $this->recordDate($inquiry, 'first_response_due_at'),
                     'severity' => 'danger',
-                    'url' => $this->recordUrl(InquiryResource::class, $inquiry, $user),
+                    'url' => route('admin-console.inquiries.show', $inquiry),
                 ];
             }
         }
@@ -287,61 +264,47 @@ class AdminDashboardMetricsService
     }
 
     /**
-     * @return array<string, array{0: class-string<Model>, 1: class-string<resource>}>
+     * @return array<string, class-string<Model>>
      */
     private function staleContentModelsFor(User $user): array
     {
         $models = [];
 
         if ($user->canReviewPublicContent() || $user->canManageNewsMedia() || $user->canAuditRecords()) {
-            $models['Public Page'] = [PublicPage::class, PublicPageResource::class];
+            $models['Public Page'] = PublicPage::class;
         }
 
         if ($user->canReviewPublicContent() || $user->canManagePrograms() || $user->canAuditRecords()) {
-            $models['Program'] = [Program::class, ProgramResource::class];
-            $models['Service Guide'] = [ServiceGuide::class, ServiceGuideResource::class];
+            $models['Program'] = Program::class;
+            $models['Service Guide'] = ServiceGuide::class;
         }
 
         if ($user->canReviewPublicContent() || $user->canManageLegislation() || $user->canAuditRecords()) {
-            $models['Legislative Record'] = [LegislativeRecord::class, LegislativeRecordResource::class];
+            $models['Legislative Record'] = LegislativeRecord::class;
         }
 
         if ($user->canReviewPublicContent() || $user->canManageProjects() || $user->canAuditRecords()) {
-            $models['Project'] = [Project::class, ProjectResource::class];
+            $models['Project'] = Project::class;
         }
 
         if ($user->canReviewPublicContent() || $user->canManageNewsMedia() || $user->canAuditRecords()) {
-            $models['News Record'] = [NewsRecord::class, NewsRecordResource::class];
+            $models['News Record'] = NewsRecord::class;
         }
 
         return $models;
     }
 
-    /**
-     * @return class-string<resource>|null
-     */
-    private function resourceFor(Model $record): ?string
+    private function recordUrl(Model $record): string
     {
         return match ($record::class) {
-            PublicPage::class => PublicPageResource::class,
-            Program::class => ProgramResource::class,
-            ServiceGuide::class => ServiceGuideResource::class,
-            LegislativeRecord::class => LegislativeRecordResource::class,
-            Project::class => ProjectResource::class,
-            NewsRecord::class => NewsRecordResource::class,
-            Inquiry::class => InquiryResource::class,
-            default => null,
+            PublicPage::class => route('admin-console.public-pages.show', $record),
+            Program::class => route('admin-console.programs.show', $record),
+            ServiceGuide::class => route('admin-console.programs.index', ['search' => $this->recordTitle($record)]),
+            LegislativeRecord::class => route('admin-console.legislation.show', $record),
+            Project::class => route('admin-console.projects.show', $record),
+            NewsRecord::class => route('admin-console.news.show', $record),
+            default => route('admin-console.dashboard'),
         };
-    }
-
-    /**
-     * @param  class-string<resource>  $resource
-     */
-    private function recordUrl(string $resource, Model $record, User $user): string
-    {
-        $page = $user->can('update', $record) ? 'edit' : 'view';
-
-        return $resource::getUrl($page, ['record' => $record]);
     }
 
     private function readableRecordType(Model $record): string
