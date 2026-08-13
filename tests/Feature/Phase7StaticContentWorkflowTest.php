@@ -75,7 +75,7 @@ class Phase7StaticContentWorkflowTest extends TestCase
             ->and($contentAdmin->can('view', $auditLog))->toBeFalse();
     }
 
-    public function test_filament_public_page_and_audit_resources_are_role_gated(): void
+    public function test_filament_public_page_and_audit_resources_are_emergency_only_while_custom_console_is_role_gated(): void
     {
         $contentAdmin = User::factory()->adminRole(AdminRole::ContentAdministrator)->create();
         $auditor = User::factory()->adminRole(AdminRole::ReadOnlyAuditor)->create();
@@ -83,10 +83,18 @@ class Phase7StaticContentWorkflowTest extends TestCase
 
         $this->actingAs($contentAdmin)
             ->get(PublicPageResource::getUrl('index'))
-            ->assertOk();
+            ->assertForbidden();
 
         $this->actingAs($auditor)
             ->get(AuditLogResource::getUrl('index'))
+            ->assertForbidden();
+
+        $this->actingAs($contentAdmin)
+            ->get(route('admin-console.public-pages.index'))
+            ->assertOk();
+
+        $this->actingAs($auditor)
+            ->get(route('admin-console.audit.index'))
             ->assertOk();
 
         $this->actingAs($inquiryOfficer)
@@ -248,10 +256,14 @@ class Phase7StaticContentWorkflowTest extends TestCase
 
         $this->actingAs($reviewer)
             ->get(ContentApprovalResource::getUrl('index'))
-            ->assertOk();
+            ->assertForbidden();
 
         $this->actingAs($inquiryOfficer)
             ->get(ContentApprovalResource::getUrl('index'))
+            ->assertForbidden();
+
+        $this->actingAs($reviewer)
+            ->get(route('admin-console.content-approvals.index'))
             ->assertOk();
 
         $this->artisan('launch:readiness')

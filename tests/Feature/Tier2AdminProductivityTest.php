@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use App\Enums\AdminRole;
 use App\Enums\ContentApprovalStatus;
 use App\Filament\Resources\AuditLogResource;
-use App\Filament\Resources\ProgramCategoryResource;
-use App\Filament\Resources\SourceRecordResource;
 use App\Models\AuditLog;
 use App\Models\ContentApproval;
 use App\Models\ProgramCategory;
@@ -32,10 +30,8 @@ class Tier2AdminProductivityTest extends TestCase
             'content_owner_id' => $staff->id,
         ]);
 
-        $this->assertSame('Content Governance', SourceRecordResource::getNavigationGroup());
-
         $this->actingAs($staff)
-            ->get(SourceRecordResource::getUrl('index'))
+            ->get(route('admin-console.source-records.index', ['review' => 'due']))
             ->assertOk();
     }
 
@@ -48,10 +44,8 @@ class Tier2AdminProductivityTest extends TestCase
             'slug' => 'livelihood',
         ]);
 
-        $this->assertSame('Reference Data', ProgramCategoryResource::getNavigationGroup());
-
         $this->actingAs($admin)
-            ->get(ProgramCategoryResource::getUrl('index'))
+            ->get(route('admin-console.reference-data.index', ['type' => 'program-categories']))
             ->assertOk();
     }
 

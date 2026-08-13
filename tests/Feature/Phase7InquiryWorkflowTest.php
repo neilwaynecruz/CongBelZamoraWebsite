@@ -83,13 +83,17 @@ class Phase7InquiryWorkflowTest extends TestCase
             ->and($auditor->can('update', $inquiry))->toBeFalse();
     }
 
-    public function test_filament_inquiry_resource_is_role_gated(): void
+    public function test_filament_inquiry_resource_is_emergency_only_while_custom_console_is_role_gated(): void
     {
         $inquiryOfficer = User::factory()->adminRole(AdminRole::InquiryOfficer)->create();
         $contentAdmin = User::factory()->adminRole(AdminRole::ContentAdministrator)->create();
 
         $this->actingAs($inquiryOfficer)
             ->get(InquiryResource::getUrl('index'))
+            ->assertForbidden();
+
+        $this->actingAs($inquiryOfficer)
+            ->get(route('admin-console.inquiries.index'))
             ->assertOk();
 
         $this->actingAs($contentAdmin)

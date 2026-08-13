@@ -192,7 +192,7 @@ class Tier4AdminEnhancementsTest extends TestCase
         ));
     }
 
-    public function test_staff_without_2fa_are_redirected_when_enforcement_enabled(): void
+    public function test_filament_fallback_is_super_admin_only_and_still_enforces_2fa(): void
     {
         Config::set('belzamora.staff.require_2fa', true);
 
@@ -200,9 +200,15 @@ class Tier4AdminEnhancementsTest extends TestCase
 
         $this->actingAs($staff)
             ->get('/admin')
+            ->assertForbidden();
+
+        $superWithoutTwoFactor = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+
+        $this->actingAs($superWithoutTwoFactor)
+            ->get('/admin')
             ->assertRedirect(route('security.edit'));
 
-        $enabled = User::factory()->adminRole(AdminRole::ContentAdministrator)->withTwoFactor()->create();
+        $enabled = User::factory()->adminRole(AdminRole::SuperAdministrator)->withTwoFactor()->create();
 
         $this->actingAs($enabled)
             ->get('/admin')

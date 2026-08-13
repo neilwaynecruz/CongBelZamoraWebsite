@@ -99,7 +99,7 @@ class Phase7NewsWorkflowTest extends TestCase
             ->and($projectEditor->can('update', $record))->toBeFalse();
     }
 
-    public function test_filament_news_resources_are_role_gated(): void
+    public function test_filament_news_resources_are_emergency_only_while_custom_console_is_role_gated(): void
     {
         $communicationsEditor = User::factory()->adminRole(AdminRole::CommunicationsEditor)->create();
         $mediaManager = User::factory()->adminRole(AdminRole::MediaManager)->create();
@@ -107,10 +107,14 @@ class Phase7NewsWorkflowTest extends TestCase
 
         $this->actingAs($communicationsEditor)
             ->get(NewsRecordResource::getUrl('index'))
-            ->assertOk();
+            ->assertForbidden();
 
         $this->actingAs($mediaManager)
             ->get(NewsMediaAssetResource::getUrl('index'))
+            ->assertForbidden();
+
+        $this->actingAs($communicationsEditor)
+            ->get(route('admin-console.news.index'))
             ->assertOk();
 
         $this->actingAs($inquiryOfficer)

@@ -99,13 +99,17 @@ class Phase7LegislationWorkflowTest extends TestCase
             ->and($programOfficer->can('update', $record))->toBeFalse();
     }
 
-    public function test_filament_legislative_resource_is_role_gated(): void
+    public function test_filament_legislative_resource_is_emergency_only_while_custom_console_is_role_gated(): void
     {
         $legislativeEditor = User::factory()->adminRole(AdminRole::LegislativeEditor)->create();
         $inquiryOfficer = User::factory()->adminRole(AdminRole::InquiryOfficer)->create();
 
         $this->actingAs($legislativeEditor)
             ->get(LegislativeRecordResource::getUrl('index'))
+            ->assertForbidden();
+
+        $this->actingAs($legislativeEditor)
+            ->get(route('admin-console.legislation.index'))
             ->assertOk();
 
         $this->actingAs($inquiryOfficer)

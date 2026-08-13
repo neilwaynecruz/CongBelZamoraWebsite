@@ -100,17 +100,21 @@ class Phase7ProjectsWorkflowTest extends TestCase
             ->and($legislativeEditor->can('update', $project))->toBeFalse();
     }
 
-    public function test_filament_project_resources_are_role_gated(): void
+    public function test_filament_project_resources_are_emergency_only_while_custom_console_is_role_gated(): void
     {
         $projectEditor = User::factory()->adminRole(AdminRole::ProjectEditor)->create();
         $inquiryOfficer = User::factory()->adminRole(AdminRole::InquiryOfficer)->create();
 
         $this->actingAs($projectEditor)
             ->get(ProjectResource::getUrl('index'))
-            ->assertOk();
+            ->assertForbidden();
 
         $this->actingAs($projectEditor)
             ->get(ProjectEvidenceResource::getUrl('index'))
+            ->assertForbidden();
+
+        $this->actingAs($projectEditor)
+            ->get(route('admin-console.projects.index'))
             ->assertOk();
 
         $this->actingAs($inquiryOfficer)

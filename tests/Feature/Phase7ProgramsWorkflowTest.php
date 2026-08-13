@@ -94,17 +94,21 @@ class Phase7ProgramsWorkflowTest extends TestCase
             ->and($inquiryOfficer->can('update', $guide))->toBeFalse();
     }
 
-    public function test_filament_program_resources_are_role_gated(): void
+    public function test_filament_program_resources_are_emergency_only_while_custom_console_is_role_gated(): void
     {
         $programOfficer = User::factory()->adminRole(AdminRole::ProgramOfficer)->create();
         $inquiryOfficer = User::factory()->adminRole(AdminRole::InquiryOfficer)->create();
 
         $this->actingAs($programOfficer)
             ->get(ProgramResource::getUrl('index'))
-            ->assertOk();
+            ->assertForbidden();
 
         $this->actingAs($programOfficer)
             ->get(ServiceGuideResource::getUrl('index'))
+            ->assertForbidden();
+
+        $this->actingAs($programOfficer)
+            ->get(route('admin-console.programs.index'))
             ->assertOk();
 
         $this->actingAs($inquiryOfficer)
