@@ -38,8 +38,8 @@
                 <div class="district-governance-warning mt-4 border border-[#c9a227]/40 bg-[#fff8ea] text-[#4a3600]" role="status">
                     <x-filament::icon icon="heroicon-m-exclamation-triangle" class="text-[#8a6500]" />
                     <div>
-                        <strong>Emergency fallback only.</strong>
-                        <span>Use the District Office Command System at <a href="{{ route('admin-console.dashboard') }}" class="font-semibold underline">/admin-console</a> for daily staff work. This legacy Filament panel is retained for Super Administrator recovery, exports under approval, and transition checks.</span>
+                        <strong>Emergency admin only.</strong>
+                        <span>Use the District Office Command System at <a href="{{ route('admin-console.dashboard') }}" class="font-semibold underline">/admin-console</a> for daily staff work. This older admin area stays available only for Super Administrators when recovery, approved exports, or transition checks are needed.</span>
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
                         <svg class="h-4 w-4 text-[#16733c]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m6 2.25a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Governance rules active</span>
+                            <span>Review rules active</span>
                     </span>
                     <span class="district-trust-badge bg-[#f8fafc] text-[#334155]">
                         <svg class="h-4 w-4 text-[#1746a2]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -104,7 +104,7 @@
                         <x-filament::icon icon="heroicon-m-shield-check" class="text-[#c9a227]" />
                         <div>
                             <strong class="!text-white">Official operations mode</strong>
-                            <span class="!text-white/75">Review urgent queues first, then publish only records that pass governance gates.</span>
+                            <span class="!text-white/75">Review urgent work first. Publish only items with sources, review dates, and approval.</span>
                         </div>
                     </div>
                 </aside>
@@ -115,7 +115,7 @@
                         <x-filament::icon icon="heroicon-m-check-circle" class="text-[#c9a227]" />
                         <div>
                             <strong class="!text-white">No priority actions available</strong>
-                            <span class="!text-white/75">Visible queues and health checks are governed by assigned role permissions.</span>
+                            <span class="!text-white/75">Visible queues and checks depend on the staff role assigned to you.</span>
                         </div>
                     </div>
                 </aside>

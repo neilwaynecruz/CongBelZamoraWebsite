@@ -67,7 +67,7 @@ const resetFilters = () => {
     <div class="admin-page">
         <AdminPageHeader
             eyebrow="Constituent service"
-            title="Inquiry case ledger"
+            title="Inquiry cases"
             description="A role-protected, read-only view of ownership, response milestones, and case status. Citizen details never appear in this list."
         >
             <template #actions>
@@ -221,7 +221,7 @@ const resetFilters = () => {
                                     :href="inquiry.href"
                                     class="admin-table-action"
                                 >
-                                    Open dossier<ArrowRight
+                                    Open details<ArrowRight
                                         aria-hidden="true"
                                     />
                                 </Link>

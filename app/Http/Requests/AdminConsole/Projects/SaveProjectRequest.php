@@ -103,7 +103,7 @@ class SaveProjectRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'slug.regex' => 'Use a lowercase URL slug such as egovph-serbisyo-hub.',
+            'slug.regex' => 'Use a short lowercase web address name such as egovph-serbisyo-hub.',
             'approval.change_summary.required_if' => 'Record what changed before submitting this project for review.',
         ];
     }

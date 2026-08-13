@@ -77,9 +77,8 @@ const formatValue = (value: unknown): string => {
             <div>
                 <strong>No changed fields detected</strong>
                 <p>
-                    The current record matches the latest published snapshot, or
-                    this content has not yet produced a published comparison
-                    baseline.
+                    The current record matches the latest published version, or
+                    this content has not yet been published for comparison.
                 </p>
             </div>
             <Columns3 aria-hidden="true" />

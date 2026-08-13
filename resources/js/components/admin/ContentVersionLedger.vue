@@ -25,8 +25,8 @@ defineProps<{
     >
         <header>
             <div>
-                <p class="admin-kicker">Immutable editorial history</p>
-                <h2 id="version-ledger-title">Version ledger</h2>
+                <p class="admin-kicker">Saved content history</p>
+                <h2 id="version-ledger-title">Saved versions</h2>
             </div>
             <FileClock aria-hidden="true" />
         </header>
@@ -54,14 +54,14 @@ defineProps<{
                             {{
                                 snapshot.isPublishable
                                     ? 'Passed at capture'
-                                    : `${snapshot.governanceIssues.length} gate issue${snapshot.governanceIssues.length === 1 ? '' : 's'}`
+                                    : `${snapshot.governanceIssues.length} issue${snapshot.governanceIssues.length === 1 ? '' : 's'} to fix`
                             }}
                         </span>
                     </div>
                     <p>
                         {{
                             snapshot.changeSummary ??
-                            'No change summary was recorded for this snapshot.'
+                            'No change summary was recorded for this saved version.'
                         }}
                     </p>
                     <small>
@@ -74,7 +74,7 @@ defineProps<{
                     <span
                         v-if="snapshot.canRollback"
                         class="admin-version-ledger__eligible"
-                        >Eligible for governed rollback</span
+                        >Can be restored after review</span
                     >
                 </div>
             </li>
@@ -82,8 +82,8 @@ defineProps<{
 
         <AdminEmptyState
             v-else
-            title="No editorial snapshots yet"
-            description="A snapshot will be captured when this record is submitted, approved, scheduled, published, archived, or safely restored."
+            title="No saved versions yet"
+            description="A saved version will be created when this record is submitted, approved, scheduled, published, archived, or safely restored."
         />
     </section>
 </template>

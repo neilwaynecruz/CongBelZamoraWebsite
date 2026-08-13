@@ -103,13 +103,13 @@ const resetFilters = () => {
 
     <div class="admin-page">
         <AdminPageHeader
-            eyebrow="Governance ledger"
-            title="Audit trail"
-            description="Inspect redacted staff activity, content workflow events, network hashes, and record-level changes without exposing secrets or private inquiry content."
+            eyebrow="Activity log"
+            title="Staff activity log"
+            description="Review safe staff activity, content review events, network fingerprints, and record changes without showing secrets or private inquiry content."
         >
             <template #actions>
                 <span class="admin-trust-marker">
-                    <ShieldCheck aria-hidden="true" />Read-only ledger
+                    <ShieldCheck aria-hidden="true" />Read-only log
                 </span>
             </template>
         </AdminPageHeader>
@@ -160,7 +160,7 @@ const resetFilters = () => {
             <button type="button">
                 <ShieldCheck aria-hidden="true" />
                 <span
-                    ><small>Network hashed</small
+                    ><small>Network fingerprinted</small
                     ><strong>{{ summary.withNetworkHash }}</strong></span
                 >
             </button>
@@ -177,7 +177,7 @@ const resetFilters = () => {
                     <input
                         v-model="form.search"
                         type="search"
-                        placeholder="Search audit events"
+                        placeholder="Search activity log"
                     />
                 </span>
             </label>
@@ -262,7 +262,7 @@ const resetFilters = () => {
             <header class="admin-table-panel__header">
                 <div>
                     <p class="admin-kicker">Authorized results</p>
-                    <h2 id="audit-results-title">Redacted audit events</h2>
+                    <h2 id="audit-results-title">Safe activity events</h2>
                 </div>
                 <strong>{{ auditLogs.meta.total }} records</strong>
             </header>
@@ -335,8 +335,8 @@ const resetFilters = () => {
 
             <AdminEmptyState
                 v-else
-                title="No audit events match these filters"
-                description="Clear event, actor, record type, or date filters to inspect the full authorized ledger."
+                title="No activity events match these filters"
+                description="Clear event, actor, record type, or date filters to inspect the full activity log you are allowed to view."
             />
 
             <AdminPagination :links="auditLogs.links" :meta="auditLogs.meta" />

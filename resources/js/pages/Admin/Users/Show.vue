@@ -179,20 +179,21 @@ const sendResetLink = () => {
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Transition controls</p>
-                        <h2>Fallback status</h2>
+                        <p class="admin-kicker">Emergency admin</p>
+                        <h2>Older admin status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
                         Custom staff user list, detail, create, edit, access
-                        status, and reset-link dispatch are available. Filament
-                        remains restricted until the parity matrix is complete.
+                        status, and reset-link actions are available here. The
+                        older admin area stays restricted until final staff
+                        sign-off.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"
                         :href="filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback editor<ExternalLink aria-hidden="true" />
+                        Open emergency editor<ExternalLink aria-hidden="true" />
                     </a>
                 </section>
             </aside>

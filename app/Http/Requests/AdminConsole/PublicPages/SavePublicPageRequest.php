@@ -129,8 +129,8 @@ class SavePublicPageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'slug.regex' => 'Use a lowercase URL slug such as accessibility or service-directory.',
-            'component.starts_with' => 'Public pages must use a Public/* Inertia component.',
+            'slug.regex' => 'Use a short lowercase web address name such as accessibility or service-directory.',
+            'component.starts_with' => 'Choose a public display page from the approved Public/* list.',
             'approval.change_summary.required_if' => 'Record what changed before submitting this public page for review.',
         ];
     }

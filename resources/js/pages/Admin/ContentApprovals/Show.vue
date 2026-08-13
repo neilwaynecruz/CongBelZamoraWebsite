@@ -102,17 +102,17 @@ defineProps<{
 </script>
 
 <template>
-    <Head :title="`${approval.recordTitle} · Governance`" />
+    <Head :title="`${approval.recordTitle} · Review`" />
 
     <div class="admin-page admin-dossier-page">
         <Link href="/admin-console/content-approvals" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to governance queue
+            <ArrowLeft aria-hidden="true" />Back to review queue
         </Link>
 
         <header class="admin-dossier-header admin-dossier-header--governance">
             <div>
                 <p class="admin-kicker">
-                    {{ approval.recordType }} · Revision
+                    {{ approval.recordType }} · Version
                     {{ approval.revisionNumber }} · Approval #{{ approval.id }}
                 </p>
                 <h1>{{ approval.recordTitle }}</h1>
@@ -131,7 +131,7 @@ defineProps<{
                     :value="approval.readiness.passed ? 'healthy' : 'blocked'"
                     :label="
                         approval.readiness.passed
-                            ? 'Publish gate passed'
+                            ? 'Publish checks passed'
                             : `${approval.readiness.issueCount} blockers`
                     "
                 />
@@ -168,7 +168,7 @@ defineProps<{
                         <p>
                             {{
                                 approval.changeSummary ??
-                                'No change summary was recorded for this revision.'
+                            'No change summary was recorded for this version.'
                             }}
                         </p>
                     </div>
@@ -286,13 +286,13 @@ defineProps<{
                 />
 
                 <section
-                    class="admin-panel admin-source-dossier"
+                class="admin-panel admin-source-dossier"
                     aria-labelledby="source-dossier-title"
                 >
                     <header>
                         <FileText aria-hidden="true" />
                         <div>
-                            <p class="admin-kicker">Public trust record</p>
+                            <p class="admin-kicker">Public trust details</p>
                             <h2 id="source-dossier-title">
                                 Source and freshness
                             </h2>

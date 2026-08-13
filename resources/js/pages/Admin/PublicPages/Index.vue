@@ -99,7 +99,7 @@ const freshnessBadgeValue = (tone: string) =>
         <AdminPageHeader
             eyebrow="Public pages"
             title="Static page command desk"
-            description="Maintain backend-owned public page props, SEO metadata, source verification, and review readiness without editing application code."
+            description="Update public page content settings, search details, source checks, and review dates without editing code."
         >
             <template #actions>
                 <div class="admin-page-header__action-row">
@@ -178,7 +178,7 @@ const freshnessBadgeValue = (tone: string) =>
             @submit.prevent="applyFilters"
         >
             <label class="admin-field admin-field--search">
-                <span>Title, slug, component, owner, or source</span>
+                <span>Title, web address, display page, owner, or source</span>
                 <span class="admin-input-with-icon">
                     <Search aria-hidden="true" />
                     <input
@@ -217,14 +217,14 @@ const freshnessBadgeValue = (tone: string) =>
                     <option value="due">Due or overdue</option>
                     <option value="missing_source">Missing source data</option>
                     <option value="unpublished">Unpublished</option>
-                    <option value="missing_seo">Missing SEO metadata</option>
+                    <option value="missing_seo">Missing search details</option>
                 </select>
             </label>
             <label class="admin-field">
                 <span>Order</span>
                 <select v-model="form.sort">
                     <option value="priority">Operational priority</option>
-                    <option value="slug">Slug</option>
+                    <option value="slug">Web address</option>
                     <option value="title">Title</option>
                     <option value="review_due">Review due date</option>
                     <option value="published">Published date</option>
@@ -341,7 +341,7 @@ const freshnessBadgeValue = (tone: string) =>
                                     :href="page.href"
                                     class="admin-table-action"
                                 >
-                                    Open dossier<ArrowRight
+                                    Open details<ArrowRight
                                         aria-hidden="true"
                                     />
                                 </Link>

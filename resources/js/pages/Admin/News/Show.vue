@@ -158,7 +158,7 @@ const newsStatusBadgeValue = (tone: string) =>
                     "
                     :label="
                         newsRecord.governance.readiness.passed
-                            ? 'Governance ready'
+                            ? 'Checks passed'
                             : `${newsRecord.governance.readiness.issueCount} blockers`
                     "
                 />
@@ -272,7 +272,7 @@ const newsStatusBadgeValue = (tone: string) =>
                     <AdminEmptyState
                         v-else
                         title="No media assets linked"
-                        description="Add only rights-cleared media metadata, captions, alt text, and source verification before public reuse."
+                        description="Add only approved media files with captions, alt text, rights notes, and checked sources before public reuse."
                     />
                 </section>
             </div>
@@ -280,8 +280,8 @@ const newsStatusBadgeValue = (tone: string) =>
             <aside class="admin-dossier-grid__rail">
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Source verification</p>
-                        <h2>Official-source record</h2>
+                        <p class="admin-kicker">Source check</p>
+                        <h2>Official source</h2>
                     </header>
                     <dl class="admin-fact-list">
                         <div>
@@ -330,7 +330,7 @@ const newsStatusBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-readiness">
                     <header>
-                        <p class="admin-kicker">Approval workflow</p>
+                        <p class="admin-kicker">Review process</p>
                         <h2>Publication readiness</h2>
                     </header>
                     <div
@@ -341,7 +341,7 @@ const newsStatusBadgeValue = (tone: string) =>
                         <strong>
                             {{
                                 newsRecord.governance.readiness.passed
-                                    ? 'Ready for governed publishing'
+                                    ? 'Ready for publishing review'
                                     : `${newsRecord.governance.readiness.issueCount} blocker(s)`
                             }}
                         </strong>
@@ -363,7 +363,7 @@ const newsStatusBadgeValue = (tone: string) =>
                         :href="newsRecord.governance.approval.href"
                         class="admin-button admin-button--secondary admin-program-workflow-link"
                     >
-                        Open approval dossier<ArrowRight aria-hidden="true" />
+                        Open review details<ArrowRight aria-hidden="true" />
                     </Link>
                 </section>
 
@@ -376,13 +376,13 @@ const newsStatusBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Transition controls</p>
-                        <h2>Fallback status</h2>
+                        <p class="admin-kicker">Emergency admin</p>
+                        <h2>Older admin status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom news editing, media uploads, metadata, and
-                        lifecycle actions are available. Filament remains
-                        restricted as a fallback until final staff parity
+                        Custom news editing, media uploads, file details, and
+                        hide/restore/delete actions are available here. The
+                        older admin area stays restricted until final staff
                         approval.
                     </p>
                     <a
@@ -390,7 +390,7 @@ const newsStatusBadgeValue = (tone: string) =>
                         :href="filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback editor<ExternalLink aria-hidden="true" />
+                        Open emergency editor<ExternalLink aria-hidden="true" />
                     </a>
                 </section>
             </aside>

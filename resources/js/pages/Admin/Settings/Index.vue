@@ -64,8 +64,8 @@ defineProps<{
     <div class="admin-page">
         <AdminPageHeader
             eyebrow="Settings"
-            title="Launch and security configuration"
-            description="Review the active District Office command-system configuration without exposing secrets or allowing unapproved runtime writes."
+            title="Launch and security settings"
+            description="Review current admin settings without showing secrets or allowing unapproved changes."
         >
             <template #actions>
                 <span class="admin-trust-marker">
@@ -149,7 +149,7 @@ defineProps<{
                             </dd>
                         </div>
                         <div>
-                            <dt>Filament fallback</dt>
+                            <dt>Emergency admin access</dt>
                             <dd>
                                 {{
                                     settings.adminConsole
@@ -196,15 +196,15 @@ defineProps<{
                             </dd>
                         </div>
                         <div>
-                            <dt>Queue</dt>
+                            <dt>Background jobs</dt>
                             <dd>{{ settings.environment.queueConnection }}</dd>
                         </div>
                         <div>
-                            <dt>Cache store</dt>
+                            <dt>Saved page cache</dt>
                             <dd>{{ settings.environment.cacheStore }}</dd>
                         </div>
                         <div>
-                            <dt>Filesystem disk</dt>
+                            <dt>File storage</dt>
                             <dd>{{ settings.environment.filesystemDisk }}</dd>
                         </div>
                         <div>
@@ -223,7 +223,7 @@ defineProps<{
                     </header>
                     <dl class="admin-fact-list">
                         <div>
-                            <dt>Public cache TTL</dt>
+                            <dt>Public page cache time</dt>
                             <dd>
                                 {{ settings.cache.publicTtlSeconds }} seconds
                             </dd>
@@ -252,15 +252,15 @@ defineProps<{
                 <section class="admin-panel admin-program-source-panel">
                     <header>
                         <p class="admin-kicker">Jobs</p>
-                        <h2>Queue defaults</h2>
+                        <h2>Background job defaults</h2>
                     </header>
                     <dl class="admin-fact-list">
                         <div>
-                            <dt>Tries</dt>
+                            <dt>Attempts</dt>
                             <dd>{{ settings.jobs.tries }}</dd>
                         </div>
                         <div>
-                            <dt>Backoff</dt>
+                            <dt>Wait before retry</dt>
                             <dd>{{ settings.jobs.backoffSeconds }} seconds</dd>
                         </div>
                         <div>
@@ -272,20 +272,20 @@ defineProps<{
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Mail and fallback</p>
+                        <p class="admin-kicker">Mail and emergency access</p>
                         <h2>Operational notes</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Settings are intentionally read-only in custom admin
-                        until configuration writes have approval workflow,
-                        rollback, and audit parity.
+                        Settings are intentionally read-only here until the
+                        office approves who can change them, how to undo them,
+                        and how to log each change.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"
                         :href="filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback admin<Mail aria-hidden="true" />
+                        Open emergency admin<Mail aria-hidden="true" />
                     </a>
                 </section>
             </aside>

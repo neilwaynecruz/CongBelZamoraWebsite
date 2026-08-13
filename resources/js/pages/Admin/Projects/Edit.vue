@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
         </Link>
 
         <AdminPageHeader
-            eyebrow="Projects editor parity"
+            eyebrow="Project editor"
             :title="form.title"
             description="Maintain project records with barangay scope, partner attribution, official-source verification, evidence notes, media-rights review, and governed approval submission."
         >
@@ -260,7 +260,7 @@ onBeforeUnmount(() => {
                             </label>
 
                             <label class="admin-field">
-                                <span>URL slug</span>
+                                <span>Web address name</span>
                                 <input
                                     v-model="editor.slug"
                                     type="text"
@@ -571,7 +571,7 @@ onBeforeUnmount(() => {
                                         <input
                                             v-model="evidence.media_path"
                                             type="text"
-                                            placeholder="Managed in fallback until upload parity"
+                                            placeholder="Upload approved files from the project evidence page"
                                         />
                                     </label>
                                 </div>
@@ -755,7 +755,7 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Publication metadata</p>
+                                <p class="admin-kicker">Publication details</p>
                                 <h2>Visibility controls</h2>
                             </div>
                         </header>
@@ -776,8 +776,8 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Approval submission</p>
-                                <h2>Governance handoff</h2>
+                                <p class="admin-kicker">Review submission</p>
+                                <h2>Send for review</h2>
                             </div>
                         </header>
 

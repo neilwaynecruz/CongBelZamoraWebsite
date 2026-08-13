@@ -24,7 +24,7 @@ class SourceRecordFormResource
             'mode' => $this->mode,
             'title' => $this->sourceRecord instanceof SourceRecord
                 ? 'Edit '.$this->sourceRecord->title
-                : 'Create source record',
+                : 'Create official source',
             'action' => $this->sourceRecord instanceof SourceRecord
                 ? route('admin-console.source-records.update', $this->sourceRecord)
                 : route('admin-console.source-records.store'),
@@ -35,7 +35,7 @@ class SourceRecordFormResource
             'indexHref' => route('admin-console.source-records.index'),
             'values' => $this->values(),
             'options' => $this->options(),
-            'governanceNote' => 'Source records document the evidence staff rely on for public claims, service guidance, and content approval. Keep review dates current and avoid private resident documents.',
+            'governanceNote' => 'Official sources document the proof staff rely on for public claims, service guidance, and content review. Keep review dates current and avoid private resident documents.',
         ];
     }
 
@@ -81,7 +81,7 @@ class SourceRecordFormResource
             'sourceTiers' => [
                 ['value' => 'tier_1', 'label' => 'Tier 1 - official source'],
                 ['value' => 'tier_2', 'label' => 'Tier 2 - verified partner source'],
-                ['value' => 'tier_3', 'label' => 'Tier 3 - historical/discovery source'],
+                ['value' => 'tier_3', 'label' => 'Tier 3 - historical or discovery source'],
             ],
             'publicStatuses' => [
                 ['value' => 'draft', 'label' => 'Draft'],

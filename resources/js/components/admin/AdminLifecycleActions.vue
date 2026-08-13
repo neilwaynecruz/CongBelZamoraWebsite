@@ -81,15 +81,15 @@ const deleteRecord = () => {
         aria-labelledby="admin-lifecycle-title"
     >
         <header>
-            <p class="admin-kicker">Record lifecycle</p>
-            <h2 id="admin-lifecycle-title">Archive and removal controls</h2>
+            <p class="admin-kicker">Record actions</p>
+            <h2 id="admin-lifecycle-title">Hide, restore, or delete</h2>
         </header>
 
         <p class="admin-lifecycle-panel__copy">
             {{
                 lifecycle.trashed
-                    ? 'This record is archived. Restore it for normal staff work, or permanently delete only when retention and approval rules allow it.'
-                    : 'Archive removes this record from normal public/admin ledgers while preserving governance history and audit evidence.'
+                    ? 'This record is hidden from daily work. Restore it when staff should use it again, or permanently delete it only when retention and approval rules allow it.'
+                    : 'Archiving hides this record from normal staff work while keeping its review history and activity log.'
             }}
         </p>
 
@@ -122,10 +122,10 @@ const deleteRecord = () => {
 
         <AdminActionDialog
             :open="activeDialog === 'archive'"
-            kicker="Archive official content"
+            kicker="Hide official content"
             :title="`Archive ${recordTitle}`"
-            :description="`This keeps the ${recordType} audit trail but removes the record from normal working ledgers. Use only when the content is obsolete, duplicated, or should no longer be maintained.`"
-            confirm-label="Archive record"
+            :description="`This keeps the ${recordType} activity history but hides the record from normal staff lists. Use it only when the content is old, duplicated, or no longer maintained.`"
+            confirm-label="Hide record"
             tone="warning"
             :busy="archiveForm.processing"
             @close="closeDialog"
@@ -139,11 +139,11 @@ const deleteRecord = () => {
                     rows="4"
                     maxlength="500"
                     required
-                    placeholder="Example: Replaced by a newer verified record after source review."
+                    placeholder="Example: Replaced by a newer checked record."
                 ></textarea>
                 <small>
-                    Minimum 12 characters. This reason is stored in the audit
-                    trail.
+                    Minimum 12 characters. This reason is saved in the activity
+                    log.
                 </small>
                 <small
                     v-if="archiveForm.errors.reason"
@@ -158,7 +158,7 @@ const deleteRecord = () => {
             :open="activeDialog === 'restore'"
             kicker="Restore archived content"
             :title="`Restore ${recordTitle}`"
-            :description="`This returns the ${recordType} to normal custom admin ledgers. Confirm source freshness before making it public-facing again.`"
+            :description="`This returns the ${recordType} to normal staff lists. Check the source again before making it public-facing.`"
             confirm-label="Restore record"
             tone="success"
             :busy="restoreForm.processing"
@@ -172,7 +172,7 @@ const deleteRecord = () => {
                     data-autofocus
                     rows="4"
                     maxlength="500"
-                    placeholder="Example: Restored after reviewer confirmed this is still the authoritative record."
+                    placeholder="Example: Restored after review confirmed this is still the correct record."
                 ></textarea>
                 <small
                     v-if="restoreForm.errors.reason"
@@ -187,7 +187,7 @@ const deleteRecord = () => {
             :open="activeDialog === 'delete'"
             kicker="Permanent deletion"
             :title="`Permanently delete ${recordTitle}`"
-            :description="`This cannot be undone. Use only after retention, governance, and source-history requirements are satisfied.`"
+            :description="`This cannot be undone. Use it only after retention, approval, and source-history requirements are satisfied.`"
             confirm-label="Delete permanently"
             tone="danger"
             :busy="deleteForm.processing"
@@ -197,7 +197,7 @@ const deleteRecord = () => {
         >
             <div class="admin-lifecycle-panel__danger-note" role="alert">
                 Permanent deletion removes the {{ recordType }} record from the
-                custom admin database. Keep this for duplicates, unsupported
+                admin database. Keep this for duplicates, unsupported
                 imports, or formally approved removals only.
             </div>
             <label class="admin-field">
@@ -224,7 +224,7 @@ const deleteRecord = () => {
                     rows="4"
                     maxlength="500"
                     required
-                    placeholder="Example: Duplicate staging import approved for permanent removal after source reconciliation."
+                    placeholder="Example: Duplicate record approved for permanent removal after source review."
                 ></textarea>
                 <small>
                     Minimum 20 characters. Do not include sensitive citizen

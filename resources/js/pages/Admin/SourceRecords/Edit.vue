@@ -117,17 +117,17 @@ onBeforeUnmount(() => {
 
     <div class="admin-page admin-program-editor-page">
         <Link :href="form.backHref" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to source record
+            <ArrowLeft aria-hidden="true" />Back to source details
         </Link>
 
         <AdminPageHeader
-            eyebrow="Source editor parity"
+            eyebrow="Official source editor"
             :title="form.title"
-            description="Manage official-source evidence, ownership, verification dates, expiry, internal notes, and safe metadata from the custom console."
+            description="Add or update the official link, owner, review dates, notes, and safe extra details staff need before publishing."
         >
             <template #actions>
                 <span class="admin-trust-marker">
-                    <ShieldCheck aria-hidden="true" />Audited source save
+                    <ShieldCheck aria-hidden="true" />Checked source save
                 </span>
             </template>
         </AdminPageHeader>
@@ -145,8 +145,8 @@ onBeforeUnmount(() => {
                         Some fields need attention
                     </h2>
                     <p>
-                        Server validation controls source URL, ownership, review
-                        dates, and JSON metadata.
+                        The server checks the source link, owner, review dates,
+                        and extra details before saving.
                     </p>
                 </div>
             </section>
@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
                         <header>
                             <div>
                                 <p class="admin-kicker">Source identity</p>
-                                <h2>Title, URL, and classification</h2>
+                                <h2>Title, link, and source type</h2>
                             </div>
                         </header>
                         <div
@@ -171,7 +171,7 @@ onBeforeUnmount(() => {
                                 }}</small>
                             </label>
                             <label class="admin-field">
-                                <span>URL</span>
+                                <span>Link</span>
                                 <input v-model="editor.url" type="url" />
                                 <small v-if="fieldError('url')">{{
                                     fieldError('url')
@@ -230,7 +230,7 @@ onBeforeUnmount(() => {
                         <header>
                             <div>
                                 <p class="admin-kicker">Review control</p>
-                                <h2>Ownership and verification</h2>
+                                <h2>Owner and review dates</h2>
                             </div>
                         </header>
                         <div
@@ -304,14 +304,14 @@ onBeforeUnmount(() => {
                         <header>
                             <div>
                                 <p class="admin-kicker">Internal context</p>
-                                <h2>Notes and metadata</h2>
+                                <h2>Notes and extra details</h2>
                             </div>
                             <button
                                 type="button"
                                 class="admin-button admin-button--ghost"
                                 @click="formatMetadata"
                             >
-                                <Code2 aria-hidden="true" />Format JSON
+                                <Code2 aria-hidden="true" />Format details
                             </button>
                         </header>
                         <div class="admin-editor-fields">
@@ -323,7 +323,7 @@ onBeforeUnmount(() => {
                                 ></textarea>
                             </label>
                             <label class="admin-field">
-                                <span>Metadata JSON</span>
+                                <span>Extra details</span>
                                 <textarea
                                     v-model="editor.metadata_json"
                                     rows="8"
@@ -340,14 +340,14 @@ onBeforeUnmount(() => {
                     <section
                         class="admin-editor-panel admin-editor-panel--sticky"
                     >
-                        <p class="admin-kicker">Governance</p>
+                        <p class="admin-kicker">Review rule</p>
                         <p>{{ form.governanceNote }}</p>
                     </section>
                 </aside>
             </div>
 
             <footer class="admin-editor-savebar">
-                <span>Changes are validated and audited on the server.</span>
+                <span>Changes are checked and saved in the activity log.</span>
                 <button
                     type="submit"
                     class="admin-button admin-button--primary"

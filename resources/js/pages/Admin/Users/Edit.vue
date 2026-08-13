@@ -107,9 +107,9 @@ onBeforeUnmount(() => {
         </Link>
 
         <AdminPageHeader
-            eyebrow="Staff user editor parity"
+            eyebrow="Staff user editor"
             :title="form.title"
-            description="Manage staff identity, role assignment, active access, and reset credentials through server-side validation and audited transactions."
+            description="Manage staff identity, role, active access, and password changes with server checks and activity logging."
         >
             <template #actions>
                 <span class="admin-trust-marker">
@@ -131,8 +131,8 @@ onBeforeUnmount(() => {
                         Some fields need attention
                     </h2>
                     <p>
-                        Server validation protects role assignment, active
-                        access, and the last Super Administrator account.
+                        The server protects role changes, active access, and
+                        the last Super Administrator account.
                     </p>
                 </div>
             </section>
@@ -241,7 +241,7 @@ onBeforeUnmount(() => {
                             {{
                                 form.twoFactorRequired
                                     ? 'Active staff must enable 2FA before using /admin-console.'
-                                    : '2FA is available but not currently required by config.'
+                                    : '2FA is available but not currently required by settings.'
                             }}
                         </p>
                         <p class="admin-program-fallback-note">
@@ -256,15 +256,15 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Audit boundary</p>
+                                <p class="admin-kicker">Activity log boundary</p>
                                 <h2>What gets recorded</h2>
                             </div>
                         </header>
                         <p>
                             Role, active status, email, name, and password
-                            change flags are audited. Password values, reset
+                            change flags are logged. Password values, reset
                             tokens, 2FA secrets, and recovery codes are not
-                            stored in audit values.
+                            stored in activity log values.
                         </p>
                     </section>
                 </aside>

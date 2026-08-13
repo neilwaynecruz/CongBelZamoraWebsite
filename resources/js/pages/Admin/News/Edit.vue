@@ -197,9 +197,9 @@ onBeforeUnmount(() => {
         </Link>
 
         <AdminPageHeader
-            eyebrow="News/media editor parity"
+            eyebrow="News and media editor"
             :title="form.title"
-            description="Maintain official public updates with stale-review states, source verification, media-rights metadata, and governed approval submission."
+            description="Maintain official public updates with review status, source checks, media-rights details, and review submission."
         >
             <template #actions>
                 <span class="admin-trust-marker">
@@ -254,7 +254,7 @@ onBeforeUnmount(() => {
                                 }}</small>
                             </label>
                             <label class="admin-field">
-                                <span>URL slug</span>
+                                <span>Web address name</span>
                                 <input
                                     v-model="editor.slug"
                                     type="text"
@@ -454,7 +454,7 @@ onBeforeUnmount(() => {
                                         <input
                                             v-model="asset.media_path"
                                             type="text"
-                                            placeholder="Managed in fallback until upload parity"
+                                            placeholder="Upload approved files from the news media page"
                                         />
                                     </label>
                                     <label
@@ -637,7 +637,7 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Publication metadata</p>
+                                <p class="admin-kicker">Publication details</p>
                                 <h2>Sorting</h2>
                             </div>
                         </header>
@@ -656,8 +656,8 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Approval submission</p>
-                                <h2>Governance handoff</h2>
+                                <p class="admin-kicker">Review submission</p>
+                                <h2>Send for review</h2>
                             </div>
                         </header>
                         <p>{{ form.governanceNote }}</p>

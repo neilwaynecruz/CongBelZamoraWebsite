@@ -113,7 +113,7 @@ const projectStatusBadgeValue = (tone: string) =>
     <div class="admin-page">
         <AdminPageHeader
             eyebrow="Projects and results"
-            title="Project command ledger"
+            title="Projects"
             description="Review project records, barangay scope, partner attribution, source verification, evidence readiness, and approval status before public reuse."
         >
             <template #actions>
@@ -362,7 +362,7 @@ const projectStatusBadgeValue = (tone: string) =>
                                     :href="project.href"
                                     class="admin-table-action"
                                 >
-                                    Open dossier<ArrowRight
+                                    Open details<ArrowRight
                                         aria-hidden="true"
                                     />
                                 </Link>

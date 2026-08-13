@@ -49,7 +49,7 @@ class StaffUserFormResource
                     ->all(),
             ],
             'passwordHelp' => $staffUser instanceof User
-                ? 'Leave blank to keep the current password. Filling this field resets credentials and is audited.'
+                ? 'Leave blank to keep the current password. Filling this field changes the password and saves the action in the activity log.'
                 : 'Create a temporary password, then ask the staff member to change it after first sign-in.',
             'twoFactorRequired' => (bool) config('belzamora.staff.require_2fa', false),
         ];

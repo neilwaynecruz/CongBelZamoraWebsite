@@ -201,7 +201,7 @@ onBeforeUnmount(() => {
                 >
                     <header class="admin-command-palette__header">
                         <div>
-                            <p class="admin-kicker">District switchboard</p>
+                            <p class="admin-kicker">Quick search</p>
                             <h2 id="admin-command-title">
                                 Find work and move quickly
                             </h2>
@@ -223,7 +223,7 @@ onBeforeUnmount(() => {
                             ref="searchInput"
                             v-model="query"
                             type="search"
-                            placeholder="Search commands, programs, projects, news..."
+                            placeholder="Search pages, programs, projects, news..."
                             autocomplete="off"
                         />
                         <span><Command aria-hidden="true" />K</span>
@@ -231,7 +231,7 @@ onBeforeUnmount(() => {
 
                     <div class="admin-command-palette__results">
                         <section v-if="filteredCommands.length">
-                            <h3>Commands</h3>
+                            <h3>Places to go</h3>
                             <button
                                 v-for="item in filteredCommands"
                                 :key="item.href"
@@ -255,20 +255,20 @@ onBeforeUnmount(() => {
                         </section>
 
                         <section v-if="query.trim().length >= 2">
-                            <h3>Authorized records</h3>
+                            <h3>Records you can open</h3>
                             <p
                                 v-if="loading"
                                 class="admin-command-palette__state"
                                 role="status"
                             >
-                                Searching authorized records...
+                                Searching records you can open...
                             </p>
                             <p
                                 v-else-if="searchError"
                                 class="admin-command-palette__state admin-command-palette__state--error"
                             >
-                                Search is temporarily unavailable. Commands
-                                remain available.
+                                Record search is temporarily unavailable. Page
+                                links still work.
                             </p>
                             <button
                                 v-for="result in remoteResults"
@@ -288,7 +288,7 @@ onBeforeUnmount(() => {
                                         <template
                                             v-if="result.usesLegacyFallback"
                                         >
-                                            · Opens fallback</template
+                                            · Opens emergency admin</template
                                         >
                                     </small>
                                 </span>
@@ -305,7 +305,7 @@ onBeforeUnmount(() => {
                                 "
                                 class="admin-command-palette__state"
                             >
-                                No authorized records match this search.
+                                No records you can open match this search.
                             </p>
                         </section>
                     </div>

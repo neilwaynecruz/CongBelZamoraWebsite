@@ -218,9 +218,9 @@ onBeforeUnmount(() => {
         </Link>
 
         <AdminPageHeader
-            eyebrow="Programs editor parity"
+            eyebrow="Program editor"
             :title="form.title"
-            description="Edit public program guidance with source verification, requirements, updates, and approval submission controlled by Laravel policies and governance services."
+            description="Edit public program guidance, sources, requirements, updates, and review submission with server checks."
         >
             <template #actions>
                 <span class="admin-trust-marker"
@@ -280,7 +280,7 @@ onBeforeUnmount(() => {
                             </label>
 
                             <label class="admin-field">
-                                <span>URL slug</span>
+                                <span>Web address name</span>
                                 <input
                                     v-model="editor.slug"
                                     type="text"
@@ -293,7 +293,7 @@ onBeforeUnmount(() => {
                             </label>
 
                             <label class="admin-field">
-                                <span>Public URL path</span>
+                                <span>Public web address</span>
                                 <input
                                     v-model="editor.href"
                                     type="text"
@@ -920,7 +920,7 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Publication metadata</p>
+                                <p class="admin-kicker">Publication details</p>
                                 <h2>Visibility controls</h2>
                             </div>
                         </header>
@@ -958,8 +958,8 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Approval submission</p>
-                                <h2>Governance handoff</h2>
+                                <p class="admin-kicker">Review submission</p>
+                                <h2>Send for review</h2>
                             </div>
                         </header>
 

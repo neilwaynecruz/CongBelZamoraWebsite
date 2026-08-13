@@ -50,7 +50,7 @@ defineProps<{
         </Link>
 
         <AdminPageHeader
-            eyebrow="Reference dossier"
+            eyebrow="Reference details"
             :title="record.title"
             :description="definition.description"
         >
@@ -64,7 +64,7 @@ defineProps<{
                         <PenLine aria-hidden="true" />Edit
                     </Link>
                     <span class="admin-trust-marker">
-                        <ShieldCheck aria-hidden="true" />Policy-gated
+                        <ShieldCheck aria-hidden="true" />Policy checked
                     </span>
                 </div>
             </template>
@@ -113,8 +113,8 @@ defineProps<{
             <section class="admin-panel admin-panel--health">
                 <header class="admin-panel__header">
                     <div>
-                        <p class="admin-kicker">Usage and source</p>
-                        <h2>Operational impact</h2>
+                        <p class="admin-kicker">Use and source</p>
+                        <h2>Where this is used</h2>
                     </div>
                 </header>
                 <dl class="admin-ledger-list">

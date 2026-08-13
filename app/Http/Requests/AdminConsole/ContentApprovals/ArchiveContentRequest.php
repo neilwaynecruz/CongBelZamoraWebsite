@@ -22,7 +22,7 @@ class ArchiveContentRequest extends ContentApprovalActionRequest
     {
         return [
             'reason_key.required' => 'Select an official archive or unpublish reason.',
-            'reason_key.in' => 'Select one of the configured governance reasons.',
+            'reason_key.in' => 'Select one of the approved office reasons.',
             'note.max' => 'Keep the supporting note within 2,000 characters.',
         ];
     }

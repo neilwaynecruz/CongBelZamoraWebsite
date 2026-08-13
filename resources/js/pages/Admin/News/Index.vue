@@ -359,7 +359,7 @@ const newsStatusBadgeValue = (tone: string) =>
                                     :href="record.href"
                                     class="admin-table-action"
                                 >
-                                    Open dossier<ArrowRight
+                                    Open details<ArrowRight
                                         aria-hidden="true"
                                     />
                                 </Link>

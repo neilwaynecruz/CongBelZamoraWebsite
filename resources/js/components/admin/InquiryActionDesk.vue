@@ -86,12 +86,12 @@ const definitions = computed<ActionDefinition[]>(() => [
     {
         name: 'assign',
         label: props.inquiry.assignee ? 'Reassign owner' : 'Assign owner',
-        helper: 'Set accountable case ownership',
+        helper: 'Choose who is responsible for this case',
         title: props.inquiry.assignee
             ? 'Reassign case ownership'
             : 'Assign case ownership',
         description:
-            'Select an active authorized officer. The assignment and any operational note will be added to the audited case timeline.',
+            'Select an active authorized officer. The assignment and any note will be added to the private case history.',
         confirmLabel: props.inquiry.assignee
             ? 'Reassign inquiry'
             : 'Assign inquiry',
@@ -106,7 +106,7 @@ const definitions = computed<ActionDefinition[]>(() => [
         helper: 'Accept ownership of this case',
         title: 'Accept case ownership',
         description:
-            'You will become the accountable officer and the case will move into active review. This assignment is recorded in the audit trail.',
+            'You will become the responsible officer and the case will move into active review. This assignment is saved in the activity log.',
         confirmLabel: 'Assign to me',
         tone: 'primary',
         icon: ShieldCheck,
@@ -116,7 +116,7 @@ const definitions = computed<ActionDefinition[]>(() => [
     {
         name: 'markUnderReview',
         label: 'Start review',
-        helper: 'Begin active case handling',
+        helper: 'Start working on this case',
         title: 'Start active review',
         description:
             'The inquiry will move from Pending to Under review. If it is unassigned, you will become its accountable owner.',
@@ -132,7 +132,7 @@ const definitions = computed<ActionDefinition[]>(() => [
         helper: 'Document handling context',
         title: 'Add an internal case note',
         description:
-            'This encrypted note is visible only to authorized inquiry staff and becomes part of the permanent handling timeline.',
+            'This private note is visible only to authorized inquiry staff and becomes part of the case history.',
         confirmLabel: 'Add note',
         tone: 'primary',
         icon: MessageSquareText,
@@ -142,10 +142,10 @@ const definitions = computed<ActionDefinition[]>(() => [
     {
         name: 'recordResponse',
         label: 'Record response',
-        helper: 'Log an approved-channel reply',
+        helper: 'Record a reply already sent',
         title: 'Record a delivered response',
         description:
-            'Document what was already communicated through an approved office channel. This action records a milestone; it does not send a new message.',
+            'Record what was already communicated through an approved office channel. This does not send a new message.',
         confirmLabel: 'Record response',
         tone: 'primary',
         icon: Send,
@@ -168,7 +168,7 @@ const definitions = computed<ActionDefinition[]>(() => [
     {
         name: 'close',
         label: 'Close case',
-        helper: 'Complete the case lifecycle',
+        helper: 'Remove this case from active work',
         title: 'Close this resolved inquiry',
         description:
             'Closing removes the inquiry from active work queues. Select the official closure reason and confirm only after the outcome is complete.',
@@ -184,7 +184,7 @@ const definitions = computed<ActionDefinition[]>(() => [
         helper: 'Return the case to active review',
         title: 'Reopen this inquiry',
         description:
-            'The inquiry will return to Under review and re-enter operational queues. Record the follow-up reason before continuing.',
+            'The inquiry will return to Under review and appear in active work queues again. Record the follow-up reason before continuing.',
         confirmLabel: 'Reopen inquiry',
         tone: 'warning',
         icon: RotateCcw,
@@ -329,8 +329,8 @@ const submit = () => {
     >
         <header>
             <div>
-                <p class="admin-kicker">Case command desk</p>
-                <h2 id="case-actions-title">Authorized actions</h2>
+                <p class="admin-kicker">Case actions</p>
+                <h2 id="case-actions-title">Actions you can take</h2>
             </div>
             <ClipboardPenLine aria-hidden="true" />
         </header>
@@ -340,7 +340,7 @@ const submit = () => {
             <div>
                 <strong>Read-only oversight</strong>
                 <p>
-                    Your role can inspect handling evidence but cannot change
+                    Your role can review case history but cannot change
                     this inquiry.
                 </p>
             </div>
@@ -383,21 +383,21 @@ const submit = () => {
                 v-if="availableActions.length === 0"
                 class="admin-case-actions__complete"
             >
-                No transition is currently available for this case state.
+                No action is currently available for this case state.
                 Internal notes remain available only while policy permits.
             </p>
         </template>
 
         <p class="admin-case-actions__audit">
-            Every command records the actor, timestamp, state change, and
-            privacy-safe audit metadata.
+            Every action records who acted, when it happened, what changed, and
+            safe activity details.
         </p>
     </section>
 
     <AdminActionDialog
         v-if="activeDefinition"
         :open="activeAction !== null"
-        kicker="Audited case command"
+        kicker="Checked case action"
         :title="activeDefinition.title"
         :description="activeDefinition.description"
         :confirm-label="activeDefinition.confirmLabel"

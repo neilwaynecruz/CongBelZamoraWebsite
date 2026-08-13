@@ -44,7 +44,7 @@ class ProgramFormResource
             'programHref' => $program instanceof Program ? route('admin-console.programs.show', $program) : null,
             'values' => $this->values($program, $source),
             'options' => $this->options(),
-            'governanceNote' => 'Program edits remain draft-owned until submitted to the governed approval queue. Official source, verification, and review dates are required before submission.',
+            'governanceNote' => 'Program changes stay as drafts until staff send them for review. Add the official source, who checked it, and the next review date before submission.',
         ];
     }
 

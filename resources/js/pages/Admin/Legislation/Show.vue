@@ -111,7 +111,7 @@ const statusBadgeValue = (tone: string) =>
 
     <div class="admin-page admin-dossier-page">
         <Link href="/admin-console/legislation" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to legislation ledger
+            <ArrowLeft aria-hidden="true" />Back to legislation
         </Link>
 
         <header class="admin-dossier-header admin-dossier-header--program">
@@ -161,7 +161,7 @@ const statusBadgeValue = (tone: string) =>
                     "
                     :label="
                         legislativeRecord.governance.readiness.passed
-                            ? 'Governance ready'
+                            ? 'Checks passed'
                             : `${legislativeRecord.governance.readiness.issueCount} blockers`
                     "
                 />
@@ -371,7 +371,7 @@ const statusBadgeValue = (tone: string) =>
                         <ShieldCheck aria-hidden="true" />
                         <strong>{{
                             legislativeRecord.governance.readiness.passed
-                                ? 'Ready for governed publishing'
+                                ? 'Ready for publishing review'
                                 : `${legislativeRecord.governance.readiness.issueCount} blocker(s)`
                         }}</strong>
                     </div>
@@ -392,7 +392,7 @@ const statusBadgeValue = (tone: string) =>
                         :href="legislativeRecord.governance.approval.href"
                         class="admin-button admin-button--secondary admin-program-workflow-link"
                     >
-                        Open approval dossier<ArrowRight aria-hidden="true" />
+                        Open review details<ArrowRight aria-hidden="true" />
                     </Link>
                 </section>
 
@@ -406,19 +406,19 @@ const statusBadgeValue = (tone: string) =>
                 <section class="admin-panel admin-program-source-panel">
                     <header>
                         <p class="admin-kicker">Transition controls</p>
-                        <h2>Fallback status</h2>
+                        <h2>Emergency admin status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom legislation editing and lifecycle actions are
-                        available. Filament remains a restricted fallback until
-                        the full admin parity matrix is complete.
+                        Custom legislation editing and hide/restore/delete
+                        actions are available here. The older admin area stays
+                        restricted until final staff sign-off.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"
                         :href="filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback editor<ExternalLink aria-hidden="true" />
+                        Open emergency editor<ExternalLink aria-hidden="true" />
                     </a>
                 </section>
             </aside>

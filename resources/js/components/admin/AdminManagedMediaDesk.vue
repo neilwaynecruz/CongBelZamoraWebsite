@@ -197,7 +197,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
 <template>
     <div class="admin-page admin-media-page">
         <Link :href="backUrl" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to dossier
+            <ArrowLeft aria-hidden="true" />Back to details
         </Link>
 
         <header class="admin-dossier-header admin-dossier-header--program">
@@ -230,7 +230,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
             <div>
                 <strong>Approved public image uploads only</strong>
                 <p>
-                    {{ mediaPolicy.sensitiveFilesNotice }} Accepted formats:
+                    {{ mediaPolicy.sensitiveFilesNotice }} Accepted file types:
                     {{ allowedTypesLabel }}. Maximum file size:
                     {{ maxMegabytes }} MB.
                 </p>
@@ -342,8 +342,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
 
                     <footer class="admin-sticky-save-bar">
                         <span
-                            >Saved through server validation and audit
-                            logging.</span
+                            >Saved after server checks and activity logging.</span
                         >
                         <button
                             type="submit"
@@ -363,15 +362,15 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                 <AdminEmptyState
                     v-else
                     title="Upload access is restricted"
-                    description="Your role can review this media register, but cannot upload or edit file metadata."
+                    description="Your role can review these files, but cannot upload files or edit file details."
                 />
             </section>
 
             <section class="admin-editor-panel admin-editor-panel--rail">
                 <header>
                     <div>
-                        <p class="admin-kicker">Register</p>
-                        <h2>Existing {{ recordLabel }} records</h2>
+                        <p class="admin-kicker">Files</p>
+                        <h2>Existing {{ recordLabel }}</h2>
                     </div>
                     <FileCheck2 aria-hidden="true" />
                 </header>
@@ -431,7 +430,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                                     class="admin-button admin-button--secondary"
                                     @click="startEdit(record)"
                                 >
-                                    <Pencil aria-hidden="true" />Edit metadata
+                                    <Pencil aria-hidden="true" />Edit details
                                 </button>
                                 <button
                                     v-if="record.can.delete"
@@ -449,7 +448,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                 <AdminEmptyState
                     v-else
                     title="No managed files yet"
-                    description="Upload approved public images with captions, alt text, rights notes, and official source verification."
+                    description="Upload approved public images with captions, alt text, rights notes, and checked official sources."
                 />
             </section>
         </div>
@@ -461,13 +460,13 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
         >
             <header>
                 <div>
-                    <p class="admin-kicker">Metadata editor</p>
+                    <p class="admin-kicker">File details</p>
                     <h2 id="admin-media-edit-title">{{ editing.title }}</h2>
                 </div>
                 <button
                     type="button"
                     class="admin-icon-button"
-                    aria-label="Close metadata editor"
+                    aria-label="Close file details editor"
                     @click="cancelEdit"
                 >
                     <X aria-hidden="true" />
@@ -536,7 +535,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                 <label class="admin-checkbox-row">
                     <input v-model="updateForm.remove_file" type="checkbox" />
                     <span
-                        >Remove current file and keep metadata for review</span
+                        >Remove the current file and keep its details for review</span
                     >
                 </label>
 
@@ -576,7 +575,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                             class="admin-spin"
                             aria-hidden="true"
                         />
-                        Save metadata
+                        Save details
                     </button>
                 </footer>
             </form>
@@ -584,9 +583,9 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
 
         <AdminActionDialog
             :open="removing !== null"
-            kicker="Destructive media action"
+            kicker="Remove file"
             :title="`Remove ${removing?.title ?? recordLabel}`"
-            description="This removes the file register row and deletes the stored public file. It does not delete the parent content record."
+            description="This removes this file entry and deletes the stored public file. It does not delete the main content record."
             confirm-label="Remove file record"
             tone="danger"
             :busy="deleteForm.processing"

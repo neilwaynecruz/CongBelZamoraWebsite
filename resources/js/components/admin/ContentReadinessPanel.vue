@@ -33,8 +33,8 @@ defineProps<{
     >
         <header>
             <div>
-                <p class="admin-kicker">Automated governance gate</p>
-                <h2 id="publish-readiness-title">Publish readiness</h2>
+                <p class="admin-kicker">Automatic publish check</p>
+                <h2 id="publish-readiness-title">Ready to publish?</h2>
             </div>
             <span class="admin-readiness__state">
                 <CheckCircle2 v-if="readiness.passed" aria-hidden="true" />
@@ -52,9 +52,9 @@ defineProps<{
             <div>
                 <strong>Automated checks passed</strong>
                 <p>
-                    Required ownership, source, verification, validity, and
-                    revision metadata are present. Final human review is still
-                    required.
+                    Owner, source, review date, active dates, and change
+                    details are present. A person still needs to review before
+                    publishing.
                 </p>
             </div>
         </div>
@@ -72,8 +72,8 @@ defineProps<{
                 <strong>{{ policy.label }} policy</strong>
                 <p>{{ policy.sourcePolicy }}</p>
                 <small
-                    >Review cadence: every {{ policy.reviewCadenceDays }} days ·
-                    {{ policy.requiredFields.length }} required publish
+                    >Review again every {{ policy.reviewCadenceDays }} days ·
+                    {{ policy.requiredFields.length }} required publishing
                     fields</small
                 >
             </div>
@@ -81,10 +81,10 @@ defineProps<{
         <div v-else class="admin-readiness__policy">
             <FileCheck2 aria-hidden="true" />
             <div>
-                <strong>Manual governance policy</strong>
+                <strong>Manual review rule</strong>
                 <p>
-                    No module-specific automated policy is configured. Review
-                    the source register and approval checklist before release.
+                    No automatic rule is set for this module. Review the source
+                    list and approval checklist before release.
                 </p>
             </div>
         </div>

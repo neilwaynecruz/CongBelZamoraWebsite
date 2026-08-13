@@ -86,13 +86,13 @@ const resetFilters = () => {
 </script>
 
 <template>
-    <Head title="Staff Users Command Desk" />
+    <Head title="Staff Users and Access" />
 
     <div class="admin-page">
         <AdminPageHeader
             eyebrow="Staff access"
-            title="Users and roles command desk"
-            description="Manage staff accounts, role assignment, access status, reset-link dispatch, and two-factor readiness from the custom command system."
+            title="Staff users and access"
+            description="Create staff accounts, choose roles, turn access on or off, send password reset links, and check two-factor security."
         >
             <template #actions>
                 <div class="admin-page-header__action-row">
@@ -303,7 +303,7 @@ const resetFilters = () => {
                                     :label="staffUser.twoFactor.status"
                                 />
                                 <span v-if="security.twoFactorRequired">
-                                    Required by config
+                                    Required by settings
                                 </span>
                             </td>
                             <td data-label="Updated">
@@ -316,7 +316,7 @@ const resetFilters = () => {
                                     :href="staffUser.href"
                                     class="admin-table-action"
                                 >
-                                    Open dossier<ArrowRight
+                                    Open details<ArrowRight
                                         aria-hidden="true"
                                     />
                                 </Link>

@@ -119,8 +119,8 @@ const freshnessBadgeValue = (tone: string) =>
     <div class="admin-page">
         <AdminPageHeader
             eyebrow="Programs and services"
-            title="Program command ledger"
-            description="Inspect program status, ownership, source verification, review deadlines, and approval readiness before public updates move through governance."
+            title="Programs"
+            description="Review program status, owners, official sources, review deadlines, and publish readiness before public updates move forward."
         >
             <template #actions>
                 <div class="admin-page-header__action-row">
@@ -366,7 +366,7 @@ const freshnessBadgeValue = (tone: string) =>
                                     :href="program.href"
                                     class="admin-table-action"
                                 >
-                                    Open dossier<ArrowRight
+                                    Open details<ArrowRight
                                         aria-hidden="true"
                                     />
                                 </Link>

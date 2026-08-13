@@ -106,7 +106,7 @@ class SaveLegislativeRecordRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'slug.regex' => 'Use a lowercase URL slug such as magna-carta-public-school-teachers.',
+            'slug.regex' => 'Use a short lowercase web address name such as magna-carta-public-school-teachers.',
             'approval.change_summary.required_if' => 'Record what changed before submitting this legislative record for review.',
         ];
     }

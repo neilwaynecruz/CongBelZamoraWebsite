@@ -43,7 +43,7 @@ class LegislativeRecordFormResource
             'recordHref' => $record instanceof LegislativeRecord ? route('admin-console.legislation.show', $record) : null,
             'values' => $this->values($record, $source),
             'options' => $this->options(),
-            'governanceNote' => 'Legislative records must use plain-language explanations, official-source links, role/status/topic taxonomy, and review dates before governed publication.',
+            'governanceNote' => 'Legislative records must use plain-language explanations, official source links, role/status/topic choices, and review dates before publication review.',
         ];
     }
 

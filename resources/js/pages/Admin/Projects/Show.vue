@@ -135,7 +135,7 @@ const projectStatusBadgeValue = (tone: string) =>
 
     <div class="admin-page admin-dossier-page">
         <Link href="/admin-console/projects" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to project ledger
+            <ArrowLeft aria-hidden="true" />Back to projects
         </Link>
 
         <header class="admin-dossier-header admin-dossier-header--program">
@@ -186,7 +186,7 @@ const projectStatusBadgeValue = (tone: string) =>
                     "
                     :label="
                         project.governance.readiness.passed
-                            ? 'Governance ready'
+                            ? 'Checks passed'
                             : `${project.governance.readiness.issueCount} blockers`
                     "
                 />
@@ -364,7 +364,7 @@ const projectStatusBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-readiness">
                     <header>
-                        <p class="admin-kicker">Approval workflow</p>
+                        <p class="admin-kicker">Review process</p>
                         <h2>Publication readiness</h2>
                     </header>
                     <div
@@ -374,7 +374,7 @@ const projectStatusBadgeValue = (tone: string) =>
                         <ShieldCheck aria-hidden="true" />
                         <strong>{{
                             project.governance.readiness.passed
-                                ? 'Ready for governed publishing'
+                                ? 'Ready for publishing review'
                                 : `${project.governance.readiness.issueCount} blocker(s)`
                         }}</strong>
                     </div>
@@ -394,7 +394,7 @@ const projectStatusBadgeValue = (tone: string) =>
                         :href="project.governance.approval.href"
                         class="admin-button admin-button--secondary admin-program-workflow-link"
                     >
-                        Open approval dossier<ArrowRight aria-hidden="true" />
+                        Open review details<ArrowRight aria-hidden="true" />
                     </Link>
                 </section>
 
@@ -417,13 +417,13 @@ const projectStatusBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Transition controls</p>
-                        <h2>Fallback status</h2>
+                        <p class="admin-kicker">Emergency admin</p>
+                        <h2>Older admin status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom project editing, evidence uploads, metadata, and
-                        lifecycle actions are available. Filament remains
-                        restricted as a fallback until final staff parity
+                        Custom project editing, evidence uploads, file details,
+                        and hide/restore/delete actions are available here. The
+                        older admin area stays restricted until final staff
                         approval.
                     </p>
                     <a
@@ -431,7 +431,7 @@ const projectStatusBadgeValue = (tone: string) =>
                         :href="filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback editor<ExternalLink aria-hidden="true" />
+                        Open emergency editor<ExternalLink aria-hidden="true" />
                     </a>
                 </section>
             </aside>

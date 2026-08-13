@@ -78,12 +78,12 @@ defineProps<{
                     Good day, {{ adminConsole.user.name.split(' ')[0] }}.
                 </h1>
                 <p>
-                    Review the highest-priority constituent and governance work
-                    before moving into module queues.
+                    Review the most urgent citizen requests and content reviews
+                    before opening each work area.
                 </p>
                 <div class="admin-command-strip__trust">
                     <span
-                        ><ShieldCheck aria-hidden="true" />Governance controls
+                        ><ShieldCheck aria-hidden="true" />Review rules
                         active</span
                     >
                     <span
@@ -100,7 +100,7 @@ defineProps<{
             </div>
 
             <aside class="admin-command-strip__brief">
-                <p class="admin-kicker">Immediate readout</p>
+                <p class="admin-kicker">Today first</p>
                 <div>
                     <strong>{{
                         inquiryQueue.assigned_overdue +
@@ -149,7 +149,7 @@ defineProps<{
             <AdminMetricCard
                 label="Pending approvals"
                 :value="metrics.pending_approvals"
-                description="Governance decisions waiting"
+                description="Review decisions waiting"
                 :tone="metrics.pending_approvals > 0 ? 'warning' : 'success'"
             />
             <AdminMetricCard
@@ -161,7 +161,7 @@ defineProps<{
             <AdminMetricCard
                 label="Source reviews due"
                 :value="metrics.sources_due"
-                description="Official sources need verification"
+                description="Official sources need checking"
                 :tone="metrics.sources_due > 0 ? 'warning' : 'success'"
             />
         </section>
@@ -173,7 +173,7 @@ defineProps<{
             >
                 <header class="admin-panel__header">
                     <div>
-                        <p class="admin-kicker">Priority ledger</p>
+                        <p class="admin-kicker">Priority list</p>
                         <h2>Needs your attention</h2>
                         <p>Ordered by operational severity and due date.</p>
                     </div>
@@ -206,7 +206,7 @@ defineProps<{
                             <small>
                                 {{ item.status }}
                                 <template v-if="item.usesLegacyFallback">
-                                    · Opens temporary fallback</template
+                                    · Opens emergency admin</template
                                 >
                             </small>
                         </span>
@@ -216,7 +216,7 @@ defineProps<{
                 <AdminEmptyState
                     v-else
                     title="No urgent work is waiting"
-                    description="Assigned cases and governance records are currently within their review windows."
+                    description="Assigned cases and review records are currently within their allowed review time."
                 />
             </section>
 
@@ -253,9 +253,9 @@ defineProps<{
             <section class="admin-panel admin-panel--health">
                 <header class="admin-panel__header">
                     <div>
-                        <p class="admin-kicker">Publishing controls</p>
+                        <p class="admin-kicker">Publishing checks</p>
                         <h2>Content health</h2>
-                        <p>Current public-record readiness signals.</p>
+                        <p>Current signs that public records are ready.</p>
                     </div>
                     <CheckCircle2 aria-hidden="true" />
                 </header>
@@ -279,11 +279,11 @@ defineProps<{
             <section class="admin-panel admin-panel--activity">
                 <header class="admin-panel__header">
                     <div>
-                        <p class="admin-kicker">Traceability</p>
-                        <h2>Recent governed activity</h2>
+                        <p class="admin-kicker">Activity history</p>
+                        <h2>Recent staff activity</h2>
                         <p>
-                            Non-sensitive system events for authorized audit
-                            roles.
+                            Non-sensitive activity shown only to authorized
+                            audit roles.
                         </p>
                     </div>
                     <Activity aria-hidden="true" />
@@ -303,7 +303,7 @@ defineProps<{
                 </ol>
                 <AdminEmptyState
                     v-else
-                    title="Activity is role restricted"
+                    title="Activity is limited by role"
                     description="Audit events are shown only to staff roles with explicit audit access."
                 />
             </section>

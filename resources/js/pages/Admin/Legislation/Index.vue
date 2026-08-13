@@ -113,8 +113,8 @@ const statusBadgeValue = (tone: string) =>
     <div class="admin-page">
         <AdminPageHeader
             eyebrow="Legislative work"
-            title="Legislation command ledger"
-            description="Review bills and policy records by role, status, topic, official source, public explanation, and governance readiness before public reuse."
+            title="Legislation records"
+            description="Review bills and policy records by role, status, topic, official source, public explanation, and publish readiness before public reuse."
         >
             <template #actions>
                 <div class="admin-page-header__action-row">

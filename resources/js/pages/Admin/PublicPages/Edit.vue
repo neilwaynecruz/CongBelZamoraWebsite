@@ -174,13 +174,13 @@ onBeforeUnmount(() => {
         </Link>
 
         <AdminPageHeader
-            eyebrow="Public page editor parity"
+            eyebrow="Public page editor"
             :title="form.title"
-            description="Maintain static page props, route metadata, SEO fields, source verification, and approval handoff from the custom command system."
+            description="Update page content settings, web address, search details, source checks, and review handoff from one place."
         >
             <template #actions>
                 <span class="admin-trust-marker">
-                    <ShieldCheck aria-hidden="true" />Transaction-backed editor
+                    <ShieldCheck aria-hidden="true" />Checked editor
                 </span>
             </template>
         </AdminPageHeader>
@@ -202,8 +202,8 @@ onBeforeUnmount(() => {
                         Some fields need attention
                     </h2>
                     <p>
-                        Server validation controls JSON props, public component
-                        names, source review, SEO fields, and approval handoff.
+                        The server checks page settings, display page, source
+                        review, search fields, and review handoff.
                     </p>
                 </div>
             </section>
@@ -214,7 +214,7 @@ onBeforeUnmount(() => {
                         <header>
                             <div>
                                 <p class="admin-kicker">Page identity</p>
-                                <h2>Title, route, and component</h2>
+                                <h2>Title, web address, and display page</h2>
                             </div>
                         </header>
                         <div
@@ -233,7 +233,7 @@ onBeforeUnmount(() => {
                                 }}</small>
                             </label>
                             <label class="admin-field">
-                                <span>URL slug</span>
+                                <span>Web address name</span>
                                 <input
                                     v-model="editor.slug"
                                     type="text"
@@ -245,7 +245,7 @@ onBeforeUnmount(() => {
                                 }}</small>
                             </label>
                             <label class="admin-field">
-                                <span>Route name</span>
+                                <span>Internal route name</span>
                                 <input
                                     v-model="editor.route_name"
                                     type="text"
@@ -268,7 +268,7 @@ onBeforeUnmount(() => {
                                 </select>
                             </label>
                             <label class="admin-field">
-                                <span>Inertia component</span>
+                                <span>Display page</span>
                                 <select v-model="editor.component">
                                     <option
                                         v-for="option in form.options
@@ -296,24 +296,24 @@ onBeforeUnmount(() => {
                     <section class="admin-editor-panel">
                         <header>
                             <div>
-                                <p class="admin-kicker">SEO metadata</p>
-                                <h2>Search and social preview fields</h2>
+                                <p class="admin-kicker">Search details</p>
+                                <h2>Search and social preview</h2>
                             </div>
                         </header>
                         <div class="admin-editor-fields">
                             <label class="admin-field">
-                                <span>SEO title</span>
+                                <span>Search title</span>
                                 <input v-model="editor.seo_title" type="text" />
                             </label>
                             <label class="admin-field">
-                                <span>SEO description</span>
+                                <span>Search description</span>
                                 <textarea
                                     v-model="editor.seo_description"
                                     rows="3"
                                 ></textarea>
                             </label>
                             <label class="admin-field">
-                                <span>Canonical URL</span>
+                                <span>Main public link</span>
                                 <input
                                     v-model="editor.canonical_url"
                                     type="url"
@@ -329,19 +329,19 @@ onBeforeUnmount(() => {
                     <section class="admin-editor-panel">
                         <header>
                             <div>
-                                <p class="admin-kicker">Structured content</p>
-                                <h2>Public Inertia props JSON</h2>
+                                <p class="admin-kicker">Page content settings</p>
+                                <h2>Public page content settings</h2>
                             </div>
                             <button
                                 type="button"
                                 class="admin-button admin-button--quiet"
                                 @click="formatJson('props_json')"
                             >
-                                <Code2 aria-hidden="true" />Format JSON
+                                <Code2 aria-hidden="true" />Format settings
                             </button>
                         </header>
                         <label class="admin-field">
-                            <span>Props JSON</span>
+                            <span>Content settings</span>
                             <textarea
                                 v-model="editor.props_json"
                                 rows="18"
@@ -352,9 +352,9 @@ onBeforeUnmount(() => {
                                 fieldError('props_json')
                             }}</small>
                             <small>
-                                This JSON must match the selected public Vue
-                                page contract and required keys for known MVP
-                                slugs.
+                                These settings must match the selected public
+                                page and the required fields for known MVP
+                                pages.
                             </small>
                         </label>
                     </section>
@@ -362,19 +362,19 @@ onBeforeUnmount(() => {
                     <section class="admin-editor-panel">
                         <header>
                             <div>
-                                <p class="admin-kicker">Additional metadata</p>
-                                <h2>Non-SEO JSON metadata</h2>
+                                <p class="admin-kicker">Extra page details</p>
+                                <h2>Extra details not used for search</h2>
                             </div>
                             <button
                                 type="button"
                                 class="admin-button admin-button--quiet"
                                 @click="formatJson('metadata_json')"
                             >
-                                <Code2 aria-hidden="true" />Format JSON
+                                <Code2 aria-hidden="true" />Format details
                             </button>
                         </header>
                         <label class="admin-field">
-                            <span>Metadata JSON</span>
+                            <span>Extra details</span>
                             <textarea
                                 v-model="editor.metadata_json"
                                 rows="8"
@@ -394,7 +394,7 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Source verification</p>
+                                <p class="admin-kicker">Source check</p>
                                 <h2>Primary official source</h2>
                             </div>
                         </header>
@@ -436,8 +436,8 @@ onBeforeUnmount(() => {
                                 class="admin-button admin-button--secondary"
                                 @click="copyPrimarySourceToRegister"
                             >
-                                <Link2 aria-hidden="true" />Copy to source
-                                register
+                                <Link2 aria-hidden="true" />Copy to official
+                                sources
                             </button>
                         </div>
                     </section>
@@ -447,7 +447,7 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Source register</p>
+                                <p class="admin-kicker">Official source list</p>
                                 <h2>Linked record</h2>
                             </div>
                         </header>
@@ -542,8 +542,8 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Approval submission</p>
-                                <h2>Governance handoff</h2>
+                                <p class="admin-kicker">Review submission</p>
+                                <h2>Send for review</h2>
                             </div>
                         </header>
                         <p>{{ form.governanceNote }}</p>
@@ -552,7 +552,7 @@ onBeforeUnmount(() => {
                             <textarea
                                 v-model="editor.approval.change_summary"
                                 rows="4"
-                                placeholder="Summarize page props, SEO, and source changes before review."
+                                placeholder="Summarize page content, search details, and source changes before review."
                             ></textarea>
                         </label>
                         <label class="admin-field">

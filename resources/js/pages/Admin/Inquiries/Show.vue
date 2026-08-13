@@ -87,12 +87,12 @@ defineProps<{
 
     <div class="admin-page admin-dossier-page">
         <Link href="/admin-console/inquiries" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to inquiry ledger
+            <ArrowLeft aria-hidden="true" />Back to inquiries
         </Link>
 
         <header class="admin-dossier-header">
             <div>
-                <p class="admin-kicker">Constituent inquiry dossier</p>
+                <p class="admin-kicker">Citizen inquiry details</p>
                 <h1>{{ inquiry.referenceCode }}</h1>
                 <p>
                     {{ inquiry.category.label }} ·
@@ -141,8 +141,8 @@ defineProps<{
                         <div>
                             <h3>Citizen details are redacted for this role</h3>
                             <p>
-                                You can audit case state and handling milestones
-                                without viewing encrypted citizen identity or
+                                You can review case status and handling steps
+                                without viewing protected citizen identity or
                                 message content.
                             </p>
                         </div>

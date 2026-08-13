@@ -29,7 +29,7 @@ defineProps<{
 
     <AdminManagedMediaDesk
         :title="`${newsRecord.title} media register`"
-        :kicker="`${newsRecord.category.name} - News/media file parity`"
+        :kicker="`${newsRecord.category.name} - News/media files`"
         :summary="newsRecord.summary"
         :back-url="urls.back"
         :store-url="urls.store"

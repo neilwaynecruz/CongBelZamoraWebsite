@@ -43,8 +43,8 @@ class ProjectFormResource
             'projectHref' => $project instanceof Project ? route('admin-console.projects.show', $project) : null,
             'values' => $this->values($project, $source),
             'options' => $this->options(),
-            'governanceNote' => 'Project records must identify the responsible office, partner attribution, official source, evidence basis, and media-rights status before governed publication.',
-            'mediaUploadFallbackNote' => 'This custom editor manages evidence metadata. New media file uploads remain in the restricted fallback until custom upload parity is implemented.',
+            'governanceNote' => 'Project records must name the responsible office, partner role, official source, proof used, and media-rights status before publication review.',
+            'mediaUploadFallbackNote' => 'This editor manages evidence details. Upload approved evidence files from the project evidence page after saving the project.',
         ];
     }
 

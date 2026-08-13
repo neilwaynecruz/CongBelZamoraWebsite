@@ -42,8 +42,8 @@ class NewsRecordFormResource
             'recordHref' => $record instanceof NewsRecord ? route('admin-console.news.show', $record) : null,
             'values' => $this->values($record, $source),
             'options' => $this->options(),
-            'governanceNote' => 'News/media records must identify the official source, owner, review state, public update date, stale-content note, and media-rights metadata before governed publication.',
-            'mediaUploadFallbackNote' => 'This custom editor manages media metadata. New file uploads remain in the restricted fallback until custom upload parity is implemented.',
+            'governanceNote' => 'News and media records must include the official source, owner, review status, public update date, stale-content note, and media-rights details before publication review.',
+            'mediaUploadFallbackNote' => 'This editor manages media details. Upload approved media files from the news media page after saving the record.',
         ];
     }
 

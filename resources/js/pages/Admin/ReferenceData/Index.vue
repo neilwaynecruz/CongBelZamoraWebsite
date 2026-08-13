@@ -84,7 +84,7 @@ const resetFilters = () => {
                         {{ definition.singular }}
                     </Link>
                     <span class="admin-trust-marker">
-                        <ArchiveRestore aria-hidden="true" />Taxonomy parity
+                        <ArchiveRestore aria-hidden="true" />Staff-managed list
                     </span>
                 </div>
             </template>
@@ -138,7 +138,7 @@ const resetFilters = () => {
             <button type="button">
                 <ShieldAlert aria-hidden="true" />
                 <span
-                    ><small>Usage links</small
+                    ><small>Used by content</small
                     ><strong>{{ summary.used }}</strong></span
                 >
             </button>
@@ -192,7 +192,7 @@ const resetFilters = () => {
         <section class="admin-table-panel">
             <header class="admin-table-panel__header">
                 <div>
-                    <p class="admin-kicker">Reference ledger</p>
+                    <p class="admin-kicker">Reference list</p>
                     <h2>{{ definition.label }}</h2>
                 </div>
                 <strong>{{ records.meta.total }} results</strong>
@@ -255,7 +255,7 @@ const resetFilters = () => {
             <AdminEmptyState
                 v-else
                 title="No reference records found"
-                description="Adjust filters or create a governed reference record for this taxonomy set."
+                description="Change the filters or create a reference record staff can use in this list."
             />
 
             <AdminPagination :links="records.links" :meta="records.meta" />

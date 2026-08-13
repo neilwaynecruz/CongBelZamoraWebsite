@@ -67,16 +67,16 @@ const formatJson = (value: Record<string, unknown>) =>
 </script>
 
 <template>
-    <Head :title="`${auditLog.eventLabel} · Audit Event`" />
+    <Head :title="`${auditLog.eventLabel} · Activity Event`" />
 
     <div class="admin-page admin-dossier-page">
         <Link href="/admin-console/audit" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to audit trail
+            <ArrowLeft aria-hidden="true" />Back to activity log
         </Link>
 
         <header class="admin-dossier-header admin-dossier-header--program">
             <div>
-                <p class="admin-kicker">Audit event #{{ auditLog.id }}</p>
+                <p class="admin-kicker">Activity event #{{ auditLog.id }}</p>
                 <h1>{{ auditLog.eventLabel }}</h1>
                 <p>
                     {{ auditLog.event }} recorded for
@@ -87,7 +87,7 @@ const formatJson = (value: Record<string, unknown>) =>
                 <AdminStatusBadge value="info" :label="auditLog.event" />
                 <AdminStatusBadge
                     value="healthy"
-                    label="Sensitive values redacted"
+                    label="Sensitive values hidden"
                 />
             </div>
         </header>
@@ -98,7 +98,7 @@ const formatJson = (value: Record<string, unknown>) =>
                     <header>
                         <div>
                             <ShieldCheck aria-hidden="true" />
-                            <h2>Event dossier</h2>
+                            <h2>Event details</h2>
                         </div>
                     </header>
                     <dl class="admin-record-grid">
@@ -130,10 +130,10 @@ const formatJson = (value: Record<string, unknown>) =>
                     <header>
                         <div>
                             <FileWarning aria-hidden="true" />
-                            <h2>Old/new value diff</h2>
+                            <h2>What changed</h2>
                         </div>
                         <span class="admin-trust-marker">
-                            <ShieldCheck aria-hidden="true" />Redacted
+                            <ShieldCheck aria-hidden="true" />Sensitive values hidden
                         </span>
                     </header>
                     <div
@@ -143,7 +143,7 @@ const formatJson = (value: Record<string, unknown>) =>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Key</th>
+                                    <th>Field</th>
                                     <th>Old value</th>
                                     <th>New value</th>
                                     <th>State</th>
@@ -180,7 +180,7 @@ const formatJson = (value: Record<string, unknown>) =>
                         </table>
                     </div>
                     <p v-else class="admin-program-fallback-note">
-                        This event did not record old/new value payloads.
+                        This event did not record old and new values.
                     </p>
                 </section>
             </div>
@@ -211,12 +211,12 @@ const formatJson = (value: Record<string, unknown>) =>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Network hashes</p>
+                        <p class="admin-kicker">Network fingerprints</p>
                         <h2>Privacy-safe trace</h2>
                     </header>
                     <dl class="admin-fact-list">
                         <div>
-                            <dt>IP hash</dt>
+                            <dt>IP fingerprint</dt>
                             <dd>
                                 {{
                                     auditLog.network.ipAddressHash ??
@@ -225,7 +225,7 @@ const formatJson = (value: Record<string, unknown>) =>
                             </dd>
                         </div>
                         <div>
-                            <dt>User-agent hash</dt>
+                            <dt>Browser fingerprint</dt>
                             <dd>
                                 {{
                                     auditLog.network.userAgentHash ??
@@ -242,8 +242,8 @@ const formatJson = (value: Record<string, unknown>) =>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Metadata</p>
-                        <h2>Redacted payload</h2>
+                        <p class="admin-kicker">Extra event details</p>
+                        <h2>Safe event data</h2>
                     </header>
                     <pre class="admin-audit-json">{{
                         formatJson(auditLog.metadata)
@@ -252,19 +252,20 @@ const formatJson = (value: Record<string, unknown>) =>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Fallback</p>
-                        <h2>Legacy status</h2>
+                        <p class="admin-kicker">Emergency admin</p>
+                        <h2>Older admin status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom audit viewing is available. Filament remains
-                        restricted until the full parity matrix is complete.
+                        Custom activity viewing is available. The older admin
+                        area remains restricted until final staff sign-off is
+                        complete.
                     </p>
                     <a
                         v-if="auditLog.filamentFallbackUrl"
                         :href="auditLog.filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback audit view<ExternalLink
+                        Open emergency audit view<ExternalLink
                             aria-hidden="true"
                         />
                     </a>

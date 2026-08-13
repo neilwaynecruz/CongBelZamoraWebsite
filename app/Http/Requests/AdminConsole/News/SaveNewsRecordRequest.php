@@ -103,7 +103,7 @@ class SaveNewsRecordRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'slug.regex' => 'Use a lowercase URL slug such as tulong-dunong-orientation.',
+            'slug.regex' => 'Use a short lowercase web address name such as tulong-dunong-orientation.',
             'approval.change_summary.required_if' => 'Record what changed before submitting this news/media item for review.',
         ];
     }

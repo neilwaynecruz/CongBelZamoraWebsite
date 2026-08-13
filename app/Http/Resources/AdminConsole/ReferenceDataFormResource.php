@@ -63,7 +63,7 @@ class ReferenceDataFormResource
             'usage' => [
                 'count' => $usageCount,
                 'warning' => $usageCount > 0
-                    ? 'This record is attached to existing content. Deactivation is allowed only with an operational reason and will be audited.'
+                    ? 'This record is used by existing content. Turn it off only with an office reason. The change will be saved in the activity log.'
                     : 'This record has no current content usage.',
             ],
         ];

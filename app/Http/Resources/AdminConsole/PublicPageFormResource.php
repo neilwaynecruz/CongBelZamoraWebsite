@@ -39,7 +39,7 @@ class PublicPageFormResource
             'recordHref' => $page instanceof PublicPage ? route('admin-console.public-pages.show', $page) : null,
             'values' => $this->values($page, $source),
             'options' => $this->options(),
-            'governanceNote' => 'Static public pages must keep JSON props valid, identify the source and page owner, and record SEO metadata before review.',
+            'governanceNote' => 'Public pages must keep their content settings valid, name the source and page owner, and include search details before review.',
         ];
     }
 

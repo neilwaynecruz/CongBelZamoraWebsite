@@ -2551,6 +2551,31 @@ Important:
 Accuracy matters more than speed. This is a government public-service system with internal staff workflows, citizen inquiries, public content governance, and role-based access. Implement meticulously, verify repeatedly, and do not take shortcuts that could harm security, readability, or staff operations.
 ```
 
+## 46. Admin Plain-Language Wording Standard
+
+Added August 13, 2026.
+
+All visible `/admin-console` copy must be written for District Office staff, not developers. Use short, direct wording that explains what staff can do and what happens next.
+
+Required wording rules:
+
+- Prefer "details" over "dossier" in visible labels and links.
+- Prefer "official sources" or "source checks" over "source records" when staff are reviewing evidence.
+- Prefer "review process", "review queue", and "send for review" over internal governance wording.
+- Prefer "saved version" over "snapshot" and "restore" over "rollback".
+- Prefer "web address name" over "URL slug".
+- Prefer "search details" over "SEO metadata" unless the audience is a technical administrator.
+- Prefer "extra details" or "file details" over "metadata".
+- Prefer "older admin area" or "emergency admin" over "fallback" in visible staff messaging.
+- Keep privacy, source-verification, approval, and audit meanings precise. Never soften warnings that protect citizen data or public trust.
+- Destructive actions must say what will happen, when the action is allowed, and whether it can be undone.
+
+Acceptance guidance:
+
+- Staff acceptance must include a wording check for every module.
+- Any confusing label, empty state, validation message, or destructive confirmation should be recorded as a copy issue even when the workflow technically works.
+- Legal/privacy reviewers must approve wording for exports, inquiry privacy, source verification, public publishing, and permanent deletion warnings.
+
 ## 45. Short AI Agent Kickoff Prompt
 
 Use this shorter prompt only when the agent already has the full markdown file available in context.

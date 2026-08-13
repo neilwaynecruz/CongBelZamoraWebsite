@@ -28,7 +28,7 @@ defineProps<{
 
     <AdminManagedMediaDesk
         :title="`${project.title} evidence register`"
-        :kicker="`${project.category.name} - ${project.barangay} - Project file parity`"
+        :kicker="`${project.category.name} - ${project.barangay} - Project files`"
         :summary="project.summary"
         :back-url="urls.back"
         :store-url="urls.store"

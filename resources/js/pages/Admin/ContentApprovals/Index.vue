@@ -91,17 +91,17 @@ const freshnessBadgeValue = (tone: string) =>
 </script>
 
 <template>
-    <Head title="Content Governance" />
+    <Head title="Content Review" />
 
     <div class="admin-page">
         <AdminPageHeader
-            eyebrow="Content governance"
-            title="Review and publication ledger"
-            description="Own review work, resolve publication blockers, compare editorial versions, and release verified public content through one audited workflow."
+            eyebrow="Content review"
+            title="Review and publish content"
+            description="Review submitted content, fix publish blockers, compare saved versions, and release verified public information with an activity log."
         >
             <template #actions>
                 <span class="admin-trust-marker"
-                    ><ClipboardCheck aria-hidden="true" />Governed command
+                    ><ClipboardCheck aria-hidden="true" />Checked review
                     queue</span
                 >
             </template>
@@ -109,7 +109,7 @@ const freshnessBadgeValue = (tone: string) =>
 
         <section
             class="admin-queue-strip"
-            aria-label="Content governance queue summary"
+            aria-label="Content review queue summary"
         >
             <button
                 type="button"
@@ -159,7 +159,7 @@ const freshnessBadgeValue = (tone: string) =>
             >
                 <ShieldAlert aria-hidden="true" />
                 <span
-                    ><small>Stale or expired</small
+                    ><small>Old or expired</small
                     ><strong>{{ queueSummary.staleOrExpired }}</strong></span
                 >
             </button>
@@ -176,7 +176,7 @@ const freshnessBadgeValue = (tone: string) =>
                     <input
                         v-model="form.search"
                         type="search"
-                        placeholder="Search governance ledger"
+                        placeholder="Search review queue"
                     />
                 </span>
             </label>
@@ -264,7 +264,7 @@ const freshnessBadgeValue = (tone: string) =>
             <header class="admin-table-panel__header">
                 <div>
                     <p class="admin-kicker">Authorized results</p>
-                    <h2 id="approval-results-title">Governance queue</h2>
+                    <h2 id="approval-results-title">Review queue</h2>
                 </div>
                 <strong>{{ approvals.meta.total }} records</strong>
             </header>
@@ -277,7 +277,7 @@ const freshnessBadgeValue = (tone: string) =>
                     <thead>
                         <tr>
                             <th>Record</th>
-                            <th>Workflow</th>
+                            <th>Review step</th>
                             <th>Readiness</th>
                             <th>Ownership</th>
                             <th>Review timing</th>
@@ -315,7 +315,7 @@ const freshnessBadgeValue = (tone: string) =>
                                     "
                                     :label="
                                         approval.readiness.passed
-                                            ? 'Gate passed'
+                                            ? 'Checks passed'
                                             : `${approval.readiness.issueCount} blocker${approval.readiness.issueCount === 1 ? '' : 's'}`
                                     "
                                 />
@@ -352,7 +352,7 @@ const freshnessBadgeValue = (tone: string) =>
                                 <Link
                                     :href="approval.href"
                                     class="admin-table-action"
-                                    >Open dossier<ArrowRight aria-hidden="true"
+                                    >Open details<ArrowRight aria-hidden="true"
                                 /></Link>
                             </td>
                         </tr>
@@ -363,7 +363,7 @@ const freshnessBadgeValue = (tone: string) =>
             <AdminEmptyState
                 v-else
                 title="No approvals match these filters"
-                description="Clear one or more filters to return to the governance records your role is authorized to manage."
+                description="Clear one or more filters to return to the review records your role is allowed to manage."
             />
             <AdminPagination :links="approvals.links" :meta="approvals.meta" />
         </section>

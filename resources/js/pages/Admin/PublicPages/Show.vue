@@ -204,18 +204,18 @@ const freshnessBadgeValue = (tone: string) =>
                     <header>
                         <div>
                             <SearchCheck aria-hidden="true" />
-                            <h2>SEO metadata</h2>
+                            <h2>Search details</h2>
                         </div>
                     </header>
                     <dl class="admin-record-grid">
                         <div>
-                            <dt>SEO title</dt>
+                            <dt>Search title</dt>
                             <dd>
                                 {{ publicPage.seo.title ?? 'Not recorded' }}
                             </dd>
                         </div>
                         <div>
-                            <dt>SEO description</dt>
+                            <dt>Search description</dt>
                             <dd>
                                 {{
                                     publicPage.seo.description ?? 'Not recorded'
@@ -223,7 +223,7 @@ const freshnessBadgeValue = (tone: string) =>
                             </dd>
                         </div>
                         <div>
-                            <dt>Canonical URL</dt>
+                            <dt>Main public link</dt>
                             <dd>
                                 {{
                                     publicPage.seo.canonicalUrl ??
@@ -244,8 +244,8 @@ const freshnessBadgeValue = (tone: string) =>
             <aside class="admin-dossier-grid__rail">
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Source verification</p>
-                        <h2>Official-source record</h2>
+                        <p class="admin-kicker">Source check</p>
+                        <h2>Official source</h2>
                     </header>
                     <dl class="admin-fact-list">
                         <div>
@@ -294,7 +294,7 @@ const freshnessBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-readiness">
                     <header>
-                        <p class="admin-kicker">Approval workflow</p>
+                        <p class="admin-kicker">Review process</p>
                         <h2>Publication readiness</h2>
                     </header>
                     <div
@@ -305,7 +305,7 @@ const freshnessBadgeValue = (tone: string) =>
                         <strong>
                             {{
                                 publicPage.governance.readiness.passed
-                                    ? 'Ready for governed publishing'
+                                    ? 'Ready for publishing review'
                                     : `${publicPage.governance.readiness.issueCount} blocker(s)`
                             }}
                         </strong>
@@ -327,7 +327,7 @@ const freshnessBadgeValue = (tone: string) =>
                         :href="publicPage.governance.approval.href"
                         class="admin-button admin-button--secondary admin-program-workflow-link"
                     >
-                        Open approval dossier<ArrowRight aria-hidden="true" />
+                        Open review details<ArrowRight aria-hidden="true" />
                     </Link>
                 </section>
 
@@ -340,21 +340,21 @@ const freshnessBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Transition controls</p>
-                        <h2>Fallback status</h2>
+                        <p class="admin-kicker">Emergency admin</p>
+                        <h2>Older admin status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom public page editing, source review, approval
-                        submission, and lifecycle actions are available.
-                        Filament remains restricted until the parity matrix is
-                        complete.
+                        Custom public page editing, source review, review
+                        submission, and hide/restore/delete actions are
+                        available here. The older admin area stays restricted
+                        until final staff sign-off.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"
                         :href="filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback editor<ExternalLink aria-hidden="true" />
+                        Open emergency editor<ExternalLink aria-hidden="true" />
                     </a>
                 </section>
             </aside>

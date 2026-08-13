@@ -192,7 +192,7 @@ onBeforeUnmount(() => {
         </Link>
 
         <AdminPageHeader
-            eyebrow="Legislation editor parity"
+            eyebrow="Legislation editor"
             :title="form.title"
             description="Maintain bill records with role, status, topic, official-source verification, plain-language explanations, source history, and governed approval submission."
         >
@@ -253,7 +253,7 @@ onBeforeUnmount(() => {
                             </label>
 
                             <label class="admin-field">
-                                <span>URL slug</span>
+                                <span>Web address name</span>
                                 <input
                                     v-model="editor.slug"
                                     type="text"
@@ -532,7 +532,7 @@ onBeforeUnmount(() => {
                                         >
                                     </label>
                                     <label class="admin-field">
-                                        <span>Status snapshot</span>
+                                        <span>Status at time checked</span>
                                         <input
                                             v-model="history.status_snapshot"
                                             type="text"

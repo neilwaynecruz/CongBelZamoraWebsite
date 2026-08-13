@@ -89,13 +89,13 @@ const badgeValue = (tone: string) =>
 </script>
 
 <template>
-    <Head title="Source Records" />
+    <Head title="Official Sources" />
 
     <div class="admin-page">
         <AdminPageHeader
-            eyebrow="Source governance"
-            title="Source records"
-            description="Track official links, ownership, verification dates, expiry, and review readiness for public claims and admin reference data."
+            eyebrow="Source checks"
+            title="Official sources"
+            description="Keep the links, owners, review dates, and proof staff use before publishing public information."
         >
             <template #actions>
                 <div class="admin-page-header__action-row">
@@ -107,7 +107,7 @@ const badgeValue = (tone: string) =>
                         <Plus aria-hidden="true" />Create source
                     </Link>
                     <span class="admin-trust-marker">
-                        <Link2 aria-hidden="true" />Evidence ledger
+                        <Link2 aria-hidden="true" />Source list
                     </span>
                 </div>
             </template>
@@ -167,13 +167,13 @@ const badgeValue = (tone: string) =>
             @submit.prevent="applyFilters"
         >
             <label class="admin-field admin-field--search">
-                <span>Title, URL, description, or status</span>
+                <span>Title, link, description, or status</span>
                 <span class="admin-input-with-icon">
                     <Search aria-hidden="true" />
                     <input
                         v-model="form.search"
                         type="search"
-                        placeholder="Search source records"
+                        placeholder="Search official sources"
                     />
                 </span>
             </label>
@@ -238,8 +238,8 @@ const badgeValue = (tone: string) =>
         <section class="admin-table-panel">
             <header class="admin-table-panel__header">
                 <div>
-                    <p class="admin-kicker">Evidence register</p>
-                    <h2>Source records</h2>
+                    <p class="admin-kicker">Source list</p>
+                    <h2>Official sources</h2>
                 </div>
                 <strong>{{ sourceRecords.meta.total }} results</strong>
             </header>
@@ -320,8 +320,8 @@ const badgeValue = (tone: string) =>
 
             <AdminEmptyState
                 v-else
-                title="No source records found"
-                description="Adjust the filters or add the first official source record for this governance ledger."
+                title="No official sources found"
+                description="Change the filters or add the first official source staff can use to check public information."
             />
 
             <AdminPagination

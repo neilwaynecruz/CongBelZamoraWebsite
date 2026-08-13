@@ -100,12 +100,12 @@ const definitions = computed<ActionDefinition[]>(() => [
         label: props.approval.reviewer
             ? 'Reassign reviewer'
             : 'Assign reviewer',
-        helper: 'Set accountable review ownership',
+        helper: 'Choose who is responsible for review',
         title: props.approval.reviewer
             ? 'Reassign review ownership'
             : 'Assign review ownership',
         description:
-            'Select an active reviewer. Ownership changes are recorded without marking the content as reviewed.',
+            'Select an active reviewer. This records who is responsible, but it does not mark the content as reviewed.',
         confirmLabel: props.approval.reviewer
             ? 'Reassign reviewer'
             : 'Assign reviewer',
@@ -117,11 +117,11 @@ const definitions = computed<ActionDefinition[]>(() => [
     {
         name: 'submit',
         label: 'Submit for review',
-        helper: 'Capture and open this revision',
+        helper: 'Send this saved version for review',
         title: 'Submit this revision for review',
         description:
-            'Record a clear change summary. The current content payload will be captured as an immutable submitted snapshot.',
-        confirmLabel: 'Submit revision',
+            'Record a clear change summary. The current content will be saved as the version sent for review.',
+        confirmLabel: 'Submit for review',
         tone: 'primary',
         icon: Send,
         endpoint: props.workflow.actions.submit,
@@ -129,12 +129,12 @@ const definitions = computed<ActionDefinition[]>(() => [
     },
     {
         name: 'approve',
-        label: 'Approve revision',
-        helper: 'Record the human review decision',
-        title: 'Approve this content revision',
+        label: 'Approve version',
+        helper: 'Record the reviewer decision',
+        title: 'Approve this content version',
         description:
             'Confirm that the wording, source, ownership, and public-service claims have been reviewed. Approval does not publish automatically.',
-        confirmLabel: 'Approve revision',
+        confirmLabel: 'Approve version',
         tone: 'success',
         icon: CheckCircle2,
         endpoint: props.workflow.actions.approve,
@@ -143,11 +143,11 @@ const definitions = computed<ActionDefinition[]>(() => [
     {
         name: 'requestChanges',
         label: 'Request changes',
-        helper: 'Return actionable revision notes',
-        title: 'Return this revision for changes',
+        helper: 'Send clear notes back to the editor',
+        title: 'Return this version for changes',
         description:
-            'Provide specific, actionable guidance. The submitter will be notified that this content needs revision.',
-        confirmLabel: 'Return for revision',
+            'Provide specific guidance. The submitter will be notified that this content needs changes.',
+        confirmLabel: 'Return for changes',
         tone: 'warning',
         icon: RotateCcw,
         endpoint: props.workflow.actions.requestChanges,
@@ -155,12 +155,12 @@ const definitions = computed<ActionDefinition[]>(() => [
     },
     {
         name: 'reject',
-        label: 'Reject revision',
-        helper: 'Record a final negative decision',
-        title: 'Reject this content revision',
+        label: 'Reject version',
+        helper: 'Stop this version from moving forward',
+        title: 'Reject this content version',
         description:
-            'Use rejection when the revision should not proceed in its current form. The official reason becomes part of the audit trail.',
-        confirmLabel: 'Reject revision',
+            'Use rejection when this version should not move forward. The official reason is saved in the activity log.',
+        confirmLabel: 'Reject version',
         tone: 'danger',
         icon: XCircle,
         endpoint: props.workflow.actions.reject,
@@ -181,7 +181,7 @@ const definitions = computed<ActionDefinition[]>(() => [
                 ? 'Cancel scheduled publication'
                 : 'Withdraw this review submission',
         description:
-            'Record why the active workflow step is being cancelled. The prior decision history and snapshots remain intact.',
+            'Record why this step is being cancelled. Earlier decisions and saved versions remain available.',
         confirmLabel:
             props.approval.status.value === 'scheduled'
                 ? 'Cancel schedule'
@@ -203,7 +203,7 @@ const definitions = computed<ActionDefinition[]>(() => [
                 ? 'Reschedule publication'
                 : 'Schedule approved publication',
         description:
-            'The selected time uses the application timezone. All governance blockers must be resolved before scheduling.',
+            'The selected time uses the office system timezone. All publish blockers must be fixed before scheduling.',
         confirmLabel:
             props.approval.status.value === 'scheduled'
                 ? 'Update schedule'
@@ -219,7 +219,7 @@ const definitions = computed<ActionDefinition[]>(() => [
         helper: 'Release the approved public record',
         title: 'Publish this approved content now',
         description:
-            'This immediately updates the public publication state and captures a published snapshot. Automated governance checks run again inside the transaction.',
+            'This immediately makes the approved content public and saves the published version. Automatic checks run again before release.',
         confirmLabel: 'Publish content',
         tone: 'success',
         icon: Globe2,
@@ -242,10 +242,10 @@ const definitions = computed<ActionDefinition[]>(() => [
     {
         name: 'archive',
         label: 'Archive record',
-        helper: 'Close this editorial lifecycle',
+        helper: 'Hide this old or withdrawn record',
         title: 'Archive this content record',
         description:
-            'Archive content that is expired, superseded, duplicated, or withdrawn by official direction. This action is fully auditable.',
+            'Archive content that is expired, replaced, duplicated, or withdrawn by official direction. This action is saved in the activity log.',
         confirmLabel: 'Archive record',
         tone: 'danger',
         icon: FileCheck2,
@@ -254,12 +254,12 @@ const definitions = computed<ActionDefinition[]>(() => [
     },
     {
         name: 'rollback',
-        label: 'Restore snapshot',
-        helper: 'Recover a governed prior version',
-        title: 'Restore an approved content snapshot',
+        label: 'Restore saved version',
+        helper: 'Bring back an approved earlier version',
+        title: 'Restore an approved saved version',
         description:
-            'Only snapshots that passed governance checks and were approved or published can be restored. The current publication state is preserved.',
-        confirmLabel: 'Restore snapshot',
+            'Only saved versions that passed checks and were approved or published can be restored. The current public status is not changed.',
+        confirmLabel: 'Restore saved version',
         tone: 'warning',
         icon: History,
         endpoint: props.workflow.actions.rollback,
@@ -389,8 +389,8 @@ const submit = () => {
     >
         <header>
             <div>
-                <p class="admin-kicker">Governance command desk</p>
-                <h2 id="governance-desk-title">Authorized workflow</h2>
+                <p class="admin-kicker">Review actions</p>
+                <h2 id="governance-desk-title">Actions you can take</h2>
             </div>
             <ClipboardPenLine aria-hidden="true" />
         </header>
@@ -398,7 +398,7 @@ const submit = () => {
         <div v-if="!workflow.writable" class="admin-case-actions__restricted">
             <ShieldCheck aria-hidden="true" />
             <div>
-                <strong>Read-only governance oversight</strong>
+                <strong>Review-only access</strong>
                 <p>
                     Your role may inspect decisions and evidence but cannot
                     change this approval.
@@ -441,18 +441,18 @@ const submit = () => {
         </div>
 
         <p v-else class="admin-case-actions__complete">
-            No governed transition is available for this status and role.
+            No review action is available for this status and role.
         </p>
         <p id="governance-blocked-help" class="admin-case-actions__audit">
-            Every command is authorized server-side and records the actor, state
-            transition, timestamp, and privacy-safe audit metadata.
+            Every action is checked by the server and records who acted, when it
+            happened, what changed, and safe activity details.
         </p>
     </section>
 
     <AdminActionDialog
         v-if="activeDefinition"
         :open="activeAction !== null"
-        kicker="Audited governance command"
+        kicker="Checked review action"
         :title="activeDefinition.title"
         :description="activeDefinition.description"
         :confirm-label="activeDefinition.confirmLabel"
@@ -469,7 +469,7 @@ const submit = () => {
             role="alert"
             tabindex="-1"
         >
-            <strong>This governance command needs attention.</strong>
+            <strong>This review action needs attention.</strong>
             <p>
                 {{
                     errors.action ??
@@ -495,7 +495,7 @@ const submit = () => {
                 </option>
             </select>
             <small
-                >Assignment records ownership only; it does not record a
+                >Assignment records responsibility only; it does not record a
                 decision.</small
             >
             <small v-if="errors.reviewer_id" class="admin-field__error">{{
@@ -546,7 +546,7 @@ const submit = () => {
                 :aria-invalid="Boolean(errors.review_notes)"
             ></textarea>
             <small
-                >Use precise editorial or governance guidance.
+                >Give clear content or review guidance.
                 {{ fields.review_notes.length.toLocaleString() }} / 5,000</small
             >
             <small v-if="errors.review_notes" class="admin-field__error">{{
@@ -650,7 +650,7 @@ const submit = () => {
 
         <template v-if="activeAction === 'rollback'">
             <label class="admin-field">
-                <span>Approved snapshot <b aria-hidden="true">*</b></span>
+                <span>Approved saved version <b aria-hidden="true">*</b></span>
                 <select
                     v-model="fields.snapshot_id"
                     data-autofocus
@@ -667,7 +667,7 @@ const submit = () => {
                     </option>
                 </select>
                 <small
-                    >Draft, failed, archived, and unpublished snapshots cannot
+                    >Draft, failed, archived, and unpublished saved versions cannot
                     be restored.</small
                 >
                 <small v-if="errors.snapshot_id" class="admin-field__error">{{
@@ -675,7 +675,7 @@ const submit = () => {
                 }}</small>
             </label>
             <label class="admin-field">
-                <span>Rollback reason <b aria-hidden="true">*</b></span>
+                <span>Restore reason <b aria-hidden="true">*</b></span>
                 <textarea
                     v-model="fields.reason"
                     rows="5"

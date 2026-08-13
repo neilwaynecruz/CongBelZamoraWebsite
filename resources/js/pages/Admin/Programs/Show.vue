@@ -130,11 +130,11 @@ const freshnessBadgeValue = (tone: string) =>
 </script>
 
 <template>
-    <Head :title="`${program.title} · Program Dossier`" />
+    <Head :title="`${program.title} · Program Details`" />
 
     <div class="admin-page admin-dossier-page">
         <Link href="/admin-console/programs" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to program ledger
+            <ArrowLeft aria-hidden="true" />Back to programs
         </Link>
 
         <header class="admin-dossier-header admin-dossier-header--program">
@@ -178,7 +178,7 @@ const freshnessBadgeValue = (tone: string) =>
                     "
                     :label="
                         program.governance.readiness.passed
-                            ? 'Governance ready'
+                            ? 'Checks passed'
                             : `${program.governance.readiness.issueCount} blockers`
                     "
                 />
@@ -194,7 +194,7 @@ const freshnessBadgeValue = (tone: string) =>
                             <h2>Program record</h2>
                         </div>
                         <span class="admin-trust-marker"
-                            ><ShieldCheck aria-hidden="true" />Server-owned
+                            ><ShieldCheck aria-hidden="true" />Checked
                             content</span
                         >
                     </header>
@@ -332,7 +332,7 @@ const freshnessBadgeValue = (tone: string) =>
                     <AdminEmptyState
                         v-else
                         title="No program updates recorded"
-                        description="Published status changes and advisories will appear here once entered through the governed workflow."
+                        description="Published status changes and advisories will appear here once staff enter them through the review process."
                     />
                 </section>
             </div>
@@ -340,8 +340,8 @@ const freshnessBadgeValue = (tone: string) =>
             <aside class="admin-dossier-grid__rail">
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Source verification</p>
-                        <h2>Official-source record</h2>
+                        <p class="admin-kicker">Source check</p>
+                        <h2>Official source</h2>
                     </header>
                     <dl class="admin-fact-list">
                         <div>
@@ -388,7 +388,7 @@ const freshnessBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-readiness">
                     <header>
-                        <p class="admin-kicker">Approval workflow</p>
+                        <p class="admin-kicker">Review process</p>
                         <h2>Publication readiness</h2>
                     </header>
                     <div
@@ -398,7 +398,7 @@ const freshnessBadgeValue = (tone: string) =>
                         <ShieldCheck aria-hidden="true" />
                         <strong>{{
                             program.governance.readiness.passed
-                                ? 'Ready for governed publishing'
+                                ? 'Ready for publishing review'
                                 : `${program.governance.readiness.issueCount} blocker(s)`
                         }}</strong>
                     </div>
@@ -418,7 +418,7 @@ const freshnessBadgeValue = (tone: string) =>
                         :href="program.governance.approval.href"
                         class="admin-button admin-button--secondary admin-program-workflow-link"
                     >
-                        Open approval dossier<ArrowRight aria-hidden="true" />
+                        Open review details<ArrowRight aria-hidden="true" />
                     </Link>
                 </section>
 
@@ -431,7 +431,7 @@ const freshnessBadgeValue = (tone: string) =>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Source register</p>
+                        <p class="admin-kicker">Official sources</p>
                         <h2>Linked source records</h2>
                     </header>
                     <div
@@ -460,27 +460,26 @@ const freshnessBadgeValue = (tone: string) =>
                     <AdminEmptyState
                         v-else
                         title="No source records linked"
-                        description="Program status and requirements need source records before custom editing can replace the fallback."
+                        description="Program status and requirements need official sources before staff can publish updates confidently."
                     />
                 </section>
 
                 <section class="admin-panel admin-program-source-panel">
                     <header>
-                        <p class="admin-kicker">Transition controls</p>
-                        <h2>Fallback status</h2>
+                        <p class="admin-kicker">Emergency admin</p>
+                        <h2>Older admin status</h2>
                     </header>
                     <p class="admin-program-fallback-note">
-                        Custom create and edit flows are available for program
-                        records. The restricted Filament fallback stays online
-                        only while parity is verified across remaining admin
-                        modules.
+                        Custom create and edit screens are available for program
+                        records. The older admin area stays restricted until
+                        final staff sign-off.
                     </p>
                     <a
                         v-if="filamentFallbackUrl"
                         :href="filamentFallbackUrl"
                         class="admin-button admin-button--quiet admin-program-workflow-link"
                     >
-                        Open fallback editor<ExternalLink aria-hidden="true" />
+                        Open emergency editor<ExternalLink aria-hidden="true" />
                     </a>
                 </section>
             </aside>

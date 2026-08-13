@@ -7,7 +7,7 @@
         <div>
             <h2 class="text-lg font-bold text-gray-900 dark:text-white">Projects by barangay / status</h2>
             <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                Aggregate project counts for operational reporting. No sensitive citizen data is shown.
+                Project totals for office reporting. No sensitive citizen data is shown.
             </p>
         </div>
 

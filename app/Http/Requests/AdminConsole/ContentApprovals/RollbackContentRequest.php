@@ -17,9 +17,9 @@ class RollbackContentRequest extends ContentApprovalActionRequest
     public function messages(): array
     {
         return [
-            'snapshot_id.required' => 'Select the approved or published snapshot to restore.',
-            'reason.required' => 'Record why this rollback is necessary.',
-            'reason.min' => 'Provide a rollback reason of at least 10 characters.',
+            'snapshot_id.required' => 'Choose the approved or published saved version to restore.',
+            'reason.required' => 'Record why this restore is necessary.',
+            'reason.min' => 'Provide a restore reason of at least 10 characters.',
         ];
     }
 

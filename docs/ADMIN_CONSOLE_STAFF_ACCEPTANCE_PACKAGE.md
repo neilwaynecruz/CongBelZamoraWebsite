@@ -230,3 +230,33 @@ Go/no-go recommendation:
 
 - **Go:** Schedule the real staff-observed acceptance session using this package.
 - **No-go:** Do not redirect `/admin`, remove Filament packages, delete Filament resources, or mark custom admin staff-accepted until the live session is completed and signed.
+
+## 13. Plain-Language Wording Acceptance Addendum - August 13, 2026
+
+Status: **Ready for staff review; legal/privacy wording approval still required where noted**.
+
+The custom `/admin-console` wording was revised so staff-facing pages use clearer action labels, helper text, empty states, validation messages, and emergency-admin warnings. This addendum should be reviewed during the staff-observed acceptance session.
+
+Acceptance checks:
+
+| Area | Staff check | Result | Notes |
+| --- | --- | --- | --- |
+| Dashboard/Search | Staff can understand priority work, search results, and emergency-admin links without explanation. | Pending |  |
+| Inquiries | Staff can understand case actions, privacy warnings, notes, responses, resolution, and closing. | Pending |  |
+| Content Approvals | Staff can understand review actions, saved versions, publish checks, and restore actions. | Pending |  |
+| Programs/Projects/News/Legislation/Public Pages | Staff can understand sources, publication readiness, review submission, file details, and emergency-admin status. | Pending |  |
+| Users/Settings | Super Administrators can understand access, 2FA, password changes, read-only settings, and activity-log boundaries. | Pending |  |
+| Audit/Reports | Authorized staff can understand activity logs, hidden sensitive values, totals-only reports, and export boundaries. | Pending |  |
+| Source Records/Reference Data | Staff can understand official sources, reference lists, source checks, and warnings for records used by content. | Pending |  |
+| Destructive actions | Staff can clearly tell what archive, restore, remove, and permanent delete actions do. | Pending | Privacy/legal reviewer should confirm deletion wording. |
+
+Wording conventions to verify during acceptance:
+
+- "Details" should be clearer than "dossier".
+- "Official sources" and "source checks" should be clearer than source-record jargon.
+- "Review queue" and "send for review" should be clearer than governance jargon.
+- "Saved version" should be clearer than snapshot.
+- "Web address name" should be clearer than URL slug.
+- "Emergency admin" and "older admin area" should be clearer than fallback.
+
+Record any unclear wording as an acceptance issue even when the workflow passes.

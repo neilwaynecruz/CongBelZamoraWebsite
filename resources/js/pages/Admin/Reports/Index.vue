@@ -134,13 +134,13 @@ const barWidth = (
 
     <div class="admin-page">
         <AdminPageHeader
-            eyebrow="Aggregate reports"
-            title="Governance reports"
-            description="Review aggregate-only inquiry, publishing, stale-content, and project metrics. No private citizen messages, files, or unsupported official claims are exposed."
+            eyebrow="Summary reports"
+            title="Office reports"
+            description="Review totals for inquiries, publishing, old content, and projects. This page does not show private citizen messages, files, or unapproved claims."
         >
             <template #actions>
                 <span class="admin-trust-marker">
-                    <ShieldCheck aria-hidden="true" />Aggregate only
+                    <ShieldCheck aria-hidden="true" />Totals only
                 </span>
             </template>
         </AdminPageHeader>
@@ -172,7 +172,7 @@ const barWidth = (
             <AdminMetricCard
                 label="Open inquiries"
                 :value="reports.inquiries.summary.open"
-                description="Aggregate active case count"
+                description="Total active cases"
                 :tone="
                     reports.inquiries.summary.open > 0 ? 'warning' : 'success'
                 "
@@ -180,7 +180,7 @@ const barWidth = (
             <AdminMetricCard
                 label="Approvals for review"
                 :value="reports.publishing.approvalSummary.forReview"
-                description="Content governance decisions waiting"
+                description="Content decisions waiting for review"
                 :tone="
                     reports.publishing.approvalSummary.forReview > 0
                         ? 'warning'
@@ -195,7 +195,7 @@ const barWidth = (
                         0,
                     )
                 "
-                description="Tracked records past review due date"
+                description="Records past their review date"
                 :tone="
                     reports.freshness.breakdown.some((row) => row.overdue > 0)
                         ? 'warning'
@@ -205,7 +205,7 @@ const barWidth = (
             <AdminMetricCard
                 label="Publish sample"
                 :value="reports.publishing.latency.sample_size"
-                description="Published approvals with timing data"
+                description="Published items with timing data"
                 tone="info"
             />
         </section>
@@ -218,7 +218,7 @@ const barWidth = (
                 <header class="admin-panel__header">
                     <div>
                         <p class="admin-kicker">Constituent service</p>
-                        <h2>Inquiry aggregates</h2>
+                        <h2>Inquiry totals</h2>
                         <p>
                             {{ reports.period.label }}. No personal data shown.
                         </p>
@@ -274,9 +274,10 @@ const barWidth = (
                 <header class="admin-panel__header">
                     <div>
                         <p class="admin-kicker">Publishing</p>
-                        <h2>Approval and latency</h2>
+                        <h2>Approval timing</h2>
                         <p>
-                            Workflow timing comes from published approval rows.
+                            Timing comes from content that was published after
+                            approval.
                         </p>
                     </div>
                     <ClipboardCheck aria-hidden="true" />
@@ -394,8 +395,8 @@ const barWidth = (
                 <header class="admin-panel__header">
                     <div>
                         <p class="admin-kicker">Source and review health</p>
-                        <h2>Stale-rate breakdown</h2>
-                        <p>Overdue count divided by tracked records.</p>
+                        <h2>Overdue review breakdown</h2>
+                        <p>Overdue records compared with all tracked records.</p>
                     </div>
                     <BarChart3 aria-hidden="true" />
                 </header>
@@ -431,7 +432,7 @@ const barWidth = (
                         <p class="admin-kicker">Projects</p>
                         <h2>Barangay and status</h2>
                         <p>
-                            Project aggregates only, grouped from backend
+                            Project totals only, grouped from backend
                             records.
                         </p>
                     </div>
@@ -474,7 +475,7 @@ const barWidth = (
             <section class="admin-panel admin-panel--health">
                 <header class="admin-panel__header">
                     <div>
-                        <p class="admin-kicker">Export boundary</p>
+                        <p class="admin-kicker">Export rule</p>
                         <h2>Data handling</h2>
                         <p>{{ reports.exports.reason }}</p>
                     </div>

@@ -55,7 +55,7 @@ defineProps<{
 const archive = (source: SourceRecord) => {
     if (
         !window.confirm(
-            'Archive this source record? It remains restorable for Super Administrators.',
+            'Hide this official source from daily use? Super Administrators can restore it later.',
         )
     ) {
         return;
@@ -70,17 +70,17 @@ const restore = (source: SourceRecord) => {
 </script>
 
 <template>
-    <Head :title="`${sourceRecord.title} · Source Record`" />
+    <Head :title="`${sourceRecord.title} · Official Source`" />
 
     <div class="admin-page">
         <Link href="/admin-console/source-records" class="admin-back-link">
-            <ArrowLeft aria-hidden="true" />Back to source records
+            <ArrowLeft aria-hidden="true" />Back to official sources
         </Link>
 
         <AdminPageHeader
-            eyebrow="Source dossier"
+            eyebrow="Official source details"
             :title="sourceRecord.title"
-            description="Official-source evidence, ownership, review dates, and attachment context for governed public content."
+            description="Official source proof, owner, review dates, and the public content that uses it."
         >
             <template #actions>
                 <div class="admin-page-header__action-row">
@@ -114,7 +114,7 @@ const restore = (source: SourceRecord) => {
                         <RotateCcw aria-hidden="true" />Restore
                     </button>
                     <span class="admin-trust-marker">
-                        <ShieldCheck aria-hidden="true" />Policy-gated
+                        <ShieldCheck aria-hidden="true" />Policy checked
                     </span>
                 </div>
             </template>

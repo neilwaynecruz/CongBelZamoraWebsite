@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
         </Link>
 
         <AdminPageHeader
-            eyebrow="Reference editor parity"
+            eyebrow="Reference editor"
             :title="form.title"
             :description="form.definition.description"
         />
@@ -166,8 +166,8 @@ onBeforeUnmount(() => {
                         Some fields need attention
                     </h2>
                     <p>
-                        Server validation controls labels, slugs/codes, enum
-                        values, active state, and source fields.
+                        The server checks labels, web address names or codes,
+                        allowed choices, active state, and source fields.
                     </p>
                 </div>
             </section>
@@ -266,8 +266,8 @@ onBeforeUnmount(() => {
                     <section class="admin-editor-panel">
                         <header>
                             <div>
-                                <p class="admin-kicker">Verification</p>
-                                <h2>Source record</h2>
+                        <p class="admin-kicker">Source check</p>
+                        <h2>Official source</h2>
                             </div>
                         </header>
                         <div
@@ -281,7 +281,7 @@ onBeforeUnmount(() => {
                                 />
                             </label>
                             <label class="admin-field">
-                                <span>Source URL</span>
+                                <span>Source link</span>
                                 <input
                                     v-model="editor.source_record.url"
                                     type="url"
