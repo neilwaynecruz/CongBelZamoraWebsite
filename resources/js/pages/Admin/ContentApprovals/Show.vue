@@ -168,7 +168,7 @@ defineProps<{
                         <p>
                             {{
                                 approval.changeSummary ??
-                            'No change summary was recorded for this version.'
+                                'No change summary was recorded for this version.'
                             }}
                         </p>
                     </div>
@@ -286,7 +286,7 @@ defineProps<{
                 />
 
                 <section
-                class="admin-panel admin-source-dossier"
+                    class="admin-panel admin-source-dossier"
                     aria-labelledby="source-dossier-title"
                 >
                     <header>

@@ -342,7 +342,8 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
 
                     <footer class="admin-sticky-save-bar">
                         <span
-                            >Saved after server checks and activity logging.</span
+                            >Saved after server checks and activity
+                            logging.</span
                         >
                         <button
                             type="submit"
@@ -535,7 +536,8 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload));
                 <label class="admin-checkbox-row">
                     <input v-model="updateForm.remove_file" type="checkbox" />
                     <span
-                        >Remove the current file and keep its details for review</span
+                        >Remove the current file and keep its details for
+                        review</span
                     >
                 </label>
 

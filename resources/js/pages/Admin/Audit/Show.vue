@@ -133,7 +133,8 @@ const formatJson = (value: Record<string, unknown>) =>
                             <h2>What changed</h2>
                         </div>
                         <span class="admin-trust-marker">
-                            <ShieldCheck aria-hidden="true" />Sensitive values hidden
+                            <ShieldCheck aria-hidden="true" />Sensitive values
+                            hidden
                         </span>
                     </header>
                     <div

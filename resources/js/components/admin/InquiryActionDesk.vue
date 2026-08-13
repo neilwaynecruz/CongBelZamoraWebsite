@@ -340,8 +340,8 @@ const submit = () => {
             <div>
                 <strong>Read-only oversight</strong>
                 <p>
-                    Your role can review case history but cannot change
-                    this inquiry.
+                    Your role can review case history but cannot change this
+                    inquiry.
                 </p>
             </div>
         </div>
@@ -383,8 +383,8 @@ const submit = () => {
                 v-if="availableActions.length === 0"
                 class="admin-case-actions__complete"
             >
-                No action is currently available for this case state.
-                Internal notes remain available only while policy permits.
+                No action is currently available for this case state. Internal
+                notes remain available only while policy permits.
             </p>
         </template>
 

@@ -266,8 +266,8 @@ onBeforeUnmount(() => {
                     <section class="admin-editor-panel">
                         <header>
                             <div>
-                        <p class="admin-kicker">Source check</p>
-                        <h2>Official source</h2>
+                                <p class="admin-kicker">Source check</p>
+                                <h2>Official source</h2>
                             </div>
                         </header>
                         <div

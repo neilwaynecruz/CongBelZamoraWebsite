@@ -131,8 +131,8 @@ onBeforeUnmount(() => {
                         Some fields need attention
                     </h2>
                     <p>
-                        The server protects role changes, active access, and
-                        the last Super Administrator account.
+                        The server protects role changes, active access, and the
+                        last Super Administrator account.
                     </p>
                 </div>
             </section>
@@ -256,7 +256,9 @@ onBeforeUnmount(() => {
                     >
                         <header>
                             <div>
-                                <p class="admin-kicker">Activity log boundary</p>
+                                <p class="admin-kicker">
+                                    Activity log boundary
+                                </p>
                                 <h2>What gets recorded</h2>
                             </div>
                         </header>

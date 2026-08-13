@@ -667,8 +667,8 @@ const submit = () => {
                     </option>
                 </select>
                 <small
-                    >Draft, failed, archived, and unpublished saved versions cannot
-                    be restored.</small
+                    >Draft, failed, archived, and unpublished saved versions
+                    cannot be restored.</small
                 >
                 <small v-if="errors.snapshot_id" class="admin-field__error">{{
                     errors.snapshot_id

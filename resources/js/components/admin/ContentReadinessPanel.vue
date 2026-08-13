@@ -52,8 +52,8 @@ defineProps<{
             <div>
                 <strong>Automated checks passed</strong>
                 <p>
-                    Owner, source, review date, active dates, and change
-                    details are present. A person still needs to review before
+                    Owner, source, review date, active dates, and change details
+                    are present. A person still needs to review before
                     publishing.
                 </p>
             </div>

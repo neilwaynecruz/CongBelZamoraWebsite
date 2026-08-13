@@ -57,8 +57,8 @@ const showPassword = ref(false);
                     </h1>
                     <p>
                         A secure workspace for constituent inquiries,
-                        public-content review, program records, and
-                        accountable District Office work.
+                        public-content review, program records, and accountable
+                        District Office work.
                     </p>
                 </div>
 
@@ -76,8 +76,8 @@ const showPassword = ref(false);
                     <div>
                         <LockKeyhole aria-hidden="true" />
                         <span
-                            ><strong>Activity recorded</strong>Staff actions
-                            are saved in the activity log.</span
+                            ><strong>Activity recorded</strong>Staff actions are
+                            saved in the activity log.</span
                         >
                     </div>
                 </div>

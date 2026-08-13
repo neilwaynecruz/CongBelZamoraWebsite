@@ -329,7 +329,9 @@ onBeforeUnmount(() => {
                     <section class="admin-editor-panel">
                         <header>
                             <div>
-                                <p class="admin-kicker">Page content settings</p>
+                                <p class="admin-kicker">
+                                    Page content settings
+                                </p>
                                 <h2>Public page content settings</h2>
                             </div>
                             <button

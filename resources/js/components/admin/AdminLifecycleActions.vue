@@ -197,8 +197,8 @@ const deleteRecord = () => {
         >
             <div class="admin-lifecycle-panel__danger-note" role="alert">
                 Permanent deletion removes the {{ recordType }} record from the
-                admin database. Keep this for duplicates, unsupported
-                imports, or formally approved removals only.
+                admin database. Keep this for duplicates, unsupported imports,
+                or formally approved removals only.
             </div>
             <label class="admin-field">
                 <span>Type the exact title <b aria-hidden="true">*</b></span>

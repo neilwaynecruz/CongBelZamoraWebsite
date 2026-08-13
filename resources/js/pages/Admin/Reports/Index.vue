@@ -396,7 +396,9 @@ const barWidth = (
                     <div>
                         <p class="admin-kicker">Source and review health</p>
                         <h2>Overdue review breakdown</h2>
-                        <p>Overdue records compared with all tracked records.</p>
+                        <p>
+                            Overdue records compared with all tracked records.
+                        </p>
                     </div>
                     <BarChart3 aria-hidden="true" />
                 </header>
@@ -432,8 +434,7 @@ const barWidth = (
                         <p class="admin-kicker">Projects</p>
                         <h2>Barangay and status</h2>
                         <p>
-                            Project totals only, grouped from backend
-                            records.
+                            Project totals only, grouped from backend records.
                         </p>
                     </div>
                     <MapPinned aria-hidden="true" />
