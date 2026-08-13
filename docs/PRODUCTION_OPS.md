@@ -228,6 +228,8 @@ Fallback-use monitoring during the acceptance window:
 3. Review the fallback-use register weekly with the project owner before any `/admin` redirect or Filament-removal decision.
 4. Do not schedule Filament package removal until one monitored release cycle shows no daily-work dependency on `/admin`.
 
+Use `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md` as the official staff-observed acceptance checklist and fallback-use register template. The completed package should be retained with launch approval evidence. As of August 13, 2026, the package is prepared but not signed; production operators must keep `/admin` emergency-only and must not treat the fallback register as complete until the reviewed release cycle has finished.
+
 Current governance decisions:
 
 - Custom exports remain disabled until privacy/legal approval defines the redaction, retention, requester, and audit rules.

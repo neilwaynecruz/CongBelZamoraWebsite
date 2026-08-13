@@ -333,6 +333,8 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Task:** Run staff-observed acceptance and fallback-use monitoring for the custom `/admin-console`.
 
+**Acceptance artifact:** The real staff-observed acceptance package is prepared in `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md`. It covers Dashboard/Search, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, Source Records, Reference Data, upload/file-management, lifecycle actions, and emergency-only `/admin` fallback. It includes sign-off fields, module acceptance criteria, role/access checks, accessibility/usability checks, a fallback-use register, policy decision fields, and the final approval workflow.
+
 **Evidence status:** Local technical evidence is current, but real staff-observed acceptance was not completed in this workspace because no District Office staff participant was available. No production fallback-use log was available locally. The correct status is **technical readiness confirmed, staff acceptance pending, fallback-use monitoring initiated as an acceptance-window requirement**.
 
 **Daily workflow decision:** `/admin-console` remains the daily staff workspace. Existing custom parity covers Dashboard/Search, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, lifecycle actions, upload/file-management, Source Records, and Reference Data. `/admin` remains a Super Administrator-only emergency fallback and must not be used for daily work.
@@ -344,6 +346,18 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 **Validation evidence:** `php artisan test tests\Feature\FilamentDashboardTest.php` passed with 11 tests and 30 assertions. `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\FilamentDashboardTest.php` passed with 22 tests and 162 assertions.
 
 **Recommended next custom-admin task:** Schedule the real staff-observed acceptance session, collect signed module-by-module approval, and maintain a fallback-use register during the acceptance window.
+
+### Project Update: 2026-08-13 (Staff Acceptance Session Record)
+
+**Task:** Use `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md` to conduct and record real staff-observed acceptance.
+
+**Session result:** The package was updated with a dated session record, but the real staff-observed session was **not conducted** in this workspace. No District Office staff participant, signed decision, reviewed environment URL, production fallback-use log, or approval artifact was provided. All custom-admin modules remain staff-approval pending.
+
+**Recorded blockers:** Real staff acceptance must be scheduled and signed. Production fallback-use monitoring must run for at least one release cycle. DPO/legal export approval, settings-write governance, notification replacement approval, production backup/restore evidence, and launch-governance sign-off remain required before redirecting `/admin` or removing Filament.
+
+**Decision:** `/admin-console` remains technically sufficient based on local evidence but not staff-signed. `/admin` remains emergency-only for active verified Super Administrators. Filament must not be removed or redirected.
+
+**Recommended next custom-admin task:** Hold the live staff acceptance session with the prepared package, fill all module rows and sign-off fields, and record each `/admin` emergency fallback use during the acceptance window.
 
 ### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
 

@@ -2150,6 +2150,10 @@ Remaining fallback blockers:
 
 Decision: **Technical readiness confirmed; staff-observed acceptance is still pending; Filament removal is not scheduled**.
 
+Acceptance artifact:
+
+- `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md` is the official staff-observed acceptance package for `/admin-console`. It contains the module checklist, role/access checks, accessibility and usability checks, sign-off fields, fallback-use register, policy decision table, and approval workflow.
+
 Observed evidence available in this session:
 
 - Focused authorization tests confirm that active, email-verified Super Administrators can access `/admin` as emergency fallback.
@@ -2177,6 +2181,31 @@ Policy decisions:
 Recommended next action:
 
 - Conduct a real staff-observed acceptance session using the custom `/admin-console` checklist and a fallback-use register. If staff find a daily workflow gap, fix that custom workflow before considering any `/admin` redirect.
+
+### 40.7 Staff Acceptance Session Record - August 13, 2026
+
+Decision: **Session package prepared; real staff-observed acceptance not yet conducted**.
+
+Session result:
+
+- `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md` now records the current acceptance-session status.
+- No District Office staff participant, signed decision, reviewed environment URL, production fallback-use log, or approval artifact was available in this workspace.
+- All modules remain `Staff approved: Pending` in the Filament removal parity matrix.
+- No fallback-use entries were recorded because no production `/admin` emergency-use register was provided.
+
+Policy result:
+
+- Exports remain disabled until DPO/legal approval.
+- Settings writes remain read-only until a rollback- and audit-ready workflow is approved.
+- Dashboard/task queues remain the provisional notification replacement pending staff approval.
+- `/admin` remains emergency-only for active, verified Super Administrators.
+- Filament removal is not scheduled.
+
+Blockers:
+
+- Real staff-observed acceptance session must still be scheduled and signed.
+- Fallback-use monitoring must still run for at least one release cycle.
+- Export, settings-write, notification, production backup/restore, and launch-governance approvals remain required before any `/admin` redirect or Filament removal.
 
 ## 41. Better First Implementation Slice
 

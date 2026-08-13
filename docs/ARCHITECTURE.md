@@ -199,6 +199,11 @@ Current governance decisions:
 - Custom Settings remains read-only before launch unless a rollback- and audit-ready settings-write workflow is approved.
 - Dashboard attention queues are the provisional daily-work replacement for Filament notifications; the legacy Filament bell may remain only with emergency fallback scope.
 
+Staff acceptance artifact:
+
+- `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md` is the controlling checklist for real staff-observed acceptance, fallback-use monitoring, and final Filament fallback decisions. Its signed output is required before any `/admin` redirect or Filament package-removal plan.
+- As of August 13, 2026, the package records that the real staff-observed session has not yet been conducted and all modules remain staff-approval pending.
+
 Retention is enforced by `inquiries:anonymize-expired`, scheduled daily in `routes/console.php`. Freshness review automation is queued by `content:flag-stale`, scheduled daily at 03:00. Production environments must run both queue workers and the Laravel scheduler.
 
 ## Phase 8 Content Migration Boundary
