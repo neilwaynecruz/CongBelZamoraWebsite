@@ -58,7 +58,9 @@ class User extends Authenticatable implements FilamentUser, PasskeyUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isStaff() && $this->is_active === true;
+        return $this->is_active === true
+            && $this->email_verified_at !== null
+            && $this->hasAdminRole(AdminRole::SuperAdministrator);
     }
 
     public function isStaff(): bool

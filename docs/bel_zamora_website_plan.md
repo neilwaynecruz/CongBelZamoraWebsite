@@ -12,7 +12,7 @@
 **Document status:** Active project source of truth and living implementation roadmap  
 **Recommended implementation:** Laravel 13, Vue 3, TypeScript, Inertia.js 3 with server-side rendering, MySQL 8.4 LTS, Tailwind CSS 4, Vite, Filament 5, and Redis, or the latest mutually compatible security-supported stable versions available when development formally begins  
 **Latest project-state audit:** July 27, 2026
-**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement), verified Custom Admin Command System Wave 1 at `/admin-console`, and custom Programs/Projects/Legislation/News/Public Pages/Users/Settings/Audit/Reports command modules with list/detail/create/edit, redacted read-only, aggregate-only, or read-only parity as appropriate, role-filtered navigation, source/approval readiness, shared archive/restore/permanent-delete lifecycle controls, custom News media and Project evidence upload/file-management parity, focused tests, and restricted Filament fallback pending staff approval and final removal-matrix sign-off. Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
+**Current implementation state:** Executable Laravel 13 + Vue 3 + TypeScript + Inertia SSR baseline with Filament admin panel, CI, tests, setup documentation, Phase 6 public Home/About/Programs/Legislation/Projects/News/Contact/Privacy/Accessibility/Disclaimer frontend slices, Phase 7 backend/admin MVP modules, Phase 8 MVP content migration, Phase 9 automated/HTTP/SSR/security/source-link QA, Tier 1 launch-critical admin operations, Tier 2 admin productivity tooling, Tier 3 backend optimizations (public cache, domain events, soft deletes, FULLTEXT search, job reliability, indexes), Tier 4 launch-safe admin enhancements (in-app staff notifications, reports dashboard aggregates, staff 2FA enforcement), verified Custom Admin Command System Wave 1 at `/admin-console`, and custom Programs/Projects/Legislation/News/Public Pages/Users/Settings/Audit/Reports/Source Records/Reference Data command modules with list/detail/create/edit, redacted read-only, aggregate-only, read-only, lifecycle, or taxonomy parity as appropriate, role-filtered navigation, source/approval readiness, shared archive/restore/permanent-delete lifecycle controls, custom News media and Project evidence upload/file-management parity, focused tests, and restricted Filament fallback pending staff approval and final removal-matrix sign-off. Phase 10 approval packages and the master approval register are prepared in `docs/PHASE_10_CONTENT_LEGAL_APPROVAL.md`; launch-critical stakeholder signatures are not yet obtained, so Phase 10 remains `In Progress` and production launch is not authorized. Phase 9 real-device, screen-reader, staff usability, and production backup/restore evidence remain required before Phase 9 can be marked fully implemented.
 
 ---
 
@@ -279,7 +279,7 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Workflows fully covered by custom admin:** inquiry case lifecycle; content approval lifecycle; content CRUD and governance for Programs, Projects, News/media, Legislation, and Public Pages; shared archive/restore/permanent-delete lifecycle actions; News media and Project evidence upload/file-management; Super Administrator staff-user management; read-only settings visibility; read-only audit; and aggregate reports.
 
-**Workflows still depending on Filament or formal scope decisions:** Source Records and reference/taxonomy maintenance from the Tier 2 admin productivity pack; CSV/export workflows where custom export policy is not privacy-approved; configuration/settings writes; and any staff notification-bell behavior not formally accepted as custom-console equivalent.
+**Workflows still depending on Filament or formal scope decisions:** CSV/export workflows where custom export policy is not privacy-approved; configuration/settings writes; any staff notification-bell behavior not formally accepted as custom-console equivalent; and final staff recovery while real staff acceptance is incomplete.
 
 **Security/privacy decision:** No new security blocker was found in the acceptance pass. Existing server patterns remain appropriate: middleware-protected `/admin-console`, policy-gated actions, Form Requests for writes, transaction-backed services, audit logging, redaction for sensitive inquiry/audit values, approved image upload restrictions, and no public storage for sensitive files. Export and settings writes remain intentionally blocked/deferred because they need explicit governance and privacy approval.
 
@@ -289,7 +289,61 @@ Phases 0, 1, 2, 3, 4, 5, 6, 7, and 8 are implemented for MVP. Phase 9 automated 
 
 **Staff-observed limitation:** No real District Office staff member observed or signed the session. Every module remains staff-approval pending, and Filament remains available as restricted fallback.
 
-**Recommended next custom-admin task:** Schedule real staff acceptance using the generated screenshots and live `/admin-console`, then decide whether Source Records, reference data CRUD, CSV exports, notification bell behavior, and settings writes are required before hiding or redirecting `/admin`.
+**Recommended next custom-admin task:** Schedule real staff acceptance using the generated screenshots and live `/admin-console`, then decide whether CSV exports, notification bell behavior, and settings writes are required before hiding or redirecting `/admin`.
+
+### Project Update: 2026-08-13 (Custom Source Records and Reference Data Parity)
+
+**Task:** Build custom Source Records and Reference/Taxonomy admin parity for `/admin-console`.
+
+**Scope completed:** Added custom Source Records list/detail/create/edit/archive/restore routes and a governed Reference Data manager for Program categories, Project categories/statuses/partners, News categories/statuses, Legislative roles/statuses/topics, and Inquiry categories. The slice includes server-side search, filters, sorting, pagination, Form Requests, resources/form resources, transaction-backed services, policy checks, source verification fields, active/inactive controls, warnings for used reference records, role-aware navigation, command-search routing for Source results, and audit logging.
+
+**Security/workflow decision:** Source and reference writes remain server-authoritative through policies, Form Requests, service-layer transactions, and audit logs. No sensitive inquiry data is exposed; Inquiry categories are managed as routing labels only. Filament remains a restricted fallback until staff acceptance, export policy, settings-write governance, and notification-bell scope are resolved.
+
+**Validation evidence:** `php artisan test tests\Feature\AdminConsoleSourceReferenceTest.php` passed with 5 tests and 78 assertions. Focused `vendor\bin\pint --test` passed. `php artisan route:list --name=admin-console.source-records` showed 8 routes. `php artisan route:list --name=admin-console.reference-data` showed 6 routes. `npm run typecheck`, `npm run lint:check`, `npm run format:check`, and `npm run build` passed; the build emitted the known plugin timing note only.
+
+**Recommended next custom-admin task:** Run a final staff-observed acceptance session covering the newly custom Source Records/reference-data screens, then resolve privacy-approved exports, settings writes, and notification-bell scope before any `/admin` redirect or Filament package removal.
+
+### Project Update: 2026-08-13 (Filament Fallback Reduction Readiness Pass)
+
+**Task:** Evaluate whether the restricted Filament fallback can be reduced after custom `/admin-console` parity.
+
+**Readiness decision:** The project is technically ready to reduce Filament fallback visibility, but it is **not** ready to redirect `/admin` or remove Filament packages. Daily custom-admin parity now covers Dashboard/Search, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings read visibility, Audit/Reports, lifecycle actions, upload/file-management, Source Records, and Reference/Taxonomy management. The remaining blockers are governance and access-control decisions, not missing daily CRUD screens.
+
+**Workflows still requiring Filament or a formal decision:** Privacy-reviewed CSV/export workflows, mutable settings writes, notification-bell behavior, emergency recovery for one release cycle, and real District Office staff acceptance. Source Records and Reference Data are technically sufficient for daily staff work but still need staff approval because taxonomy changes affect public filters and inquiry-routing labels.
+
+**Recommended `/admin` policy:** Keep `/admin` online for now, hide the fallback link from non-Super Administrator users, restrict Filament panel access to active verified Super Administrators after a focused authorization slice, add an emergency-fallback banner inside Filament, log fallback use during the acceptance window, and avoid any global redirect until staff sign-off and one release cycle of fallback-free daily use are documented.
+
+**Validation evidence:** Documentation-only readiness pass. No code changes were made and no application tests were required. Existing evidence remains the focused custom-admin tests, Source Records/reference-data focused tests, frontend checks, and staff-proxy browser acceptance already recorded in `docs/TESTING.md`.
+
+**Recommended next custom-admin task:** Implement the emergency-only Filament fallback restriction slice: hide fallback navigation from non-Super Administrators, restrict `canAccessPanel()` to active verified Super Administrators or an approved emergency gate, add/verify a fallback banner, audit fallback access where practical, and run focused authorization plus browser smoke checks.
+
+### Project Update: 2026-08-13 (Emergency-Only Filament Fallback Restriction)
+
+**Task:** Reduce Filament fallback visibility and access without removing Filament.
+
+**Scope completed:** Filament panel access is now limited to active, email-verified Super Administrators through `User::canAccessPanel()`. Non-Super staff retain their authorized `/admin-console` workflows but cannot access `/admin`. The custom admin `Legacy Admin Fallback` navigation item now appears only for Super Administrators, and the Filament dashboard header displays an emergency-fallback banner that directs daily work to `/admin-console`.
+
+**Security/workflow decision:** `/admin` remains online as a reversible emergency fallback, not a daily workspace. No Filament resources or packages were removed, and no global `/admin` redirect was added. The next decision point is governance approval, not additional daily CRUD parity.
+
+**Validation evidence:** `php -l` passed for `User.php`, `AdminConsoleNavigationService.php`, and `FilamentDashboardTest.php`. `php artisan test tests\Feature\FilamentDashboardTest.php` passed with 11 tests and 30 assertions. `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\FilamentDashboardTest.php` passed with 22 tests and 162 assertions. Focused `vendor\bin\pint --test` passed for touched PHP files.
+
+**Recommended next custom-admin task:** Run staff-observed acceptance and fallback-use monitoring; decide export policy, settings-write governance, and notification-bell replacement before any `/admin` redirect or Filament package removal.
+
+### Project Update: 2026-08-13 (Staff Acceptance and Fallback-Use Monitoring Decision)
+
+**Task:** Run staff-observed acceptance and fallback-use monitoring for the custom `/admin-console`.
+
+**Evidence status:** Local technical evidence is current, but real staff-observed acceptance was not completed in this workspace because no District Office staff participant was available. No production fallback-use log was available locally. The correct status is **technical readiness confirmed, staff acceptance pending, fallback-use monitoring initiated as an acceptance-window requirement**.
+
+**Daily workflow decision:** `/admin-console` remains the daily staff workspace. Existing custom parity covers Dashboard/Search, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, lifecycle actions, upload/file-management, Source Records, and Reference Data. `/admin` remains a Super Administrator-only emergency fallback and must not be used for daily work.
+
+**Policy decisions:** Custom exports remain disabled until privacy/legal approval defines redaction, retention, audit, and requester rules. Settings writes remain read-only before launch until a rollback- and audit-ready workflow is approved. Dashboard/task queues are the provisional daily-work replacement for the Filament notification bell; a custom notification center is optional only after staff review. `/admin` should remain emergency-only and hidden from non-Super staff; no global redirect should be added until staff sign-off and one monitored release cycle show no daily fallback dependency.
+
+**Filament decision:** Do not remove Filament, delete Filament resources, or schedule package removal yet. Package removal can be planned only after signed staff acceptance, privacy/security/legal approvals, production backup/restore evidence, fallback-use monitoring, and one clean release cycle.
+
+**Validation evidence:** `php artisan test tests\Feature\FilamentDashboardTest.php` passed with 11 tests and 30 assertions. `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\FilamentDashboardTest.php` passed with 22 tests and 162 assertions.
+
+**Recommended next custom-admin task:** Schedule the real staff-observed acceptance session, collect signed module-by-module approval, and maintain a fallback-use register during the acceptance window.
 
 ### Project Update: 2026-07-27 (Tier 1 Admin Operations Pack)
 

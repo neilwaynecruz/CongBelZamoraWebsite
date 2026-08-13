@@ -1946,7 +1946,7 @@ Migration readiness checklist per module:
 
 ## 40. Filament Removal Parity Matrix
 
-Current acceptance pass date: August 12, 2026. Local browser acceptance evidence was refreshed on August 12, 2026; signed staff acceptance remains pending.
+Current acceptance pass date: August 13, 2026. Local browser acceptance evidence was refreshed on August 12, 2026; Source Records/reference-data parity was implemented and focused-test verified on August 13, 2026; the Filament fallback reduction readiness pass was documented on August 13, 2026; emergency-only Filament fallback access was implemented and focused-test verified on August 13, 2026; signed staff acceptance remains pending.
 
 | Module | Filament capability | Custom capability | Tests | Staff approved | Remove fallback |
 | --- | --- | --- | --- | --- | --- |
@@ -1963,8 +1963,9 @@ Current acceptance pass date: August 12, 2026. Local browser acceptance evidence
 | Audit | Yes | Yes: list, detail, filters, redacted diffs and metadata | Yes | Pending | No |
 | Reports | Partial | Aggregate read-only dashboard; exports intentionally disabled until privacy policy approval | Yes | Pending | No |
 | Upload/file management | Yes | Yes: News media and Project evidence upload/edit/replace/remove with source, rights, alt text, and audit logging | Yes | Pending | No |
-| Source records and reference data | Yes | Not yet custom; still Filament-owned unless formally declared non-daily fallback scope | No | Pending | No |
+| Source records and reference data | Yes | Yes: source-record list/detail/create/edit/archive/restore plus governed reference/taxonomy CRUD for Programs, Projects, News, Legislation, and Inquiry categories with source fields and active/inactive warnings | Yes | Pending | No |
 | CSV/export workflows | Yes | Partial: custom Reports exports disabled; Filament/redacted exports still exist from earlier admin packs | Partial | Pending | No |
+| Filament fallback access | Yes | Yes: `/admin` is restricted to active verified Super Administrators; non-super staff keep `/admin-console` access; Legacy Admin Fallback navigation is Super Administrator-only; dashboard banner marks Filament as emergency fallback | Yes | Pending | No |
 
 Only remove a Filament module when:
 
@@ -1999,7 +2000,6 @@ Known gaps before reducing Filament access:
 
 - No signed staff workflow acceptance exists for the custom console modules.
 - No fresh browser/manual staff-usability pass was performed for every custom admin screen after the latest upload/file-management slice.
-- Source Records and reference/taxonomy maintenance still appear Filament-owned from the Tier 2 admin productivity pack.
 - CSV/export workflows are not fully custom and remain privacy-sensitive; custom Reports exports are intentionally disabled until export policy approval.
 - Settings writes remain intentionally read-only until a rollback/audit-approved configuration workflow exists.
 - Real production backup/restore, monitoring, and launch authorization remain outside this custom-admin parity pass.
@@ -2008,7 +2008,7 @@ Parity decision:
 
 - Do **not** remove Filament.
 - Do **not** redirect `/admin` yet.
-- Keep Filament as restricted fallback while collecting staff acceptance evidence and deciding whether Source Records, reference data CRUD, CSV exports, notification bell behavior, and configuration writes must be custom-built before fallback reduction.
+- Keep Filament as restricted fallback while collecting staff acceptance evidence and deciding whether CSV exports, notification bell behavior, and configuration writes must be custom-built before fallback reduction.
 
 ### 40.2 Staff-Proxy Browser Acceptance Session - August 12, 2026
 
@@ -2042,7 +2042,141 @@ Staff-observed decision:
 
 - No real District Office staff member observed or signed this local session. The current status is staff-proxy accepted for technical/browser readiness only.
 - Each custom module remains `Staff approved: Pending` in the Filament matrix.
-- Filament is no longer needed for the covered daily workflows in the local browser pass, but it remains required as a restricted fallback for Source Records/reference data CRUD, privacy-reviewed exports, configuration writes, any notification-bell workflow not formally accepted, and final staff recovery while acceptance is incomplete.
+- Filament is no longer needed for the covered daily workflows in the local browser pass, and Source Records/reference-data CRUD now has custom parity. It remains required as a restricted fallback for privacy-reviewed exports, configuration writes, any notification-bell workflow not formally accepted, final staff recovery, and final staff acceptance while approval is incomplete.
+
+### 40.3 Source Records and Reference/Taxonomy Parity - August 13, 2026
+
+Decision: **Implemented but not approved for Filament removal**.
+
+Implemented scope:
+
+- `/admin-console/source-records`, `/admin-console/source-records/create`, `/admin-console/source-records/{sourceRecord}`, and `/admin-console/source-records/{sourceRecord}/edit` now provide policy-protected source-record list, detail, create, edit, archive, and restore workflows.
+- `/admin-console/reference-data/{type}`, `/admin-console/reference-data/{type}/create`, `/admin-console/reference-data/{type}/{record}`, and `/admin-console/reference-data/{type}/{record}/edit` now provide governed taxonomy CRUD for Program categories, Project categories/statuses/partners, News categories/statuses, Legislative roles/statuses/topics, and Inquiry categories.
+- Writes use Form Requests, policy checks, transaction-backed services, source verification fields, and audit logging. Reference records show active/inactive controls and a warning when deactivation can affect existing content filters or staff choices.
+- Role-aware navigation exposes Source Records and Reference Data under Governance for authorized staff. Command search routes Source results to custom source dossiers instead of the Filament fallback.
+
+Verification evidence:
+
+- `php artisan test tests\Feature\AdminConsoleSourceReferenceTest.php` passed with 5 tests and 78 assertions.
+- Focused `vendor\bin\pint --test` passed for new source/reference controllers, requests, resources, services, route updates, model concern, and focused test.
+- `php artisan route:list --name=admin-console.source-records` showed 8 custom source-record routes.
+- `php artisan route:list --name=admin-console.reference-data` showed 6 custom reference-data routes.
+- `npm run typecheck`, `npm run lint:check`, `npm run format:check`, and `npm run build` passed. The build emitted the known plugin timing note only.
+
+Deferred:
+
+- Browser/Playwright visual smoke was not rerun because this was a focused parity implementation and no visual/interaction bug appeared during code validation.
+- Filament remains a restricted fallback pending real staff acceptance, privacy-approved exports, approved settings writes, notification-bell scope decision, and final fallback-removal sign-off.
+
+### 40.4 Filament Fallback Reduction Readiness Pass - August 13, 2026
+
+Decision: **Technically ready to reduce fallback visibility, not ready to redirect or remove Filament**.
+
+Daily workflows now covered by `/admin-console`:
+
+- Login, dashboard, role-aware navigation, command search, and mobile/desktop admin shell.
+- Inquiry list/detail and case actions with privacy redaction.
+- Content approval queue/detail/actions.
+- Programs, Projects, News/media, Legislation, Public Pages, Source Records, and Reference/Taxonomy management with list/detail/create/edit workflows, source fields, approval submission where applicable, and lifecycle actions where policies allow.
+- News media and Project evidence upload/file-management with rights, caption, alt text, source, validation, and audit logging.
+- Super Administrator staff-user management and read-only launch/security settings visibility.
+- Read-only audit inspection and aggregate reports.
+
+Workflows still requiring Filament or a formal scope decision:
+
+- Privacy-reviewed CSV/export workflows. Custom Reports exports remain disabled; Filament/redacted exports should stay Super Administrator-only until an export policy, retention rule, redaction contract, and audit trail are approved.
+- Mutable settings. The custom Settings page is intentionally read-only; writes should stay disabled until there is an approved rollback plan, Form Request validation, policy coverage, audit logging, and emergency recovery procedure.
+- Notification bell behavior. Dashboard queues and attention surfaces cover the operational alerts, but Filament database notifications still power the admin bell in production ops. Either build a custom notification center or formally accept dashboard/task queues as the replacement before removing Filament.
+- Real staff acceptance. The current evidence is local staff-proxy/browser evidence, not signed District Office workflow approval.
+- Emergency recovery. Keep a break-glass fallback until one release cycle confirms staff can perform daily work in `/admin-console` without using Filament.
+
+Source Records and Reference Data decision:
+
+- Custom parity is sufficient for daily staff work from a technical standpoint. The custom screens cover source maintenance, source verification fields, active/inactive reference controls, and warnings when taxonomy records are already used by content.
+- Staff acceptance is still required because reference/taxonomy labels affect public filters, inquiry routing labels, and content workflows.
+
+Recommended `/admin` access policy:
+
+1. Keep `/admin` online for now.
+2. Hide the Legacy Admin Fallback navigation item from every role except Super Administrator.
+3. Restrict Filament panel access to active, verified Super Administrators after confirming no non-super staff need emergency fallback during the acceptance window.
+4. Do not redirect `/admin` yet. If non-super staff visit `/admin`, return `403` or route them to `/admin-console` only after the fallback-reduction slice is tested and approved.
+5. Add an internal Filament banner stating that `/admin` is an emergency fallback and `/admin-console` is the daily staff workspace.
+6. Log and review every fallback use during the acceptance window.
+
+Conditions before Filament package removal:
+
+- Signed staff acceptance for every daily workflow, including Source Records and Reference Data.
+- Custom or formally deferred export workflow with privacy and DPO approval.
+- Approved decision that settings remain read-only, or custom settings-write parity with audit and rollback.
+- Custom notification center or signed decision that dashboard/task queues replace the notification bell.
+- `/admin` restricted to emergency-only Super Administrator access for at least one release cycle.
+- Full backend, frontend, browser, accessibility, security, queue, scheduler, backup/restore, and launch-readiness checks pass in the target environment.
+- No unresolved production blocker, data-migration dependency, or staff workflow gap remains.
+
+Fallback reduction decision:
+
+- Do **not** remove Filament packages.
+- Do **not** delete Filament resources.
+- Do **not** redirect `/admin` globally.
+- Next code slice should reduce fallback visibility and panel access to emergency-only Super Administrator usage, with focused authorization tests and a short browser smoke check.
+
+### 40.5 Emergency-Only Filament Fallback Restriction - August 13, 2026
+
+Decision: **Implemented, but Filament remains installed as emergency fallback**.
+
+Implemented scope:
+
+- `User::canAccessPanel()` now allows Filament panel access only for active, email-verified Super Administrators.
+- `/admin-console` role access remains unchanged for authorized staff roles.
+- The custom admin `Legacy Admin Fallback` navigation item is visible only to Super Administrators when fallback is enabled.
+- The Filament dashboard header now shows an emergency-fallback banner directing daily staff work to `/admin-console`.
+
+Verification evidence:
+
+- `php -l app\Models\User.php` passed.
+- `php -l app\Services\AdminConsoleNavigationService.php` passed.
+- `php -l tests\Feature\FilamentDashboardTest.php` passed.
+- `php artisan test tests\Feature\FilamentDashboardTest.php` passed with 11 tests and 30 assertions.
+- `php artisan test tests\Feature\AdminConsoleFoundationTest.php tests\Feature\FilamentDashboardTest.php` passed with 22 tests and 162 assertions.
+- Focused `vendor\bin\pint --test` passed for touched PHP files.
+
+Remaining fallback blockers:
+
+- Real staff acceptance is still pending.
+- Export policy, settings-write governance, notification-bell replacement/scope, production backup/restore evidence, and one release cycle of fallback-use monitoring remain required before any `/admin` redirect or Filament package removal.
+
+### 40.6 Staff Acceptance and Fallback-Use Monitoring Decision - August 13, 2026
+
+Decision: **Technical readiness confirmed; staff-observed acceptance is still pending; Filament removal is not scheduled**.
+
+Observed evidence available in this session:
+
+- Focused authorization tests confirm that active, email-verified Super Administrators can access `/admin` as emergency fallback.
+- Focused authorization tests confirm that non-Super staff cannot access `/admin` and still retain authorized `/admin-console` access.
+- Existing staff-proxy browser evidence confirms `/admin-console` workflows for Dashboard/Search, Inquiries, Content Approvals, Programs, Projects, News/media, Legislation, Public Pages, Users/Settings, Audit/Reports, lifecycle actions, upload/file-management, Source Records, and Reference Data.
+- No real District Office staff member was present in this session. Therefore the result is **not** signed staff-observed acceptance.
+- No production fallback-use log was available in this local workspace. Therefore fallback-use monitoring is **initiated as a required acceptance-window activity**, not completed.
+
+Workflow decision:
+
+- `/admin-console` remains the daily staff workspace.
+- `/admin` remains online only as an emergency Super Administrator fallback.
+- The Legacy Admin Fallback link remains hidden from non-Super Administrator roles.
+- Do not globally redirect `/admin` during the first acceptance window.
+- Review every `/admin` use during the acceptance window. Each emergency fallback use must record the actor, date/time in Asia/Manila, reason, workflow attempted, whether `/admin-console` was insufficient, remediation owner, and follow-up decision.
+
+Policy decisions:
+
+- **Exports:** Custom CSV/export workflows are disabled until the Data Protection Officer/legal reviewer approves an export policy, redaction contract, retention rule, and audit trail. Until then, any export remains emergency-only, Super Administrator-only, and must use the least-data report available.
+- **Settings writes:** Custom Settings remains read-only before launch. Mutable settings require a separate approved workflow with Form Requests, policy checks, transactions, audit logging, rollback guidance, and emergency recovery.
+- **Notifications:** Dashboard attention queues and task surfaces are the provisional daily-work replacement for the Filament notification bell. The Filament bell may remain for emergency fallback until staff either approve the dashboard/task model or approve a custom notification center.
+- **`/admin` access:** Keep `/admin` emergency-only for active, email-verified Super Administrators. Do not redirect `/admin` until staff sign-off, export/settings/notification decisions, and one monitored release cycle show no daily fallback dependency.
+- **Filament removal:** Do not schedule package removal yet. Package removal may be scheduled only after signed staff acceptance, privacy/security/legal approvals, production backup/restore evidence, fallback-use monitoring, and a clean release cycle.
+
+Recommended next action:
+
+- Conduct a real staff-observed acceptance session using the custom `/admin-console` checklist and a fallback-use register. If staff find a daily workflow gap, fix that custom workflow before considering any `/admin` redirect.
 
 ## 41. Better First Implementation Slice
 

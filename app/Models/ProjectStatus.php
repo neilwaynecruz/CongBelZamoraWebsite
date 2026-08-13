@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ProjectStatusTone;
 use App\Enums\ProjectStatusValue;
+use App\Models\Concerns\HasSourceRecords;
 use Database\Factories\ProjectStatusFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ProjectStatus extends Model
 {
     /** @use HasFactory<ProjectStatusFactory> */
-    use HasFactory;
+    use HasFactory, HasSourceRecords;
 
     protected $fillable = [
         'name',

@@ -11,11 +11,15 @@ use App\Models\NewsRecord;
 use App\Models\Program;
 use App\Models\Project;
 use App\Models\PublicPage;
+use App\Models\SourceRecord;
 use App\Models\User;
 
 class AdminConsoleNavigationService
 {
-    public function __construct(private readonly AdminReportsMetricsService $reportsMetrics) {}
+    public function __construct(
+        private readonly AdminReportsMetricsService $reportsMetrics,
+        private readonly AdminReferenceDataRegistry $referenceData,
+    ) {}
 
     /**
      * @return array<string, mixed>
@@ -137,6 +141,26 @@ class AdminConsoleNavigationService
 
         $governance = [];
 
+        if ($user->can('viewAny', SourceRecord::class)) {
+            $governance[] = $this->item(
+                'Source Records',
+                'Official sources, owners, review dates, and evidence links',
+                route('admin-console.source-records.index'),
+                'source',
+            );
+        }
+
+        if ($this->canViewReferenceData($user)) {
+            $firstReferenceType = $this->referenceData->navigationOptions()[0]['type'];
+
+            $governance[] = $this->item(
+                'Reference Data',
+                'Categories, statuses, topics, partners, and routing labels',
+                route('admin-console.reference-data.index', ['type' => $firstReferenceType]),
+                'reference',
+            );
+        }
+
         if ($this->canViewReports($user)) {
             $governance[] = $this->item(
                 'Reports',
@@ -187,7 +211,10 @@ class AdminConsoleNavigationService
             );
         }
 
-        if ((bool) config('belzamora.admin_console.filament_fallback_enabled', true)) {
+        if (
+            (bool) config('belzamora.admin_console.filament_fallback_enabled', true)
+            && $user->hasAdminRole(AdminRole::SuperAdministrator)
+        ) {
             $tools[] = $this->item(
                 'Legacy Admin Fallback',
                 'Temporary access for workflows not yet migrated',
@@ -238,5 +265,11 @@ class AdminConsoleNavigationService
             || $this->reportsMetrics->canViewPublishReports($user)
             || $this->reportsMetrics->canViewStaleReports($user)
             || $this->reportsMetrics->canViewProjectReports($user);
+    }
+
+    private function canViewReferenceData(User $user): bool
+    {
+        return collect($this->referenceData->all())
+            ->contains(fn (array $config): bool => $user->can('viewAny', $config['model']));
     }
 }

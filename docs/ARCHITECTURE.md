@@ -24,7 +24,7 @@ Both interfaces share the same Laravel application, database, authorization poli
 1. Authorized staff authenticate through the custom admin console.
 2. `/admin-console` renders Inertia/Vue command pages for migrated workflows.
 3. Controllers stay thin and delegate mutation to Form Requests, Resources, policies, and domain services.
-4. Filament remains restricted fallback for modules or actions that have not reached custom parity.
+4. Filament remains restricted fallback for emergency recovery, privacy-approved exports, mutable settings decisions, notification-bell transition, and staff acceptance until fallback reduction is complete.
 5. Business rules, validation, and policies remain authoritative on the server.
 
 ## Security headers
@@ -169,18 +169,35 @@ The custom admin console now provides Audit and Reports parity for `/admin-conso
 
 Custom upload/file-management parity for News media assets and Project evidence uses the `public` disk only for rights-cleared public image derivatives. The server rejects unsupported MIME types and oversized files based on `config/belzamora.php`, requires caption, alt text, rights note, source label/URL, and optional verification date, and records storage disk/visibility in model metadata. Sensitive resident files, IDs, medical documents, and private attachments remain out of scope and must not be uploaded through these managers.
 
+Custom Source Records and Reference/Taxonomy parity is implemented through `/admin-console/source-records` and `/admin-console/reference-data/{type}`. Source records use `SourceRecordController`, `SaveSourceRecordRequest`, source resources, and `AdminSourceRecordService` for policy-protected list/detail/create/edit/archive/restore workflows with transactions and audit logs. Reference data uses `ReferenceDataController`, `SaveReferenceDataRequest`, reference resources, `AdminReferenceDataRegistry`, and `AdminReferenceDataService` to manage approved taxonomy records for Programs, Projects, News, Legislation, and Inquiry categories. Reference models attach source records through a shared polymorphic source-record concern, and deactivation screens surface usage warnings before staff change records used by existing content.
+
 ## Custom Admin Parity Boundary
 
 The August 12, 2026 custom-admin parity acceptance pass found that the requested `/admin-console` modules have custom route, controller, policy/service, focused-test, and local browser evidence for daily content, inquiry, approval, lifecycle, upload, user, settings-read, audit, and aggregate-report workflows. The local browser pass used a temporary SQLite acceptance database and generated screenshots for the custom console at 320, 390, 768, 1024, 1440, and 1920 px viewports. The pass found and verified a responsive Reports table fix.
 
-Filament must remain a restricted fallback because removal approval is not purely a routing question. Before redirecting `/admin` or removing Filament packages, the project still needs:
+Filament must remain a restricted fallback because removal approval is not purely a routing question. The August 13, 2026 fallback reduction readiness pass found that daily CRUD/workflow parity is technically covered by `/admin-console`, including Source Records and Reference Data. The August 13, 2026 staff-acceptance decision confirmed local technical readiness but did not produce signed staff-observed acceptance because no District Office staff participant was available in the workspace. Before redirecting `/admin` or removing Filament packages, the project still needs:
 
 - Signed staff acceptance for custom Programs, Projects, News/media, Legislation, Public Pages, Inquiries, Content Approvals, Users/Settings, Audit/Reports, lifecycle, and upload/file-management workflows.
-- A formal decision for Source Records and reference/taxonomy CRUD, which remain Filament-owned unless accepted as non-daily fallback scope.
 - A privacy-approved custom export policy before replacing redacted CSV/export workflows.
 - An approved configuration-write workflow before custom Settings becomes mutable.
+- Signed approval that dashboard/task queues replace the Filament notification bell, or a custom notification center.
+- One monitored release cycle with a reviewed fallback-use register showing no daily-work dependency on `/admin`.
 
 Until those items are resolved, `/admin-console` is the preferred staff interface and `/admin` remains a restricted fallback, not a removable dependency.
+
+Recommended fallback access policy:
+
+- Keep `/admin` online during the acceptance window.
+- The Legacy Admin Fallback navigation item is hidden from non-Super Administrator users.
+- Filament panel access is restricted to active verified Super Administrators.
+- Do not globally redirect `/admin` until staff sign-off, export/settings/notification decisions, and one release cycle of fallback-free daily use are documented.
+- Log and review emergency fallback use before any package-removal decision. Each fallback-use entry should capture the actor, Asia/Manila timestamp, reason, workflow attempted, whether `/admin-console` was insufficient, remediation owner, and follow-up decision.
+
+Current governance decisions:
+
+- Custom exports remain disabled until privacy/legal approval defines redaction, retention, requester, and audit requirements.
+- Custom Settings remains read-only before launch unless a rollback- and audit-ready settings-write workflow is approved.
+- Dashboard attention queues are the provisional daily-work replacement for Filament notifications; the legacy Filament bell may remain only with emergency fallback scope.
 
 Retention is enforced by `inquiries:anonymize-expired`, scheduled daily in `routes/console.php`. Freshness review automation is queued by `content:flag-stale`, scheduled daily at 03:00. Production environments must run both queue workers and the Laravel scheduler.
 

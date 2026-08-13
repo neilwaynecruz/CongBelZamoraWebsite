@@ -215,10 +215,24 @@ STAFF_2FA_REQUIRED=true
 ADMIN_REPORTS_CACHE_TTL=60
 ```
 
-- Filament database notifications power the admin bell for inquiry assignment, approval workflow, and stale digests.
+- Filament database notifications power the legacy emergency-fallback admin bell for inquiry assignment, approval workflow, and stale digests until a custom notification-center decision is approved.
 - Keep notification payloads non-PII (reference codes/status only).
-- Active staff without confirmed 2FA are redirected from `/admin` to `/settings/security`.
+- `/admin` is emergency fallback only and is restricted to active, email-verified Super Administrators. Other staff use `/admin-console` for daily work.
+- Active Super Administrators without confirmed 2FA are redirected from `/admin` to `/settings/security` when `STAFF_2FA_REQUIRED=true`.
 - `php artisan launch:readiness --production` fails when any active staff account lacks confirmed 2FA.
+
+Fallback-use monitoring during the acceptance window:
+
+1. Treat every `/admin` visit as emergency fallback usage.
+2. Record actor, role, Asia/Manila timestamp, reason, workflow attempted, whether `/admin-console` was insufficient, remediation owner, and follow-up decision.
+3. Review the fallback-use register weekly with the project owner before any `/admin` redirect or Filament-removal decision.
+4. Do not schedule Filament package removal until one monitored release cycle shows no daily-work dependency on `/admin`.
+
+Current governance decisions:
+
+- Custom exports remain disabled until privacy/legal approval defines the redaction, retention, requester, and audit rules.
+- Custom Settings remains read-only before launch unless a rollback- and audit-ready write workflow is approved.
+- Dashboard/task queues are the provisional daily-work replacement for the Filament notification bell; the Filament bell remains emergency-fallback scope only.
 
 ---
 

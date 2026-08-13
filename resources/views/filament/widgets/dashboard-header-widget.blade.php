@@ -35,6 +35,14 @@
                     Welcome, <span class="font-semibold text-gray-900 dark:text-white">{{ $userName }}</span>. This dashboard provides live status summaries, work queues, and quick actions for managing official programs, news, and inquiries.
                 </p>
 
+                <div class="district-governance-warning mt-4 border border-[#c9a227]/40 bg-[#fff8ea] text-[#4a3600]" role="status">
+                    <x-filament::icon icon="heroicon-m-exclamation-triangle" class="text-[#8a6500]" />
+                    <div>
+                        <strong>Emergency fallback only.</strong>
+                        <span>Use the District Office Command System at <a href="{{ route('admin-console.dashboard') }}" class="font-semibold underline">/admin-console</a> for daily staff work. This legacy Filament panel is retained for Super Administrator recovery, exports under approval, and transition checks.</span>
+                    </div>
+                </div>
+
                 <div class="district-command-meta">
                     <span class="district-trust-badge bg-[#fff8ea] text-[#7a5b00]">
                         <svg class="h-4 w-4 text-[#c9a227]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

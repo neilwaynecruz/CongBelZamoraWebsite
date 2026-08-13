@@ -9,6 +9,7 @@ use App\Models\AuditLog;
 use App\Models\Inquiry;
 use App\Models\PublicPage;
 use App\Models\User;
+use App\Services\AdminConsoleNavigationService;
 use App\Services\AdminDashboardMetricsService;
 use App\Support\PublicPageProps;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,14 +20,92 @@ class FilamentDashboardTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_dashboard_is_accessible_to_staff(): void
+    public function test_dashboard_is_accessible_to_super_administrators_as_emergency_fallback(): void
+    {
+        $user = User::factory()->create([
+            'admin_role' => AdminRole::SuperAdministrator->value,
+        ]);
+
+        $response = $this->actingAs($user)->get('/admin');
+        $response->assertOk();
+    }
+
+    public function test_filament_dashboard_header_marks_panel_as_emergency_fallback(): void
+    {
+        $user = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+
+        Livewire::actingAs($user)
+            ->test(DashboardHeaderWidget::class)
+            ->assertSee('Emergency fallback only.')
+            ->assertSee('/admin-console');
+    }
+
+    public function test_non_super_staff_cannot_access_filament_fallback_but_can_use_admin_console(): void
     {
         $user = User::factory()->create([
             'admin_role' => AdminRole::ContentAdministrator->value,
         ]);
 
-        $response = $this->actingAs($user)->get('/admin');
-        $response->assertOk();
+        $this->assertFalse($user->canAccessPanel(filament()->getDefaultPanel()));
+
+        $this->actingAs($user)
+            ->get('/admin')
+            ->assertForbidden();
+
+        $this->actingAs($user)
+            ->get(route('admin-console.dashboard'))
+            ->assertOk();
+    }
+
+    public function test_legacy_admin_fallback_navigation_is_super_administrator_only(): void
+    {
+        $super = User::factory()->adminRole(AdminRole::SuperAdministrator)->create();
+        $editor = User::factory()->adminRole(AdminRole::ContentAdministrator)->create();
+
+        $superLabels = collect(app(AdminConsoleNavigationService::class)->for($super))
+            ->pluck('items')
+            ->flatten(1)
+            ->pluck('label');
+
+        $editorLabels = collect(app(AdminConsoleNavigationService::class)->for($editor))
+            ->pluck('items')
+            ->flatten(1)
+            ->pluck('label');
+
+        $this->assertTrue($superLabels->contains('Legacy Admin Fallback'));
+        $this->assertFalse($editorLabels->contains('Legacy Admin Fallback'));
+    }
+
+    public function test_guest_and_inactive_staff_do_not_reach_filament_fallback(): void
+    {
+        $inactive = User::factory()->adminRole(AdminRole::SuperAdministrator)->create([
+            'is_active' => false,
+        ]);
+
+        $this->get('/admin')
+            ->assertRedirect('/admin/login');
+
+        $this->actingAs($inactive)
+            ->get('/admin')
+            ->assertForbidden();
+
+        $this->actingAs($inactive)
+            ->get(route('admin-console.dashboard'))
+            ->assertForbidden();
+    }
+
+    public function test_unverified_super_administrator_cannot_access_filament_fallback(): void
+    {
+        $user = User::factory()
+            ->unverified()
+            ->adminRole(AdminRole::SuperAdministrator)
+            ->create();
+
+        $this->assertFalse($user->canAccessPanel(filament()->getDefaultPanel()));
+
+        $this->actingAs($user)
+            ->get('/admin')
+            ->assertForbidden();
     }
 
     public function test_metrics_service_returns_accurate_counts(): void

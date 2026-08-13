@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSourceRecords;
 use Database\Factories\InquiryCategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class InquiryCategory extends Model
 {
     /** @use HasFactory<InquiryCategoryFactory> */
-    use HasFactory;
+    use HasFactory, HasSourceRecords;
 
     protected $fillable = [
         'code',

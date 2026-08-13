@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LegislativeStatusTone;
+use App\Models\Concerns\HasSourceRecords;
 use Database\Factories\LegislativeStatusFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class LegislativeStatus extends Model
 {
     /** @use HasFactory<LegislativeStatusFactory> */
-    use HasFactory;
+    use HasFactory, HasSourceRecords;
 
     protected $fillable = [
         'name',

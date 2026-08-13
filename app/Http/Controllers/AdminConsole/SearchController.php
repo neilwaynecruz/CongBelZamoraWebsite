@@ -13,6 +13,7 @@ use App\Models\NewsRecord;
 use App\Models\Program;
 use App\Models\Project;
 use App\Models\PublicPage;
+use App\Models\SourceRecord;
 use App\Models\User;
 use App\Services\AdminContentSearchService;
 use Illuminate\Http\JsonResponse;
@@ -97,6 +98,14 @@ class SearchController extends Controller
                 : null;
         }
 
+        if (($result['type'] ?? null) === 'Source') {
+            $record = SourceRecord::query()->find($result['id'] ?? null);
+
+            return $record !== null && $user->can('view', $record)
+                ? route('admin-console.source-records.show', $record)
+                : null;
+        }
+
         return $this->legacyRecordUrl($result, $user);
     }
 
@@ -136,6 +145,6 @@ class SearchController extends Controller
      */
     private function usesLegacyFallback(array $result, ?string $href): bool
     {
-        return $href !== null && ! in_array($result['type'] ?? null, ['Program', 'Project', 'News', 'Legislation', 'Public Page', 'Staff User'], true);
+        return $href !== null && ! in_array($result['type'] ?? null, ['Program', 'Project', 'News', 'Legislation', 'Public Page', 'Staff User', 'Source'], true);
     }
 }

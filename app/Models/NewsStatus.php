@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\NewsStatusTone;
 use App\Enums\NewsStatusValue;
+use App\Models\Concerns\HasSourceRecords;
 use Database\Factories\NewsStatusFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class NewsStatus extends Model
 {
     /** @use HasFactory<NewsStatusFactory> */
-    use HasFactory;
+    use HasFactory, HasSourceRecords;
 
     protected $fillable = [
         'name',

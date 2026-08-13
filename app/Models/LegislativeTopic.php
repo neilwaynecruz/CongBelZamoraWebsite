@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSourceRecords;
 use Database\Factories\LegislativeTopicFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class LegislativeTopic extends Model
 {
     /** @use HasFactory<LegislativeTopicFactory> */
-    use HasFactory;
+    use HasFactory, HasSourceRecords;
 
     protected $fillable = [
         'name',

@@ -13,12 +13,14 @@ use App\Http\Controllers\AdminConsole\LegislativeRecordController;
 use App\Http\Controllers\AdminConsole\NewsMediaManagerController;
 use App\Http\Controllers\AdminConsole\NewsRecordController;
 use App\Http\Controllers\AdminConsole\ProgramController;
-use App\Http\Controllers\AdminConsole\ProjectEvidenceManagerController;
 use App\Http\Controllers\AdminConsole\ProjectController;
+use App\Http\Controllers\AdminConsole\ProjectEvidenceManagerController;
 use App\Http\Controllers\AdminConsole\PublicPageController;
+use App\Http\Controllers\AdminConsole\ReferenceDataController;
 use App\Http\Controllers\AdminConsole\ReportsController;
 use App\Http\Controllers\AdminConsole\SearchController;
 use App\Http\Controllers\AdminConsole\SettingsController;
+use App\Http\Controllers\AdminConsole\SourceRecordController;
 use App\Http\Controllers\AdminConsole\StaffUserController;
 use App\Http\Middleware\EnsureAdminConsoleAccess;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +37,32 @@ Route::prefix('admin-console')->name('admin-console.')->group(function (): void 
 
         Route::get('/settings', SettingsController::class)->name('settings');
         Route::get('/reports', ReportsController::class)->name('reports');
+        Route::get('/source-records', [SourceRecordController::class, 'index'])->name('source-records.index');
+        Route::get('/source-records/create', [SourceRecordController::class, 'create'])->name('source-records.create');
+        Route::post('/source-records', [SourceRecordController::class, 'store'])
+            ->middleware('throttle:30,1')
+            ->name('source-records.store');
+        Route::get('/source-records/{sourceRecord}/edit', [SourceRecordController::class, 'edit'])->name('source-records.edit');
+        Route::put('/source-records/{sourceRecord}', [SourceRecordController::class, 'update'])
+            ->middleware('throttle:30,1')
+            ->name('source-records.update');
+        Route::post('/source-records/{sourceRecord}/archive', [SourceRecordController::class, 'archive'])
+            ->middleware('throttle:20,1')
+            ->name('source-records.archive');
+        Route::post('/source-records/{sourceRecord}/restore', [SourceRecordController::class, 'restore'])
+            ->middleware('throttle:20,1')
+            ->name('source-records.restore');
+        Route::get('/source-records/{sourceRecord}', [SourceRecordController::class, 'show'])->name('source-records.show');
+        Route::get('/reference-data/{type}', [ReferenceDataController::class, 'index'])->name('reference-data.index');
+        Route::get('/reference-data/{type}/create', [ReferenceDataController::class, 'create'])->name('reference-data.create');
+        Route::post('/reference-data/{type}', [ReferenceDataController::class, 'store'])
+            ->middleware('throttle:30,1')
+            ->name('reference-data.store');
+        Route::get('/reference-data/{type}/{record}/edit', [ReferenceDataController::class, 'edit'])->name('reference-data.edit');
+        Route::put('/reference-data/{type}/{record}', [ReferenceDataController::class, 'update'])
+            ->middleware('throttle:30,1')
+            ->name('reference-data.update');
+        Route::get('/reference-data/{type}/{record}', [ReferenceDataController::class, 'show'])->name('reference-data.show');
         Route::get('/audit', [AuditLogController::class, 'index'])->name('audit.index');
         Route::get('/audit/{auditLog}', [AuditLogController::class, 'show'])->name('audit.show');
 

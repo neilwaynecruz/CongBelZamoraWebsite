@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\LegislativeRoleValue;
+use App\Models\Concerns\HasSourceRecords;
 use Database\Factories\LegislativeRoleFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class LegislativeRole extends Model
 {
     /** @use HasFactory<LegislativeRoleFactory> */
-    use HasFactory;
+    use HasFactory, HasSourceRecords;
 
     protected $fillable = [
         'name',
