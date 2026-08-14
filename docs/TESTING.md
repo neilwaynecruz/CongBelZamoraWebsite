@@ -1,5 +1,29 @@
 # Testing
 
+## Authenticated Admin Workspace Polish - August 14, 2026
+
+Scope: shared authenticated shell, navigation, headers, dashboard/report grids, list tables, dossier layouts, editor layouts, dialogs, and responsive spacing. The approved login was checked only for shared-CSS regression.
+
+| Check | Result |
+| --- | --- |
+| `npm run format:check` | Passed; all `resources/` files match Prettier rules |
+| `npx prettier --check tests/e2e/admin-console-visual-smoke.mjs` | Passed |
+| `npm run lint:check` | Passed |
+| `npm run typecheck` | Passed |
+| `npm run build` | Passed in 2 minutes 17 seconds; informational Vite plugin-timing notice only |
+| `git diff --check` | Passed before and after implementation checks |
+| Browser widths | Passed at 320, 390, 768, 1024, 1440, and 1920 CSS pixels |
+| Current visual evidence | 302 PNG files and two scoped JSON reports in `storage/app/admin-console-visual-smoke` |
+| Representative shared-shell report | Dashboard, Programs list/editor, Project detail, and News create passed all widths |
+| Remaining-module report | Users, Settings, Audit, Reports, Source Records, Reference Data, Content Approvals, approval detail, design system, Public Page detail/edit, and Legislation detail/edit passed all widths |
+| Console and layout assertions | No console errors, Vue warnings, uncaught page errors, or horizontal overflow in final reports |
+| Keyboard interactions | Command search, mobile drawer, and checked lifecycle dialogs passed Escape, focus-return, and non-submission checks |
+| Login regression | Fresh captures at all six widths retained the approved composition without overflow |
+
+The first all-page browser command produced 162 valid captures before the shell's 10-minute command limit. The runner was then extended to accept comma-separated scopes, and focused completion runs passed for all remaining representative modules. This was a test-harness efficiency change only.
+
+The 320 CSS-pixel captures provide reflow evidence equivalent to a 640-pixel browser window at 200% zoom. Technical visual acceptance does not replace real-device, assistive-technology-user, privacy/legal, or District Office staff sign-off.
+
 ## Custom Admin Final Technical Acceptance - August 14, 2026
 
 This was a local technical acceptance pass, not a signed District Office staff session.
@@ -475,3 +499,30 @@ Evidence is stored in `storage/app/admin-console-visual-smoke` and the scoped `a
 The browser script command-search selector was changed from placeholder matching to the accessible searchbox name. This prevents copy changes from breaking the visual smoke check while preserving a screen-reader-oriented locator.
 
 Remaining acceptance: Real District Office staff must still complete `docs/ADMIN_CONSOLE_STAFF_ACCEPTANCE_PACKAGE.md`. This local visual pass does not authorize Filament removal or an `/admin` redirect.
+
+## Settings Layout and Admin Surface Regression Fix - August 14, 2026
+
+The read-only Settings page received a focused responsive correction after visual QA found collapsed summary labels, an uneven main/side layout, and the browser's dark document background showing below the authenticated workspace in full-page captures.
+
+Changes and evidence:
+
+- Settings now uses a dedicated four-item status summary instead of dashboard button styles that did not apply to its non-interactive content.
+- Security, environment, uploads, background-work, and change-control information now use a balanced responsive configuration grid.
+- `AdminConsoleLayout` applies and removes an admin-only document class so the workspace background remains stable during authenticated navigation and full-page rendering.
+- The browser smoke script now fails if an authenticated page does not apply the admin document surface or exposes a black HTML/body background.
+- A 768 px topbar collision between command search and Manila time was removed with a focused tablet breakpoint.
+
+| Check | Command or evidence | Result |
+| --- | --- | --- |
+| Focused formatting | `npx prettier --check resources/css/admin-console.css resources/js/layouts/admin/AdminConsoleLayout.vue resources/js/pages/Admin/Settings/Index.vue tests/e2e/admin-console-visual-smoke.mjs` | Passed |
+| Vue and JavaScript linting | `npm run lint:check` | Passed |
+| Vue type checking | `npm run typecheck` | Passed |
+| Production client build | `npm run build` | Passed; informational plugin timing note only |
+| Settings browser smoke | `ADMIN_CONSOLE_VISUAL_SCOPE=settings node tests/e2e/admin-console-visual-smoke.mjs` | Passed at 320, 390, 768, 1024, 1440, and 1920 px with no console errors, horizontal overflow, or black document surface |
+| Whitespace check | `git diff --check` | Passed |
+
+Screenshots and the focused report are stored in `storage/app/admin-console-visual-smoke`, including `admin-console-visual-smoke-report-settings.json`.
+
+### Overlay Host Document-Height Correction - August 14, 2026
+
+Follow-up browser measurement found that the stable Blade-owned `#admin-overlay-root` inherited the admin theme's `min-height: 100vh` and added one empty viewport below every authenticated page. The host now uses `display: contents` so it keeps the CSS variables required by teleported confirmation dialogs without generating a layout box. Browser coverage now fails if that host contributes any document height. Settings scroll-height and lifecycle-dialog checks passed after the correction.

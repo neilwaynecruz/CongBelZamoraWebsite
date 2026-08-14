@@ -1,5 +1,14 @@
 # Architecture
 
+### Authenticated Admin Ledger Grid (August 14, 2026)
+
+- Authenticated admin pages share layout tokens in `resources/css/admin-console.css` for maximum operational width, responsive gutters, sidebar widths, and section spacing.
+- `AdminPageHeader` provides the common title/action grid. Dashboard, dossier, editor, filter, table, and report surfaces inherit the same horizontal rhythm without changing their Inertia page contracts.
+- Large screens can use a wider workspace and stable supporting rails; tablet and mobile breakpoints keep the established stacked record and form order.
+- The sidebar masthead and sticky topbar use the same height datum. Navigation remains role-filtered by Laravel-owned context, and visual changes do not alter authorization or route visibility.
+- `tests/e2e/admin-console-visual-smoke.mjs` accepts comma-separated page scopes for focused multi-module visual runs while retaining the same overflow, console-error, reflow, and interaction assertions.
+- Filament remains a separate emergency-only surface for active verified Super Administrators. No redirect, route, policy, or package-removal change was made.
+
 ### Admin Overlay And Acceptance Boundary (August 14, 2026)
 
 - Shared admin confirmations teleport to Blade-owned `#admin-overlay-root`, rendered only for `Admin/*` Inertia pages. The host exists before Vue hydration and carries `data-admin-theme="command"`, preventing direct-load Teleport failures while preserving admin design tokens.
@@ -213,6 +222,8 @@ Staff acceptance artifact:
 - As of August 13, 2026, the package records that the real staff-observed session has not yet been conducted and all modules remain staff-approval pending.
 
 The August 13, 2026 admin visual-system refresh remains centralized in `resources/css/admin-console.css`. `AdminConsoleLayout` owns the keyed, reduced-motion-safe Inertia page transition, while `AdminTopbar`, `AdminMobileNav`, `AdminCommandPalette`, `AdminActionDialog`, and the shared `admin-*` component classes own disclosure and interaction motion. Individual modules continue to use the shared classes instead of defining isolated themes, which keeps list, detail, editor, upload, audit, report, source, reference, and lifecycle screens in one visual family. This styling layer does not own authorization, validation, persistence, or workflow rules.
+
+Authenticated admin mounting also applies an `admin-console-document` class to the HTML and body elements. This keeps the light operational workspace surface stable when the browser's saved appearance is dark and while keyed Inertia pages transition. The class is removed when `AdminConsoleLayout` unmounts, so public-page appearance remains independently controlled. The Settings module uses dedicated `admin-settings-*` layout classes because its status summary is read-only configuration, not an interactive dashboard queue.
 
 Retention is enforced by `inquiries:anonymize-expired`, scheduled daily in `routes/console.php`. Freshness review automation is queued by `content:flag-stale`, scheduled daily at 03:00. Production environments must run both queue workers and the Laravel scheduler.
 

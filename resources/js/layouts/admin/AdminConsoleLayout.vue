@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
 import AdminCommandPalette from '@/components/admin/AdminCommandPalette.vue';
 import AdminMobileNav from '@/components/admin/AdminMobileNav.vue';
 import AdminSidebar from '@/components/admin/AdminSidebar.vue';
@@ -21,6 +21,7 @@ const sidebarCollapsed = ref(false);
 const context = computed(() => page.props.adminConsole);
 const taskCount = computed(() => page.props.attentionItems?.length ?? 0);
 const transitionKey = computed(() => page.url.split('?')[0]);
+const adminDocumentClass = 'admin-console-document';
 
 const onGlobalKeydown = (event: KeyboardEvent) => {
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
@@ -30,8 +31,17 @@ const onGlobalKeydown = (event: KeyboardEvent) => {
     }
 };
 
+onBeforeMount(() => {
+    document.documentElement.classList.add(adminDocumentClass);
+    document.body.classList.add(adminDocumentClass);
+});
+
 onMounted(() => document.addEventListener('keydown', onGlobalKeydown));
-onBeforeUnmount(() => document.removeEventListener('keydown', onGlobalKeydown));
+onBeforeUnmount(() => {
+    document.removeEventListener('keydown', onGlobalKeydown);
+    document.documentElement.classList.remove(adminDocumentClass);
+    document.body.classList.remove(adminDocumentClass);
+});
 </script>
 
 <template>

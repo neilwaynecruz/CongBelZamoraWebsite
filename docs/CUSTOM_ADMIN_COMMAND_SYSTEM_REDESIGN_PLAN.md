@@ -1,5 +1,31 @@
 # Custom Admin Command System Redesign Plan
 
+## 49. Authenticated Workspace Layout Polish (August 14, 2026)
+
+The final authenticated `/admin-console` polish is implemented. The approved login layout, backend behavior, public pages, authorization, workflows, persistence contracts, and emergency-only Filament fallback were unchanged.
+
+Shared improvements:
+
+- Added one shared operational width, gutter, sidebar-width, and section-gap system so list, detail, editor, dashboard, and report pages align to the same ledger grid.
+- Matched the desktop sidebar masthead to the topbar height and expanded command search within a bounded flexible topbar region.
+- Preserved useful sidebar descriptions with a compact two-line treatment instead of silently clipping them.
+- Converted shared page and dossier headers to a predictable two-column grid with clean mobile stacking.
+- Expanded large-screen dashboard, dossier, and editor layouts while keeping governance rails readable.
+- Prevented dashboard/report panels from stretching to the height of unrelated neighboring content.
+- Refined shared table padding and text sizing without changing semantic tables or mobile record layouts.
+- Extended `tests/e2e/admin-console-visual-smoke.mjs` so comma-separated scopes can finish focused visual acceptance without repeating unrelated pages.
+
+Validation and evidence:
+
+- `npm run format:check`, `npx prettier --check tests/e2e/admin-console-visual-smoke.mjs`, `npm run lint:check`, `npm run typecheck`, `npm run build`, and `git diff --check` passed.
+- The production client build completed in 2 minutes 17 seconds. The Vite plugin-timing notice was informational.
+- Browser evidence covers 320, 390, 768, 1024, 1440, and 1920 CSS-pixel widths. The 320-pixel result is the WCAG reflow equivalent of a 640-pixel browser window at 200% zoom.
+- 302 current PNG captures and two passing scoped JSON reports are stored under `storage/app/admin-console-visual-smoke`.
+- The final scoped reports contain no console errors, Vue warnings, uncaught page errors, or horizontal-overflow findings. Command search, mobile navigation, and lifecycle dialog focus behavior passed without submitting destructive actions.
+- The approved login screenshots show no shared-CSS regression.
+
+Design-review notes are recorded in `.jez/artifacts/design-review.md`. Real District Office staff sign-off remains pending; this technical visual pass does not authorize Filament removal or an `/admin` redirect.
+
 ## 48. Final Technical Acceptance Pass (August 14, 2026)
 
 The redesigned custom admin completed a full local technical acceptance pass across Login, Dashboard/Search, Inquiries, Content Approvals, Programs, Projects/evidence, News/media, Legislation, Public Pages, Users, Settings, Audit, Reports, Source Records, Reference Data, upload/file management, and lifecycle confirmations.
@@ -2620,6 +2646,18 @@ Validation evidence:
 - The browser script now locates command search by its accessible searchbox name instead of a change-prone placeholder.
 
 This is implementation and local proxy evidence. Real District Office staff acceptance remains required before final rollout or any Filament removal decision.
+
+## 48. Settings and Authenticated Surface Correction - August 14, 2026
+
+A focused visual regression pass corrected the read-only Settings module and the authenticated document surface without changing configuration values, permissions, routes, or write policy.
+
+- Replaced the misapplied dashboard queue strip with a dedicated Settings summary whose labels and values remain visibly separated.
+- Reorganized Settings into a balanced responsive grid for staff security, environment, public page/upload controls, background-work limits, and read-only governance notes.
+- Added an admin-only document background lifecycle in `AdminConsoleLayout` to prevent the browser's dark appearance fallback from showing below the workspace or between authenticated page transitions.
+- Added browser regression coverage for the admin document class and black-background detection.
+- Corrected tablet topbar crowding between command search and Manila time.
+
+Focused browser QA passed for `/admin-console/settings` at 320, 390, 768, 1024, 1440, and 1920 px with no console errors or horizontal overflow. Settings remains intentionally read-only, and Filament remains an emergency-only fallback.
 
 ## 45. Short AI Agent Kickoff Prompt
 

@@ -6,6 +6,8 @@
 **Prepared:** August 13, 2026
 **Current status:** Ready for staff review. No signed staff approval has been recorded yet.
 
+**Latest technical visual check, August 14, 2026:** The authenticated workspace was reviewed after its final spacing and alignment polish. Fresh browser checks covered the shared shell and every module pattern at phone, tablet, desktop, and large-desktop widths. No horizontal overflow, browser-console error, or approved-login regression was found. This means the package is ready to use, but staff must still complete and sign the review below.
+
 Use this document during the live staff review. Its purpose is simple:
 
 - Confirm that staff can do their daily work in `/admin-console`.
@@ -346,7 +348,7 @@ No District Office participant was available for this local session. The reviewe
 | Legislation | Technical pass | Not Tested | List/create/detail/edit and lifecycle controls covered. |
 | Public pages | Technical pass | Not Tested | List/create/detail/edit and lifecycle controls covered. |
 | Users | Technical pass | Not Tested | List/create/detail/edit and Super Administrator policy tests pass. |
-| Settings | Technical pass, read-only by policy | Not Tested | Read-only security and launch configuration remains intentional. |
+| Settings | Technical pass after layout fix; read-only by policy | Not Tested | Dedicated status summary and responsive configuration grid passed all six widths; read-only security and launch configuration remains intentional. |
 | Activity log and reports | Technical pass | Not Tested | List/detail/filter and aggregate report views checked; redaction tests pass. |
 | Official sources | Technical pass | Not Tested | List/create/detail/edit included in the six-width browser matrix. |
 | Reference lists | Technical pass after fix | Not Tested | Type navigation changed from a clipped horizontal row to a responsive grid and passed all six widths. |
@@ -360,6 +362,7 @@ No District Office participant was available for this local session. The reviewe
 | --- | --- | --- | --- | --- |
 | AC-2026-08-14-01 | Medium | Reference-list type links extended past 320px and 768px viewports. | Frontend: replace horizontal scrolling pills with a responsive 5/4/3/2-column grid. Owner: development team. | Passed list/create/detail/edit at all six required widths with no horizontal overflow. |
 | AC-2026-08-14-02 | High | Lifecycle confirmations failed on direct detail-page loads because Vue could not find the Teleport target during mount. | Frontend shell: add a stable `#admin-overlay-root` outside the Inertia mount and use it for shared action dialogs. Owner: development team. | Passed archive confirmation at all six widths: opens, traps focus, closes with Escape, restores focus, does not submit, and records no Vue/page error. Pending approval confirmation also passed. |
+| AC-2026-08-14-03 | Medium | Settings summary labels and values ran together, the side rail left the page visually uneven, and the browser's dark fallback surface appeared below full-page content. | Frontend: add a Settings-specific summary and responsive configuration grid, keep the authenticated document surface light, and tighten the tablet topbar. Owner: development team. | Passed Settings at all six required widths with no overlap, horizontal overflow, console error, or black document surface. |
 
 ### Evidence And Final Decision
 

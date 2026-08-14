@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
     <header class="admin-page-header">
-        <div>
+        <div class="admin-page-header__copy">
             <p v-if="eyebrow" class="admin-kicker">{{ eyebrow }}</p>
             <h1>{{ title }}</h1>
             <p>{{ description }}</p>

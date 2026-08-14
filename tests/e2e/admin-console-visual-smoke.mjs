@@ -20,6 +20,10 @@ const referenceType =
     process.env.ADMIN_CONSOLE_VISUAL_REFERENCE_TYPE ?? 'program-categories';
 const referenceRecordId = process.env.ADMIN_CONSOLE_VISUAL_REFERENCE_RECORD_ID;
 const visualScope = process.env.ADMIN_CONSOLE_VISUAL_SCOPE;
+const visualScopes = visualScope
+    ?.split(',')
+    .map((scope) => scope.trim())
+    .filter(Boolean);
 const executeWorkflow =
     process.env.ADMIN_CONSOLE_VISUAL_EXECUTE_WORKFLOW === '1';
 const executeGovernance =
@@ -185,8 +189,10 @@ if (referenceRecordId) {
     });
 }
 
-if (visualScope) {
-    pages = pages.filter((target) => target.name.startsWith(visualScope));
+if (visualScopes?.length) {
+    pages = pages.filter((target) =>
+        visualScopes.some((scope) => target.name.startsWith(scope)),
+    );
 }
 
 if (!visualScope) {
@@ -276,6 +282,41 @@ const assertNoHorizontalOverflow = async (label) => {
     if (report.bodyOverflow > 1 || report.offenders.length > 0) {
         throw new Error(
             `${label} has horizontal overflow: ${JSON.stringify(report)}`,
+        );
+    }
+};
+
+const assertAdminDocumentSurface = async (label) => {
+    const surface = await page.evaluate(() => ({
+        htmlClass: document.documentElement.classList.contains(
+            'admin-console-document',
+        ),
+        bodyClass: document.body.classList.contains('admin-console-document'),
+        htmlBackground: getComputedStyle(document.documentElement)
+            .backgroundColor,
+        bodyBackground: getComputedStyle(document.body).backgroundColor,
+        overlayHostHeight:
+            document
+                .querySelector('#admin-overlay-root')
+                ?.getBoundingClientRect().height ?? null,
+    }));
+
+    if (!surface.htmlClass || !surface.bodyClass) {
+        throw new Error(
+            `${label} did not apply the authenticated admin document surface.`,
+        );
+    }
+
+    if (
+        surface.htmlBackground === 'rgb(0, 0, 0)' ||
+        surface.bodyBackground === 'rgb(0, 0, 0)'
+    ) {
+        throw new Error(`${label} exposed a black document background.`);
+    }
+
+    if (surface.overlayHostHeight !== 0) {
+        throw new Error(
+            `${label} overlay host added ${surface.overlayHostHeight}px of empty document height.`,
         );
     }
 };
@@ -378,8 +419,10 @@ const exerciseMobileNavigation = async () => {
     });
 };
 
-await exerciseCommandSearch();
-await exerciseMobileNavigation();
+if (!visualScopes?.length || visualScopes.includes('dashboard')) {
+    await exerciseCommandSearch();
+    await exerciseMobileNavigation();
+}
 
 for (const target of pages) {
     for (const viewport of viewports) {
@@ -401,6 +444,7 @@ for (const target of pages) {
             path: path.join(outputDir, `${target.name}-${viewport.name}.png`),
             fullPage: true,
         });
+        await assertAdminDocumentSurface(`${target.name}-${viewport.name}`);
         await assertNoHorizontalOverflow(`${target.name}-${viewport.name}`);
 
         if (target.name === 'inquiry-detail') {
