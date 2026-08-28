@@ -73,7 +73,7 @@
                                 <!-- Action Link -->
                                 <td class="whitespace-nowrap text-right text-sm">
                                     <a href="{{ $item['url'] }}"
-                                       class="inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-semibold rounded-md text-white bg-brand-navy hover:bg-brand-royal focus-visible:outline-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy transition-all duration-150 hover:scale-[1.02]">
+                                       class="inline-flex items-center justify-center px-3 py-1.5 border border-transparent text-xs font-semibold rounded-md text-white bg-brand-navy hover:bg-brand-royal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy transition-all duration-150 hover:scale-[1.02]">
                                         Open
                                     </a>
                                 </td>

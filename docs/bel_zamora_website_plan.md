@@ -1,5 +1,12 @@
 # Atty. Congresswoman Bel Zamora Website Plan
 
+## 2026-08-28 - Filament Attention Widget Focus Utility Correction
+
+**Status:** Implemented and validated.
+
+- Removed the duplicated `focus-visible:outline-2` utility from the Needs Attention widget action link while preserving its token-based navy focus outline.
+- `git diff --check` and the production client build passed.
+
 ## 2026-08-14 - Custom Admin Final Technical Acceptance
 
 **Status:** Technically ready for real staff-observed acceptance; not staff-signed and not launch-approved.
